@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var db = require('./server/database.js');
+var routes = require('./server/routes.js');
 
 app.engine('html', require('ejs').renderFile);
 
@@ -9,8 +10,6 @@ app.set('views', __dirname + '/client');
 
 app.use(express.static(__dirname));
 
-app.get('/', function(req, res) {
-  res.render('index');
-});
+app.use('/', routes);
 
 app.listen(1337);
