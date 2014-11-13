@@ -10,7 +10,9 @@ var roomSchema = mongoose.Schema({
 
 var userSchema = mongoose.Schema({
   username: String,
-  upVotes:  Number
+  upVotes:  Number,
+  playlist: Array,
+  favorites: Array
 });
 
 module.exports.Room = mongoose.model('Room', roomSchema);
