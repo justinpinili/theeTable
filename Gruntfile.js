@@ -46,7 +46,7 @@ module.exports = function(grunt) {
           'server/**/*.js',
           'client/*.html',
         ],
-        tasks: ['karma']
+        tasks: [/*'karma'*/]
       }
     }
   });
