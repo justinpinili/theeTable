@@ -4,6 +4,5 @@ mongoose.connect('mongodb://localhost/theeTable');
 module.exports.db = mongoose.connection;
 module.exports.db.on('error', console.error.bind(console, 'connection error:'));
 module.exports.db.once('open', function callback () {
-  // yay!
   console.log("database connected!");
 });
