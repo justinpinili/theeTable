@@ -39,11 +39,11 @@ router.post('/chat/:id', function(req, res) {
 
 // Users
 
-router.post('/addUser', function(req, res) {
+router.post('/user/new', function(req, res) {
   // Create a user
 });
 
-router.post('/login', function(req, res) {
+router.post('/user/login', function(req, res) {
   // Log in a user
 });
 

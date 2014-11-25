@@ -1,5 +1,5 @@
-var should       = require('should');
-var request      = require('supertest');
+var should  = require('should');
+var request = require('supertest');
 
 describe('/rooms API Endpoint', function() {
 

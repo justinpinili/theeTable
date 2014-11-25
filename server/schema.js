@@ -11,7 +11,7 @@ var roomSchema = mongoose.Schema({
   queue: Array,
 
   // entries in the chat will be an object
-  // ex. { user: username, msg: 'test' }
+  // ex. { user: username, msg: 'test', timestamp '11241419000' }
   chat:  Array,
 
   // entries in the users will be strings
@@ -23,7 +23,9 @@ var roomSchema = mongoose.Schema({
 var userSchema = mongoose.Schema({
 
   username: String,
-  
+
+  password: String,
+
   upVotes:  Number,
 
   // entries in the playlist will be strings
