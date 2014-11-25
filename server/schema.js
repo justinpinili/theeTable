@@ -3,15 +3,35 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var roomSchema = mongoose.Schema({
+
   name:  String,
+
+  // entries in the queue will be an object
+  // ex. { source: 'url', votes: 0, }
   queue: Array,
-  chat:  Array
+
+  // entries in the chat will be an object
+  // ex. { user: username, msg: 'test' }
+  chat:  Array,
+
+  // entries in the users will be strings
+  // ex. 'justin'
+  users: Array
+
 });
 
 var userSchema = mongoose.Schema({
+
   username: String,
+  
   upVotes:  Number,
+
+  // entries in the playlist will be strings
+  // ex. [ 'url', 'url2', 'url3' ]
   playlist: Array,
+
+  // entries in the playlist will be strings
+  // ex. [ 'url', 'url2', 'url3' ]
   favorites: Array
 });
 

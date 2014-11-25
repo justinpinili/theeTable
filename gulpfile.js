@@ -18,16 +18,21 @@ gulp.task('mocha', function() {
     .once('end', function () {
       process.exit();
     });
-})
-
-gulp.task('default', function() {
-  // place code for your default task here
 });
 
-gulp.task('develop', ['lint'], function () {
+gulp.task('mocha-test', function() {
+  return gulp.src('./test/**/*.js', {read: false})
+    .pipe(mocha());
+});
+
+gulp.task('develop', ['lint', 'mocha-test'], function () {
   nodemon({ script: 'app.js', ext: 'html js', /*ignore: ['ignored.js']*/ })
     .on('change', ['lint'])
     .on('restart', function () {
       console.log('restarted!')
     })
-})
+});
+
+gulp.task('default', function() {
+  // place code for your default task here
+});
