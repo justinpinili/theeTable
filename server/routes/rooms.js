@@ -22,7 +22,7 @@ router.post('/rooms', function(req, res) {
 			return;
 		}
 		if (err.code === 11000) {
-			res.send("Room already exists. Please choose a different name.");
+			res.send({ message: "Room already exists. Please choose a different name." });
 			return;
 		}
 		console.log(err);
@@ -39,7 +39,7 @@ router.get('/rooms/:id', function(req, res) {
 	searchRoom.findOne(function (err, room) {
 		if (!err) {
 			if (room === null) {
-				res.send("Room does not exist");
+				res.send({ message: "Room does not exist" });
 				return;
 			} else {
 				res.send(room);

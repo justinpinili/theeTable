@@ -10,7 +10,7 @@ router.post('/queue/:id', function(req, res) {
 	searchRoom.findOne(function (err, room) {
 		if (!err) {
 			if (room === null) {
-				res.send("Room does not exist");
+				res.send({ message: "Room does not exist" });
 				return;
 			} else {
 				var newSong = req.body;
