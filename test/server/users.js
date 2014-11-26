@@ -1,9 +1,12 @@
-var should  = require('should');
-var request = require('supertest');
+var should          = require('should');
+var request         = require('supertest');
+var theeTableServer = require('./../../app.js');
 
 describe('/user API Endpoint', function() {
 
 	describe('POST Request', function() {
+
+		var body;
 
 		describe('Creating New User', function() {
 
@@ -15,6 +18,7 @@ describe('/user API Endpoint', function() {
 										password: 'test'
 									})
 						.expect(function(res) {
+							console.log(res.body);
 							body = res.body;
 						})
 						.end(function(err, res) {

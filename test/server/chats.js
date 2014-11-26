@@ -1,9 +1,12 @@
-var should  = require('should');
-var request = require('supertest');
+var should          = require('should');
+var request         = require('supertest');
+var theeTableServer = require('./../testServer.js');
 
 describe('/chat API Endpoint', function() {
 
 	describe('POST Request', function() {
+
+		var body;
 
 		it('should create a new entry in the corresponding room chat', function(done) {
 			request(theeTableServer)

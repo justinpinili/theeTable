@@ -4,7 +4,10 @@ var Schema = mongoose.Schema;
 
 var roomSchema = mongoose.Schema({
 
-  name:  String,
+  name: {
+          type: String,
+          unique: true
+        },
 
   // entries in the queue will be an object
   // ex. { source: 'url', votes: 0, }
@@ -22,7 +25,10 @@ var roomSchema = mongoose.Schema({
 
 var userSchema = mongoose.Schema({
 
-  username: String,
+  username: {
+              type: String,
+              unique: true
+            },
 
   password: String,
 

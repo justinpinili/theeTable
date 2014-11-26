@@ -1,7 +1,11 @@
-var should  = require('should');
-var request = require('supertest');
+var should          = require('should');
+var request         = require('supertest');
+var theeTableServer = require('./../testServer.js');
 
 describe('/rooms API Endpoint', function() {
+
+  var body;
+  var statusCode;
 
   describe('GET Request', function() {
 
