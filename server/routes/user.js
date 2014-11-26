@@ -23,6 +23,7 @@ router.post('/user/new', function(req, res) {
 		}
 		console.log(err);
 		res.send(err);
+		return;
 	});
 });
 
@@ -41,6 +42,7 @@ router.post('/user/login', function(req, res) {
 		}
 		console.log(err);
 		res.send(err);
+		return;
 	});
 });
 
