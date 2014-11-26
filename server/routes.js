@@ -7,7 +7,7 @@ var chat  = require('./routes/chat.js');
 var queue = require('./routes/queue.js');
 var user  = require('./routes/user.js');
 
-// Homepage
+// Front End 
 router.get('/', function(req, res) {
   res.render('index');
 });
