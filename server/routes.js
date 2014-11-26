@@ -2,27 +2,21 @@ var express = require('express');
 var create = require('./schema.js');
 var router = express.Router();
 
+var rooms = require('./routes/rooms.js');
+var chat  = require('./routes/chat.js');
+var queue = require('./routes/queue.js');
+var user  = require('./routes/user.js');
+
 // Homepage
 
 router.get('/', function(req, res) {
   res.render('index');
 });
 
-// Rooms
-
-router.get('/rooms', function(req, res) {
-  // Go to room selection
-});
-
-router.post('/rooms', function(req, res) {
-  // Create a new room
-});
-
-router.get('/rooms/:id', function(req, res) {
-  // Go into an existing room
-  // otherwise, redirect to the room selection
-});
-
+router.use(rooms);
+router.use(chat);
+router.use(queue);
+router.use(user);
 
 // Queues
 
