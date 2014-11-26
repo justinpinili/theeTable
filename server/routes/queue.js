@@ -1,11 +1,11 @@
 var express = require('express');
-var create = require('./../schema.js');
+var schema = require('./../schema.js');
 var router = express.Router();
 
 // Add song to the queue
 router.post('/queue/:id', function(req, res) {
 	// return full queue back to the client
-	console.log('chat/'+req.params.id);
+	console.log('queue/'+req.params.id);
 	var searchRoom  = schema.Room.where({ name: req.params.id });
 	searchRoom.findOne(function (err, room) {
 		if (!err) {
@@ -13,11 +13,14 @@ router.post('/queue/:id', function(req, res) {
 				res.send("Room does not exist");
 				return;
 			} else {
-				room.chat.push(req.body);
+				var newSong = req.body;
+				newSong.votes = 0;
+
+				room.queue.push(newSong);
 				room.save(function (err) {
 					if (!err) {
-						console.log("chat saved!");
-						res.send(room);
+						console.log("queue saved!");
+						res.send(room.queue);
 						return;
 					}
 					console.log(err);

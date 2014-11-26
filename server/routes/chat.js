@@ -16,7 +16,7 @@ router.post('/chat/:id', function(req, res) {
 				room.save(function (err) {
 				  if (!err) {
 						console.log("chat saved!");
-						res.send(room);
+						res.send(room.chat);
 						return;
 					}
 				  console.log(err);
