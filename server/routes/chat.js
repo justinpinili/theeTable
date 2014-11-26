@@ -2,8 +2,8 @@ var express = require('express');
 var schema = require('./../schema.js');
 var router = express.Router();
 
+// Add message to the messages
 router.post('/chat/:id', function(req, res) {
-	// Add message to the messages
 	console.log('chat/'+req.params.id);
 	var searchRoom  = schema.Room.where({ name: req.params.id });
 	searchRoom.findOne(function (err, room) {
