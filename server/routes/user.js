@@ -12,20 +12,17 @@ router.post('/user/new', function(req, res) {
 																	favorites: []
 																});
 	newUser.save(function (err) {
-		if (err) {
-
-			if (err.code === 11000) {
-				res.send("User already exists. Please choose a different name.");
-			} else {
-				res.send(err);
-			};
-
-		} else {
-
+		if (!err) {
 			console.log('new user saved!');
 			res.send(newUser);
-
+			return;
 		}
+		if (err.code === 11000) {
+			res.send("User already exists. Please choose a different name.");
+			return;
+		}
+		console.log(err);
+		res.send(err);
 	});
 });
 
@@ -33,15 +30,17 @@ router.post('/user/new', function(req, res) {
 router.post('/user/login', function(req, res) {
 	var searchUser  = schema.User.where({ username: req.body.username });
 	searchUser.findOne(function (err, user) {
-		if (err) {
-			console.log(err);
+		if (!err) {
+			if (user.password === req.body.password) {
+				res.send(user);
+				return;
+			} else {
+				res.send("Invalid login credentials. Please try again.");
+				return;
+			}
 		}
-
-		if (user.password === req.body.password) {
-			res.send(user);
-		} else {
-			res.send("Invalid login credentials. Please try again.");
-		}
+		console.log(err);
+		res.send(err);
 	});
 });
 
