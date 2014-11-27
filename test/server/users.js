@@ -1,32 +1,32 @@
 var should          = require('should');
 var request         = require('supertest');
 
-var express = require('express');
-var bodyParser = require('body-parser');
-var routes = require('./../../server/routes.js');
-var mongoose = require('mongoose');
+var express         = require('express');
+var bodyParser      = require('body-parser');
+var mongoose        = require('mongoose');
+var routes          = require('./../../server/routes.js');
+var schema          = require('./../../server/schema.js');
 var theeTableServer = express();
-
-var allowCrossDomain = function(req, res, next) {
-		res.header('Access-Control-Allow-Origin', '*');
-		res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-		res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-		next();
-};
 
 mongoose.connect('mongodb://localhost/theeTable');
 var db = mongoose.connection;
 
 theeTableServer.use(bodyParser.json());
-theeTableServer.use(allowCrossDomain);
 theeTableServer.use('/', routes);
 
 describe('/user API Endpoint', function() {
 
 	before(function(done) {
 		db.once('open', function() {
-			console.log("database connected!");
-			done();
+			// console.log("database connected!");
+			schema.User.where({ username: "justin" }).findOne(function (err, user) {
+				if (!err) {
+					user.remove();
+					done();
+				}
+				console.log(err);
+				return;
+			});
 		});
 	});
 

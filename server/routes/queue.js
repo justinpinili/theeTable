@@ -4,7 +4,6 @@ var router = express.Router();
 
 // Add song to the queue
 router.post('/queue/:id', function(req, res) {
-	// return full queue back to the client
 	console.log('queue/'+req.params.id);
 	var searchRoom  = schema.Room.where({ name: req.params.id });
 	searchRoom.findOne(function (err, room) {

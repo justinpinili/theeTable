@@ -5,6 +5,17 @@ var router = express.Router();
 // Go to room selection
 router.get('/rooms', function(req, res) {
 	console.log('rooms');
+	schema.Room.find({}, function(err, rooms) {
+		if (!err) {
+			console.log(rooms);
+			res.send({rooms: rooms});
+			return;
+		}
+
+		console.log(err);
+		res.send(err);
+		return;
+	});
 });
 
 // Create a new room
@@ -27,6 +38,7 @@ router.post('/rooms', function(req, res) {
 		}
 		console.log(err);
 		res.send(err);
+		return;
 	});
 });
 
