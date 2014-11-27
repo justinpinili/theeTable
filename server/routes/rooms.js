@@ -5,6 +5,17 @@ var router = express.Router();
 // Go to room selection
 router.get('/rooms', function(req, res) {
 	console.log('rooms');
+	schema.Room.find({}, function(err, rooms) {
+		if (!err) {
+			console.log(rooms);
+			res.send({rooms: rooms});
+			return;
+		}
+
+		console.log(err);
+		res.send(err);
+		return;
+	});
 });
 
 // Create a new room
@@ -22,11 +33,12 @@ router.post('/rooms', function(req, res) {
 			return;
 		}
 		if (err.code === 11000) {
-			res.send("Room already exists. Please choose a different name.");
+			res.send({ message: "Room already exists. Please choose a different name." });
 			return;
 		}
 		console.log(err);
 		res.send(err);
+		return;
 	});
 });
 
@@ -39,7 +51,7 @@ router.get('/rooms/:id', function(req, res) {
 	searchRoom.findOne(function (err, room) {
 		if (!err) {
 			if (room === null) {
-				res.send("Room does not exist");
+				res.send({ message: "Room does not exist" });
 				return;
 			} else {
 				res.send(room);

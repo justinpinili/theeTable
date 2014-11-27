@@ -9,7 +9,7 @@ router.post('/chat/:id', function(req, res) {
 	searchRoom.findOne(function (err, room) {
 		if (!err) {
 			if (room === null) {
-				res.send("Room does not exist");
+				res.send({ message: "Room does not exist" });
 				return;
 			} else {
 				room.chat.push(req.body);

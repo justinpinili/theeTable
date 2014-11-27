@@ -1,8 +1,34 @@
 var should          = require('should');
 var request         = require('supertest');
-var theeTableServer = require('./../../app.js');
+
+var express         = require('express');
+var bodyParser      = require('body-parser');
+var mongoose        = require('mongoose');
+var routes          = require('./../../server/routes.js');
+var schema          = require('./../../server/schema.js');
+var theeTableServer = express();
+
+mongoose.connect('mongodb://localhost/theeTable');
+var db = mongoose.connection;
+
+theeTableServer.use(bodyParser.json());
+theeTableServer.use('/', routes);
 
 describe('/user API Endpoint', function() {
+
+	before(function(done) {
+		db.once('open', function() {
+			// console.log("database connected!");
+			schema.User.where({ username: "justin" }).findOne(function (err, user) {
+				if (!err) {
+					user.remove();
+					done();
+				}
+				console.log(err);
+				return;
+			});
+		});
+	});
 
 	describe('POST Request', function() {
 
@@ -18,7 +44,7 @@ describe('/user API Endpoint', function() {
 										password: 'test'
 									})
 						.expect(function(res) {
-							console.log(res.body);
+							// console.log(res.body);
 							body = res.body;
 						})
 						.end(function(err, res) {
@@ -32,10 +58,10 @@ describe('/user API Endpoint', function() {
 
 			it('should let the user know that username already exists', function(done) {
 				request(theeTableServer)
-						.post('/chat')
+						.post('/user/new')
 						.send({
-										user: 'justin',
-										msg: 'test2'
+										username: 'justin',
+										password: 'test2'
 									})
 						.expect(function(res) {
 							body = res.body;
@@ -52,7 +78,7 @@ describe('/user API Endpoint', function() {
 
 			it('should log in a new user upon valid verification', function(done) {
 				request(theeTableServer)
-						.post('/user/new')
+						.post('/user/login')
 						.send({
 										username: 'justin',
 										password: 'test'
@@ -71,10 +97,10 @@ describe('/user API Endpoint', function() {
 
 			it('should not log in the user upon invalid verification', function(done) {
 				request(theeTableServer)
-						.post('/chat')
+						.post('/user/login')
 						.send({
-										user: 'justin',
-										msg: 'nottest'
+										username: 'justin',
+										password: 'nottest'
 									})
 						.expect(function(res) {
 							body = res.body;

@@ -13,12 +13,12 @@ router.post('/user/new', function(req, res) {
 																});
 	newUser.save(function (err) {
 		if (!err) {
-			console.log('new user saved!');
+			// console.log('new user saved!');
 			res.send(newUser);
 			return;
 		}
 		if (err.code === 11000) {
-			res.send("User already exists. Please choose a different name.");
+			res.send({ message: "User already exists. Please choose a different name." });
 			return;
 		}
 		console.log(err);
@@ -29,14 +29,14 @@ router.post('/user/new', function(req, res) {
 
 // Log in a user
 router.post('/user/login', function(req, res) {
-	var searchUser  = schema.User.where({ username: req.body.username });
-	searchUser.findOne(function (err, user) {
+	schema.User.where({ username: req.body.username }).findOne(function (err, user) {
 		if (!err) {
 			if (user.password === req.body.password) {
+				// console.log("password matched! logged in!");
 				res.send(user);
 				return;
 			} else {
-				res.send("Invalid login credentials. Please try again.");
+				res.send({ message: "Invalid login credentials. Please try again." });
 				return;
 			}
 		}
