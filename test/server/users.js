@@ -23,6 +23,7 @@ describe('/user API Endpoint', function() {
 				if (!err) {
 					user.remove();
 					done();
+					return;
 				}
 				console.log(err);
 				return;
