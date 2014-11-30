@@ -12,7 +12,8 @@ a {
 	color: #FFF;
 }
 
-.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover,
+.navbar-default .navbar-nav>.active>a:focus {
 	color: #FFF;
 	background-color: #CC0000;
 }
@@ -21,7 +22,8 @@ a {
 	color: #7A0000;
 }
 
-.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover,
+.navbar-default .navbar-nav>.open>a:focus {
 	color: #FFF;
 	background-color: #CC0000;
 }
@@ -29,4 +31,20 @@ a {
 .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
 	color: #FFF;
 	background-color: transparent;
+}
+
+.navbar-default .navbar-toggle {
+	border-color: transparent;
+}
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+ background-color: transparent;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+background-color: #7A0000;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+ border-color: transparent; 
 }
