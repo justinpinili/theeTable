@@ -9,7 +9,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/client');
 
-app.use(express.static(__dirname));
+app.use(express.static(__dirname + '/client'));
 app.use(bodyParser.json());
 
 var allowCrossDomain = function(req, res, next) {
