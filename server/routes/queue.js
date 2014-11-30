@@ -4,7 +4,7 @@ var router = express.Router();
 
 // Add song to the queue
 router.post('/queue/:id', function(req, res) {
-	console.log('queue/'+req.params.id);
+	// console.log('queue/'+req.params.id);
 	var searchRoom  = schema.Room.where({ name: req.params.id });
 	searchRoom.findOne(function (err, room) {
 		if (!err) {
@@ -18,7 +18,7 @@ router.post('/queue/:id', function(req, res) {
 				room.queue.push(newSong);
 				room.save(function (err) {
 					if (!err) {
-						console.log("queue saved!");
+						// console.log("queue saved!");
 						res.send(room.queue);
 						return;
 					}

@@ -3,13 +3,9 @@ var request         = require('supertest');
 
 var express         = require('express');
 var bodyParser      = require('body-parser');
-var mongoose        = require('mongoose');
 var routes          = require('./../../server/routes.js');
 var schema          = require('./../../server/schema.js');
 var theeTableServer = express();
-
-mongoose.connect('mongodb://localhost/theeTable');
-var db = mongoose.connection;
 
 theeTableServer.use(bodyParser.json());
 theeTableServer.use('/', routes);
@@ -17,24 +13,15 @@ theeTableServer.use('/', routes);
 describe('/rooms API Endpoint', function() {
 
 	before(function(done) {
-		db.once('open', function() {
-			schema.Room.where({ name: "lobby2" }).findOne(function (err, room) {
-				if (!err) {
-					room.remove();
-					done();
-					return;
-				}
-				console.log(err);
+		schema.Room.where({ name: "lobby2" }).findOne(function (err, room) {
+			if (!err) {
+				room.remove();
+				done();
 				return;
-			});
-			// done();
+			}
+			console.log(err);
+			return;
 		});
-	});
-
-	after(function(done) {
-		// mongoose.disconnect(function() {
-			done();
-		// });
 	});
 
   var body;

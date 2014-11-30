@@ -4,7 +4,7 @@ var router = express.Router();
 
 // Add message to the messages
 router.post('/chat/:id', function(req, res) {
-	console.log('chat/'+req.params.id);
+	// console.log('chat/'+req.params.id);
 	var searchRoom  = schema.Room.where({ name: req.params.id });
 	searchRoom.findOne(function (err, room) {
 		if (!err) {
@@ -15,7 +15,7 @@ router.post('/chat/:id', function(req, res) {
 				room.chat.push(req.body);
 				room.save(function (err) {
 				  if (!err) {
-						console.log("chat saved!");
+						// console.log("chat saved!");
 						res.send(room.chat);
 						return;
 					}

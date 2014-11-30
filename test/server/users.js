@@ -8,33 +8,27 @@ var routes          = require('./../../server/routes.js');
 var schema          = require('./../../server/schema.js');
 var theeTableServer = express();
 
-// mongoose.connect('mongodb://localhost/theeTable');
-// var db = mongoose.connection;
-
 theeTableServer.use(bodyParser.json());
 theeTableServer.use('/', routes);
 
 describe('/user API Endpoint', function() {
 
 	before(function(done) {
-		// db.once('open', function() {
-			// console.log("database connected!");
-			schema.User.where({ username: "justin" }).findOne(function (err, user) {
-				if (!err) {
-					user.remove();
-					done();
-					return;
-				}
-				console.log(err);
+		schema.User.where({ username: "justin" }).findOne(function (err, user) {
+			if (!err) {
+				user.remove();
+				done();
 				return;
-			});
-		// });
+			}
+			console.log(err);
+			return;
+		});
 	});
 
 	after(function(done) {
-	  // mongoose.disconnect(function() {
+	  mongoose.disconnect(function() {
 			done();
-		// });
+		});
 	});
 
 	describe('POST Request', function() {
