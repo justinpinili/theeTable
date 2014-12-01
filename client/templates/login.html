@@ -1,12 +1,16 @@
 <h1>login!</h1>
 <div class="container">
 	<div class="row">
-		<form name="logInForm" ng-submit='login(username, password)'>
+		<form name="logInForm" ng-submit='login(username, password)' novalidate>
 			<div class="input-group input-group-lg">
-				<input type="text" ng-model="username" class="form-control" placeholder="username">
-				<input type="password" ng-model="password" class="form-control" placeholder="password">
+				<input type="email" name="logInUsername" ng-model="username" class="form-control" placeholder="username or e-mail address" required />
+				<input type="password" name="logInPassword" ng-model="password" class="form-control" placeholder="password" required />
 				<button type="submit" class="btn btn-default">Submit</button>
 			</div>
 		</form>
+		<div ng-show="logInForm.logInUsername.$dirty && logInForm.logInUsername.$invalid">Invalid:
+      <span ng-show="logInForm.logInUsername.$error.required">Tell us your email.</span>
+      <span ng-show="logInForm.logInUsername.$error.email">This is not a valid email.</span>
+    </div>
 	</div>
 </div>

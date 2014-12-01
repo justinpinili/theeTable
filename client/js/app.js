@@ -12,11 +12,11 @@ angular.module('theeTable', [
       .state('main.subviews', {
         views: {
           'signup': {
-            controller: 'signUpController',
+            controller: 'authController',
             templateUrl: 'templates/signup.html'
           },
           'login': {
-            controller: 'logInController',
+            controller: 'authController',
             templateUrl: 'templates/login.html'
           }
         }
