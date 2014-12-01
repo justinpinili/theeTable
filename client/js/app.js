@@ -21,16 +21,6 @@ angular.module('theeTable', [
           }
         }
       });
-      // .state('signup', {
-      //   url: '/signup',
-      //   controller: 'AuthController',
-      //   templateUrl: 'app/user/signup.html'
-      // })
-      // .state('login', {
-      //   url: '/login',
-      //   controller: 'AuthController',
-      //   templateUrl: 'app/user/login.html'
-      // });
 
       $urlRouterProvider.otherwise('/main');
   });
