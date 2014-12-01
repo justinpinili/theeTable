@@ -1,0 +1,79 @@
+.main-navbar {
+	background-color: #F60000;
+  border-style: none;
+	border-radius: 0px;
+}
+
+a {
+	color: #7A0000;
+}
+
+.navbar-default .navbar-brand {
+	color: #FFF;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover,
+.navbar-default .navbar-nav>.active>a:focus {
+	color: #FFF;
+	background-color: #CC0000;
+}
+
+.navbar-default .navbar-nav>li>a {
+	color: #7A0000;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover,
+.navbar-default .navbar-nav>.open>a:focus {
+	color: #FFF;
+	background-color: #CC0000;
+}
+
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
+	color: #FFF;
+	background-color: transparent;
+}
+
+.navbar-default .navbar-toggle {
+	border-color: transparent;
+}
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+ background-color: transparent;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+background-color: #7A0000;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+ border-color: transparent;
+}
+
+.input-group {
+	position: relative;
+  display: inline;
+	border-collapse: separate;
+}
+
+.input-group .form-control:first-child,
+.input-group-addon:first-child,
+.input-group-btn:first-child>.btn,
+.input-group-btn:first-child>.btn-group>.btn, .input-group-btn:first-child>.dropdown-toggle,
+.input-group-btn:last-child>.btn:not(:last-child):not(.dropdown-toggle), .input-group-btn:last-child>.btn-group:not(:last-child)>.btn {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.input-group .form-control {
+	margin-bottom: 5px;
+}
+
+.btn {
+	border-radius: 0px;
+}
+
+body {
+	padding-top: 60px;
+}

@@ -6,7 +6,7 @@ angular.module('theeTable', [
       .state('main', {
         url: '/main',
         // controller: 'MainController',
-        templateUrl: 'client/templates/main.html'
+        templateUrl: 'templates/main.html'
       });
       // .state('main.subviews', {
       //   views: {
