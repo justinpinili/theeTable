@@ -1,25 +1,26 @@
 angular.module('theeTable', [
-  'ui.router'
+  'ui.router',
+  'theeTable.controllers'
 ])
   .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('main', {
         url: '/main',
-        // controller: 'MainController',
+        controller: 'mainController',
         templateUrl: 'templates/main.html'
+      })
+      .state('main.subviews', {
+        views: {
+          'signup': {
+            controller: 'signUpController',
+            templateUrl: 'templates/signup.html'
+          },
+          'login': {
+            controller: 'logInController',
+            templateUrl: 'templates/login.html'
+          }
+        }
       });
-      // .state('main.subviews', {
-      //   views: {
-      //     'search': {
-      //       //controller: 'MainController',
-      //       templateUrl: 'app/search/search.html'
-      //     },
-      //     'user': {
-      //       controller: 'UserController',
-      //       templateUrl: 'app/user/user.html'
-      //     }
-      //   }
-      // })
       // .state('signup', {
       //   url: '/signup',
       //   controller: 'AuthController',
@@ -33,3 +34,5 @@ angular.module('theeTable', [
 
       $urlRouterProvider.otherwise('/main');
   });
+
+angular.module('theeTable.controllers', []);
