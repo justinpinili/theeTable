@@ -2,15 +2,29 @@
 <div class="container">
 	<div class="row">
 		<form name="logInForm" ng-submit='login(username, password)' novalidate>
+			<div class="form-group">
+				<div ng-class="usernameFeedback.class" class="form-group form-group-lg has-feedback">
+					<input type="text" name="logInUsername" ng-model="username" class="form-control username" placeholder="username" required />
+				  <span ng-if="usernameFeedback.error" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+				  <span ng-if="usernameFeedback.error === false" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+				</div>
+				<div ng-if="dirtyAndInvalid(logInForm.logInUsername.$dirty, logInForm.logInUsername.$invalid, 'username')">
+		      <span ng-show="logInForm.logInUsername.$error.required">A username is required.</span>
+		    </div>
+			</div>
+			<div class="form-group">
+				<div ng-class="passwordFeedback.class" class="form-group form-group-lg has-feedback">
+					<input type="password" name="logInPassword" ng-model="password" class="form-control" placeholder="password" required />
+					<span ng-if="passwordFeedback.error" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+					<span ng-if="passwordFeedback.error === false" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+				</div>
+				<div ng-if="dirtyAndInvalid(logInForm.logInPassword.$dirty, logInForm.logInPassword.$invalid, 'password')">
+					<span ng-show="logInForm.logInPassword.$error.required">A password is required.</span>
+				</div>
+			</div>
 			<div class="input-group input-group-lg">
-				<input type="email" name="logInUsername" ng-model="username" class="form-control" placeholder="username or e-mail address" required />
-				<input type="password" name="logInPassword" ng-model="password" class="form-control" placeholder="password" required />
-				<button type="submit" class="btn btn-default">Submit</button>
+				<button ng-class="buttonFeedback" type="submit" ng-disabled='loginDisabled()' class="btn">Submit</button>
 			</div>
 		</form>
-		<div ng-show="logInForm.logInUsername.$dirty && logInForm.logInUsername.$invalid">Invalid:
-      <span ng-show="logInForm.logInUsername.$error.required">Tell us your email.</span>
-      <span ng-show="logInForm.logInUsername.$error.email">This is not a valid email.</span>
-    </div>
 	</div>
 </div>

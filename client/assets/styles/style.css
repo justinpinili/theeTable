@@ -49,26 +49,26 @@ background-color: #7A0000;
  border-color: transparent;
 }
 
-.input-group {
+/*.form-group {
 	position: relative;
   display: inline;
 	border-collapse: separate;
-}
+}*/
 
-.input-group .form-control:first-child,
-.input-group-addon:first-child,
-.input-group-btn:first-child>.btn,
-.input-group-btn:first-child>.btn-group>.btn, .input-group-btn:first-child>.dropdown-toggle,
-.input-group-btn:last-child>.btn:not(:last-child):not(.dropdown-toggle), .input-group-btn:last-child>.btn-group:not(:last-child)>.btn {
+.form-group .form-control:first-child,
+.form-group-addon:first-child,
+.form-group-btn:first-child>.btn,
+.form-group-btn:first-child>.btn-group>.btn, .form-group-btn:first-child>.dropdown-toggle,
+.form-group-btn:last-child>.btn:not(:last-child):not(.dropdown-toggle), .form-group-btn:last-child>.btn-group:not(:last-child)>.btn {
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
 
-.input-group .form-control {
+/*.form-group .form-control {
 	margin-bottom: 5px;
-}
+}*/
 
 .btn {
 	border-radius: 0px;
