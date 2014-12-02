@@ -31,6 +31,10 @@ router.post('/user/new', function(req, res) {
 router.post('/user/login', function(req, res) {
 	schema.User.where({ username: req.body.username }).findOne(function (err, user) {
 		if (!err) {
+			if (user === null) {
+				res.send({ message: "No user found with the given username." });
+				return;
+			}
 			if (user.password === req.body.password) {
 				// console.log("password matched! logged in!");
 				res.send(user);
