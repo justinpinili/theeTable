@@ -2,6 +2,7 @@ rooms: {{ rooms }}
 
 <div ng-repeat="room in rooms">
 	<h3>{{ room.name }}</h3>
+	<button ng-click="navigate(room.name)" class="btn btn-danger">Go to this room.</button>
 	<p>
 		{{ room.users.length }} user(s) in the room.<br />
 		{{ room.queue.length }} song(s) in the queue.

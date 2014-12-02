@@ -1,7 +1,7 @@
 angular.module('theeTable.controllers')
-	.controller('roomController', function($scope, $state, $http, $stateParams) {
+	.controller('roomController', function($scope, $state, $http, $stateParams, $location) {
 
-		$scope.room = [];
+		// $scope.room = [];
 
 		$http.get('http://localhost:1337/rooms/'+$stateParams.roomName)
 			.success(function(result) {
@@ -12,6 +12,8 @@ angular.module('theeTable.controllers')
 				}
 				// $scope.message = result.message;
 				console.log(result.message);
+				alert(result.message);
+				$location.path("/rooms");
 				return;
 			})
 			.error(function(error) {

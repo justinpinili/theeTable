@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('roomsController', function($scope, $state, $http) {
+	.controller('roomsController', function($scope, $state, $http, $location) {
 
 		$scope.rooms = [];
 
@@ -13,6 +13,10 @@ angular.module('theeTable.controllers')
 				console.log(error);
 				return;
 			});
+
+		$scope.navigate = function(roomName) {
+			$location.path('/rooms/'+roomName);
+		}
 
 		// $state.transitionTo('main.subviews');
 	});
