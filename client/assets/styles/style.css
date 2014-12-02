@@ -49,12 +49,6 @@ background-color: #7A0000;
  border-color: transparent;
 }
 
-/*.form-group {
-	position: relative;
-  display: inline;
-	border-collapse: separate;
-}*/
-
 .form-group .form-control:first-child,
 .form-group-addon:first-child,
 .form-group-btn:first-child>.btn,
@@ -65,10 +59,6 @@ background-color: #7A0000;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
-
-/*.form-group .form-control {
-	margin-bottom: 5px;
-}*/
 
 .btn {
 	border-radius: 0px;
