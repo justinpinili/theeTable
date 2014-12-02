@@ -9,8 +9,8 @@ angular.module('theeTable.controllers')
 						// transfer to rooms lobby
 						return;
 					}
-					// update form validations
-					console.log(result.message);
+					$scope.message = result.message;
+					// console.log(result.message);
 					return;
 				});
 		};
@@ -38,7 +38,7 @@ angular.module('theeTable.controllers')
 							return false;
 						}
 		  return true;
-		}
+		};
 
 		$scope.usernameFeedback = {error: null, class: ' '};
 		$scope.passwordFeedback = {error: null, class: ' '};
@@ -58,6 +58,6 @@ angular.module('theeTable.controllers')
 				return true;
 			}
 			return false;
-		}
+		};
 
 	});

@@ -12,6 +12,7 @@ angular.module('theeTable.controllers')
         $scope.current = 'login';
         $scope.url = 'http://localhost:1337/user/login';
       }
+      return;
     }
 
     $state.transitionTo('main.subviews');

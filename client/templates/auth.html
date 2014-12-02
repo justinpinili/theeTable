@@ -1,6 +1,7 @@
 <h1>{{ current }}!</h1>
 <div class="container">
 	<div class="row">
+		<div ng-if="message" class="alert alert-warning" role="alert"> <strong>Warning!</strong> {{ message }} </div>
 		<form name="logInForm" ng-submit='auth(username, password)' novalidate>
 			<div class="form-group">
 				<div ng-class="usernameFeedback.class" class="form-group form-group-lg has-feedback">
@@ -27,8 +28,11 @@
 			</div>
 		</form>
 
-		<p>
-			New to Thee Table? <a href="" ng-if="current === 'signup'" ng-click="switchForm()">Sign Up Here!</a> <a href="" ng-if="current === 'login'" ng-click="switchForm()">Log In Here!</a>
+		<p ng-if="current === 'signup'">
+			New to Thee Table? <a href="" ng-click="switchForm()">Sign Up Here!</a>
+		</p>
+		<p ng-if="current === 'login'">
+			Already a member of Thee Table? <a href="" ng-click="switchForm()">Log In Here!</a>
 		</p>
 	</div>
 </div>
