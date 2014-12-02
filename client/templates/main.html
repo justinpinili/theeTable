@@ -50,7 +50,7 @@
 	<div class="row">
 
 		<div ui-view></div>
-		<!-- <div ui-view="signup"></div> -->
-		<div ui-view="login"></div>
+		<div ng-if="isCurrent('signup')" ui-view="signup"></div>
+		<div ng-if="isCurrent('login')" ui-view="login"></div>
 	</div>
 </div>
