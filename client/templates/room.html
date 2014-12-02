@@ -1,0 +1,16 @@
+
+<div ng-if="room">
+	<h3>{{ room.name }}</h3>
+	<p>
+		{{ room.users.length }} user(s) in this room.
+	</p>
+
+	<div ng-repeat="chat in room.chat">
+		{{ chat.user }}: {{ chat.msg }}
+	</div>
+
+	<div ng-repeat="song in room.queue">
+		Song: {{ song.source }}<br />
+		Votes:  {{ song.votes }}
+	</div>
+</div>

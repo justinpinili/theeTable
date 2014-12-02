@@ -1,0 +1,38 @@
+<!-- rooms: {{ rooms }} -->
+
+<div>
+	<div class="container">
+		<div class="row">
+			<h3>Create a Room</h3>
+			<div ng-if="message" class="alert alert-warning" role="alert"> <strong>Warning!</strong> {{ message }} </div>
+			<form name="roomForm" ng-submit='create(room)' novalidate>
+				<div class="form-group">
+					<div ng-class="roomFeedback.class" class="form-group form-group-lg has-feedback">
+						<input type="text" name="roomName" ng-model="room" class="form-control" placeholder="Room Name" required />
+						<span ng-if="roomFeedback.error" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+						<span ng-if="roomFeedback.error === false" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+					</div>
+					<div ng-if="dirtyAndInvalid(roomForm.roomName.$dirty, roomForm.roomName.$invalid, 'room')">
+						<span ng-show="roomForm.roomName.$error.required">A room name is required.</span>
+					</div>
+				</div>
+				<div class="input-group input-group-lg">
+					<button ng-class="buttonFeedback" type="submit" ng-disabled='createDisabled()' class="btn">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div ng-repeat="room in rooms">
+			<h3>{{ room.name }}</h3>
+			<button ng-click="navigate(room.name)" class="btn btn-danger">Go to this room.</button>
+			<p>
+				{{ room.users.length }} user(s) in the room.<br />
+				{{ room.queue.length }} song(s) in the queue.
+			</p>
+		</div>
+	</div>
+</div>

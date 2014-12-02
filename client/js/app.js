@@ -16,6 +16,16 @@ angular.module('theeTable', [
             templateUrl: 'templates/auth.html'
           }
         }
+      })
+      .state('rooms', {
+        url: '/rooms',
+        controller: 'roomsController',
+        templateUrl: 'templates/rooms.html'
+      })
+      .state('room', {
+        url: '/rooms/:roomName',
+        controller: 'roomController',
+        templateUrl: 'templates/room.html'
       });
 
       $urlRouterProvider.otherwise('/main');
