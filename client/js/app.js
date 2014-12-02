@@ -11,13 +11,9 @@ angular.module('theeTable', [
       })
       .state('main.subviews', {
         views: {
-          'signup': {
+          'auth': {
             controller: 'authController',
-            templateUrl: 'templates/signup.html'
-          },
-          'login': {
-            controller: 'authController',
-            templateUrl: 'templates/login.html'
+            templateUrl: 'templates/auth.html'
           }
         }
       });

@@ -1,16 +1,16 @@
-<h1>signup!</h1>
+<h1>{{ current }}!</h1>
 <div class="container">
 	<div class="row">
-		<form name="logInForm" ng-submit='login(username, password)' novalidate>
+		<form name="logInForm" ng-submit='auth(username, password)' novalidate>
 			<div class="form-group">
 				<div ng-class="usernameFeedback.class" class="form-group form-group-lg has-feedback">
 					<input type="text" name="logInUsername" ng-model="username" class="form-control username" placeholder="username" required />
-					<span ng-if="usernameFeedback.error" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-					<span ng-if="usernameFeedback.error === false" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+				  <span ng-if="usernameFeedback.error" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+				  <span ng-if="usernameFeedback.error === false" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
 				</div>
 				<div ng-if="dirtyAndInvalid(logInForm.logInUsername.$dirty, logInForm.logInUsername.$invalid, 'username')">
-					<span ng-show="logInForm.logInUsername.$error.required">A username is required.</span>
-				</div>
+		      <span ng-show="logInForm.logInUsername.$error.required">A username is required.</span>
+		    </div>
 			</div>
 			<div class="form-group">
 				<div ng-class="passwordFeedback.class" class="form-group form-group-lg has-feedback">
@@ -23,12 +23,12 @@
 				</div>
 			</div>
 			<div class="input-group input-group-lg">
-				<button ng-class="buttonFeedback" type="submit" ng-disabled='loginDisabled()' class="btn">Submit</button>
+				<button ng-class="buttonFeedback" type="submit" ng-disabled='authDisabled()' class="btn">Submit</button>
 			</div>
 		</form>
 
 		<p>
-			Already a member of Thee Table? <a href="" ng-click="switchForm()">Log In Here!</a>
+			New to Thee Table? <a href="" ng-if="current === 'signup'" ng-click="switchForm()">Sign Up Here!</a> <a href="" ng-if="current === 'login'" ng-click="switchForm()">Log In Here!</a>
 		</p>
 	</div>
 </div>
