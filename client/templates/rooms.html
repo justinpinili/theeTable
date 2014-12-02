@@ -1,0 +1,9 @@
+rooms: {{ rooms }}
+
+<div ng-repeat="room in rooms">
+	<h3>{{ room.name }}</h3>
+	<p>
+		{{ room.users.length }} user(s) in the room.<br />
+		{{ room.queue.length }} song(s) in the queue.
+	</p>
+</div>
