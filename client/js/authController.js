@@ -12,31 +12,21 @@ angular.module('theeTable.controllers')
 					$scope.message = result.message;
 					// console.log(result.message);
 					return;
-				});
-		};
-
-		$scope.signup = function(inputUsername, inputPassword) {
-			$http.post('http://localhost:1337/user/new', {username: inputUsername, password: inputPassword})
-				.success(function(result) {
-					if (!result.message) {
-						console.log(result);
-						// transfer to rooms lobby
-						return;
-					}
-					// update form validations
-					console.log(result.message);
+				})
+				.error(function(error) {
+					console.log(error);
 					return;
 				});
 		};
 
 		$scope.authDisabled = function() {
 			if ($scope.logInForm.logInUsername.$error.required === undefined &&
-				    $scope.logInForm.logInPassword.$error.required === undefined) {
-							$scope.usernameFeedback = {error: false, class: 'has-success'};
-							$scope.passwordFeedback = {error: false, class: 'has-success'};
-							$scope.buttonFeedback = "btn-success";
-							return false;
-						}
+		    $scope.logInForm.logInPassword.$error.required === undefined) {
+					$scope.usernameFeedback = {error: false, class: 'has-success'};
+					$scope.passwordFeedback = {error: false, class: 'has-success'};
+					$scope.buttonFeedback = "btn-success";
+					return false;
+				}
 		  return true;
 		};
 
