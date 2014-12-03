@@ -89,7 +89,7 @@ module.exports = function(io) {
 					if (room === null) {
 						return;
 					} else {
-						room.chat = [];
+						// room.chat = [];
 						room.chat.push({user: userName, msg: chatMessage});
 						room.save(function(err) {
 							if (!err) {
@@ -123,7 +123,7 @@ module.exports = function(io) {
 					if (room === null) {
 						return;
 					} else {
-						room.queue = [];
+						// room.queue = [];
 						room.queue.push(newQueueItem);
 						room.save(function(err) {
 							if (!err) {
