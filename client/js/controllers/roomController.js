@@ -1,7 +1,16 @@
 angular.module('theeTable.controllers')
 	.controller('roomController', function($scope, $state, $http, $stateParams, $location) {
 
-		// $scope.room = [];
+		var socket = io.connect();
+
+		socket.emit('roomEntered', { room: $stateParams.roomName, user: Date.now()});
+
+		socket.on('usersInRoom', function(data) {
+			$scope.$apply(function() {
+				$scope.room.users = data.users;
+				console.log($scope.room.users);
+			});
+		});
 
 		$http.get('http://localhost:1337/rooms/'+$stateParams.roomName)
 			.success(function(result) {

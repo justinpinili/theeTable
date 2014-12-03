@@ -27,7 +27,7 @@ gulp.task('mocha-test', function() {
 
 gulp.task('develop', ['lint', 'mocha-test'], function () {
   nodemon({ script: 'server.js', ext: 'html js', /*ignore: ['ignored.js']*/ })
-    .on('change', ['lint'])
+    .on('change', ['lint', 'mocha-test'])
     .on('restart', function () {
       console.log('restarted!')
     })

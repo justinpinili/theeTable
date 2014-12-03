@@ -2,7 +2,11 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var db = require('./server/database.js');
-var routes = require('./server/routes.js');
+
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+var routes = require('./server/routes.js')(io);
 
 app.engine('html', require('ejs').renderFile);
 
@@ -23,8 +27,6 @@ app.use(allowCrossDomain);
 
 app.use('/', routes);
 
-app.listen(1337);
+server.listen(1337);
 
-app.db = db;
-
-module.exports = app;
+module.exports = server;
