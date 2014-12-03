@@ -16,7 +16,13 @@ angular.module('theeTable.controllers')
 			$scope.$apply(function() {
 				$scope.room.chat = data.chat;
 			})
-		})
+		});
+
+		socket.on('updatedQueue', function(data) {
+			$scope.$apply(function() {
+				$scope.room.queue = data.queue;
+			})
+		});
 
 		$http.get('http://localhost:1337/rooms/'+$stateParams.roomName)
 			.success(function(result) {
@@ -36,8 +42,27 @@ angular.module('theeTable.controllers')
 				return;
 			});
 
+		$scope.submitMessageDisabled = function() {
+			if ($scope.chatForm.message.$error.required === undefined) {
+				return false;
+			}
+			return true;
+		}
+
 		$scope.submitMessage = function(message) {
 			$scope.msg = '';
 			socket.emit('newChatMessage', { msg: message });
+		}
+
+		$scope.submitQueueItemDisabled = function() {
+			if ($scope.queueForm.source.$error.required === undefined) {
+				return false;
+			}
+			return true;
+		}
+
+		$scope.submitQueueItem = function(url) {
+			$scope.url = '';
+			socket.emit('newQueueItem', { source: url });
 		}
 	});

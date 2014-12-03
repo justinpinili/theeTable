@@ -8,7 +8,6 @@ module.exports = function(io) {
 
 		var userName;
 		var roomName;
-		var currentRoom;
 		var chatMessage;
 
 		/*******************************
@@ -83,19 +82,66 @@ module.exports = function(io) {
 		socket.on('newChatMessage', function(data) {
 			chatMessage = data.msg;
 			// console.log(chatMessage);
-			currentRoom.chat = [];
-			currentRoom.chat.push({user: userName, msg: chatMessage});
-			currentRoom.save(function(err) {
+
+			var searchRoom  = schema.Room.where({ name: roomName });
+			searchRoom.findOne(function (err, room) {
 				if (!err) {
-					// console.log("user added!");
-					io.to(roomName).emit('updatedChat', { chat: currentRoom.chat });
-					return;
+					if (room === null) {
+						return;
+					} else {
+						room.chat = [];
+						room.chat.push({user: userName, msg: chatMessage});
+						room.save(function(err) {
+							if (!err) {
+								// console.log("user added!");
+								room = room;
+								io.to(roomName).emit('updatedChat', { chat: room.chat });
+								return;
+							}
+							console.log(err);
+							return;
+						});
+						return;
+					}
 				}
 				console.log(err);
 				return;
 			});
-			return;
-		})
+		});
+
+		/**********************
+		* Current Queue Logic *
+		***********************/
+
+		socket.on('newQueueItem', function(data) {
+			newQueueItem = { source: data.source, votes: 0 };
+			// console.log(chatMessage);
+
+			var searchRoom  = schema.Room.where({ name: roomName });
+			searchRoom.findOne(function (err, room) {
+				if (!err) {
+					if (room === null) {
+						return;
+					} else {
+						room.queue = [];
+						room.queue.push(newQueueItem);
+						room.save(function(err) {
+							if (!err) {
+								// console.log("user added!");
+								room = room;
+								io.to(roomName).emit('updatedQueue', { queue: room.queue });
+								return;
+							}
+							console.log(err);
+							return;
+						});
+						return;
+					}
+				}
+				console.log(err);
+				return;
+			});
+		});
 
 	});
 
