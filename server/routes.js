@@ -4,10 +4,11 @@ module.exports = function(io) {
   var create = require('./schema.js');
   var router = express.Router();
 
-  var rooms = require('./routes/rooms.js')(io);
-  var chat  = require('./routes/chat.js')(io);
-  var queue = require('./routes/queue.js')(io);
-  var user  = require('./routes/user.js')(io);
+  var rooms = require('./routes/rooms.js');
+  var chat  = require('./routes/chat.js');
+  var queue = require('./routes/queue.js');
+  var user  = require('./routes/user.js');
+  var socketIO  = require('./routes/socketIO.js')(io);
 
   // Front End
   router.get('/', function(req, res) {

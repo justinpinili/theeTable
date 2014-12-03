@@ -8,19 +8,25 @@ angular.module('theeTable.controllers')
 		socket.on('usersInRoom', function(data) {
 			$scope.$apply(function() {
 				$scope.room.users = data.users;
-				console.log($scope.room.users);
+				// console.log($scope.room.users);
 			});
 		});
+
+		socket.on('updatedChat', function(data) {
+			$scope.$apply(function() {
+				$scope.room.chat = data.chat;
+			})
+		})
 
 		$http.get('http://localhost:1337/rooms/'+$stateParams.roomName)
 			.success(function(result) {
 				if (!result.message) {
-					console.log(result);
+					// console.log(result);
 					$scope.room = result;
 					return;
 				}
 				// $scope.message = result.message;
-				console.log(result.message);
+				// console.log(result.message);
 				alert(result.message);
 				$location.path("/rooms");
 				return;
@@ -30,5 +36,8 @@ angular.module('theeTable.controllers')
 				return;
 			});
 
-		// $state.transitionTo('main.subviews');
+		$scope.submitMessage = function(message) {
+			$scope.msg = '';
+			socket.emit('newChatMessage', { msg: message });
+		}
 	});

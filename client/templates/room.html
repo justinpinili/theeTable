@@ -1,16 +1,38 @@
 
 <div ng-if="room">
-	<h3>{{ room.name }}</h3>
-	<p>
-		{{ room.users.length }} user(s) in this room.
-	</p>
+	<div class="container">
+		<div class="row">
+			<h3>{{ room.name }}</h3>
+			<p>
+				{{ room.users.length }} user(s) in this room.
+			</p>
 
-	<div ng-repeat="chat in room.chat">
-		{{ chat.user }}: {{ chat.msg }}
+			<div>
+				<div ng-repeat="chat in room.chat">
+					{{ chat.user }}: {{ chat.msg }}
+				</div>
+			</div>
+			<div ng-repeat="song in room.queue">
+				Song: {{ song.source }}<br />
+				Votes:  {{ song.votes }}
+			</div>
+		</div>
 	</div>
+</div>
 
-	<div ng-repeat="song in room.queue">
-		Song: {{ song.source }}<br />
-		Votes:  {{ song.votes }}
+<div>
+	<div class="container">
+		<div class="row">
+			<form name="chatForm" ng-submit='submitMessage(msg)' novalidate>
+				<div class="form-group">
+					<divclass="form-group form-group-lg">
+						<input type="text" name="message" ng-model="msg" class="form-control" placeholder="Send a message." required />
+					</div>
+				</div>
+				<div class="input-group input-group-lg">
+					<button type="submit" ng-disabled="chatForm.message.$dirty === false" class="btn btn-danger">Send</button>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
