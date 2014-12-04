@@ -3,7 +3,7 @@ var request         = require('supertest');
 
 var express         = require('express');
 var bodyParser      = require('body-parser');
-var routes          = require('./../../server/routes.js');
+var routes          = require('./../../server/routes.js')();
 var schema          = require('./../../server/schema.js');
 var theeTableServer = express();
 
@@ -14,7 +14,7 @@ describe('/rooms API Endpoint', function() {
 
 	before(function(done) {
 		schema.Room.where({ name: "lobby2" }).findOne(function (err, room) {
-			if (!err) {
+			if (!err && room !== null) {
 				room.remove();
 				done();
 				return;

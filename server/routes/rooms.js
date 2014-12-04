@@ -47,6 +47,8 @@ router.post('/rooms', function(req, res) {
 // otherwise, redirect to the room selection
 router.get('/rooms/:id', function(req, res) {
 	// console.log('rooms/'+req.params.id);
+
+
 	var searchRoom  = schema.Room.where({ name: req.params.id });
 	searchRoom.findOne(function (err, room) {
 		if (!err) {
