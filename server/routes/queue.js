@@ -1,6 +1,6 @@
 var express = require('express');
-var schema = require('./../schema.js');
-var router = express.Router();
+var schema  = require('./../schema.js');
+var router  = express.Router();
 
 // Add song to the queue
 router.post('/queue/:id', function(req, res) {

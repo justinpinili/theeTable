@@ -1,6 +1,6 @@
 var express = require('express');
-var schema = require('./../schema.js');
-var router = express.Router();
+var schema  = require('./../schema.js');
+var router  = express.Router();
 
 // Add message to the messages
 router.post('/chat/:id', function(req, res) {
