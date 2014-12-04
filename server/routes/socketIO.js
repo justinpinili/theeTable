@@ -54,7 +54,7 @@ module.exports = function(io) {
 					if (room === null) {
 						return;
 					} else {
-						// room.users = [];
+						room.users = [];
 						currentRoom = room;
 						room.users.push(userName);
 						room.save(function (err) {

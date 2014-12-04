@@ -67,3 +67,28 @@ background-color: #7A0000;
 body {
 	padding-top: 60px;
 }
+
+.chats {
+	height: 300px;
+	border-color: #CC0000;
+	border-style: solid;
+	padding: 5px;
+	margin: 5px;
+}
+
+.playing {
+	height: 250px;
+	border-color: #CC0000;
+	border-style: solid;
+	padding: 5px;
+	margin: 5px;
+}
+
+.queue {
+	height: 50px;
+	border-color: #CC0000;
+	border-style: solid;
+	padding: 5px;
+	margin: 5px;
+	overflow-y: scroll;
+}
