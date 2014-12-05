@@ -21,34 +21,13 @@ angular.module('theeTable.controllers')
 		};
 
 		$scope.authDisabled = function() {
-			if ($scope.logInForm.logInUsername.$error.required === undefined &&
-		    $scope.logInForm.logInPassword.$error.required === undefined) {
-					$scope.usernameFeedback = {error: false, class: 'has-success'};
-					$scope.passwordFeedback = {error: false, class: 'has-success'};
-					$scope.buttonFeedback = "btn-success";
-					return false;
-				}
-		  return true;
-		};
-
-		$scope.usernameFeedback = {error: null, class: ' '};
-		$scope.passwordFeedback = {error: null, class: ' '};
-		$scope.buttonFeedback = "btn-default";
-
-		$scope.dirtyAndInvalid = function(dirty, invalid, input) {
-			if (dirty === true && invalid === true) {
-				if (input === 'username') {
-					$scope.usernameFeedback.error = true;
-					$scope.usernameFeedback.class = "has-error";
-				}
-				if (input === 'password') {
-					$scope.passwordFeedback.error = true;
-					$scope.passwordFeedback.class = "has-error";
-				}
-				$scope.buttonFeedback = "btn-default";
-				return true;
-			}
+			if ($scope.username === undefined ||
+			    $scope.password === undefined ||
+					$scope.username === '' ||
+					$scope.password === '') {
+						return true;
+					}
 			return false;
-		};
+		}
 
 	});

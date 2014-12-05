@@ -25,13 +25,13 @@
 				</div>
 				<div>
 					<form name="queueForm" ng-submit='submitQueueItem(url)' novalidate>
-						<div class="form-group">
-							<div class="form-group form-group-lg">
-								<input type="text" name="source" ng-model="url" class="form-control" placeholder="Input a url." required />
+						<div class="form-group form-group-md">
+							<div class="input-group input-group-md">
+								<input type="text" name="source" ng-model="url" class="form-control floating-label" placeholder="Input a url."/>
+								<span class="input-group-btn">
+									<button type="submit" ng-disabled="submitQueueItemDisabled()" class="btn btn-default">Send</button>
+								</span>
 							</div>
-						</div>
-						<div class="input-group input-group-lg">
-							<button type="submit" ng-disabled="submitQueueItemDisabled()" class="btn btn-danger">Send</button>
 						</div>
 					</form>
 				</div>
@@ -45,12 +45,14 @@
 				<div>
 					<form name="chatForm" ng-submit='submitMessage(msg)' novalidate>
 						<div class="form-group">
-							<div class="form-group form-group-lg">
-								<input type="text" name="message" ng-model="msg" class="form-control" placeholder="Send a message." required />
-							</div>
+							<div class="form-group form-group-md">
+								<div class="input-group input-group-md">
+									<input type="text" name="message" ng-model="msg" class="form-control floating-label" placeholder="Send a message."/>
+									<span class="input-group-btn">
+										<button type="submit" ng-disabled="submitMessageDisabled()" class="btn btn-default">Send</button>
+									</span>
+								</div>
 						</div>
-						<div class="input-group input-group-lg">
-							<button type="submit" ng-disabled="submitMessageDisabled()" class="btn btn-danger">Send</button>
 						</div>
 					</form>
 				</div>
@@ -58,3 +60,9 @@
 		</div>
 	</div>
 </div>
+
+<script>
+		$(document).ready(function() {
+				$.material.init();
+		});
+</script>

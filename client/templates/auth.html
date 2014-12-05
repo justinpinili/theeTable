@@ -1,30 +1,14 @@
 <h1>{{ current }}!</h1>
 <div class="container">
 	<div class="row">
-		<div ng-if="message" class="alert alert-warning" role="alert"> <strong>Warning!</strong> {{ message }} </div>
+		<div ng-if="message" class="alert alert-danger" role="alert"> <strong>Sorry!</strong> {{ message }} </div>
 		<form name="logInForm" ng-submit='auth(username, password)' novalidate>
-			<div class="form-group">
-				<div ng-class="usernameFeedback.class" class="form-group form-group-lg has-feedback">
-					<input type="text" name="logInUsername" ng-model="username" class="form-control" placeholder="username" required />
-				  <span ng-if="usernameFeedback.error" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-				  <span ng-if="usernameFeedback.error === false" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-				</div>
-				<div ng-if="dirtyAndInvalid(logInForm.logInUsername.$dirty, logInForm.logInUsername.$invalid, 'username')">
-		      <span ng-show="logInForm.logInUsername.$error.required">A username is required.</span>
-		    </div>
+			<div class="form-group form-group-lg">
+			<div class="input-group input-auth">
+				<input type="text" name="logInUsername" ng-model="username" class="form-control floating-label" placeholder="username" /><br />
+				<input type="password" name="logInPassword" ng-model="password" class="form-control floating-label" placeholder="password" /><br />
+				<button type="submit" ng-disabled='authDisabled()' class="btn btn-default">Submit</button>
 			</div>
-			<div class="form-group">
-				<div ng-class="passwordFeedback.class" class="form-group form-group-lg has-feedback">
-					<input type="password" name="logInPassword" ng-model="password" class="form-control" placeholder="password" required />
-					<span ng-if="passwordFeedback.error" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-					<span ng-if="passwordFeedback.error === false" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-				</div>
-				<div ng-if="dirtyAndInvalid(logInForm.logInPassword.$dirty, logInForm.logInPassword.$invalid, 'password')">
-					<span ng-show="logInForm.logInPassword.$error.required">A password is required.</span>
-				</div>
-			</div>
-			<div class="input-group input-group-lg">
-				<button ng-class="buttonFeedback" type="submit" ng-disabled='authDisabled()' class="btn">Submit</button>
 			</div>
 		</form>
 
@@ -36,3 +20,9 @@
 		</p>
 	</div>
 </div>
+
+<script>
+		$(document).ready(function() {
+				$.material.init();
+		});
+</script>

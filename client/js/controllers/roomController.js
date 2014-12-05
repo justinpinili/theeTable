@@ -1,6 +1,8 @@
 angular.module('theeTable.controllers')
 	.controller('roomController', function($scope, $state, $http, $stateParams, $location) {
 
+		$scope.room;
+
 		var socket = io.connect();
 
 		socket.emit('roomEntered', { room: $stateParams.roomName, user: Date.now()});
@@ -43,10 +45,10 @@ angular.module('theeTable.controllers')
 			});
 
 		$scope.submitMessageDisabled = function() {
-			if ($scope.chatForm.message.$error.required === undefined) {
-				return false;
+			if ($scope.msg === undefined || $scope.msg === '') {
+				return true;
 			}
-			return true;
+			return false;
 		}
 
 		$scope.submitMessage = function(message) {
@@ -55,10 +57,10 @@ angular.module('theeTable.controllers')
 		}
 
 		$scope.submitQueueItemDisabled = function() {
-			if ($scope.queueForm.source.$error.required === undefined) {
-				return false;
+			if ($scope.url === undefined || $scope.url === '') {
+				return true;
 			}
-			return true;
+			return false;
 		}
 
 		$scope.submitQueueItem = function(url) {
