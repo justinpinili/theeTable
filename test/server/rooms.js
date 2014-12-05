@@ -16,7 +16,18 @@ describe('/rooms API Endpoint', function() {
 		schema.Room.where({ name: "lobby2" }).findOne(function (err, room) {
 			if (!err && room !== null) {
 				room.remove();
-				done();
+
+				schema.Room.where({ name: "lobby" }).findOne(function (err, room) {
+					if (!err && room !== null) {
+						room.users = [];
+						room.save();
+						done();
+						return;
+					}
+					console.log(err);
+					return;
+				})
+
 				return;
 			}
 			console.log(err);

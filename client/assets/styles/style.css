@@ -2,7 +2,7 @@
 	background-color: #2C3E50;
 }
 
-a {
+a, .dropdown-menu>li>a {
 	color: #617487;
 }
 
@@ -97,6 +97,16 @@ body {
 .btn-default:not(.btn-link):not(.btn-flat), .btn:not(.btn-link):not(.btn-flat) {
 	background-color: #2C3E50;
 	color: #FFFFFF;
+}
+
+.dropdown-menu li a:hover {
+	background-color: transparent;
+	color: #0C2032;
+}
+
+.dropdown-menu li a:hover,
+.dropdown-menu-default li a:hover {
+	color: #0C2032;
 }
 
 .chats {
