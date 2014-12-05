@@ -6,7 +6,8 @@ var db = require('./server/database.js');
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-var routes = require('./server/routes.js')(io);
+var routes = require('./server/routes.js');
+var socketIO = require('./server/routes/socketIO.js')(io);
 
 app.engine('html', require('ejs').renderFile);
 

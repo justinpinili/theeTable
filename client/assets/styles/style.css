@@ -1,11 +1,9 @@
 .main-navbar {
-	background-color: #F60000;
-  border-style: none;
-	border-radius: 0px;
+	background-color: #2C3E50;
 }
 
 a {
-	color: #7A0000;
+	color: #617487;
 }
 
 .navbar-default .navbar-brand {
@@ -15,55 +13,113 @@ a {
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover,
 .navbar-default .navbar-nav>.active>a:focus {
 	color: #FFF;
-	background-color: #CC0000;
+	background-color: #0C2032;
 }
 
 .navbar-default .navbar-nav>li>a {
-	color: #7A0000;
+	color: #617487;
 }
 
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover,
 .navbar-default .navbar-nav>.open>a:focus {
 	color: #FFF;
-	background-color: #CC0000;
+	background-color: #0C2032;
 }
 
 .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
 	color: #FFF;
-	background-color: transparent;
-}
-
-.navbar-default .navbar-toggle {
-	border-color: transparent;
-}
-
-.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
- background-color: transparent;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
-background-color: #7A0000;
-}
-
-.navbar-default .navbar-collapse, .navbar-default .navbar-form {
- border-color: transparent;
-}
-
-.form-group .form-control:first-child,
-.form-group-addon:first-child,
-.form-group-btn:first-child>.btn,
-.form-group-btn:first-child>.btn-group>.btn, .form-group-btn:first-child>.dropdown-toggle,
-.form-group-btn:last-child>.btn:not(:last-child):not(.dropdown-toggle), .form-group-btn:last-child>.btn-group:not(:last-child)>.btn {
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-}
-
-.btn {
-	border-radius: 0px;
+background-color: #617487;
 }
 
 body {
 	padding-top: 60px;
+}
+
+.form-control {
+	color: #3c3c3c;
+}
+
+.form-control-wrapper .form-control:focus ~ .material-input:after,
+.form-control-wrapper .form-control.focus ~ .material-input:after {
+	background-color: #2C3E50;
+}
+
+.form-control-wrapper .material-input:before {
+	background-color: #2C3E50;
+}
+
+.form-group .material-input:before, .form-group-default .material-input:before, .form-group-primary .material-input:before {
+	background-color: #2C3E50;
+}
+
+.form-group .material-input:before, .form-group-default .material-input:before, .form-group-primary .material-input:before {
+	background-color: #2C3E50;
+}
+
+.form-group .material-input:before,
+.form-group-default .material-input:before {
+	background-color: #2C3E50;
+}
+
+.form-group-primary .material-input:before {
+	background-color: #2C3E50;
+}
+
+.form-group input.form-control:focus ~ .material-input:after,
+.form-group-default input.form-control:focus ~ .material-input:after {
+	background-color: #2C3E50;
+}
+.form-group-primary input.form-control:focus ~ .material-input:after {
+	background-color: #2C3E50;
+}
+
+.form-group input.form-control:not(.empty)~.floating-label, .form-group-default input.form-control:not(.empty)~.floating-label, .form-group-primary input.form-control:not(.empty)~.floating-label {
+	color: #2C3E50;
+}
+
+.form-group .material-input:before,
+.form-group-default .material-input:before {
+	background-color: #2C3E50;
+}
+
+.form-group {
+	padding: 5px;
+	margin-bottom: 0px;
+}
+
+.input-auth {
+	display: inline;
+}
+
+.btn-default:not(.btn-link):not(.btn-flat), .btn:not(.btn-link):not(.btn-flat) {
+	background-color: #2C3E50;
+	color: #FFFFFF;
+}
+
+.chats {
+	height: 300px;
+	border-color: #0C2032;
+	border-style: solid;
+	padding: 5px;
+	margin: 5px;
+}
+
+.playing {
+	height: 250px;
+	border-color: #0C2032;
+	border-style: solid;
+	padding: 5px;
+	margin: 5px;
+}
+
+.queue {
+	height: 50px;
+	border-color: #0C2032;
+	border-style: solid;
+	padding: 5px;
+	margin: 5px;
+	overflow-y: scroll;
 }

@@ -18,7 +18,7 @@ module.exports = function(io) {
 		// Mainly used for notifying current users in the room that a particular user
 		// has left the room.
 		socket.on('disconnect', function () {
-			// console.log("disconnected");
+			console.log("disconnected");
 			var searchRoom  = schema.Room.where({ name: roomName });
 			searchRoom.findOne(function (err, room) {
 				if (!err) {
@@ -28,7 +28,7 @@ module.exports = function(io) {
 						room.users.splice(room.users.indexOf(userName),1);
 						room.save(function (err) {
 							if (!err) {
-								// console.log("user removed!");
+								console.log("user removed!");
 								io.to(room.name).emit('usersInRoom', { users: room.users });
 								return;
 							}
@@ -54,7 +54,7 @@ module.exports = function(io) {
 					if (room === null) {
 						return;
 					} else {
-						room.users = [];
+						// room.users = [];
 						currentRoom = room;
 						room.users.push(userName);
 						room.save(function (err) {

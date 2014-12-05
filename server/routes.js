@@ -1,4 +1,3 @@
-module.exports = function(io) {
 
   var express = require('express');
   var create = require('./schema.js');
@@ -8,7 +7,6 @@ module.exports = function(io) {
   var chat  = require('./routes/chat.js');
   var queue = require('./routes/queue.js');
   var user  = require('./routes/user.js');
-  var socketIO  = require('./routes/socketIO.js')(io);
 
   // Front End
   router.get('/', function(req, res) {
@@ -20,6 +18,4 @@ module.exports = function(io) {
   router.use(queue);
   router.use(user);
 
-  return router;
-
-}
+module.exports = router;

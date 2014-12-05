@@ -1,6 +1,6 @@
 var express = require('express');
-var schema = require('./../schema.js');
-var router = express.Router();
+var schema  = require('./../schema.js');
+var router  = express.Router();
 
 // Create a user
 router.post('/user/new', function(req, res) {

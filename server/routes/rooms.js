@@ -1,6 +1,6 @@
 var express = require('express');
-var schema = require('./../schema.js');
-var router = express.Router();
+var schema  = require('./../schema.js');
+var router  = express.Router();
 
 // Go to room selection
 router.get('/rooms', function(req, res) {

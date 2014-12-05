@@ -4,7 +4,7 @@ var request         = require('supertest');
 var express         = require('express');
 var bodyParser      = require('body-parser');
 var mongoose        = require('mongoose');
-var routes          = require('./../../server/routes.js')();
+var routes          = require('./../../server/routes.js');
 var schema          = require('./../../server/schema.js');
 var theeTableServer = express();
 

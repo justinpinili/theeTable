@@ -2,20 +2,12 @@
 <div ng-if="room">
 	<div class="container">
 		<div class="row">
-			<h3>{{ room.name }}</h3>
-			<p>
-				{{ room.users.length }} user(s) in this room.
-			</p>
-
-			<div>
-				<div ng-repeat="chat in room.chat">
-					{{ chat.user }}: {{ chat.msg }}
-				</div>
-			</div>
-			<div ng-repeat="song in room.queue">
-				Song: {{ song.source }}<br />
-				Votes:  {{ song.votes }}
-			</div>
+			<center>
+				<h3>{{ room.name }}</h3>
+				<p>
+					{{ room.users.length }} user(s) in this room.
+				</p>
+			</center>
 		</div>
 	</div>
 </div>
@@ -23,33 +15,54 @@
 <div>
 	<div class="container">
 		<div class="row">
-			<form name="chatForm" ng-submit='submitMessage(msg)' novalidate>
-				<div class="form-group">
-					<div class="form-group form-group-lg">
-						<input type="text" name="message" ng-model="msg" class="form-control" placeholder="Send a message." required />
+			<div class="col-md-6">
+				<div class="playing">
+				</div>
+				<div class="queue">
+					<div ng-repeat="song in room.queue">
+						Song: {{ song.source }} Votes:  {{ song.votes }}
 					</div>
 				</div>
-				<div class="input-group input-group-lg">
-					<button type="submit" ng-disabled="submitMessageDisabled()" class="btn btn-danger">Send</button>
+				<div>
+					<form name="queueForm" ng-submit='submitQueueItem(url)' novalidate>
+						<div class="form-group form-group-md">
+							<div class="input-group input-group-md">
+								<input type="text" name="source" ng-model="url" class="form-control floating-label" placeholder="Input a url."/>
+								<span class="input-group-btn">
+									<button type="submit" ng-disabled="submitQueueItemDisabled()" class="btn btn-default">Send</button>
+								</span>
+							</div>
+						</div>
+					</form>
 				</div>
-			</form>
+			</div>
+			<div class="col-md-6">
+				<div class="chats">
+					<div ng-repeat="chat in room.chat">
+						{{ chat.user }}: {{ chat.msg }}
+					</div>
+				</div>
+				<div>
+					<form name="chatForm" ng-submit='submitMessage(msg)' novalidate>
+						<div class="form-group">
+							<div class="form-group form-group-md">
+								<div class="input-group input-group-md">
+									<input type="text" name="message" ng-model="msg" class="form-control floating-label" placeholder="Send a message."/>
+									<span class="input-group-btn">
+										<button type="submit" ng-disabled="submitMessageDisabled()" class="btn btn-default">Send</button>
+									</span>
+								</div>
+						</div>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 
-<div>
-	<div class="container">
-		<div class="row">
-			<form name="queueForm" ng-submit='submitQueueItem(url)' novalidate>
-				<div class="form-group">
-					<div class="form-group form-group-lg">
-						<input type="text" name="source" ng-model="url" class="form-control" placeholder="Input a url." required />
-					</div>
-				</div>
-				<div class="input-group input-group-lg">
-					<button type="submit" ng-disabled="submitQueueItemDisabled()" class="btn btn-danger">Send</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
+<script>
+		$(document).ready(function() {
+				$.material.init();
+		});
+</script>

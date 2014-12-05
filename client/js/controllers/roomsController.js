@@ -39,22 +39,7 @@ angular.module('theeTable.controllers')
 		};
 
 		$scope.createDisabled = function() {
-			if ($scope.roomForm.roomName.$error.required === undefined) {
-					$scope.roomFeedback = {error: false, class: 'has-success'};
-					$scope.buttonFeedback = "btn-success";
-					return false;
-				}
-			return true;
-		};
-
-		$scope.roomFeedback = {error: null, class: ' '};
-		$scope.buttonFeedback = "btn-default";
-
-		$scope.dirtyAndInvalid = function(dirty, invalid, input) {
-			if (dirty === true && invalid === true) {
-				$scope.roomFeedback.error = true;
-				$scope.roomFeedback.class = "has-error";
-				$scope.buttonFeedback = "btn-default";
+			if ($scope.room === undefined || $scope.room === '') {
 				return true;
 			}
 			return false;
