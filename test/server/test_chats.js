@@ -41,7 +41,7 @@ describe('/chat API Endpoint', function() {
 					.post('/chat/lobby')
 					.send({
 									user: 'justin',
-									msg: 'test'
+									msg: 'testing'
 								})
 					.expect(function(res) {
 						body = res.body;
@@ -49,7 +49,7 @@ describe('/chat API Endpoint', function() {
 					.end(function(err, res) {
 						body.length.should.equal(1);
 						body[0].user.should.equal('justin');
-						body[0].msg.should.equal('test');
+						body[0].msg.should.equal('testing');
 						done();
 					});
 		});
