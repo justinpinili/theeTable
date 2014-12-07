@@ -151,4 +151,37 @@ describe('socket.IO', function() {
 
   });
 
+  // describe('users sending chat messages', function() {
+  //
+  //   it("should notify all users in a room that a new chat message exists", function(done) {
+  //     var client1 = client_io.connect(socketURL, options);
+  //
+  //     client1.on('connect', function(data){
+  //       // console.log("connected");
+  //       client1.emit('roomEntered', user1);
+  //
+  //       /* Since first client is connected, we connect
+  //       the second client. */
+  //       var client2 = client_io.connect(socketURL, options);
+  //
+  //       client2.on('connect', function(data){
+  //         client2.emit('roomEntered', user2);
+  //         client2.emit('newChatMessage', message);
+  //       });
+  //
+  //       client1.on('updatedChat', function(data) {
+  //         // console.log(data);
+  //         data.chat.length.should.equal(3);
+  //         data.chat[2].user.should.equal('jason');
+  //         client2.disconnect();
+  //         client1.disconnect();
+  //         done();
+  //       });
+  //
+  //     });
+  //
+  //   });
+  //
+  // });
+
 });
