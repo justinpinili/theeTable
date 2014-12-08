@@ -123,6 +123,7 @@ body {
 	border-style: solid;
 	padding: 5px;
 	margin: 5px;
+	overflow-y: scroll;
 }
 
 .queue {

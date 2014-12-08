@@ -32,7 +32,7 @@ describe('/queue API Endpoint', function() {
 		it('should create a new entry in the corresponding room queue', function(done) {
 			request(theeTableServer)
 					.post('/queue/lobby')
-					.send({ source: 'http://youtu.be/oEm3lY3trRU' })
+					.send({ source: 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix' })
 					.expect(function(res) {
 						body = res.body;
 					})
@@ -45,7 +45,7 @@ describe('/queue API Endpoint', function() {
 		it('should return the full queue details', function(done) {
 			request(theeTableServer)
 					.post('/queue/lobby')
-					.send({ source: 'http://youtu.be/0M4nKru2H_Q' })
+					.send({ source: 'https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview' })
 					.expect(function(res) {
 						body = res.body;
 					})
