@@ -1,7 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('roomController', function($scope, $state, $http, $stateParams, $location) {
-
-		$scope.room;
+	.controller('roomController', function($scope, $state, $http, $stateParams, $location, $sce) {
 
 		var socket = io.connect();
 
@@ -26,11 +24,52 @@ angular.module('theeTable.controllers')
 			})
 		});
 
+		var setUpPlayer = function() {
+			setTimeout(function(){
+				var widgetIframe = document.getElementById('sc-widget');
+				var	widget       = SC.Widget(widgetIframe);
+				var	newSoundUrl  = 'https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview';
+
+				widget.bind(SC.Widget.Events.READY, function() {
+
+					widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(data) {
+						// console.log(data);
+					})
+
+					widget.bind(SC.Widget.Events.PLAY, function(d) {
+		        // get information about currently playing sound
+						widget.seekTo(36661.572);
+		        widget.getCurrentSound(function(currentSound) {
+		          console.log(currentSound);
+							$scope.$apply(function(){
+								$scope.title = currentSound.title;
+							});
+		        });
+		      });
+
+					widget.setVolume(100);
+					// get the value of the current position
+
+					widget.bind(SC.Widget.Events.FINISH, function() {
+						widget.load(newSoundUrl, {
+							show_artwork: true
+						});
+						setUpPlayer();
+					});
+
+					widget.play();
+				});
+
+			}, 500);
+		};
+
 		$http.get('http://localhost:1337/rooms/'+$stateParams.roomName)
 			.success(function(result) {
 				if (!result.message) {
 					// console.log(result);
 					$scope.room = result;
+					// $scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.queue[0].source);
+					// setUpPlayer();
 					return;
 				}
 				// $scope.message = result.message;

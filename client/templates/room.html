@@ -5,7 +5,8 @@
 			<center>
 				<h3>{{ room.name }}</h3>
 				<p>
-					{{ room.users.length }} user(s) in this room.
+					{{ room.users.length }} user(s) in this room.<br />
+					<button ng-click="addToQueue()" class="btn btn-default">Enter Queue</button>
 				</p>
 			</center>
 		</div>
@@ -17,7 +18,10 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="playing">
-					<iframe id="sc-widget" src="https://w.soundcloud.com/player/?url=https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix" width="100%" height="98%" scrolling="no" frameborder="no"></iframe>
+					<h3>{{ title }}</h3>
+					<div class="soundcloud">
+						<iframe id="sc-widget" ng-src="{{ currentSong }}" width="100%" height="98%" scrolling="no" frameborder="no"></iframe>
+					</div>
 				</div>
 				<div class="queue">
 					<div ng-repeat="song in room.queue">
@@ -62,9 +66,8 @@
 	</div>
 </div>
 
-<script src="https://w.soundcloud.com/player/api.js" type="text/javascript"></script>
 <script>
-		$(document).ready(function() {
-				$.material.init();
-		});
+	$(document).ready(function() {
+			$.material.init();
+	});
 </script>

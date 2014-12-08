@@ -151,28 +151,28 @@ describe('socket.IO', function() {
 
   });
 
-  describe("users playlist", function() {
-
-    it("should notify all users the next song on deck", function(done) {
-
-    });
-
-    it("should move the song to the end of the playlist once the song is finished", function(done) {
-
-    });
-
-  });
-
-  describe('users in dj rotation', function() {
-
-    it("should move the user to the back of the queue after the song is finished", function(done) {
-
-    });
-
-    it("should notify all users the next user to play a song", function(done) {
-
-    });
-
-  });
+  // describe("users playlist", function() {
+  //
+  //   it("should notify all users the next song on deck", function(done) {
+  //
+  //   });
+  //
+  //   it("should move the song to the end of the playlist once the song is finished", function(done) {
+  //
+  //   });
+  //
+  // });
+  //
+  // describe('users in dj rotation', function() {
+  //
+  //   it("should move the user to the back of the queue after the song is finished", function(done) {
+  //
+  //   });
+  //
+  //   it("should notify all users the next user to play a song", function(done) {
+  //
+  //   });
+  //
+  // });
 
 });
