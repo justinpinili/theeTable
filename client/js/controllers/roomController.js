@@ -6,7 +6,7 @@ angular.module('theeTable.controllers')
 		 *************/
 		var socket = io.connect();
 
-		socket.emit('roomEntered', { room: $stateParams.roomName, user: Date.now()});
+		socket.emit('roomEntered', { room: $stateParams.roomName, user: 'justin'});
 
 		socket.on('usersInRoom', function(data) {
 			$scope.$apply(function() {
@@ -20,9 +20,10 @@ angular.module('theeTable.controllers')
 			})
 		});
 
-		socket.on('updatedQueue', function(data) {
+		socket.on('updatedPlaylist', function(data) {
+			// console.log(data);
 			$scope.$apply(function() {
-				$scope.room.queue = data.queue;
+				$scope.currentUser.playlist = data.playlist;
 			})
 		});
 
@@ -113,11 +114,11 @@ angular.module('theeTable.controllers')
 			// HARDCODED
 			$scope.room.queue = [
 				{
-					name: 'justin',
+					username: 'justin',
 					playlist: ['https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview', 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix', 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide']
 				},
 				{
-					name: 'jason',
+					username: 'jason',
 					playlist: ['https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record', 'https://soundcloud.com/kunsthandwerk/khw009-sandro-golia-galatone', 'https://soundcloud.com/fatcat-demo/teso-wo-to-step']
 				}
 			];
@@ -166,6 +167,6 @@ angular.module('theeTable.controllers')
 
 		$scope.submitQueueItem = function(url) {
 			$scope.url = '';
-			socket.emit('newQueueItem', { source: url });
+			socket.emit('newPlaylistItem', { source: url });
 		}
 	});
