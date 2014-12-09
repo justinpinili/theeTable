@@ -1,6 +1,9 @@
 angular.module('theeTable.controllers')
 	.controller('roomController', function($scope, $state, $http, $stateParams, $location, $sce) {
 
+		/*************
+		 * Socket.IO *
+		 *************/
 		var socket = io.connect();
 
 		socket.emit('roomEntered', { room: $stateParams.roomName, user: Date.now()});
@@ -8,7 +11,6 @@ angular.module('theeTable.controllers')
 		socket.on('usersInRoom', function(data) {
 			$scope.$apply(function() {
 				$scope.room.users = data.users;
-				// console.log($scope.room.users);
 			});
 		});
 
@@ -23,6 +25,10 @@ angular.module('theeTable.controllers')
 				$scope.room.queue = data.queue;
 			})
 		});
+
+		/*************
+		* SoundCloud *
+		**************/
 
 		var widgetIframe;
 		var widget;
@@ -71,16 +77,14 @@ angular.module('theeTable.controllers')
 		};
 
 		var setUpPlayer = function(currentTime) {
-			// var startAt = currentTime || 0;
-
 			setTimeout(function(){
 				widgetIframe = document.getElementById('sc-widget');
 				widget       = SC.Widget(widgetIframe);
 				updatePlayer();
 			}, 500);
-
 		};
 
+		// HARDCODED
 		$scope.currentUser = {
 			name: 'justin',
 			playlist: ['https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview', 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix', 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide']
@@ -93,15 +97,10 @@ angular.module('theeTable.controllers')
 		}
 
 		var rotateQueue = function() {
-			console.log("rotating!");
 			var oldUser = $scope.room.queue.shift();
-			console.log(oldUser);
 			$scope.room.queue.push( oldUser );
 			var currentUser = $scope.room.queue[0];
-			console.log(currentUser);
-			// $scope.$apply(function() {
-				$scope.currentUser = currentUser;
-			// });
+			$scope.currentUser = currentUser;
 		}
 
 		$scope.addToQueue = function() {
@@ -111,6 +110,7 @@ angular.module('theeTable.controllers')
 				getCurrentSong();
 				setUpPlayer();
 			}
+			// HARDCODED
 			$scope.room.queue = [
 				{
 					name: 'justin',
@@ -121,21 +121,21 @@ angular.module('theeTable.controllers')
 					playlist: ['https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record', 'https://soundcloud.com/kunsthandwerk/khw009-sandro-golia-galatone', 'https://soundcloud.com/fatcat-demo/teso-wo-to-step']
 				}
 			];
-			// rotateQueue();
 			// emit new user added to the queue
 		}
+
+		/**************
+		* Room Set-up *
+		***************/
 
 		$http.get('http://localhost:1337/rooms/'+$stateParams.roomName)
 			.success(function(result) {
 				if (!result.message) {
-					// console.log(result);
 					$scope.room = result;
 					// $scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.queue[0].source);
 					setUpPlayer();
 					return;
 				}
-				// $scope.message = result.message;
-				// console.log(result.message);
 				alert(result.message);
 				$location.path("/rooms");
 				return;
