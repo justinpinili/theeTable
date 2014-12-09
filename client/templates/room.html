@@ -6,6 +6,7 @@
 				<h3>{{ room.name }}</h3>
 				<p>
 					{{ room.users.length }} user(s) in this room.<br />
+					{{ currentUser }}<br />
 					<button ng-click="addToQueue()" class="btn btn-default">Enter Queue</button>
 				</p>
 			</center>
@@ -24,8 +25,13 @@
 					</div>
 				</div>
 				<div class="queue">
-					<div ng-repeat="song in room.queue">
-						Song: {{ song.source }} Votes:  {{ song.votes }}
+					<div ng-repeat="user in room.queue">
+						{{ user.name }} <!-- Votes:  {{ song.votes }} -->
+					</div>
+				</div>
+				<div class="queue">
+					<div ng-repeat="song in currentUser.playlist">
+						{{ song }} <!-- Votes:  {{ song.votes }} -->
 					</div>
 				</div>
 				<div>

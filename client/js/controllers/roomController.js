@@ -24,44 +24,106 @@ angular.module('theeTable.controllers')
 			})
 		});
 
-		var setUpPlayer = function() {
-			setTimeout(function(){
-				var widgetIframe = document.getElementById('sc-widget');
-				var	widget       = SC.Widget(widgetIframe);
-				var	newSoundUrl  = 'https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview';
+		var widgetIframe;
+		var widget;
 
-				widget.bind(SC.Widget.Events.READY, function() {
+		var updatePlayer = function() {
+			widget.bind(SC.Widget.Events.READY, function() {
 
-					widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(data) {
-						// console.log(data);
-					})
+				widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(data) {
+					// console.log(data);
+					// widget.seekTo(startAt);
+				})
 
-					widget.bind(SC.Widget.Events.PLAY, function(d) {
-		        // get information about currently playing sound
-						widget.seekTo(36661.572);
-		        widget.getCurrentSound(function(currentSound) {
-		          console.log(currentSound);
-							$scope.$apply(function(){
-								$scope.title = currentSound.title;
-							});
-		        });
-		      });
-
-					widget.setVolume(100);
-					// get the value of the current position
-
-					widget.bind(SC.Widget.Events.FINISH, function() {
-						widget.load(newSoundUrl, {
-							show_artwork: true
+				widget.bind(SC.Widget.Events.PLAY, function(d) {
+					// get information about currently playing sound
+					// widget.seekTo(startAt);
+					widget.getCurrentSound(function(currentSound) {
+						console.log(currentSound.duration);
+						$scope.$apply(function(){
+							$scope.ending = currentSound.duration;
+							$scope.title = currentSound.title;
 						});
-						setUpPlayer();
 					});
-
-					widget.play();
 				});
 
-			}, 500);
+				widget.setVolume(100);
+				// get the value of the current position
+
+				widget.bind(SC.Widget.Events.FINISH, function() {
+					rotateQueue();
+					var currentSong = $scope.currentUser.playlist.shift();
+
+					widget.unbind(SC.Widget.Events.READY);
+					widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
+					widget.unbind(SC.Widget.Events.PLAY);
+					widget.unbind(SC.Widget.Events.FINISH);
+
+					widget.load(currentSong, {
+						show_artwork: true
+					});
+					$scope.currentUser.playlist.push(currentSong);
+					updatePlayer();
+				});
+
+				widget.play();
+			});
 		};
+
+		var setUpPlayer = function(currentTime) {
+			// var startAt = currentTime || 0;
+
+			setTimeout(function(){
+				widgetIframe = document.getElementById('sc-widget');
+				widget       = SC.Widget(widgetIframe);
+				updatePlayer();
+			}, 500);
+
+		};
+
+		$scope.currentUser = {
+			name: 'justin',
+			playlist: ['https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview', 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix', 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide']
+		}
+
+		var getCurrentSong = function() {
+			var currentSong = $scope.currentUser.playlist.shift();
+			$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + currentSong );
+			$scope.currentUser.playlist.push(currentSong);
+		}
+
+		var rotateQueue = function() {
+			console.log("rotating!");
+			var oldUser = $scope.room.queue.shift();
+			console.log(oldUser);
+			$scope.room.queue.push( oldUser );
+			var currentUser = $scope.room.queue[0];
+			console.log(currentUser);
+			// $scope.$apply(function() {
+				$scope.currentUser = currentUser;
+			// });
+		}
+
+		$scope.addToQueue = function() {
+			if ($scope.room.queue.length === 0) {
+				// queue up the 1st song on the user's playlist
+				$scope.isFirstSong = true;
+				getCurrentSong();
+				setUpPlayer();
+			}
+			$scope.room.queue = [
+				{
+					name: 'justin',
+					playlist: ['https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview', 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix', 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide']
+				},
+				{
+					name: 'jason',
+					playlist: ['https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record', 'https://soundcloud.com/kunsthandwerk/khw009-sandro-golia-galatone', 'https://soundcloud.com/fatcat-demo/teso-wo-to-step']
+				}
+			];
+			// rotateQueue();
+			// emit new user added to the queue
+		}
 
 		$http.get('http://localhost:1337/rooms/'+$stateParams.roomName)
 			.success(function(result) {
@@ -69,7 +131,7 @@ angular.module('theeTable.controllers')
 					// console.log(result);
 					$scope.room = result;
 					// $scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.queue[0].source);
-					// setUpPlayer();
+					setUpPlayer();
 					return;
 				}
 				// $scope.message = result.message;
