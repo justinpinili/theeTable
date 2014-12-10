@@ -19,9 +19,8 @@ router.post('/user/new', function(req, res) {
 	var bcrypt = require('bcrypt');
 	bcrypt.genSalt(10, function(err, salt) {
 	    bcrypt.hash(req.body.password, salt, function(err, hash) {
-
+				if (!err) {
 					newUser.password = hash;
-
 					newUser.save(function (err) {
 						if (!err) {
 							// console.log('new user saved!');
@@ -36,6 +35,11 @@ router.post('/user/new', function(req, res) {
 						res.send(err);
 						return;
 					});
+					return;
+				}
+				console.log(err);
+				res.send(err);
+				return;
 	    });
 	});
 
@@ -51,14 +55,19 @@ router.post('/user/login', function(req, res) {
 			}
 
 			bcrypt.compare(req.body.password, user.password, function(err, result) {
-				if (result) {
-					// console.log("password matched! logged in!");
-					res.send(user);
-					return;
-				} else {
-					res.send({ message: "Invalid login credentials. Please try again." });
-					return;
+				if (!err) {
+					if (result) {
+						// console.log("password matched! logged in!");
+						res.send(user);
+						return;
+					} else {
+						res.send({ message: "Invalid login credentials. Please try again." });
+						return;
+					}
 				}
+				console.log(err);
+				res.send(err);
+				return;
 			});
 			return;
 		}
