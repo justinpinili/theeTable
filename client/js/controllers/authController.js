@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('authController', function($scope, $location, $http) {
+	.controller('authController', function($scope, $location, $http,localStorageService) {
 
 		$scope.auth = function(inputUsername, inputPassword) {
 			$http.post($scope.$parent.url, {username: inputUsername, password: inputPassword})
@@ -7,6 +7,7 @@ angular.module('theeTable.controllers')
 					if (!result.message) {
 						console.log(result);
 						// transfer to rooms lobby
+						localStorageService.set("jwt", result.jwt);
 						$location.path("/rooms");
 						return;
 					}
