@@ -1,8 +1,12 @@
 angular.module('theeTable', [
   'ui.router',
   'theeTable.controllers',
+  'LocalStorageModule'
 ])
-  .config(function($stateProvider, $urlRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
+    localStorageServiceProvider
+      .setPrefix('theeTable');
+
     $stateProvider
       .state('main', {
         url: '/main',
