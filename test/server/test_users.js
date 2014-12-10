@@ -25,11 +25,11 @@ describe('/user API Endpoint', function() {
 		});
 	});
 
-	after(function(done) {
-	  mongoose.disconnect(function() {
-			done();
-		});
-	});
+	// after(function(done) {
+	//   mongoose.disconnect(function() {
+	// 		done();
+	// 	});
+	// });
 
 	describe('POST Request', function() {
 
@@ -50,6 +50,26 @@ describe('/user API Endpoint', function() {
 						})
 						.end(function(err, res) {
 							body.username.should.equal('justin');
+							body.upVotes.should.equal(0);
+							should.exist(body.playlist);
+							should.exist(body.favorites);
+							done();
+						});
+			});
+
+			it('should create another new user entry', function(done) {
+				request(theeTableServer)
+						.post('/user/new')
+						.send({
+										username: 'jason',
+										password: 'test'
+									})
+						.expect(function(res) {
+							// console.log(res.body);
+							body = res.body;
+						})
+						.end(function(err, res) {
+							body.username.should.equal('jason');
 							body.upVotes.should.equal(0);
 							should.exist(body.playlist);
 							should.exist(body.favorites);

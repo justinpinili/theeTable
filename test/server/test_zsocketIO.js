@@ -29,6 +29,12 @@ var user1 = { room: 'lobby', user: 'justin' };
 var user2 = { room: 'lobby', user: 'jason'  };
 
 var message = { msg: 'oh herro' };
+var song1 = { source: 'https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview'};
+var song2 = { source: 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix'};
+var song3 = { source: 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide'};
+var song4 = { source: 'https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record'};
+var song5 = { source: 'https://soundcloud.com/kunsthandwerk/khw009-sandro-golia-galatone'};
+var song6 = { source: 'https://soundcloud.com/fatcat-demo/teso-wo-to-step'};
 
 describe('socket.IO', function() {
 
@@ -51,7 +57,10 @@ describe('socket.IO', function() {
         room.chat.pop();
         room.users = [];
         room.save();
-        done();
+
+        mongoose.disconnect(function() {
+          done();
+        });
         return;
       }
       console.log(err);
@@ -151,18 +160,54 @@ describe('socket.IO', function() {
 
   });
 
-  // describe("users playlist", function() {
-  //
-  //   it("should notify all users the next song on deck", function(done) {
-  //
-  //   });
-  //
-  //   it("should move the song to the end of the playlist once the song is finished", function(done) {
-  //
-  //   });
-  //
-  // });
-  //
+  describe("users playlist", function() {
+
+    it("should add new songs to a user's playlist", function(done) {
+      var client1 = client_io.connect(socketURL, options);
+
+      var client2 = client_io.connect(socketURL, options);
+
+      client2.on('connect', function(data) {
+        client2.emit('roomEntered', user2);
+        client2.emit('newPlaylistItem', song1);
+        setTimeout(function() {
+          client2.emit('newPlaylistItem', song2);
+        }, 100);
+        setTimeout(function() {
+          client2.emit('newPlaylistItem', song3);
+        }, 200);
+      });
+      
+      client1.on('connect', function(data){
+        // console.log("connected");
+        client1.emit('roomEntered', user1);
+
+        client1.emit('newPlaylistItem', song4);
+        setTimeout(function() {
+          client1.emit('newPlaylistItem', song5);
+        }, 100);
+        setTimeout(function() {
+          client1.emit('newPlaylistItem', song6);
+        }, 200);
+
+
+        client1.on('updatedPlaylist', function(data) {
+          if (data.playlist[ data.playlist.length-1 ].source === 'https://soundcloud.com/fatcat-demo/teso-wo-to-step') {
+            // console.log(data);
+            data.playlist.length.should.equal(3);
+            client1.disconnect();
+            done();
+          }
+        });
+      });
+    });
+
+    // it("should move the song to the end of the playlist once the song is finished", function(done) {
+    //
+    // });
+
+  });
+
   // describe('users in dj rotation', function() {
   //
   //   it("should move the user to the back of the queue after the song is finished", function(done) {

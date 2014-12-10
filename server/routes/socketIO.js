@@ -83,7 +83,7 @@ var newChatMessage = function(schema, roomName, userName, chatMessage, io) {
 	});
 }
 
-var newPlaylistItem = function(schema, roomName, userName, playlistItem, io) {
+var newPlaylistItem = function(schema, roomName, userName, playlistItem, socket) {
 	// console.log(chatMessage);
 	// console.log(userName);
 	var searchUser  = schema.User.where({ username: userName });
@@ -100,7 +100,7 @@ var newPlaylistItem = function(schema, roomName, userName, playlistItem, io) {
 					if (!err) {
 						// console.log("user added!");
 						user = user;
-						io.to(roomName).emit('updatedPlaylist', { playlist: user.playlist });
+						socket.emit('updatedPlaylist', { playlist: user.playlist });
 						return;
 					}
 					console.log(err);
@@ -160,7 +160,7 @@ module.exports = function(io) {
 		socket.on('newPlaylistItem', function(data) {
 			// console.log(data);
 			playlistItem = { source: data.source, votes: 0 };
-			newPlaylistItem(schema, roomName, userName, playlistItem, io);
+			newPlaylistItem(schema, roomName, userName, playlistItem, socket);
 		});
 
 	});
