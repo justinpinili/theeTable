@@ -2,6 +2,9 @@ var express = require('express');
 var schema  = require('./../schema.js');
 var router  = express.Router();
 
+var bcrypt  = require('bcrypt');
+var jwt     = require('jsonwebtoken');
+
 // Create a user
 router.post('/user/new', function(req, res) {
 	var newUser = new schema.User({
