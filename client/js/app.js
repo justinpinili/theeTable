@@ -1,6 +1,6 @@
 angular.module('theeTable', [
   'ui.router',
-  'theeTable.controllers'
+  'theeTable.controllers',
 ])
   .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider

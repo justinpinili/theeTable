@@ -5,7 +5,9 @@
 			<center>
 				<h3>{{ room.name }}</h3>
 				<p>
-					{{ room.users.length }} user(s) in this room.
+					{{ room.users.length }} user(s) in this room.<br />
+					{{ currentUser }}<br />
+					<button ng-click="addToQueue()" class="btn btn-default">Enter Queue</button>
 				</p>
 			</center>
 		</div>
@@ -17,19 +19,28 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="playing">
+					<h3>{{ title }}</h3>
+					<div class="soundcloud">
+						<iframe id="sc-widget" ng-src="{{ currentSong }}" width="100%" height="98%" scrolling="no" frameborder="no"></iframe>
+					</div>
 				</div>
 				<div class="queue">
-					<div ng-repeat="song in room.queue">
-						Song: {{ song.source }} Votes:  {{ song.votes }}
+					<div ng-repeat="user in room.queue">
+						{{ user.name }} <!-- Votes:  {{ song.votes }} -->
+					</div>
+				</div>
+				<div class="queue">
+					<div ng-repeat="song in currentUser.playlist">
+						{{ song }} <!-- Votes:  {{ song.votes }} -->
 					</div>
 				</div>
 				<div>
-					<form name="queueForm" ng-submit='submitQueueItem(url)' novalidate>
+					<form name="playlistForm" ng-submit='submitPlaylistItem(url)' novalidate>
 						<div class="form-group form-group-md">
 							<div class="input-group input-group-md">
 								<input type="text" name="source" ng-model="url" class="form-control floating-label" placeholder="Input a url."/>
 								<span class="input-group-btn">
-									<button type="submit" ng-disabled="submitQueueItemDisabled()" class="btn btn-default">Send</button>
+									<button type="submit" ng-disabled="submitPlaylistItemDisabled()" class="btn btn-default">Send</button>
 								</span>
 							</div>
 						</div>
@@ -62,7 +73,7 @@
 </div>
 
 <script>
-		$(document).ready(function() {
-				$.material.init();
-		});
+	$(document).ready(function() {
+			$.material.init();
+	});
 </script>

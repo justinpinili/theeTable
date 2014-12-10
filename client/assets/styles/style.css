@@ -123,6 +123,12 @@ body {
 	border-style: solid;
 	padding: 5px;
 	margin: 5px;
+	overflow-y: scroll;
+	text-align: center;
+}
+
+.soundcloud {
+	/*display: none;*/
 }
 
 .queue {
