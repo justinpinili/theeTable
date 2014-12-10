@@ -4,6 +4,7 @@ var router  = express.Router();
 
 var bcrypt  = require('bcrypt');
 var jwt     = require('jsonwebtoken');
+// var keys    = require('./../securityKeys.js');
 
 // Create a user
 router.post('/user/new', function(req, res) {
@@ -14,20 +15,30 @@ router.post('/user/new', function(req, res) {
 																	playlist: [],
 																	favorites: []
 																});
-	newUser.save(function (err) {
-		if (!err) {
-			// console.log('new user saved!');
-			res.send(newUser);
-			return;
-		}
-		if (err.code === 11000) {
-			res.send({ message: "User already exists. Please choose a different name." });
-			return;
-		}
-		console.log(err);
-		res.send(err);
-		return;
+
+	var bcrypt = require('bcrypt');
+	bcrypt.genSalt(10, function(err, salt) {
+	    bcrypt.hash(req.body.password, salt, function(err, hash) {
+
+					newUser.password = hash;
+
+					newUser.save(function (err) {
+						if (!err) {
+							// console.log('new user saved!');
+							res.send(newUser);
+							return;
+						}
+						if (err.code === 11000) {
+							res.send({ message: "User already exists. Please choose a different name." });
+							return;
+						}
+						console.log(err);
+						res.send(err);
+						return;
+					});
+	    });
 	});
+
 });
 
 // Log in a user
@@ -38,14 +49,18 @@ router.post('/user/login', function(req, res) {
 				res.send({ message: "No user found with the given username." });
 				return;
 			}
-			if (user.password === req.body.password) {
-				// console.log("password matched! logged in!");
-				res.send(user);
-				return;
-			} else {
-				res.send({ message: "Invalid login credentials. Please try again." });
-				return;
-			}
+
+			bcrypt.compare(req.body.password, user.password, function(err, result) {
+				if (result) {
+					// console.log("password matched! logged in!");
+					res.send(user);
+					return;
+				} else {
+					res.send({ message: "Invalid login credentials. Please try again." });
+					return;
+				}
+			});
+			return;
 		}
 		console.log(err);
 		res.send(err);
