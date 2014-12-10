@@ -4,6 +4,7 @@ angular.module('theeTable.controllers')
 		/*************
 		 * Socket.IO *
 		 *************/
+
 		var socket = io.connect();
 
 		socket.emit('roomEntered', { room: $stateParams.roomName, user: 'justin'});
@@ -35,41 +36,70 @@ angular.module('theeTable.controllers')
 		var widget;
 
 		var updatePlayer = function() {
+
+			// Bind the events with the SoundCloud widget
 			widget.bind(SC.Widget.Events.READY, function() {
 
 				widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(data) {
+
+					// Somehow needs to know the current time of track being played
+					// in the room so that newcomers can seek to that time to match
+					// the group.
+
 					// console.log(data);
 					// widget.seekTo(startAt);
+
 				})
 
-				widget.bind(SC.Widget.Events.PLAY, function(d) {
-					// get information about currently playing sound
+				widget.bind(SC.Widget.Events.PLAY, function(data) {
+
+					// Somehow needs to know the current time of track being played
+					// in the room so that newcomers can seek to that time to match
+					// the group.
+
 					// widget.seekTo(startAt);
+
 					widget.getCurrentSound(function(currentSound) {
-						console.log(currentSound.duration);
+
+						// gives us the end time in milliseconds.
+						// console.log(currentSound.duration);
+
 						$scope.$apply(function(){
+
 							$scope.ending = currentSound.duration;
 							$scope.title = currentSound.title;
+
 						});
+
 					});
+
 				});
 
 				widget.setVolume(100);
-				// get the value of the current position
 
 				widget.bind(SC.Widget.Events.FINISH, function() {
-					rotateQueue();
-					var currentSong = $scope.currentUser.playlist.shift();
 
+					// needs to tell the room the rotated sequence for newcomers.
+					rotateQueue();
+
+					// unbind the widget from the listeners that we don't need anymore.
 					widget.unbind(SC.Widget.Events.READY);
 					widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
 					widget.unbind(SC.Widget.Events.PLAY);
 					widget.unbind(SC.Widget.Events.FINISH);
 
-					widget.load(currentSong, {
-						show_artwork: true
-					});
+					// load the widget with the next song on the playlist
+					// of the next DJ.
+					var currentSong = $scope.currentUser.playlist.shift();
+
+					// rooms may need to have a current song or current dj?
+					// may need to emit something to the room so it can keep track
+					// for newcomers
+					widget.load(currentSong, { show_artwork: true });
+
+					// may need a currentUser and a room's currentDJ
 					$scope.currentUser.playlist.push(currentSong);
+
 					updatePlayer();
 				});
 
@@ -78,11 +108,17 @@ angular.module('theeTable.controllers')
 		};
 
 		var setUpPlayer = function(currentTime) {
+
+			// the DOM element needs to exist before it can be identified
+
 			setTimeout(function(){
+
 				widgetIframe = document.getElementById('sc-widget');
 				widget       = SC.Widget(widgetIframe);
 				updatePlayer();
+
 			}, 500);
+
 		};
 
 		// HARDCODED
@@ -152,20 +188,20 @@ angular.module('theeTable.controllers')
 			}
 			return false;
 		}
-
+		
 		$scope.submitMessage = function(message) {
 			$scope.msg = '';
 			socket.emit('newChatMessage', { msg: message });
 		}
 
-		$scope.submitQueueItemDisabled = function() {
+		$scope.submitPlaylistItemDisabled = function() {
 			if ($scope.url === undefined || $scope.url === '') {
 				return true;
 			}
 			return false;
 		}
 
-		$scope.submitQueueItem = function(url) {
+		$scope.submitPlaylistItem = function(url) {
 			$scope.url = '';
 			socket.emit('newPlaylistItem', { source: url });
 		}

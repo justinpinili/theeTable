@@ -35,12 +35,12 @@
 					</div>
 				</div>
 				<div>
-					<form name="queueForm" ng-submit='submitQueueItem(url)' novalidate>
+					<form name="playlistForm" ng-submit='submitPlaylistItem(url)' novalidate>
 						<div class="form-group form-group-md">
 							<div class="input-group input-group-md">
 								<input type="text" name="source" ng-model="url" class="form-control floating-label" placeholder="Input a url."/>
 								<span class="input-group-btn">
-									<button type="submit" ng-disabled="submitQueueItemDisabled()" class="btn btn-default">Send</button>
+									<button type="submit" ng-disabled="submitPlaylistItemDisabled()" class="btn btn-default">Send</button>
 								</span>
 							</div>
 						</div>
