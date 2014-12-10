@@ -28,6 +28,12 @@ angular.module('theeTable.controllers')
 			})
 		});
 
+		socket.on('updatedQueue', function(data) {
+			$scope.$apply(function() {
+				$scope.room.queue = data.queue;
+			});
+		});
+
 		/*************
 		* SoundCloud *
 		**************/
@@ -188,7 +194,7 @@ angular.module('theeTable.controllers')
 			}
 			return false;
 		}
-		
+
 		$scope.submitMessage = function(message) {
 			$scope.msg = '';
 			socket.emit('newChatMessage', { msg: message });
