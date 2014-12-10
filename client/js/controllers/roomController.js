@@ -170,12 +170,12 @@ angular.module('theeTable.controllers')
 		/**************
 		* Room Set-up *
 		***************/
-
-		if (!localStorageService.get("jwt")) {
+		var jwt = localStorageService.get("jwt");
+		if (!jwt) {
 			alert("you must be logged in to access Thee Table.");
 			$location.path("/main");
 		} else {
-			$http.get('http://localhost:1337/rooms/'+$stateParams.roomName)
+			$http.get('http://localhost:1337/rooms/'+$stateParams.roomName+'?jwt_token='+jwt)
 				.success(function(result) {
 					if (!result.message) {
 						$scope.room = result;

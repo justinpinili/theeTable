@@ -1,9 +1,10 @@
-var express = require('express');
-var schema  = require('./../schema.js');
-var router  = express.Router();
+var express       = require('express');
+var schema        = require('./../schema.js');
+var router        = express.Router();
+var jwtValidation = require('./../jwtValidation.js');
 
 // Go to room selection
-router.get('/rooms', function(req, res) {
+router.get('/rooms', jwtValidation, function(req, res) {
 	// console.log('rooms');
 	schema.Room.find({}, function(err, rooms) {
 		if (!err) {
@@ -19,7 +20,7 @@ router.get('/rooms', function(req, res) {
 });
 
 // Create a new room
-router.post('/rooms', function(req, res) {
+router.post('/rooms', jwtValidation, function(req, res) {
 	var newRoom = new schema.Room({
 																	name: req.body.name,
 																	queue: [],
@@ -45,9 +46,8 @@ router.post('/rooms', function(req, res) {
 
 // Go into an existing room
 // otherwise, redirect to the room selection
-router.get('/rooms/:id', function(req, res) {
+router.get('/rooms/:id', jwtValidation, function(req, res) {
 	// console.log('rooms/'+req.params.id);
-
 
 	var searchRoom  = schema.Room.where({ name: req.params.id });
 	searchRoom.findOne(function (err, room) {
