@@ -4,7 +4,7 @@ var router  = express.Router();
 
 var bcrypt  = require('bcrypt');
 var jwt     = require('jsonwebtoken');
-// var keys    = require('./../securityKeys.js');
+var keys    = require('./../securityKeys.js');
 
 // Create a user
 router.post('/user/new', function(req, res) {
@@ -24,7 +24,9 @@ router.post('/user/new', function(req, res) {
 					newUser.save(function (err) {
 						if (!err) {
 							// console.log('new user saved!');
-							res.send(newUser);
+							var jwt_token = jwt.sign({ id: newUser.username }, keys.jwtSecretKey);
+	            res.send({jwt: jwt_token});
+							// res.send(newUser);
 							return;
 						}
 						if (err.code === 11000) {
@@ -58,7 +60,9 @@ router.post('/user/login', function(req, res) {
 				if (!err) {
 					if (result) {
 						// console.log("password matched! logged in!");
-						res.send(user);
+						var jwt_token = jwt.sign({ id: user.username }, keys.jwtSecretKey);
+						res.send({jwt: jwt_token});
+						// res.send(user);
 						return;
 					} else {
 						res.send({ message: "Invalid login credentials. Please try again." });

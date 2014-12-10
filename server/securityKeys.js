@@ -1,5 +1,5 @@
 var keys = {};
 
-keys.bcryptHash = 'example';
+keys.jwtSecretKey = 'example';
 
 module.exports = keys;
