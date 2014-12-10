@@ -60,7 +60,7 @@ describe('socket.IO', function() {
     var emptyRoom = function() {
       schema.Room.where({ name: "lobby" }).findOne(function (err, room) {
         if (!err && room !== null) {
-          room.chat.pop();
+          // room.chat.pop();
           room.users = [];
           room.save(function(err, room) {
             // console.log(err);
@@ -161,8 +161,8 @@ describe('socket.IO', function() {
 
         client1.on('updatedChat', function(data) {
           // console.log(data);
-          data.chat.length.should.equal(3);
-          data.chat[2].user.should.equal('jason');
+          data.chat.length.should.equal(1);
+          data.chat[0].user.should.equal('jason');
           client2.disconnect();
           client1.disconnect();
           done();

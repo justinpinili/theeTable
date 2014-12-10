@@ -1,6 +1,6 @@
 <!-- rooms: {{ rooms }} -->
 
-<div>
+<div ng-if="rooms">
 	<div class="container">
 		<div class="row">
 			<h3>Create a Room</h3>
@@ -17,7 +17,7 @@
 	</div>
 </div>
 
-<div class="container">
+<div ng-if="rooms" class="container">
 	<div class="row">
 		<div ng-repeat="room in rooms">
 			<h3>{{ room.name }}</h3>

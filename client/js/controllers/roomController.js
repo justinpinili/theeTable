@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('roomController', function($scope, $state, $http, $stateParams, $location, $sce) {
+	.controller('roomController', function($scope, $state, $http, $stateParams, $location, $sce, localStorageService) {
 
 		/*************
 		 * Socket.IO *
@@ -170,23 +170,29 @@ angular.module('theeTable.controllers')
 		/**************
 		* Room Set-up *
 		***************/
-
-		$http.get('http://localhost:1337/rooms/'+$stateParams.roomName)
-			.success(function(result) {
-				if (!result.message) {
-					$scope.room = result;
-					// $scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.queue[0].source);
-					setUpPlayer();
+		var jwt = localStorageService.get("jwt");
+		if (!jwt) {
+			alert("you must be logged in to access Thee Table.");
+			$location.path("/main");
+		} else {
+			$http.get('http://localhost:1337/rooms/'+$stateParams.roomName+'?jwt_token='+jwt)
+				.success(function(result) {
+					if (!result.message) {
+						$scope.room = result;
+						// $scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.queue[0].source);
+						setUpPlayer();
+						return;
+					}
+					alert(result.message);
+					$location.path("/rooms");
 					return;
-				}
-				alert(result.message);
-				$location.path("/rooms");
-				return;
-			})
-			.error(function(error) {
-				console.log(error);
-				return;
-			});
+				})
+				.error(function(error) {
+					console.log(error);
+					return;
+				});
+		}
+
 
 		$scope.submitMessageDisabled = function() {
 			if ($scope.msg === undefined || $scope.msg === '') {

@@ -1,21 +1,17 @@
 angular.module('theeTable', [
   'ui.router',
   'theeTable.controllers',
+  'LocalStorageModule'
 ])
-  .config(function($stateProvider, $urlRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
+    localStorageServiceProvider
+      .setPrefix('theeTable');
+
     $stateProvider
-      .state('main', {
-        url: '/main',
-        controller: 'mainController',
-        templateUrl: 'templates/main.html'
-      })
-      .state('main.subviews', {
-        views: {
-          'auth': {
-            controller: 'authController',
-            templateUrl: 'templates/auth.html'
-          }
-        }
+      .state('home', {
+        url: '/home',
+        controller: 'authController',
+        templateUrl: 'templates/auth.html'
       })
       .state('rooms', {
         url: '/rooms',
@@ -26,9 +22,16 @@ angular.module('theeTable', [
         url: '/rooms/:roomName',
         controller: 'roomController',
         templateUrl: 'templates/room.html'
+      })
+      .state('logout', {
+        url: '/logout',
+        controller: function(localStorageService, $location) {
+          localStorageService.remove('jwt');
+          $location.path("/home");
+        }
       });
 
-      $urlRouterProvider.otherwise('/main');
+      $urlRouterProvider.otherwise('/home');
   });
 
 angular.module('theeTable.controllers', []);

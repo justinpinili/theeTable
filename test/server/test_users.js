@@ -51,10 +51,11 @@ describe('/user API Endpoint', function() {
 							body = res.body;
 						})
 						.end(function(err, res) {
-							body.username.should.equal('justin');
-							body.upVotes.should.equal(0);
-							should.exist(body.playlist);
-							should.exist(body.favorites);
+							// body.username.should.equal('justin');
+							// body.upVotes.should.equal(0);
+							// should.exist(body.playlist);
+							// should.exist(body.favorites);
+							should.exist(body.jwt);
 							done();
 						});
 			});
@@ -71,10 +72,11 @@ describe('/user API Endpoint', function() {
 							body = res.body;
 						})
 						.end(function(err, res) {
-							body.username.should.equal('jason');
-							body.upVotes.should.equal(0);
-							should.exist(body.playlist);
-							should.exist(body.favorites);
+							// body.username.should.equal('jason');
+							// body.upVotes.should.equal(0);
+							// should.exist(body.playlist);
+							// should.exist(body.favorites);
+							should.exist(body.jwt);
 							done();
 						});
 			});
@@ -110,10 +112,11 @@ describe('/user API Endpoint', function() {
 							body = res.body;
 						})
 						.end(function(err, res) {
-							body.username.should.equal('justin');
-							body.upVotes.should.equal(0);
-							should.exist(body.playlist);
-							should.exist(body.favorites);
+							// body.username.should.equal('justin');
+							// body.upVotes.should.equal(0);
+							// should.exist(body.playlist);
+							// should.exist(body.favorites);
+							should.exist(body.jwt);
 							done();
 						});
 			});

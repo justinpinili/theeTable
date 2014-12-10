@@ -1,18 +1,25 @@
 angular.module('theeTable.controllers')
-	.controller('roomsController', function($scope, $http, $location) {
+	.controller('roomsController', function($scope, $http, $location, localStorageService) {
 
-		$scope.rooms = [];
+		var jwt = localStorageService.get("jwt");
+		if (!jwt) {
+			alert("you must be logged in to access Thee Table.");
+			$location.path("/main");
+		} else {
+			$scope.rooms = [];
 
-		$http.get('http://localhost:1337/rooms')
-			.success(function(result) {
-				console.log(result);
-				$scope.rooms = result.rooms;
-				return;
-			})
-			.error(function(error) {
-				console.log(error);
-				return;
-			});
+			$http.get('http://localhost:1337/rooms?jwt_token='+jwt)
+				.success(function(result) {
+					console.log(result);
+					$scope.rooms = result.rooms;
+					return;
+				})
+				.error(function(error) {
+					console.log(error);
+					return;
+				});
+		}
+
 
 		$scope.navigate = function(roomName) {
 			$location.path('/rooms/'+roomName);
