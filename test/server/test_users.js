@@ -17,19 +17,21 @@ describe('/user API Endpoint', function() {
 		schema.User.where({ username: "justin" }).findOne(function (err, user) {
 			if (!err) {
 				user.remove();
-				done();
+				schema.User.where({ username: "jason" }).findOne(function (err, user) {
+					if (!err) {
+						user.remove();
+						done();
+						return;
+					}
+					console.log(err);
+					return;
+				});
 				return;
 			}
 			console.log(err);
 			return;
 		});
 	});
-
-	// after(function(done) {
-	//   mongoose.disconnect(function() {
-	// 		done();
-	// 	});
-	// });
 
 	describe('POST Request', function() {
 

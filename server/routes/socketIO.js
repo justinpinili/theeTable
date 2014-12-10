@@ -94,13 +94,44 @@ var newPlaylistItem = function(schema, roomName, userName, playlistItem, socket)
 				return;
 			} else {
 				// console.log(user);
-				// user.queue = [];
+				// user.playlist = [];
 				user.playlist.push(playlistItem);
 				user.save(function(err) {
 					if (!err) {
 						// console.log("user added!");
 						user = user;
 						socket.emit('updatedPlaylist', { playlist: user.playlist });
+						return;
+					}
+					console.log(err);
+					return;
+				});
+				return;
+			}
+		}
+		console.log(err);
+		return;
+	});
+}
+
+var addToQueue = function(schema, roomName, userName, io) {
+	// console.log(chatMessage);
+	// console.log(userName);
+	var searchRoom = schema.Room.where({ name: roomName });
+	searchRoom.findOne(function (err, room) {
+		if (!err) {
+			if (room === null) {
+				// console.log("not found");
+				return;
+			} else {
+				// console.log(room);
+				// room.queue = [];
+				room.queue.push(userName);
+				room.save(function(err) {
+					if (!err) {
+						// console.log("user added!");
+						room = room;
+						io.to(roomName).emit('updatedQueue', { queue: room.queue });
 						return;
 					}
 					console.log(err);
@@ -144,18 +175,28 @@ module.exports = function(io) {
 			connectToRoom(roomName, userName, socket, io);
 		});
 
-		/*********************
-		* Current Chat Logic *
-		**********************/
+		/**********************
+		 * Current Chat Logic *
+		 **********************/
 
 		socket.on('newChatMessage', function(data) {
 			chatMessage = data.msg;
 			newChatMessage(schema, roomName, userName, chatMessage, io);
 		});
 
-		/**********************
-		* Current Queue Logic *
-		***********************/
+		/***********************
+		 * Current Queue Logic *
+		 ***********************/
+
+		socket.on('addToQueue', function(data) {
+			// console.log(data);
+			// playlistItem = { source: data.source, votes: 0 };
+			addToQueue(schema, roomName, userName, io);
+		});
+
+		/************************************
+		 * New Song for User Playlist Logic *
+		 ************************************/
 
 		socket.on('newPlaylistItem', function(data) {
 			// console.log(data);
