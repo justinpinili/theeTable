@@ -25,8 +25,10 @@ angular.module('theeTable.controllers')
 			$location.path('/rooms/'+roomName);
 		}
 
+		$scope.newRoom = {};
+
 		$scope.create = function(inputRoomName) {
-			$http.post('http://localhost:1337/rooms', {name: inputRoomName})
+			$http.post('http://localhost:1337/rooms?jwt_token='+jwt, {name: inputRoomName})
 				.success(function(result) {
 					if (!result.message) {
 						console.log(result);
@@ -46,7 +48,7 @@ angular.module('theeTable.controllers')
 		};
 
 		$scope.createDisabled = function() {
-			if ($scope.room === undefined || $scope.room === '') {
+			if ($scope.newRoom.room === undefined || $scope.newRoom.room === '') {
 				return true;
 			}
 			return false;

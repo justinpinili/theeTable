@@ -36,11 +36,13 @@ angular.module('theeTable.controllers')
 				});
 		};
 
+		$scope.login = {};
+
 		$scope.authDisabled = function() {
-			if ($scope.username === undefined ||
-			    $scope.password === undefined ||
-					$scope.username === '' ||
-					$scope.password === '') {
+			if ($scope.login.username === undefined ||
+			    $scope.login.password === undefined ||
+					$scope.login.username === '' ||
+					$scope.login.password === '') {
 						return true;
 					}
 			return false;

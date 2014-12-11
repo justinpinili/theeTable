@@ -5,6 +5,8 @@ angular.module('theeTable.controllers')
 		 * Socket.IO *
 		 *************/
 
+		$scope.room = {};
+
 		var socket = io.connect();
 
 		socket.emit('roomEntered', { room: $stateParams.roomName, user: 'justin'});
@@ -25,6 +27,7 @@ angular.module('theeTable.controllers')
 			// console.log(data);
 			$scope.$apply(function() {
 				$scope.$parent.currentUser.playlist = data.playlist;
+				socket.emit('newQueue', { queue: $scope.room.queue });
 			})
 		});
 
@@ -94,8 +97,8 @@ angular.module('theeTable.controllers')
 					}
 				});
 				widget.bind(SC.Widget.Events.PLAY, function(data) {
-					if (currentTime !== undefined) {
-						widget.seekTo(currentTime);
+					if ($scope.room.currentTime !== null) {
+						widget.seekTo($scope.room.currentTime);
 					}
 					widget.getCurrentSound(function(currentSound) {
 						$scope.$apply(function(){
@@ -113,7 +116,7 @@ angular.module('theeTable.controllers')
 					widget.unbind(SC.Widget.Events.FINISH);
 
 					if ($scope.room.currentDJ === $scope.$parent.currentUser.username) {
-						socket.emit('newQueue', { queue: $scope.room.queue });
+						socket.emit('updatePlaylist', { username: $scope.$parent.currentUser.username });
 					}
 				});
 				widget.play();
@@ -157,7 +160,7 @@ angular.module('theeTable.controllers')
 						$scope.room = result;
 						if (result.currentDJ !== null) {
 							$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong);
-							currentTime = result.currentTime;
+							// currentTime = result.currentTime;
 							setUpPlayer();
 						}
 						return;
@@ -174,29 +177,33 @@ angular.module('theeTable.controllers')
 
 		$scope.addToQueue = function() {
 			socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });
-		}
+		};
+
+		$scope.newChatMessage = {};
 
 		$scope.submitMessageDisabled = function() {
-			if ($scope.msg === undefined || $scope.msg === '') {
+			if ($scope.newChatMessage.msg === undefined || $scope.newChatMessage.msg === '') {
 				return true;
 			}
 			return false;
-		}
+		};
 
 		$scope.submitMessage = function(message) {
 			$scope.msg = '';
 			socket.emit('newChatMessage', { msg: message });
-		}
+		};
+
+		$scope.newPlaylistItem = {};
 
 		$scope.submitPlaylistItemDisabled = function() {
-			if ($scope.url === undefined || $scope.url === '') {
+			if ($scope.newPlaylistItem.url === undefined || $scope.newPlaylistItem.url === '') {
 				return true;
 			}
 			return false;
-		}
+		};
 
 		$scope.submitPlaylistItem = function(url) {
 			$scope.url = '';
 			socket.emit('newPlaylistItem', { source: url });
-		}
+		};
 	});

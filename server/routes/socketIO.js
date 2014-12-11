@@ -238,16 +238,55 @@ var newQueue = function(schema, roomName, userName, queue, io) {
 								io.to(roomName).emit('rotatedQueue', { queue: room.queue, currentDJ: room.currentDJ, currentSong: room.currentSong, currentTime: room.currentTime });
 								return;
 							}
+							// console.log("error saving room - newQueue");
 							console.log(err);
 							return;
 						});
+						return;
 					}
+					// console.log("error finding user - newQueue");
 					console.log(err);
 					return;
 				});
 				return;
 			}
 		}
+		// console.log("error finding room - newQueue");
+		console.log(err);
+		return;
+	});
+}
+
+var updatePlaylist = function(schema, roomName, userName, socket) {
+	// console.log(chatMessage);
+	// console.log(userName);
+	var searchUser  = schema.User.where({ username: userName });
+	searchUser.findOne(function (err, user) {
+		if (!err) {
+			if (user === null) {
+				// console.log("not found");
+				return;
+			} else {
+				// console.log(user);
+				// user.playlist = [];
+				var oldSong = user.playlist.shift();
+				user.playlist.push(oldSong);
+				user.save(function(err) {
+					if (!err) {
+						// console.log("user added!");
+						user = user;
+						socket.emit('updatedPlaylist', { playlist: user.playlist });
+						return;
+					}
+					console.log("error saving user - updatePlaylist");
+					console.log(err);
+					// updatePlaylist(schema, roomName, userName, socket);
+					return;
+				});
+				return;
+			}
+		}
+		console.log("error finding user - updatePlaylist");
 		console.log(err);
 		return;
 	});
@@ -311,6 +350,10 @@ module.exports = function(io) {
 
 		socket.on('newQueue', function(data) {
 			newQueue(schema, roomName, userName, data.queue, io);
+		});
+
+		socket.on('updatePlaylist', function(data) {
+			updatePlaylist(schema, roomName, data.username, socket);
 		});
 
 		/************************************
