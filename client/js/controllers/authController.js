@@ -22,6 +22,7 @@ angular.module('theeTable.controllers')
 						console.log(result);
 						// transfer to rooms lobby
 						localStorageService.set("jwt", result.jwt);
+						$scope.$parent.getUserInfo();
 						$location.path("/rooms");
 						return;
 					}
@@ -35,11 +36,13 @@ angular.module('theeTable.controllers')
 				});
 		};
 
+		$scope.login = {};
+
 		$scope.authDisabled = function() {
-			if ($scope.username === undefined ||
-			    $scope.password === undefined ||
-					$scope.username === '' ||
-					$scope.password === '') {
+			if ($scope.login.username === undefined ||
+			    $scope.login.password === undefined ||
+					$scope.login.username === '' ||
+					$scope.login.password === '') {
 						return true;
 					}
 			return false;

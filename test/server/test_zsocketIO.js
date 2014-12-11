@@ -62,6 +62,10 @@ describe('socket.IO', function() {
         if (!err && room !== null) {
           // room.chat.pop();
           room.users = [];
+          room.queue = [];
+          room.currentDJ = null;
+          room.currentSong = null;
+          room.currentTime = null;
           room.save(function(err, room) {
             // console.log(err);
             if (!err) {

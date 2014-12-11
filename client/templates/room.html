@@ -7,7 +7,8 @@
 				<p>
 					{{ room.users.length }} user(s) in this room.<br />
 					{{ currentUser }}<br />
-					<button ng-click="addToQueue()" class="btn btn-default">Enter Queue</button>
+					<button ng-click="addToQueue()" class="btn btn-default">Enter Queue</button><br />
+					{{ room }}
 				</p>
 			</center>
 		</div>
@@ -35,16 +36,18 @@
 					</div>
 				</div>
 				<div>
-					<form name="playlistForm" ng-submit='submitPlaylistItem(url)' novalidate>
+					<form name="playlistForm" ng-submit='submitPlaylistItem(newPlaylistItem.url)' novalidate>
 						<div class="form-group form-group-md">
 							<div class="input-group input-group-md">
-								<input type="text" name="source" ng-model="url" class="form-control floating-label" placeholder="Input a url."/>
+								<input type="text" name="source" ng-model="newPlaylistItem.url" class="form-control floating-label" placeholder="Input a url."/>
 								<span class="input-group-btn">
 									<button type="submit" ng-disabled="submitPlaylistItemDisabled()" class="btn btn-default">Send</button>
 								</span>
 							</div>
 						</div>
 					</form>
+					'': {{ url === '' }}
+					undefined: {{ url === undefined }}
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -54,11 +57,11 @@
 					</div>
 				</div>
 				<div>
-					<form name="chatForm" ng-submit='submitMessage(msg)' novalidate>
+					<form name="chatForm" ng-submit='submitMessage(newChatMessage.msg)' novalidate>
 						<div class="form-group">
 							<div class="form-group form-group-md">
 								<div class="input-group input-group-md">
-									<input type="text" name="message" ng-model="msg" class="form-control floating-label" placeholder="Send a message."/>
+									<input type="text" name="message" ng-model="newChatMessage.msg" class="form-control floating-label" placeholder="Send a message."/>
 									<span class="input-group-btn">
 										<button type="submit" ng-disabled="submitMessageDisabled()" class="btn btn-default">Send</button>
 									</span>
