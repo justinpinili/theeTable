@@ -128,6 +128,7 @@ var addToQueue = function(schema, roomName, userName, io) {
 				// room.queue = [];
 				room.queue.push(userName);
 
+				// if no one is a current DJ
 				if (room.queue.length === 1) {
 					schema.User.where({ username: userName }).findOne(function(err, user) {
 						if (!err) {
@@ -204,6 +205,54 @@ var updateCurrentTime = function(schema, roomName, userName, currentTime, io) {
 		return;
 	});
 }
+
+var newQueue = function(schema, roomName, userName, queue, io) {
+	// console.log(chatMessage);
+	// console.log(userName);
+
+	var previousDJ = queue.shift();
+	queue.push( previousDJ );
+	// console.log(queue);
+
+	var searchRoom = schema.Room.where({ name: roomName });
+	searchRoom.findOne(function (err, room) {
+		if (!err) {
+			if (room === null) {
+				// console.log("not found");
+				return;
+			} else {
+				// console.log(room);
+				room.queue = queue;
+				// console.log(room.queue);
+				var searchUser = schema.User.where({ username: room.queue[0] });
+				searchUser.findOne(function (err, user) {
+					if (!err) {
+						room.currentDJ = user.username;
+						room.currentSong = user.playlist[0].source;
+						room.currentTime = null;
+
+						room.save(function(err) {
+							if (!err) {
+								// console.log("user added!");
+								room = room;
+								io.to(roomName).emit('rotatedQueue', { queue: room.queue, currentDJ: room.currentDJ, currentSong: room.currentSong, currentTime: room.currentTime });
+								return;
+							}
+							console.log(err);
+							return;
+						});
+					}
+					console.log(err);
+					return;
+				});
+				return;
+			}
+		}
+		console.log(err);
+		return;
+	});
+}
+
 module.exports = function(io) {
 
 	// Once someone visits Thee Table application
@@ -233,7 +282,7 @@ module.exports = function(io) {
 			// console.log(data);
 			userName = data.user;
 			roomName = data.room;
-			connectToRoom(roomName, userName, socket, io);
+			connectToRoom(roomName, data.user, socket, io);
 		});
 
 		/**********************
@@ -257,7 +306,11 @@ module.exports = function(io) {
 		socket.on('addToQueue', function(data) {
 			// console.log(data);
 			// playlistItem = { source: data.source, votes: 0 };
-			addToQueue(schema, roomName, userName, io);
+			addToQueue(schema, roomName, data.user, io);
+		});
+
+		socket.on('newQueue', function(data) {
+			newQueue(schema, roomName, userName, data.queue, io);
 		});
 
 		/************************************

@@ -41,16 +41,38 @@ angular.module('theeTable.controllers')
 		});
 
 		socket.on('updatedCurrentTime', function(data) {
-			console.log(data);
+			// console.log(data);
 			$scope.$apply(function() {
 				$scope.room.currentTime = data.time;
 			})
 		});
 
-		socket.on('updatedSongDuration', function(data) {
+		// socket.on('updatedSongDuration', function(data) {
+		// 	// console.log(data);
+		// 	$scope.$apply(function() {
+		// 		$scope.room.currentSongDuration = data.duration;
+		// 	})
+		// });
+
+		// socket.on('nextSong', function(data) {
+		// 	// console.log(data);
+		// 	$scope.$apply(function() {
+		// 		$scope.room.currentDJ = data.currentDJ;
+		// 		$scope.room.currentSong = data.currentSong;
+		// 		widget.load($scope.room.currentSong, { show_artwork: true });
+		// 		updatePlayer();
+		// 	})
+		// });
+
+		socket.on('rotatedQueue', function(data) {
 			// console.log(data);
 			$scope.$apply(function() {
-				$scope.room.currentSongDuration = data.duration;
+				$scope.room.queue = data.queue;
+				$scope.room.currentDJ = data.currentDJ;
+				$scope.room.currentSong = data.currentSong;
+				$scope.room.currentTime = data.currentTime;
+				widget.load($scope.room.currentSong, { show_artwork: true });
+				updatePlayer();
 			})
 		});
 
@@ -63,117 +85,62 @@ angular.module('theeTable.controllers')
 		var currentTime;
 
 		var updatePlayer = function() {
-
 			// Bind the events with the SoundCloud widget
 			widget.bind(SC.Widget.Events.READY, function() {
-
 				widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(data) {
-
-					// Somehow needs to know the current time of track being played
-					// in the room so that newcomers can seek to that time to match
-					// the group.
-
-					// console.log(data.currentPosition);
-					socket.emit('currentTime', { time: data.currentPosition });
-					// widget.seekTo(startAt);
-
-				})
-
+					// should only emit from currentDJ
+					if ($scope.room.currentDJ === $scope.$parent.currentUser.username) {
+						socket.emit('currentTime', { time: data.currentPosition });
+					}
+				});
 				widget.bind(SC.Widget.Events.PLAY, function(data) {
-
-					// Somehow needs to know the current time of track being played
-					// in the room so that newcomers can seek to that time to match
-					// the group.
-
 					if (currentTime !== undefined) {
 						widget.seekTo(currentTime);
 					}
-
 					widget.getCurrentSound(function(currentSound) {
-
-						// gives us the end time in milliseconds.
-						// console.log(currentSound.duration);
-
 						$scope.$apply(function(){
-
-							socket.emit('songDuration', { duration: currentSound.duration });
-							// $scope.ending = currentSound.duration;
 							$scope.title = currentSound.title;
-
 						});
-
 					});
 
 				});
-
 				widget.setVolume(100);
-
 				widget.bind(SC.Widget.Events.FINISH, function() {
-
 					// unbind the widget from the listeners that we don't need anymore.
 					widget.unbind(SC.Widget.Events.READY);
 					widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
 					widget.unbind(SC.Widget.Events.PLAY);
 					widget.unbind(SC.Widget.Events.FINISH);
 
-					// // needs to tell the room the rotated sequence for newcomers.
-					// rotateQueue();
-					//
-					// // load the widget with the next song on the playlist
-					// // of the next DJ.
-					// var currentSong = $scope.currentUser.playlist.shift();
-					//
-					// // rooms may need to have a current song or current dj?
-					// // may need to emit something to the room so it can keep track
-					// // for newcomers
-					// widget.load(currentSong, { show_artwork: true });
-					//
-					// // may need a currentUser and a room's currentDJ
-					// $scope.currentUser.playlist.push(currentSong);
-					//
-					// updatePlayer();
+					if ($scope.room.currentDJ === $scope.$parent.currentUser.username) {
+						socket.emit('newQueue', { queue: $scope.room.queue });
+					}
 				});
-
 				widget.play();
 			});
 		};
 
 		var setUpPlayer = function(currentTime) {
-
 			// the DOM element needs to exist before it can be identified
-
 			setTimeout(function(){
-
 				widgetIframe = document.getElementById('sc-widget');
 				widget       = SC.Widget(widgetIframe);
 				updatePlayer();
-
 			}, 500);
-
 		};
 
-		// var getCurrentSong = function() {
-		// 	var currentSong = $scope.currentUser.playlist.shift();
-		// 	$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + currentSong );
-		// 	$scope.currentUser.playlist.push(currentSong);
-		// }
-		//
-		// var rotateQueue = function() {
-		// 	var oldUser = $scope.room.queue.shift();
-		// 	$scope.room.queue.push( oldUser );
-		// 	var currentUser = $scope.room.queue[0];
-		// 	$scope.currentUser = currentUser;
-		// }
-
-		$scope.addToQueue = function() {
-			// if ($scope.room.queue.length === 0) {
-			// 	// queue up the 1st song on the user's playlist
-			// 	$scope.isFirstSong = true;
-			// 	getCurrentSong();
-			// 	setUpPlayer();
-			// }
-			socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });
-			// emit new user added to the queue
+		var rotateQueue = function() {
+			var oldUser = $scope.room.queue.shift();
+			// console.log(oldUser)
+			var song;
+			$scope.room.queue.push( oldUser );
+			// console.log($scope.room.queue);
+			if ($scope.room.queue[0] === $scope.$parent.currentUser.username) {
+				song = $scope.$parent.currentUser.playlist[0].source;
+			}
+			socket.emit('newQueue', { queue: $scope.room.queue, song: song });
+			// var currentUser = $scope.room.queue[0];
+			// $scope.currentUser = currentUser;
 		}
 
 		/**************
@@ -188,7 +155,6 @@ angular.module('theeTable.controllers')
 				.success(function(result) {
 					if (!result.message) {
 						$scope.room = result;
-						// $scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.queue[0].source);
 						if (result.currentDJ !== null) {
 							$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong);
 							currentTime = result.currentTime;
@@ -206,6 +172,9 @@ angular.module('theeTable.controllers')
 				});
 		}
 
+		$scope.addToQueue = function() {
+			socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });
+		}
 
 		$scope.submitMessageDisabled = function() {
 			if ($scope.msg === undefined || $scope.msg === '') {
