@@ -10,7 +10,7 @@ angular.module('theeTable.controllers')
 
 			$http.get('http://localhost:1337/rooms?jwt_token='+jwt)
 				.success(function(result) {
-					console.log(result);
+					// console.log(result);
 					$scope.rooms = result.rooms;
 					return;
 				})

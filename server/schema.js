@@ -19,7 +19,13 @@ var roomSchema = mongoose.Schema({
 
   // entries in the users will be strings
   // ex. 'justin'
-  users: Array
+  users: Array,
+
+  currentDJ: String,
+
+  currentSong: String,
+
+  currentTime: Number
 
 });
 

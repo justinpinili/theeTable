@@ -127,6 +127,36 @@ var addToQueue = function(schema, roomName, userName, io) {
 				// console.log(room);
 				// room.queue = [];
 				room.queue.push(userName);
+
+				if (room.queue.length === 1) {
+					schema.User.where({ username: userName }).findOne(function(err, user) {
+						if (!err) {
+							if (user === null) {
+								res.send({ message: "No user found with the given username." });
+								return;
+							}
+							room.currentSong = user.playlist[0].source;
+							room.currentDJ = user.username;
+
+							room.save(function(err) {
+								if (!err) {
+									// console.log("user added!");
+									room = room;
+									io.to(roomName).emit('updatedQueue', { queue: room.queue, currentDJ: room.currentDJ, currentSong: room.currentSong });
+									return;
+								}
+								console.log(err);
+								return;
+							});
+
+							return;
+						}
+						console.log(err);
+						res.send(err);
+						return;
+					});
+				}
+
 				room.save(function(err) {
 					if (!err) {
 						// console.log("user added!");
@@ -145,6 +175,35 @@ var addToQueue = function(schema, roomName, userName, io) {
 	});
 }
 
+var updateCurrentTime = function(schema, roomName, userName, currentTime, io) {
+	// console.log(chatMessage);
+	// console.log(userName);
+	var searchRoom = schema.Room.where({ name: roomName });
+	searchRoom.findOne(function (err, room) {
+		if (!err) {
+			if (room === null) {
+				// console.log("not found");
+				return;
+			} else {
+				// console.log(room);
+				room.currentTime = currentTime;
+				room.save(function(err) {
+					if (!err) {
+						// console.log("user added!");
+						room = room;
+						io.to(roomName).emit('updatedCurrentTime', { time: room.currentTime });
+						return;
+					}
+					console.log(err);
+					return;
+				});
+				return;
+			}
+		}
+		console.log(err);
+		return;
+	});
+}
 module.exports = function(io) {
 
 	// Once someone visits Thee Table application
@@ -155,6 +214,8 @@ module.exports = function(io) {
 		var roomName;
 		var chatMessage;
 		var playlistItem;
+		var duration;
+		var currentTime;
 
 		/*******************************
 		 * Current Users in Room Logic *
@@ -187,6 +248,11 @@ module.exports = function(io) {
 		/***********************
 		 * Current Queue Logic *
 		 ***********************/
+
+		socket.on('currentTime', function(data) {
+			currentTime = data.time;
+			updateCurrentTime(schema, roomName, userName, currentTime, io);
+		});
 
 		socket.on('addToQueue', function(data) {
 			// console.log(data);

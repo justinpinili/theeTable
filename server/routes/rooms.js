@@ -25,7 +25,10 @@ router.post('/rooms', jwtValidation, function(req, res) {
 																	name: req.body.name,
 																	queue: [],
 																	chat: [],
-																	users: []
+																	users: [],
+																	currentDJ: null,
+																	currentSong: null,
+																	currentTime: null
 																});
 	newRoom.save(function (err) {
 		if (!err) {

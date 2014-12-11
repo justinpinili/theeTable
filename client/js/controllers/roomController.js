@@ -24,14 +24,34 @@ angular.module('theeTable.controllers')
 		socket.on('updatedPlaylist', function(data) {
 			// console.log(data);
 			$scope.$apply(function() {
-				$scope.currentUser.playlist = data.playlist;
+				$scope.$parent.currentUser.playlist = data.playlist;
 			})
 		});
 
 		socket.on('updatedQueue', function(data) {
 			$scope.$apply(function() {
 				$scope.room.queue = data.queue;
+				if (data.currentDJ) {
+					$scope.room.currentDJ = data.currentDJ;
+					$scope.room.currentSong = data.currentSong;
+					$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + data.currentSong);
+					setUpPlayer();
+				}
 			});
+		});
+
+		socket.on('updatedCurrentTime', function(data) {
+			console.log(data);
+			$scope.$apply(function() {
+				$scope.room.currentTime = data.time;
+			})
+		});
+
+		socket.on('updatedSongDuration', function(data) {
+			// console.log(data);
+			$scope.$apply(function() {
+				$scope.room.currentSongDuration = data.duration;
+			})
 		});
 
 		/*************
@@ -40,6 +60,7 @@ angular.module('theeTable.controllers')
 
 		var widgetIframe;
 		var widget;
+		var currentTime;
 
 		var updatePlayer = function() {
 
@@ -52,7 +73,8 @@ angular.module('theeTable.controllers')
 					// in the room so that newcomers can seek to that time to match
 					// the group.
 
-					// console.log(data);
+					// console.log(data.currentPosition);
+					socket.emit('currentTime', { time: data.currentPosition });
 					// widget.seekTo(startAt);
 
 				})
@@ -63,7 +85,9 @@ angular.module('theeTable.controllers')
 					// in the room so that newcomers can seek to that time to match
 					// the group.
 
-					// widget.seekTo(startAt);
+					if (currentTime !== undefined) {
+						widget.seekTo(currentTime);
+					}
 
 					widget.getCurrentSound(function(currentSound) {
 
@@ -72,7 +96,8 @@ angular.module('theeTable.controllers')
 
 						$scope.$apply(function(){
 
-							$scope.ending = currentSound.duration;
+							socket.emit('songDuration', { duration: currentSound.duration });
+							// $scope.ending = currentSound.duration;
 							$scope.title = currentSound.title;
 
 						});
@@ -85,28 +110,28 @@ angular.module('theeTable.controllers')
 
 				widget.bind(SC.Widget.Events.FINISH, function() {
 
-					// needs to tell the room the rotated sequence for newcomers.
-					rotateQueue();
-
 					// unbind the widget from the listeners that we don't need anymore.
 					widget.unbind(SC.Widget.Events.READY);
 					widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
 					widget.unbind(SC.Widget.Events.PLAY);
 					widget.unbind(SC.Widget.Events.FINISH);
 
-					// load the widget with the next song on the playlist
-					// of the next DJ.
-					var currentSong = $scope.currentUser.playlist.shift();
-
-					// rooms may need to have a current song or current dj?
-					// may need to emit something to the room so it can keep track
-					// for newcomers
-					widget.load(currentSong, { show_artwork: true });
-
-					// may need a currentUser and a room's currentDJ
-					$scope.currentUser.playlist.push(currentSong);
-
-					updatePlayer();
+					// // needs to tell the room the rotated sequence for newcomers.
+					// rotateQueue();
+					//
+					// // load the widget with the next song on the playlist
+					// // of the next DJ.
+					// var currentSong = $scope.currentUser.playlist.shift();
+					//
+					// // rooms may need to have a current song or current dj?
+					// // may need to emit something to the room so it can keep track
+					// // for newcomers
+					// widget.load(currentSong, { show_artwork: true });
+					//
+					// // may need a currentUser and a room's currentDJ
+					// $scope.currentUser.playlist.push(currentSong);
+					//
+					// updatePlayer();
 				});
 
 				widget.play();
@@ -127,43 +152,27 @@ angular.module('theeTable.controllers')
 
 		};
 
-		// HARDCODED
-		// $scope.currentUser = {
-		// 	name: 'justin',
-		// 	playlist: ['https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview', 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix', 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide']
+		// var getCurrentSong = function() {
+		// 	var currentSong = $scope.currentUser.playlist.shift();
+		// 	$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + currentSong );
+		// 	$scope.currentUser.playlist.push(currentSong);
+		// }
+		//
+		// var rotateQueue = function() {
+		// 	var oldUser = $scope.room.queue.shift();
+		// 	$scope.room.queue.push( oldUser );
+		// 	var currentUser = $scope.room.queue[0];
+		// 	$scope.currentUser = currentUser;
 		// }
 
-		var getCurrentSong = function() {
-			var currentSong = $scope.currentUser.playlist.shift();
-			$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + currentSong );
-			$scope.currentUser.playlist.push(currentSong);
-		}
-
-		var rotateQueue = function() {
-			var oldUser = $scope.room.queue.shift();
-			$scope.room.queue.push( oldUser );
-			var currentUser = $scope.room.queue[0];
-			$scope.currentUser = currentUser;
-		}
-
 		$scope.addToQueue = function() {
-			if ($scope.room.queue.length === 0) {
-				// queue up the 1st song on the user's playlist
-				$scope.isFirstSong = true;
-				getCurrentSong();
-				setUpPlayer();
-			}
-			// HARDCODED
-			$scope.room.queue = [
-				{
-					username: 'justin',
-					playlist: ['https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview', 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix', 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide']
-				},
-				{
-					username: 'jason',
-					playlist: ['https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record', 'https://soundcloud.com/kunsthandwerk/khw009-sandro-golia-galatone', 'https://soundcloud.com/fatcat-demo/teso-wo-to-step']
-				}
-			];
+			// if ($scope.room.queue.length === 0) {
+			// 	// queue up the 1st song on the user's playlist
+			// 	$scope.isFirstSong = true;
+			// 	getCurrentSong();
+			// 	setUpPlayer();
+			// }
+			socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });
 			// emit new user added to the queue
 		}
 
@@ -180,7 +189,11 @@ angular.module('theeTable.controllers')
 					if (!result.message) {
 						$scope.room = result;
 						// $scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.queue[0].source);
-						setUpPlayer();
+						if (result.currentDJ !== null) {
+							$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong);
+							currentTime = result.currentTime;
+							setUpPlayer();
+						}
 						return;
 					}
 					alert(result.message);
