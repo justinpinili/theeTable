@@ -22,6 +22,7 @@ angular.module('theeTable.controllers')
 						console.log(result);
 						// transfer to rooms lobby
 						localStorageService.set("jwt", result.jwt);
+						$scope.$parent.getUserInfo();
 						$location.path("/rooms");
 						return;
 					}

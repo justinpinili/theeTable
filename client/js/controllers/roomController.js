@@ -128,10 +128,10 @@ angular.module('theeTable.controllers')
 		};
 
 		// HARDCODED
-		$scope.currentUser = {
-			name: 'justin',
-			playlist: ['https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview', 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix', 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide']
-		}
+		// $scope.currentUser = {
+		// 	name: 'justin',
+		// 	playlist: ['https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview', 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix', 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide']
+		// }
 
 		var getCurrentSong = function() {
 			var currentSong = $scope.currentUser.playlist.shift();

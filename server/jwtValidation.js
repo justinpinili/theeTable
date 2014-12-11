@@ -15,6 +15,7 @@ var jwtValidation = function(req, res, next) {
 				console.log('error with JWT');
 				res.send({ message:'Error with JWT' });
 			}
+			console.log("here");
 			console.log(err);
 			res.send(err);
 			return;

@@ -2,9 +2,10 @@ var express = require('express');
 var schema  = require('./../schema.js');
 var router  = express.Router();
 
-var bcrypt  = require('bcrypt');
-var jwt     = require('jsonwebtoken');
-var keys    = require('./../securityKeys.js');
+var bcrypt        = require('bcrypt');
+var jwt           = require('jsonwebtoken');
+var keys          = require('./../securityKeys.js');
+var jwtValidation = require('./../jwtValidation.js');
 
 // Create a user
 router.post('/user/new', function(req, res) {
@@ -45,6 +46,28 @@ router.post('/user/new', function(req, res) {
 	    });
 	});
 
+});
+
+// Get user info
+router.get('/user', jwtValidation, function(req, res) {
+	schema.User.where({ username: req.query.id }).findOne(function(err, user) {
+		if (!err) {
+			if (user === null) {
+				res.send({ message: "No user found with the given username." });
+				return;
+			}
+			var userInfo       = {};
+			userInfo.username  = user.username;
+			userInfo.upVotes   = user.upVotes;
+			userInfo.playlist  = user.playlist;
+			userInfo.favorites = user.favorites;
+			res.send(userInfo);
+			return;
+		}
+		console.log(err);
+		res.send(err);
+		return;
+	});
 });
 
 // Log in a user

@@ -62,6 +62,7 @@ describe('socket.IO', function() {
         if (!err && room !== null) {
           // room.chat.pop();
           room.users = [];
+          room.queue = [];
           room.save(function(err, room) {
             // console.log(err);
             if (!err) {
