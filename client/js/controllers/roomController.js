@@ -158,6 +158,7 @@ angular.module('theeTable.controllers')
 				.success(function(result) {
 					if (!result.message) {
 						$scope.room = result;
+						$scope.$parent.getUserInfo();
 						if (result.currentDJ !== null) {
 							$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong);
 							// currentTime = result.currentTime;

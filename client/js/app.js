@@ -27,7 +27,7 @@ angular.module('theeTable', [
         url: '/logout',
         controller: function(localStorageService, $location) {
           localStorageService.remove('jwt');
-          $location.path("/home");
+          $location.path("/");
         }
       });
 
