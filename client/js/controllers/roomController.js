@@ -50,23 +50,6 @@ angular.module('theeTable.controllers')
 			})
 		});
 
-		// socket.on('updatedSongDuration', function(data) {
-		// 	// console.log(data);
-		// 	$scope.$apply(function() {
-		// 		$scope.room.currentSongDuration = data.duration;
-		// 	})
-		// });
-
-		// socket.on('nextSong', function(data) {
-		// 	// console.log(data);
-		// 	$scope.$apply(function() {
-		// 		$scope.room.currentDJ = data.currentDJ;
-		// 		$scope.room.currentSong = data.currentSong;
-		// 		widget.load($scope.room.currentSong, { show_artwork: true });
-		// 		updatePlayer();
-		// 	})
-		// });
-
 		socket.on('rotatedQueue', function(data) {
 			// console.log(data);
 			$scope.$apply(function() {
@@ -142,8 +125,6 @@ angular.module('theeTable.controllers')
 				song = $scope.$parent.currentUser.playlist[0].source;
 			}
 			socket.emit('newQueue', { queue: $scope.room.queue, song: song });
-			// var currentUser = $scope.room.queue[0];
-			// $scope.currentUser = currentUser;
 		}
 
 		/**************

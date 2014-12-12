@@ -51,10 +51,6 @@ describe('/user API Endpoint', function() {
 							body = res.body;
 						})
 						.end(function(err, res) {
-							// body.username.should.equal('justin');
-							// body.upVotes.should.equal(0);
-							// should.exist(body.playlist);
-							// should.exist(body.favorites);
 							should.exist(body.jwt);
 							done();
 						});
@@ -72,10 +68,6 @@ describe('/user API Endpoint', function() {
 							body = res.body;
 						})
 						.end(function(err, res) {
-							// body.username.should.equal('jason');
-							// body.upVotes.should.equal(0);
-							// should.exist(body.playlist);
-							// should.exist(body.favorites);
 							should.exist(body.jwt);
 							done();
 						});
@@ -112,10 +104,6 @@ describe('/user API Endpoint', function() {
 							body = res.body;
 						})
 						.end(function(err, res) {
-							// body.username.should.equal('justin');
-							// body.upVotes.should.equal(0);
-							// should.exist(body.playlist);
-							// should.exist(body.favorites);
 							should.exist(body.jwt);
 							done();
 						});
@@ -141,4 +129,40 @@ describe('/user API Endpoint', function() {
 
 	});
 
+	describe('GET Request', function() {
+
+		describe('Getting User Info', function() {
+
+			it('should obtain user information', function(done) {
+				request(theeTableServer)
+						.get('/user?jwt_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Imp1c3RpbiIsImlhdCI6MTQxODI0OTc3N30.2SZoGIcsPaQjnulJHIjKtVhpiea6sDB-UiZUxr-XRGs')
+						.expect(function(res) {
+							// console.log(res.body);
+							body = res.body;
+						})
+						.end(function(err, res) {
+							body.username.should.equal('justin');
+							body.upVotes.should.equal(0);
+							should.exist(body.playlist);
+							should.exist(body.favorites);
+							done();
+						});
+			});
+
+			it('should not allow access to the API without JWT', function(done) {
+				request(theeTableServer)
+						.get('/user')
+						.expect(function(res) {
+							// console.log(res.body);
+							body = res.body;
+						})
+						.end(function(err, res) {
+							body.message.should.equal("You are not allowed to access this API");
+							done();
+						});
+			});
+
+		});
+
+	});
 });
