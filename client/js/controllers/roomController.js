@@ -9,8 +9,6 @@ angular.module('theeTable.controllers')
 
 		var socket = io.connect();
 
-		socket.emit('roomEntered', { room: $stateParams.roomName, user: 'justin'});
-
 		socket.on('usersInRoom', function(data) {
 			$scope.$apply(function() {
 				$scope.room.users = data.users;
@@ -139,7 +137,9 @@ angular.module('theeTable.controllers')
 				.success(function(result) {
 					if (!result.message) {
 						$scope.room = result;
-						$scope.$parent.getUserInfo();
+						$scope.$parent.getUserInfo(function(user) {
+							socket.emit('roomEntered', { room: $stateParams.roomName, user: user.username });
+						});
 						if (result.currentDJ !== null) {
 							$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong);
 							// currentTime = result.currentTime;

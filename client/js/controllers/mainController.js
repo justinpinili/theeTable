@@ -1,7 +1,7 @@
 angular.module('theeTable.controllers')
   .controller('mainController', function($scope, $http, localStorageService) {
 
-    $scope.getUserInfo = function() {
+    $scope.getUserInfo = function(callback) {
       var jwt = localStorageService.get("jwt");
       $http.get('http://localhost:1337/user?jwt_token='+jwt)
         .success(function(result) {
@@ -9,6 +9,9 @@ angular.module('theeTable.controllers')
             $scope.currentUser = result;
             // $scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.queue[0].source);
             // setUpPlayer();
+            if (callback) {
+              callback(result);
+            }
             return;
           }
           // alert(result.message);
