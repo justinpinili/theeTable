@@ -334,12 +334,15 @@ describe('socket.IO', function() {
 
     it("should notify current time of current song being played in the room", function(done) {
       var client1 = client_io.connect(socketURL, options);
-
+      var called = false;
       client1.on('connect', function(data){
         client1.emit('roomEntered', user1);
         client1.emit('addToQueue', dj1);
         client1.on('updatedQueue', function(data) {
-          client1.emit('currentTime', {time: 200});
+          if (!called) {
+            client1.emit('currentTime', {time: 200});
+            called = true;
+          }
         });
 
         client1.on('updatedCurrentTime', function(data) {

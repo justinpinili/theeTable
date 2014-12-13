@@ -2,6 +2,7 @@ var schema = require('./../schema.js');
 
 var disconnectFromRoom = function(schema, roomName, userName, io) {
 	// console.log("disconnected");
+	var currentDjLeft = false;
 	var searchRoom  = schema.Room.where({ name: roomName });
 	searchRoom.findOne(function (err, room) {
 		if (!err) {
@@ -9,10 +10,23 @@ var disconnectFromRoom = function(schema, roomName, userName, io) {
 				return;
 			} else {
 				room.users.splice(room.users.indexOf(userName),1);
+				if (room.queue.indexOf(userName) === 0) {
+					room.queue.splice(0, 1);
+					room.currentDJ = null;
+					room.currentSong = null;
+					room.currentTime = null;
+					currentDjLeft = true;
+				} else if (room.queue.indexOf(userName) > 0) {
+					room.queue.splice(room.queue.indexOf(userName), 1);
+					io.to(roomName).emit('updatedQueue', { queue: room.queue });
+				}
 				room.save(function (err) {
 					if (!err) {
 						// console.log("user removed!");
 						io.to(room.name).emit('usersInRoom', { users: room.users });
+						if (currentDjLeft) {
+							io.to(room.name).emit('roomUpdate', {room: room});
+						}
 						return;
 					}
 					disconnectFromRoom(schema, roomName, userName, io);

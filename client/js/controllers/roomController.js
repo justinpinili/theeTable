@@ -60,6 +60,17 @@ angular.module('theeTable.controllers')
 			})
 		});
 
+		socket.on('roomUpdate', function(data) {
+			$scope.$apply(function() {
+				$scope.room = data;
+				if (data.room.currentDJ === null) {
+					$scope.currentSong = null;
+					widget.load($scope.room.currentSong, { show_artwork: true });
+					updatePlayer();
+				}
+			});
+		});
+
 		/*************
 		* SoundCloud *
 		**************/
