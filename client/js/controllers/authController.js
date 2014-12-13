@@ -19,7 +19,7 @@ angular.module('theeTable.controllers')
 			$http.post($scope.url, {username: inputUsername, password: inputPassword})
 				.success(function(result) {
 					if (!result.message) {
-						console.log(result);
+						// console.log(result);
 						// transfer to rooms lobby
 						localStorageService.set("jwt", result.jwt);
 						$scope.$parent.getUserInfo();

@@ -40,6 +40,8 @@ var song6 = { source: 'https://soundcloud.com/fatcat-demo/teso-wo-to-step'};
 var dj1 = { user: 'justin' };
 var dj2 = { user: 'jason' };
 
+var rotation1 = { queue: ['jason', 'justin'] };
+
 describe('socket.IO', function() {
 
 	before(function(done) {
@@ -220,17 +222,12 @@ describe('socket.IO', function() {
       });
     });
 
-    // it("should move the song to the end of the playlist once the song is finished", function(done) {
-    //
-    // });
-
   });
 
   describe('users in room queue', function() {
 
-    it("should notify all users the new rotation of DJs", function(done) {
+    it("should notify all users the new rotation of DJs after someone joins the rotation", function(done) {
       var client1 = client_io.connect(socketURL, options);
-
 
       client1.on('connect', function(data){
         // console.log("connected");
@@ -261,9 +258,99 @@ describe('socket.IO', function() {
       });
     });
 
-    // it("should notify all users the next user to play a song", function(done) {
-    //
-    // });
+    it("should notify all users the new rotation of DJs after a song is finished", function(done) {
+      var client1 = client_io.connect(socketURL, options);
+
+      client1.on('connect', function(data){
+        // console.log("connected");
+        client1.emit('roomEntered', user1);
+
+        var client2 = client_io.connect(socketURL, options);
+
+        client2.on('connect', function(data) {
+          client2.emit('roomEntered', user2);
+          client2.emit('addToQueue', dj2);
+          client2.on('updatedQueue', function(data) {
+            if (data.queue[ data.queue.length-1 ] === 'justin') {
+              // let's assume the currentDJ is done with the song
+              client2.emit('newQueue', rotation1);
+            }
+          });
+        });
+
+        setTimeout(function() {
+          client1.emit('addToQueue', dj1);
+        }, 100);
+
+
+        client1.on('rotatedQueue', function(data) {
+          data.queue.length.should.equal(2);
+          data.queue[0].should.equal('justin');
+          data.currentDJ.should.equal('justin');
+          data.currentSong.should.equal('https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record');
+          should.equal(data.currentTime, null);
+          client1.disconnect();
+          client2.disconnect();
+          done();
+        });
+      });
+    });
+
+    it("should rotate the top song to the bottom of a user's playlist after the song is finished", function(done) {
+      var client1 = client_io.connect(socketURL, options);
+
+      client1.on('connect', function(data){
+        // console.log("connected");
+        client1.emit('roomEntered', user1);
+
+        var client2 = client_io.connect(socketURL, options);
+
+        client2.on('connect', function(data) {
+          client2.emit('roomEntered', user2);
+          client2.emit('addToQueue', dj2);
+          client2.on('updatedQueue', function(data) {
+            if (data.queue[ data.queue.length-1 ] === 'justin') {
+              // let's assume the currentDJ is done with the song
+              client2.emit('newQueue', rotation1);
+            }
+          });
+          client2.on('updatedPlaylist', function(data) {
+            data.playlist[0].source.should.equal("https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix");
+            client1.disconnect();
+            client2.disconnect();
+            done();
+          });
+        });
+
+        setTimeout(function() {
+          client1.emit('addToQueue', dj1);
+        }, 100);
+
+        client1.on('rotatedQueue', function(data) {
+          client2.emit('updatePlaylist', { username: 'jason' });
+        });
+      });
+    });
+
+    it("should notify current time of current song being played in the room", function(done) {
+      var client1 = client_io.connect(socketURL, options);
+      var called = false;
+      client1.on('connect', function(data){
+        client1.emit('roomEntered', user1);
+        client1.emit('addToQueue', dj1);
+        client1.on('updatedQueue', function(data) {
+          if (!called) {
+            client1.emit('currentTime', {time: 200});
+            called = true;
+          }
+        });
+
+        client1.on('updatedCurrentTime', function(data) {
+          data.time.should.equal(200);
+          done();
+        });
+      });
+    });
 
   });
 

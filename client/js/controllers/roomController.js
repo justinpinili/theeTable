@@ -9,8 +9,6 @@ angular.module('theeTable.controllers')
 
 		var socket = io.connect();
 
-		socket.emit('roomEntered', { room: $stateParams.roomName, user: 'justin'});
-
 		socket.on('usersInRoom', function(data) {
 			$scope.$apply(function() {
 				$scope.room.users = data.users;
@@ -50,23 +48,6 @@ angular.module('theeTable.controllers')
 			})
 		});
 
-		// socket.on('updatedSongDuration', function(data) {
-		// 	// console.log(data);
-		// 	$scope.$apply(function() {
-		// 		$scope.room.currentSongDuration = data.duration;
-		// 	})
-		// });
-
-		// socket.on('nextSong', function(data) {
-		// 	// console.log(data);
-		// 	$scope.$apply(function() {
-		// 		$scope.room.currentDJ = data.currentDJ;
-		// 		$scope.room.currentSong = data.currentSong;
-		// 		widget.load($scope.room.currentSong, { show_artwork: true });
-		// 		updatePlayer();
-		// 	})
-		// });
-
 		socket.on('rotatedQueue', function(data) {
 			// console.log(data);
 			$scope.$apply(function() {
@@ -77,6 +58,17 @@ angular.module('theeTable.controllers')
 				widget.load($scope.room.currentSong, { show_artwork: true });
 				updatePlayer();
 			})
+		});
+
+		socket.on('roomUpdate', function(data) {
+			$scope.$apply(function() {
+				$scope.room = data;
+				if (data.room.currentDJ === null) {
+					$scope.currentSong = null;
+					widget.load($scope.room.currentSong, { show_artwork: true });
+					updatePlayer();
+				}
+			});
 		});
 
 		/*************
@@ -142,8 +134,6 @@ angular.module('theeTable.controllers')
 				song = $scope.$parent.currentUser.playlist[0].source;
 			}
 			socket.emit('newQueue', { queue: $scope.room.queue, song: song });
-			// var currentUser = $scope.room.queue[0];
-			// $scope.currentUser = currentUser;
 		}
 
 		/**************
@@ -158,6 +148,9 @@ angular.module('theeTable.controllers')
 				.success(function(result) {
 					if (!result.message) {
 						$scope.room = result;
+						$scope.$parent.getUserInfo(function(user) {
+							socket.emit('roomEntered', { room: $stateParams.roomName, user: user.username });
+						});
 						if (result.currentDJ !== null) {
 							$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong);
 							// currentTime = result.currentTime;

@@ -12,6 +12,7 @@ angular.module('theeTable.controllers')
 				.success(function(result) {
 					// console.log(result);
 					$scope.rooms = result.rooms;
+					$scope.$parent.getUserInfo();
 					return;
 				})
 				.error(function(error) {
