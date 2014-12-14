@@ -1,12 +1,10 @@
 var express = require('express');
 var schema  = require('./../schema.js');
 var router  = express.Router();
-
 var bcrypt        = require('bcrypt');
 var jwt           = require('jsonwebtoken');
 var keys          = require('./../securityKeys.js');
 var jwtValidation = require('./../jwtValidation.js');
-
 // Create a user
 router.post('/user/new', function(req, res) {
 	var newUser = new schema.User({
@@ -16,7 +14,6 @@ router.post('/user/new', function(req, res) {
 																	playlist: [],
 																	favorites: []
 																});
-
 	var bcrypt = require('bcrypt');
 	bcrypt.genSalt(10, function(err, salt) {
 	    bcrypt.hash(req.body.password, salt, function(err, hash) {
@@ -45,9 +42,7 @@ router.post('/user/new', function(req, res) {
 				return;
 	    });
 	});
-
 });
-
 // Get user info
 router.get('/user', jwtValidation, function(req, res) {
 	schema.User.where({ username: req.query.id }).findOne(function(err, user) {
@@ -69,7 +64,6 @@ router.get('/user', jwtValidation, function(req, res) {
 		return;
 	});
 });
-
 // Log in a user
 router.post('/user/login', function(req, res) {
 	schema.User.where({ username: req.body.username }).findOne(function (err, user) {
@@ -78,7 +72,6 @@ router.post('/user/login', function(req, res) {
 				res.send({ message: "No user found with the given username." });
 				return;
 			}
-
 			bcrypt.compare(req.body.password, user.password, function(err, result) {
 				if (!err) {
 					if (result) {
@@ -103,5 +96,4 @@ router.post('/user/login', function(req, res) {
 		return;
 	});
 });
-
 module.exports = router;

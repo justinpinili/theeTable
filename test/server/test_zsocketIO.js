@@ -25,8 +25,8 @@ var options = {
   'force new connection': true
 };
 
-var user1 = { room: 'lobby', user: 'justin' };
-var user2 = { room: 'lobby', user: 'jason'  };
+var user1 = { roomName: 'lobby', user: 'justin' };
+var user2 = { roomName: 'lobby', user: 'jason'  };
 
 var message = { msg: 'oh herro' };
 
