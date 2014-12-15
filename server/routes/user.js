@@ -1,10 +1,12 @@
 var express = require('express');
 var schema  = require('./../schema.js');
 var router  = express.Router();
+
 var bcrypt        = require('bcrypt');
 var jwt           = require('jsonwebtoken');
 var keys          = require('./../securityKeys.js');
 var jwtValidation = require('./../jwtValidation.js');
+
 // Create a user
 router.post('/user/new', function(req, res) {
 	var newUser = new schema.User({
@@ -43,6 +45,7 @@ router.post('/user/new', function(req, res) {
 	    });
 	});
 });
+
 // Get user info
 router.get('/user', jwtValidation, function(req, res) {
 	schema.User.where({ username: req.query.id }).findOne(function(err, user) {
@@ -64,6 +67,7 @@ router.get('/user', jwtValidation, function(req, res) {
 		return;
 	});
 });
+
 // Log in a user
 router.post('/user/login', function(req, res) {
 	schema.User.where({ username: req.body.username }).findOne(function (err, user) {
@@ -96,4 +100,5 @@ router.post('/user/login', function(req, res) {
 		return;
 	});
 });
+
 module.exports = router;

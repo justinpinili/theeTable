@@ -2,6 +2,7 @@ var express       = require('express');
 var schema        = require('./../schema.js');
 var router        = express.Router();
 var jwtValidation = require('./../jwtValidation.js');
+
 // Go to room selection
 router.get('/rooms', jwtValidation, function(req, res) {
 	schema.Room.find({}, function(err, rooms) {
@@ -15,6 +16,7 @@ router.get('/rooms', jwtValidation, function(req, res) {
 		return;
 	});
 });
+
 // Create a new room
 router.post('/rooms', jwtValidation, function(req, res) {
 	var newRoom = new schema.Room({
@@ -41,6 +43,7 @@ router.post('/rooms', jwtValidation, function(req, res) {
 		return;
 	});
 });
+
 // Go into an existing room
 // otherwise, redirect to the room selection
 router.get('/rooms/:id', jwtValidation, function(req, res) {
@@ -60,4 +63,5 @@ router.get('/rooms/:id', jwtValidation, function(req, res) {
 		return;
 	});
 });
+
 module.exports = router;

@@ -1,6 +1,7 @@
 var jwt    = require('jsonwebtoken');
 var keys   = require('./securityKeys.js');
 var schema = require('./schema.js');
+
 var jwtValidation = function(req, res, next) {
 	var token = req.query.jwt_token;
   if ( token ) {

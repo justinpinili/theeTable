@@ -182,7 +182,7 @@ angular.module('theeTable.controllers')
 		};
 
 		$scope.submitMessage = function(message) {
-			$scope.msg = '';
+			$scope.newChatMessage.msg = '';
 			socket.emit('newChatMessage', { msg: message });
 		};
 
@@ -196,7 +196,7 @@ angular.module('theeTable.controllers')
 		};
 
 		$scope.submitPlaylistItem = function(url) {
-			$scope.url = '';
+			$scope.newPlaylistItem.url = '';
 			socket.emit('newPlaylistItem', { source: url });
 		};
 	});
