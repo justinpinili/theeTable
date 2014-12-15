@@ -16,7 +16,6 @@ router.post('/user/new', function(req, res) {
 																	playlist: [],
 																	favorites: []
 																});
-
 	var bcrypt = require('bcrypt');
 	bcrypt.genSalt(10, function(err, salt) {
 	    bcrypt.hash(req.body.password, salt, function(err, hash) {
@@ -45,7 +44,6 @@ router.post('/user/new', function(req, res) {
 				return;
 	    });
 	});
-
 });
 
 // Get user info
@@ -78,7 +76,6 @@ router.post('/user/login', function(req, res) {
 				res.send({ message: "No user found with the given username." });
 				return;
 			}
-
 			bcrypt.compare(req.body.password, user.password, function(err, result) {
 				if (!err) {
 					if (result) {

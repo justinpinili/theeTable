@@ -1,21 +1,17 @@
+var express = require('express');
 
-  var express = require('express');
-  var create = require('./schema.js');
-  var router = express.Router();
+var router = express.Router();
 
-  var rooms = require('./routes/rooms.js');
-  // var chat  = require('./routes/chat.js');
-  // var queue = require('./routes/queue.js');
-  var user  = require('./routes/user.js');
+var rooms = require('./routes/rooms.js');
+var user  = require('./routes/user.js');
 
-  // Front End
-  router.get('/', function(req, res) {
-    res.render('index');
-  });
+// Front End
+router.get('/', function(req, res) {
+  res.render('index');
+});
 
-  router.use(rooms);
-  // router.use(chat);
-  // router.use(queue);
-  router.use(user);
+// API Endpoints
+router.use(rooms);
+router.use(user);
 
 module.exports = router;

@@ -149,7 +149,7 @@ angular.module('theeTable.controllers')
 					if (!result.message) {
 						$scope.room = result;
 						$scope.$parent.getUserInfo(function(user) {
-							socket.emit('roomEntered', { room: $stateParams.roomName, user: user.username });
+							socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
 						});
 						if (result.currentDJ !== null) {
 							$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong);
@@ -182,7 +182,7 @@ angular.module('theeTable.controllers')
 		};
 
 		$scope.submitMessage = function(message) {
-			$scope.msg = '';
+			$scope.newChatMessage.msg = '';
 			socket.emit('newChatMessage', { msg: message });
 		};
 
@@ -196,7 +196,7 @@ angular.module('theeTable.controllers')
 		};
 
 		$scope.submitPlaylistItem = function(url) {
-			$scope.url = '';
+			$scope.newPlaylistItem.url = '';
 			socket.emit('newPlaylistItem', { source: url });
 		};
 	});
