@@ -1,26 +1,15 @@
 angular.module('theeTable.controllers')
-  .controller('mainController', function($scope, $http, localStorageService) {
-
+  .controller('mainController', function($scope, localStorageService, theeTableAuth) {
     $scope.getUserInfo = function(callback) {
-      var jwt = localStorageService.get("jwt");
-      $http.get('http://localhost:1337/user?jwt_token='+jwt)
-        .success(function(result) {
-          if (!result.message) {
-            $scope.currentUser = result;
-            // $scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.queue[0].source);
-            // setUpPlayer();
-            if (callback) {
-              callback(result);
-            }
-            return;
+      theeTableAuth.getUserInfo(function(result) {
+        if (!result.message) {
+          $scope.currentUser = result;
+          if (callback) {
+            callback(result);
           }
-          // alert(result.message);
-          // $location.path("/rooms");
           return;
-        })
-        .error(function(error) {
-          console.log(error);
-          return;
-        });
+        }
+        return;
+      });
     }
   });

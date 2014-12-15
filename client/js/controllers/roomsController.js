@@ -1,51 +1,25 @@
 angular.module('theeTable.controllers')
-	.controller('roomsController', function($scope, $http, $location, localStorageService) {
+	.controller('roomsController', function($scope, $http, $location, localStorageService, theeTableAuth, theeTableRooms) {
 
-		var jwt = localStorageService.get("jwt");
-		if (!jwt) {
-			alert("you must be logged in to access Thee Table.");
-			$location.path("/main");
-		} else {
-			$scope.rooms = [];
-
-			$http.get('http://localhost:1337/rooms?jwt_token='+jwt)
-				.success(function(result) {
-					// console.log(result);
-					$scope.rooms = result.rooms;
-					$scope.$parent.getUserInfo();
-					return;
-				})
-				.error(function(error) {
-					console.log(error);
-					return;
-				});
-		}
-
+		$scope.rooms = [];
+		if (theeTableAuth.verifyJwt()) {
+			theeTableRooms.getAllRooms(function(result) {
+				$scope.rooms = result.rooms;
+				$scope.$parent.getUserInfo();
+			});
+		};
 
 		$scope.navigate = function(roomName) {
 			$location.path('/rooms/'+roomName);
-		}
+		};
 
 		$scope.newRoom = {};
 
 		$scope.create = function(inputRoomName) {
-			$http.post('http://localhost:1337/rooms?jwt_token='+jwt, {name: inputRoomName})
-				.success(function(result) {
-					if (!result.message) {
-						console.log(result);
-						// transfer to rooms lobby
-						alert(result.name + " created! Taking you there now.")
-						$location.path("/rooms/"+result.name);
-						return;
-					}
-					$scope.message = result.message;
-					// console.log(result.message);
-					return;
-				})
-				.error(function(error) {
-					console.log(error);
-					return;
-				});
+			theeTableRooms.createRoom(inputRoomName, function(result) {
+				$scope.message = result.message;
+				$scope.newRoom.room = '';
+			});
 		};
 
 		$scope.createDisabled = function() {

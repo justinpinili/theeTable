@@ -1,7 +1,8 @@
 angular.module('theeTable', [
   'ui.router',
   'theeTable.controllers',
-  'LocalStorageModule'
+  'LocalStorageModule',
+  'theeTable.services'
 ])
   .config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
     localStorageServiceProvider
@@ -35,3 +36,4 @@ angular.module('theeTable', [
   });
 
 angular.module('theeTable.controllers', []);
+angular.module('theeTable.services', []);
