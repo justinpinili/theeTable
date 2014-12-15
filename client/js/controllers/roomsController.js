@@ -7,7 +7,7 @@ angular.module('theeTable.controllers')
 				$scope.rooms = result.rooms;
 				$scope.$parent.getUserInfo();
 			});
-		};
+		}
 
 		$scope.navigate = function(roomName) {
 			$location.path('/rooms/'+roomName);

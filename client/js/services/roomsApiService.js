@@ -34,10 +34,28 @@ angular.module('theeTable.services')
 					console.log(error);
 					return;
 				});
-		}
+		};
+
+		var getRoomInfo = function(roomName, callback) {
+			var jwt = localStorageService.get("jwt");	$http.get('http://localhost:1337/rooms/'+roomName+'?jwt_token='+jwt)
+				.success(function(result) {
+					if (!result.message) {
+						callback(result);
+						return;
+					}
+					alert(result.message);
+					$location.path("/rooms");
+					return;
+				})
+				.error(function(error) {
+					console.log(error);
+					return;
+				});
+		};
 
 		return {
 			getAllRooms: getAllRooms,
-			createRoom: createRoom
+			createRoom: createRoom,
+			getRoomInfo: getRoomInfo
 		};
 	});
