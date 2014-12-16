@@ -52,9 +52,9 @@ angular.module('theeTable.controllers')
 			}
 		});
 
-		/*************
-		* SoundCloud *
-		**************/
+		/********************
+		* SoundCloud Player *
+		*********************/
 
 		var widgetIframe;
 		var widget;
@@ -120,6 +120,7 @@ angular.module('theeTable.controllers')
 		/**************
 		* Room Set-up *
 		***************/
+
 		if (theeTableAuth.verifyJwt()) {
 			theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {
 				$scope.room = result;
@@ -134,6 +135,10 @@ angular.module('theeTable.controllers')
 				return;
 			});
 		}
+
+		/*******************
+		* Room Interaction *
+		********************/
 
 		$scope.addToQueue = function() {
 			socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });
