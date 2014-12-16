@@ -1,5 +1,5 @@
 angular.module('theeTable.services')
-	.factory('theeTableAuth', function($http, localStorageService, $location) {
+	.factory('theeTableAuth', ['$http', 'localStorageService', '$location', function($http, localStorageService, $location) {
 		var siteAccess = function(url, username, password, callback) {
 			$http.post(url, {username: username, password: password})
 				.success(function(result) {
@@ -40,4 +40,4 @@ angular.module('theeTable.services')
 			getUserInfo: getUserInfo,
 			verifyJwt: verifyJwt
 		};
-	});
+	}]);

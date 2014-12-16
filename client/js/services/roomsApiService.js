@@ -1,5 +1,5 @@
 angular.module('theeTable.services')
-	.factory('theeTableRooms', function($http, localStorageService, $location) {
+	.factory('theeTableRooms', ['$http', 'localStorageService', '$location', function($http, localStorageService, $location) {
 
 		var getAllRooms = function(callback) {
 			var jwt = localStorageService.get("jwt");
@@ -58,4 +58,4 @@ angular.module('theeTable.services')
 			createRoom: createRoom,
 			getRoomInfo: getRoomInfo
 		};
-	});
+	}]);

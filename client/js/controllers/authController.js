@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('authController', function($scope, $location, localStorageService, theeTableAuth) {
+	.controller('authController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', function($scope, $location, localStorageService, theeTableAuth) {
 
 		$scope.current = 'login';
 		$scope.url = 'http://localhost:1337/user/login';
@@ -44,4 +44,4 @@ angular.module('theeTable.controllers')
 			return false;
 		}
 
-	});
+	}]);

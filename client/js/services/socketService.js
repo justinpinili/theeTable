@@ -1,5 +1,5 @@
 angular.module('theeTable.services')
-	.factory('socket', function($rootScope) {
+	.factory('socket', ['$rootScope', function($rootScope) {
 		var socket = io.connect();
 	  return {
 	    on: function (eventName, callback) {
@@ -21,4 +21,4 @@ angular.module('theeTable.services')
 	      })
 	    }
 	  };
-	});
+	}]);

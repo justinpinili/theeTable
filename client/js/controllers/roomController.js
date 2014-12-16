@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('roomController', function($scope, $state, $http, $stateParams, $location, $sce, localStorageService, theeTableAuth, theeTableRooms, socket) {
+	.controller('roomController', ['$scope', '$state', '$http', '$stateParams', '$location', '$sce', 'localStorageService', 'theeTableAuth', 'theeTableRooms', 'socket', function($scope, $state, $http, $stateParams, $location, $sce, localStorageService, theeTableAuth, theeTableRooms, socket) {
 
 		/*************
 		 * Socket.IO *
@@ -166,4 +166,4 @@ angular.module('theeTable.controllers')
 			$scope.newPlaylistItem.url = '';
 			socket.emit('newPlaylistItem', { source: url });
 		};
-	});
+	}]);

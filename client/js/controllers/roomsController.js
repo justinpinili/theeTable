@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('roomsController', function($scope, $http, $location, localStorageService, theeTableAuth, theeTableRooms) {
+	.controller('roomsController', ['$scope', '$http', '$location', 'localStorageService', 'theeTableAuth', 'theeTableRooms', function($scope, $http, $location, localStorageService, theeTableAuth, theeTableRooms) {
 
 		$scope.rooms = [];
 		if (theeTableAuth.verifyJwt()) {
@@ -29,4 +29,4 @@ angular.module('theeTable.controllers')
 			return false;
 		};
 
-	});
+	}]);

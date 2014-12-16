@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-  .controller('mainController', function($scope, localStorageService, theeTableAuth) {
+  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', function($scope, localStorageService, theeTableAuth) {
     $scope.getUserInfo = function(callback) {
       theeTableAuth.getUserInfo(function(result) {
         if (!result.message) {
@@ -12,4 +12,4 @@ angular.module('theeTable.controllers')
         return;
       });
     }
-  });
+  }]);
