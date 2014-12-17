@@ -1,6 +1,5 @@
 angular.module('theeTable.services')
 	.factory('theeTableRooms', ['$http', 'localStorageService', '$location', function($http, localStorageService, $location) {
-
 		var getAllRooms = function(callback) {
 			var jwt = localStorageService.get("jwt");
 			$http.get('http://localhost:1337/rooms?jwt_token='+jwt)

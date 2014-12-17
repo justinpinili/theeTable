@@ -105,18 +105,6 @@ angular.module('theeTable.controllers')
 			}, 500);
 		};
 
-		var rotateQueue = function() {
-			var oldUser = $scope.room.queue.shift();
-			// console.log(oldUser)
-			var song;
-			$scope.room.queue.push( oldUser );
-			// console.log($scope.room.queue);
-			if ($scope.room.queue[0] === $scope.$parent.currentUser.username) {
-				song = $scope.$parent.currentUser.playlist[0].source;
-			}
-			socket.emit('newQueue', { queue: $scope.room.queue, song: song });
-		}
-
 		/**************
 		* Room Set-up *
 		***************/

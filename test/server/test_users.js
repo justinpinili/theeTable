@@ -15,7 +15,7 @@ describe('/user API Endpoint', function() {
 
 	before(function(done) {
 		schema.User.where({ username: "justin" }).findOne(function (err, user) {
-			if (!err) {
+			if (!err && user !== null) {
 				user.remove();
 				schema.User.where({ username: "jason" }).findOne(function (err, user) {
 					if (!err) {
@@ -29,6 +29,7 @@ describe('/user API Endpoint', function() {
 				return;
 			}
 			console.log(err);
+			done();
 			return;
 		});
 	});
