@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('roomController', function($scope, $state, $http, $stateParams, $location, $sce, localStorageService) {
+	.controller('roomController', ['$scope', '$state', '$http', '$stateParams', '$location', '$sce', 'localStorageService', 'theeTableAuth', 'theeTableRooms', 'socket', function($scope, $state, $http, $stateParams, $location, $sce, localStorageService, theeTableAuth, theeTableRooms, socket) {
 
 		/*************
 		 * Socket.IO *
@@ -7,73 +7,54 @@ angular.module('theeTable.controllers')
 
 		$scope.room = {};
 
-		var socket = io.connect();
-
 		socket.on('usersInRoom', function(data) {
-			$scope.$apply(function() {
-				$scope.room.users = data.users;
-			});
+			$scope.room.users = data.users;
 		});
 
 		socket.on('updatedChat', function(data) {
-			$scope.$apply(function() {
-				$scope.room.chat = data.chat;
-			})
+			$scope.room.chat = data.chat;
 		});
 
 		socket.on('updatedPlaylist', function(data) {
-			// console.log(data);
-			$scope.$apply(function() {
-				$scope.$parent.currentUser.playlist = data.playlist;
-				socket.emit('newQueue', { queue: $scope.room.queue });
-			})
+			$scope.$parent.currentUser.playlist = data.playlist;
+			socket.emit('newQueue', { queue: $scope.room.queue });
 		});
 
 		socket.on('updatedQueue', function(data) {
-			$scope.$apply(function() {
-				$scope.room.queue = data.queue;
-				if (data.currentDJ) {
-					$scope.room.currentDJ = data.currentDJ;
-					$scope.room.currentSong = data.currentSong;
-					$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + data.currentSong);
-					setUpPlayer();
-				}
-			});
+			$scope.room.queue = data.queue;
+			if (data.currentDJ) {
+				$scope.room.currentDJ = data.currentDJ;
+				$scope.room.currentSong = data.currentSong;
+				$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + data.currentSong);
+				setUpPlayer();
+			}
 		});
 
 		socket.on('updatedCurrentTime', function(data) {
-			// console.log(data);
-			$scope.$apply(function() {
-				$scope.room.currentTime = data.time;
-			})
+			$scope.room.currentTime = data.time;
 		});
 
 		socket.on('rotatedQueue', function(data) {
-			// console.log(data);
-			$scope.$apply(function() {
-				$scope.room.queue = data.queue;
-				$scope.room.currentDJ = data.currentDJ;
-				$scope.room.currentSong = data.currentSong;
-				$scope.room.currentTime = data.currentTime;
-				widget.load($scope.room.currentSong, { show_artwork: true });
-				updatePlayer();
-			})
+			$scope.room.queue = data.queue;
+			$scope.room.currentDJ = data.currentDJ;
+			$scope.room.currentSong = data.currentSong;
+			$scope.room.currentTime = data.currentTime;
+			widget.load($scope.room.currentSong, { show_artwork: true });
+			updatePlayer();
 		});
 
 		socket.on('roomUpdate', function(data) {
-			$scope.$apply(function() {
-				$scope.room = data;
-				if (data.room.currentDJ === null) {
-					$scope.currentSong = null;
-					widget.load($scope.room.currentSong, { show_artwork: true });
-					updatePlayer();
-				}
-			});
+			$scope.room = data;
+			if (data.room.currentDJ === null) {
+				$scope.currentSong = null;
+				widget.load($scope.room.currentSong, { show_artwork: true });
+				updatePlayer();
+			}
 		});
 
-		/*************
-		* SoundCloud *
-		**************/
+		/********************
+		* SoundCloud Player *
+		*********************/
 
 		var widgetIframe;
 		var widget;
@@ -124,49 +105,28 @@ angular.module('theeTable.controllers')
 			}, 500);
 		};
 
-		var rotateQueue = function() {
-			var oldUser = $scope.room.queue.shift();
-			// console.log(oldUser)
-			var song;
-			$scope.room.queue.push( oldUser );
-			// console.log($scope.room.queue);
-			if ($scope.room.queue[0] === $scope.$parent.currentUser.username) {
-				song = $scope.$parent.currentUser.playlist[0].source;
-			}
-			socket.emit('newQueue', { queue: $scope.room.queue, song: song });
-		}
-
 		/**************
 		* Room Set-up *
 		***************/
-		var jwt = localStorageService.get("jwt");
-		if (!jwt) {
-			alert("you must be logged in to access Thee Table.");
-			$location.path("/main");
-		} else {
-			$http.get('http://localhost:1337/rooms/'+$stateParams.roomName+'?jwt_token='+jwt)
-				.success(function(result) {
-					if (!result.message) {
-						$scope.room = result;
-						$scope.$parent.getUserInfo(function(user) {
-							socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
-						});
-						if (result.currentDJ !== null) {
-							$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong);
-							// currentTime = result.currentTime;
-							setUpPlayer();
-						}
-						return;
-					}
-					alert(result.message);
-					$location.path("/rooms");
-					return;
-				})
-				.error(function(error) {
-					console.log(error);
-					return;
+
+		if (theeTableAuth.verifyJwt()) {
+			theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {
+				$scope.room = result;
+				$scope.$parent.getUserInfo(function(user) {
+					socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
 				});
+				if (result.currentDJ !== null) {
+					$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong);
+					// currentTime = result.currentTime;
+					setUpPlayer();
+				}
+				return;
+			});
 		}
+
+		/*******************
+		* Room Interaction *
+		********************/
 
 		$scope.addToQueue = function() {
 			socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });
@@ -199,4 +159,4 @@ angular.module('theeTable.controllers')
 			$scope.newPlaylistItem.url = '';
 			socket.emit('newPlaylistItem', { source: url });
 		};
-	});
+	}]);

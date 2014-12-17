@@ -27,7 +27,7 @@
 				</div>
 				<div class="queue">
 					<div ng-repeat="user in room.queue">
-						{{ user.name }} <!-- Votes:  {{ song.votes }} -->
+						{{ user }} <!-- Votes:  {{ song.votes }} -->
 					</div>
 				</div>
 				<div class="queue">
@@ -46,8 +46,6 @@
 							</div>
 						</div>
 					</form>
-					'': {{ url === '' }}
-					undefined: {{ url === undefined }}
 				</div>
 			</div>
 			<div class="col-md-6">

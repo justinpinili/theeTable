@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('authController', function($scope, $location, $http,localStorageService) {
+	.controller('authController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', function($scope, $location, localStorageService, theeTableAuth) {
 
 		$scope.current = 'login';
 		$scope.url = 'http://localhost:1337/user/login';
@@ -16,24 +16,20 @@ angular.module('theeTable.controllers')
 		}
 
 		$scope.auth = function(inputUsername, inputPassword) {
-			$http.post($scope.url, {username: inputUsername, password: inputPassword})
-				.success(function(result) {
-					if (!result.message) {
-						// console.log(result);
-						// transfer to rooms lobby
-						localStorageService.set("jwt", result.jwt);
-						$scope.$parent.getUserInfo();
-						$location.path("/rooms");
-						return;
-					}
-					$scope.message = result.message;
-					// console.log(result.message);
+			theeTableAuth.siteAccess($scope.url, inputUsername, inputPassword, function(result) {
+				if (!result.message) {
+					// console.log(result);
+					// transfer to rooms lobby
+					localStorageService.set("jwt", result.jwt);
+					$scope.$parent.getUserInfo();
+					$location.path("/rooms");
 					return;
-				})
-				.error(function(error) {
-					console.log(error);
-					return;
-				});
+				}
+				$scope.message = result.message;
+				$scope.login.password = '';
+				// console.log(result.message);
+				return;
+			});
 		};
 
 		$scope.login = {};
@@ -48,4 +44,4 @@ angular.module('theeTable.controllers')
 			return false;
 		}
 
-	});
+	}]);
