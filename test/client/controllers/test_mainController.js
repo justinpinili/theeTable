@@ -35,7 +35,7 @@ describe('Unit: mainController', function() {
 					$scope.getUserInfo();
 					expect(theeTableAuth.getUserInfo).toHaveBeenCalled();
 
-				})
+				});
 			});
 		});
 	});

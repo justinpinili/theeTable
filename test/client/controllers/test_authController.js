@@ -47,7 +47,7 @@ describe('Unit: authController', function() {
 					$scope.switchForm();
 					expect($scope.current).toBe('login');
 					expect($scope.url).toBe('http://localhost:1337/user/login');
-				})
+				});
 			});
 
 			describe("$scope.auth function", function() {
@@ -55,7 +55,7 @@ describe('Unit: authController', function() {
 					spyOn(theeTableAuth, 'siteAccess');
 					$scope.auth('justin', 'test');
 					expect(theeTableAuth.siteAccess).toHaveBeenCalled();
-				})
+				});
 			});
 
 			describe("$scope.authDisabled function", function() {
@@ -66,7 +66,7 @@ describe('Unit: authController', function() {
 					$scope.login.password = 'test';
 					result = $scope.authDisabled();
 					expect(result).toBe(false);
-				})
+				});
 			});
 		});
 	});
