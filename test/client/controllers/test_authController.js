@@ -23,7 +23,7 @@ describe('Unit: authController', function() {
 			expect($scope).toBeDefined();
 			expect($location).toBeDefined();
 			expect(localStorageService).toBeDefined();
-			expect(authController).toBeDefined();
+			expect(theeTableAuth).toBeDefined();
 		});
 
 		describe("authController's scope", function() {
@@ -37,7 +37,7 @@ describe('Unit: authController', function() {
 				expect($scope.login).toBeDefined();
 				expect($scope.current).toBeDefined();
 				expect($scope.url).toBeDefined();
-			})
+			});
 
 			describe("$scope.switchForm function", function() {
 				it('should change between signup and login information', function() {
