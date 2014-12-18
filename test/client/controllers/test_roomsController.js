@@ -28,7 +28,7 @@ describe('Unit: roomsController', function() {
 			expect(theeTableRooms).toBeDefined();
 		});
 
-		describe("mainController's scope", function() {
+		describe("roomsController's scope", function() {
 			it('should have all scope functions', function() {
 				expect(angular.isFunction($scope.navigate)).toBe(true);
 				expect(angular.isFunction($scope.create)).toBe(true);
