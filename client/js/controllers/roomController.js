@@ -26,7 +26,6 @@ angular.module('theeTable.controllers')
 				$scope.room.currentDJ = data.currentDJ;
 				$scope.room.currentSong = data.currentSong;
 				$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + data.currentSong);
-				setUpPlayer();
 			}
 		});
 
@@ -39,75 +38,24 @@ angular.module('theeTable.controllers')
 			$scope.room.currentDJ = data.currentDJ;
 			$scope.room.currentSong = data.currentSong;
 			$scope.room.currentTime = data.currentTime;
-			widget.load($scope.room.currentSong, { show_artwork: true });
-			updatePlayer();
+
+			if (data.currentDJ === $scope.$parent.currentUser.username) {
+				$scope.socket = socket;
+			}
 		});
 
 		socket.on('roomUpdate', function(data) {
 			$scope.room = data;
 			if (data.room.currentDJ === null) {
 				$scope.currentSong = null;
-				widget.load($scope.room.currentSong, { show_artwork: true });
-				updatePlayer();
 			}
 		});
-
-		/********************
-		* SoundCloud Player *
-		*********************/
-
-		var widgetIframe;
-		var widget;
-		var currentTime;
-
-		var updatePlayer = function() {
-			// Bind the events with the SoundCloud widget
-			widget.bind(SC.Widget.Events.READY, function() {
-				widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(data) {
-					// should only emit from currentDJ
-					if ($scope.room.currentDJ === $scope.$parent.currentUser.username) {
-						socket.emit('currentTime', { time: data.currentPosition });
-					}
-				});
-				widget.bind(SC.Widget.Events.PLAY, function(data) {
-					if ($scope.room.currentTime !== null) {
-						widget.seekTo($scope.room.currentTime);
-					}
-					widget.getCurrentSound(function(currentSound) {
-						$scope.$apply(function(){
-							$scope.title = currentSound.title;
-						});
-					});
-
-				});
-				widget.setVolume(100);
-				widget.bind(SC.Widget.Events.FINISH, function() {
-					// unbind the widget from the listeners that we don't need anymore.
-					widget.unbind(SC.Widget.Events.READY);
-					widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
-					widget.unbind(SC.Widget.Events.PLAY);
-					widget.unbind(SC.Widget.Events.FINISH);
-
-					if ($scope.room.currentDJ === $scope.$parent.currentUser.username) {
-						socket.emit('updatePlaylist', { username: $scope.$parent.currentUser.username });
-					}
-				});
-				widget.play();
-			});
-		};
-
-		var setUpPlayer = function(currentTime) {
-			// the DOM element needs to exist before it can be identified
-			setTimeout(function(){
-				widgetIframe = document.getElementById('sc-widget');
-				widget       = SC.Widget(widgetIframe);
-				updatePlayer();
-			}, 500);
-		};
 
 		/**************
 		* Room Set-up *
 		***************/
+
+		$scope.socket = socket;
 
 		if (theeTableAuth.verifyJwt()) {
 			theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {
@@ -117,8 +65,6 @@ angular.module('theeTable.controllers')
 				});
 				if (result.currentDJ !== null) {
 					$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong);
-					// currentTime = result.currentTime;
-					setUpPlayer();
 				}
 				return;
 			});

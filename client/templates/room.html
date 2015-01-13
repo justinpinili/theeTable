@@ -14,7 +14,6 @@
 		</div>
 	</div>
 </div>
-
 <div ng-if="room">
 	<div class="container">
 		<div class="row">
@@ -22,7 +21,7 @@
 				<div class="playing">
 					<h3>{{ title }}</h3>
 					<div class="soundcloud">
-						<iframe id="sc-widget" ng-src="{{ currentSong }}" width="100%" height="98%" scrolling="no" frameborder="no"></iframe>
+						<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title"></sound-cloud-player>
 					</div>
 				</div>
 				<div class="queue">
