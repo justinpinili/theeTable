@@ -2,7 +2,7 @@ angular.module('theeTable.directives')
 	.directive('soundCloudPlayer', function() {
 		return {
 			restrict: 'E',
-			template: '<div>Herro<iframe id="sc-widget" src="{{ thisSong }}" width="100%" height="98%" scrolling="no" frameborder="no"></iframe></div>',
+			template: '<iframe id="sc-widget" src="{{ thisSong }}" width="100%" height="98%" scrolling="no" frameborder="no"></iframe>',
 			scope: {
 				socket: '=',
 				currentSong: '=',
