@@ -21,10 +21,6 @@ module.exports = function(io) {
 			query_room.connectToRoom(roomName, userName, socket, io);
 		});
 
-		// socket.on('hello', function(data) {
-		// 	console.log(data.hello);
-		// })
-
 		// Once someone navigates out of a current page.
 		// Mainly used for notifying current users in the room that a particular user
 		// has left the room.
