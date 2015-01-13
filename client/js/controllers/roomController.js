@@ -22,11 +22,14 @@ angular.module('theeTable.controllers')
 
 		socket.on('updatedQueue', function(data) {
 			$scope.room.queue = data.queue;
+			console.log("queue updated");
 			if (data.currentDJ) {
 				$scope.room.currentDJ = data.currentDJ;
 				$scope.room.currentSong = data.currentSong;
+				console.log("dj is up!");
 				$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + data.currentSong);
-				setUpPlayer();
+				console.log("current song set!");
+				// setUpPlayer();
 			}
 		});
 
@@ -96,7 +99,7 @@ angular.module('theeTable.controllers')
 			});
 		};
 
-		var setUpPlayer = function(currentTime) {
+		var setUpPlayer = function() {
 			// the DOM element needs to exist before it can be identified
 			setTimeout(function(){
 				widgetIframe = document.getElementById('sc-widget');
@@ -109,6 +112,8 @@ angular.module('theeTable.controllers')
 		* Room Set-up *
 		***************/
 
+		$scope.socket = socket;
+
 		if (theeTableAuth.verifyJwt()) {
 			theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {
 				$scope.room = result;
@@ -118,7 +123,7 @@ angular.module('theeTable.controllers')
 				if (result.currentDJ !== null) {
 					$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong);
 					// currentTime = result.currentTime;
-					setUpPlayer();
+					// setUpPlayer();
 				}
 				return;
 			});
@@ -129,7 +134,9 @@ angular.module('theeTable.controllers')
 		********************/
 
 		$scope.addToQueue = function() {
+			console.log("adding to queue");
 			socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });
+			console.log("socket emitted");
 		};
 
 		$scope.newChatMessage = {};
