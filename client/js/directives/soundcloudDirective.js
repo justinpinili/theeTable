@@ -11,14 +11,10 @@ angular.module('theeTable.directives')
 				title: '='
 			},
 			controller: ['$scope', '$sce', function($scope, $sce) {
-				// console.log("controller setup");
-				// console.log($scope);
 
 				var widgetIframe;
 				var widget;
 				var currentTime;
-
-				// console.log($scope);
 
 				$scope.thisSong = '';
 
@@ -26,10 +22,11 @@ angular.module('theeTable.directives')
 					return $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + value);
 				}
 
-				$scope.updatePlayer = function() {
+				$scope.updatePlayer = function(newSong) {
 					// Bind the events with the SoundCloud widget
-					console.log("start updatePlayer");
-					console.log(SC);
+					if (newSong) {
+						widget.load(newSong, { show_artwork: true });
+					}
 
 					widget.bind(SC.Widget.Events.READY, function() {
 						widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(data) {
@@ -62,7 +59,6 @@ angular.module('theeTable.directives')
 							}
 						});
 						widget.play();
-						console.log("end of updatePlayer");
 					});
 				};
 
@@ -70,28 +66,29 @@ angular.module('theeTable.directives')
 					// the DOM element needs to exist before it can be identified
 					setTimeout(function(){
 						widgetIframe = document.getElementById('sc-widget');
-						// console.log(SC.Widget);
 						widget       = SC.Widget(widgetIframe);
-						console.log(widget);
-						console.log("done setting up");
 						$scope.updatePlayer();
 					}, 500);
 				};
 
 			}],
 			link: function(scope, element, attrs) {
-				// scope.setUpPlayer();
-				// console.log(attrs);
+				var first = true;
+
 				scope.$watch('currentSong', function(newValue, oldValue) {
 					if (newValue !== undefined) {
 						if (newValue !== null) {
-							scope.thisSong = scope.sce(newValue);
-							var source = scope.thisSong;
-							scope.setUpPlayer();
+							if (first) {
+								scope.thisSong = scope.sce(newValue);
+								var source = scope.thisSong;
+								scope.setUpPlayer();
+								first = false;
+							} else {
+								scope.updatePlayer(newValue);
+							}
 						}
 					}
 				});
-				// scope.socket.emit('hello', { hello: 'hello' });
 
 			}
 		}
