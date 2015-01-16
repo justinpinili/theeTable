@@ -62,7 +62,7 @@ describe('socket.IO', function() {
     var emptyRoom = function() {
       schema.Room.where({ name: "lobby" }).findOne(function (err, room) {
         if (!err && room !== null) {
-          // room.chat.pop();
+          room.chat = [];
           room.users = [];
           room.queue = [];
           room.currentDJ = null;
@@ -72,6 +72,7 @@ describe('socket.IO', function() {
             // console.log(err);
             if (!err) {
               mongoose.disconnect(function() {
+                server_io.close();
                 done();
               });
             }
