@@ -1,18 +1,7 @@
 var should          = require('should');
-var request         = require('supertest');
-
-var express         = require('express');
-var bodyParser      = require('body-parser');
 var mongoose        = require('mongoose');
-var routes          = require('./../../server/routes.js');
 var schema          = require('./../../server/schema.js');
-var app = express();
 
-app.use(bodyParser.json());
-app.use('/', routes);
-
-
-var theeTableServer = require('http').Server(app);
 var server_io = require('socket.io').listen(1338);
 var socketIO = require('./../../server/routes/socketIO.js')(server_io);
 
