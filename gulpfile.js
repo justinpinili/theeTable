@@ -41,6 +41,6 @@ gulp.task('develop', ['lint', 'karma-test', 'mocha-test'], function () {
     })
 });
 
-gulp.task('default', function() {
+gulp.task('default', ['develop'], function() {
   // place code for your default task here
 });

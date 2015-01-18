@@ -37,6 +37,7 @@ describe('/rooms API Endpoint', function() {
 					return;
 				}
 				console.log(err);
+				done();
 				return;
 			});
 		});
