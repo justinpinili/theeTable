@@ -82,7 +82,6 @@ router.post('/user/login', function(req, res) {
 						// console.log("password matched! logged in!");
 						var jwt_token = jwt.sign({ id: user.username }, keys.jwtSecretKey);
 						res.send({jwt: jwt_token});
-						// res.send(user);
 						return;
 					} else {
 						res.send({ message: "Invalid login credentials. Please try again." });
