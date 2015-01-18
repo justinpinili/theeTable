@@ -48,34 +48,8 @@ describe('socket.IO', function() {
 	});
 
   after(function(done) {
-    var emptyRoom = function() {
-      schema.Room.where({ name: "lobby" }).findOne(function (err, room) {
-        if (!err && room !== null) {
-          room.chat = [];
-          room.users = [];
-          room.queue = [];
-          room.currentDJ = null;
-          room.currentSong = null;
-          room.currentTime = null;
-          room.save(function(err, room) {
-            // console.log(err);
-            if (!err) {
-              mongoose.disconnect(function() {
-                server_io.close();
-                done();
-              });
-            }
-            emptyRoom();
-            return;
-          });
-
-          return;
-        }
-        console.log(err);
-        return;
-      });
-    };
-    emptyRoom();
+    server_io.close();
+    done();
   });
 
 	describe('users entering & leaving rooms', function() {
@@ -95,13 +69,18 @@ describe('socket.IO', function() {
 		      client2.emit('roomEntered', user2);
 		    });
 
+        client2.on('disconnect', function() {
+          client1.on('disconnect', function() {
+            done();
+          });
+        });
+
 		    client2.on('usersInRoom', function(room){
 		      room.users.length.should.equal(2);
           room.users[0].should.equal('justin');
           room.users[1].should.equal('jason');
 		      client2.disconnect();
           client1.disconnect();
-          done();
 		    });
 
 		  });
@@ -124,11 +103,16 @@ describe('socket.IO', function() {
           client2.disconnect();
         });
 
+        client2.on('disconnect', function() {
+          client1.on('disconnect', function() {
+            done();
+          });
+        });
+
         client1.on('usersInRoom', function(room){
           room.users.length.should.equal(1);
           room.users[0].should.equal('justin');
           client1.disconnect();
-          done();
         });
 
       });
@@ -155,13 +139,18 @@ describe('socket.IO', function() {
           client2.emit('newChatMessage', message);
         });
 
+        client2.on('disconnect', function() {
+          client1.on('disconnect', function() {
+            done();
+          });
+        });
+
         client1.on('updatedChat', function(data) {
           // console.log(data);
           data.chat.length.should.equal(1);
           data.chat[0].user.should.equal('jason');
           client2.disconnect();
           client1.disconnect();
-          done();
         });
 
       });
@@ -188,6 +177,12 @@ describe('socket.IO', function() {
         }, 200);
       });
 
+      client2.on('disconnect', function() {
+        client1.on('disconnect', function() {
+          done();
+        });
+      });
+
       client1.on('connect', function(data){
         // console.log("connected");
         client1.emit('roomEntered', user1);
@@ -205,8 +200,8 @@ describe('socket.IO', function() {
           if (data.playlist[ data.playlist.length-1 ].source === 'https://soundcloud.com/fatcat-demo/teso-wo-to-step') {
             // console.log(data);
             data.playlist.length.should.equal(3);
+            client2.disconnect();
             client1.disconnect();
-            done();
           }
         });
       });
@@ -230,6 +225,12 @@ describe('socket.IO', function() {
           client2.emit('addToQueue', dj2);
         });
 
+        client2.on('disconnect', function() {
+          client1.on('disconnect', function() {
+            done();
+          });
+        });
+
         setTimeout(function() {
           client1.emit('addToQueue', dj1);
         }, 100);
@@ -240,9 +241,8 @@ describe('socket.IO', function() {
             // console.log(data);
             data.queue.length.should.equal(2);
             data.queue[0].should.equal('jason');
-            client1.disconnect();
             client2.disconnect();
-            done();
+            client1.disconnect();
           }
         });
       });
@@ -268,6 +268,12 @@ describe('socket.IO', function() {
           });
         });
 
+        client2.on('disconnect', function() {
+          client1.on('disconnect', function() {
+            done();
+          });
+        });
+
         setTimeout(function() {
           client1.emit('addToQueue', dj1);
         }, 100);
@@ -279,9 +285,8 @@ describe('socket.IO', function() {
           data.currentDJ.should.equal('justin');
           data.currentSong.should.equal('https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record');
           should.equal(data.currentTime, null);
-          client1.disconnect();
           client2.disconnect();
-          done();
+          client1.disconnect();
         });
       });
     });
@@ -293,25 +298,6 @@ describe('socket.IO', function() {
         // console.log("connected");
         client1.emit('roomEntered', user1);
 
-        var client2 = client_io.connect(socketURL, options);
-
-        client2.on('connect', function(data) {
-          client2.emit('roomEntered', user2);
-          client2.emit('addToQueue', dj2);
-          client2.on('updatedQueue', function(data) {
-            if (data.queue[ data.queue.length-1 ] === 'justin') {
-              // let's assume the currentDJ is done with the song
-              client2.emit('newQueue', rotation1);
-            }
-          });
-          client2.on('updatedPlaylist', function(data) {
-            data.playlist[0].source.should.equal("https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix");
-            client1.disconnect();
-            client2.disconnect();
-            done();
-          });
-        });
-
         setTimeout(function() {
           client1.emit('addToQueue', dj1);
         }, 100);
@@ -319,6 +305,33 @@ describe('socket.IO', function() {
         client1.on('rotatedQueue', function(data) {
           client2.emit('updatePlaylist', { username: 'jason' });
         });
+
+        var client2 = client_io.connect(socketURL, options);
+
+        client2.on('connect', function(data) {
+          client2.emit('roomEntered', user2);
+          client2.emit('addToQueue', dj2);
+        });
+
+        client2.on('disconnect', function() {
+          client1.on('disconnect', function() {
+            done();
+          });
+        });
+
+        client2.on('updatedQueue', function(data) {
+          if (data.queue[ data.queue.length-1 ] === 'justin') {
+            // let's assume the currentDJ is done with the song
+            client2.emit('newQueue', rotation1);
+          }
+        });
+
+        client2.on('updatedPlaylist', function(data) {
+          data.playlist[0].source.should.equal("https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix");
+          client2.disconnect();
+          client1.disconnect();
+        });
+
       });
     });
 
@@ -335,9 +348,13 @@ describe('socket.IO', function() {
           }
         });
 
+        client1.on('disconnect', function() {
+          done();
+        });
+
         client1.on('updatedCurrentTime', function(data) {
           data.time.should.equal(200);
-          done();
+          client1.disconnect();
         });
       });
     });

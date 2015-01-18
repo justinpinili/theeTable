@@ -34,6 +34,37 @@ describe('/user API Endpoint', function() {
 		});
 	});
 
+	after(function(done) {
+		var emptyRoom = function() {
+			schema.Room.where({ name: "lobby" }).findOne(function (err, room) {
+				if (!err && room !== null) {
+					room.chat = [];
+					room.users = [];
+					room.queue = [];
+					room.currentDJ = null;
+					room.currentSong = null;
+					room.currentTime = null;
+					room.save(function(err, room) {
+						// console.log(err);
+						if (!err) {
+							mongoose.disconnect(function() {
+								// server_io.close(); 
+								done();
+							});
+						}
+						emptyRoom();
+						return;
+					});
+
+					return;
+				}
+				console.log(err);
+				return;
+			});
+		};
+		emptyRoom();
+	});
+
 	describe('POST Request', function() {
 
 		var body;
