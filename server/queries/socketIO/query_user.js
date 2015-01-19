@@ -1,4 +1,4 @@
-var schema = require('./../schema.js');
+var schema = require('./../../schema.js');
 
 // Rotate the playlist so that last played song is at the bottom.
 module.exports.updatePlaylist = function(roomName, userName, socket) {

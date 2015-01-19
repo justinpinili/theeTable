@@ -1,4 +1,4 @@
-var schema = require('./../schema.js');
+var schema = require('./../../schema.js');
 
 // Update room with new user that joined.
 module.exports.connectToRoom = function(roomName, userName, socket, io) {

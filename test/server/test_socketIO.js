@@ -58,7 +58,7 @@ describe('socket.IO', function() {
 			var client1 = client_io.connect(socketURL, options);
 
 		  client1.on('connect', function(data){
-        // console.log("connected");
+
 		    client1.emit('roomEntered', user1);
 
 		    /* Since first client is connected, we connect
@@ -91,7 +91,7 @@ describe('socket.IO', function() {
       var client1 = client_io.connect(socketURL, options);
 
       client1.on('connect', function(data){
-        // console.log("connected");
+
         client1.emit('roomEntered', user1);
 
         /* Since first client is connected, we connect
@@ -127,7 +127,7 @@ describe('socket.IO', function() {
       var client1 = client_io.connect(socketURL, options);
 
       client1.on('connect', function(data){
-        // console.log("connected");
+
         client1.emit('roomEntered', user1);
 
         /* Since first client is connected, we connect
@@ -146,7 +146,6 @@ describe('socket.IO', function() {
         });
 
         client1.on('updatedChat', function(data) {
-          // console.log(data);
           data.chat.length.should.equal(1);
           data.chat[0].user.should.equal('jason');
           client2.disconnect();
@@ -184,7 +183,6 @@ describe('socket.IO', function() {
       });
 
       client1.on('connect', function(data){
-        // console.log("connected");
         client1.emit('roomEntered', user1);
 
         client1.emit('newPlaylistItem', song4);
@@ -198,7 +196,6 @@ describe('socket.IO', function() {
 
         client1.on('updatedPlaylist', function(data) {
           if (data.playlist[ data.playlist.length-1 ].source === 'https://soundcloud.com/fatcat-demo/teso-wo-to-step') {
-            // console.log(data);
             data.playlist.length.should.equal(3);
             client2.disconnect();
             client1.disconnect();
@@ -215,7 +212,7 @@ describe('socket.IO', function() {
       var client1 = client_io.connect(socketURL, options);
 
       client1.on('connect', function(data){
-        // console.log("connected");
+
         client1.emit('roomEntered', user1);
 
         var client2 = client_io.connect(socketURL, options);
@@ -238,7 +235,6 @@ describe('socket.IO', function() {
 
         client1.on('updatedQueue', function(data) {
           if (data.queue[ data.queue.length-1 ] === 'justin') {
-            // console.log(data);
             data.queue.length.should.equal(2);
             data.queue[0].should.equal('jason');
             client2.disconnect();
@@ -252,7 +248,7 @@ describe('socket.IO', function() {
       var client1 = client_io.connect(socketURL, options);
 
       client1.on('connect', function(data){
-        // console.log("connected");
+
         client1.emit('roomEntered', user1);
 
         var client2 = client_io.connect(socketURL, options);
@@ -295,7 +291,7 @@ describe('socket.IO', function() {
       var client1 = client_io.connect(socketURL, options);
 
       client1.on('connect', function(data){
-        // console.log("connected");
+
         client1.emit('roomEntered', user1);
 
         setTimeout(function() {
