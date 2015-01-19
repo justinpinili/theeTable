@@ -1,5 +1,4 @@
 var express       = require('express');
-var schema        = require('./../schema.js');
 var router        = express.Router();
 var jwtValidation = require('./../jwtValidation.js');
 var api_room      = require('./../queries/api/query_room.js');
