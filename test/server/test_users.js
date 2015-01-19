@@ -45,13 +45,12 @@ describe('/user API Endpoint', function() {
 					room.currentSong = null;
 					room.currentTime = null;
 					room.save(function(err, room) {
-						// console.log(err);
 						if (!err) {
 							mongoose.disconnect(function() {
-								// server_io.close(); 
 								done();
 							});
 						}
+						console.log(err);
 						emptyRoom();
 						return;
 					});
@@ -79,7 +78,6 @@ describe('/user API Endpoint', function() {
 										password: 'test'
 									})
 						.expect(function(res) {
-							// console.log(res.body);
 							body = res.body;
 						})
 						.end(function(err, res) {
@@ -96,7 +94,6 @@ describe('/user API Endpoint', function() {
 										password: 'test'
 									})
 						.expect(function(res) {
-							// console.log(res.body);
 							body = res.body;
 						})
 						.end(function(err, res) {
@@ -169,7 +166,6 @@ describe('/user API Endpoint', function() {
 				request(theeTableServer)
 						.get('/user?jwt_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Imp1c3RpbiIsImlhdCI6MTQxODI0OTc3N30.2SZoGIcsPaQjnulJHIjKtVhpiea6sDB-UiZUxr-XRGs')
 						.expect(function(res) {
-							// console.log(res.body);
 							body = res.body;
 						})
 						.end(function(err, res) {
@@ -185,7 +181,6 @@ describe('/user API Endpoint', function() {
 				request(theeTableServer)
 						.get('/user')
 						.expect(function(res) {
-							// console.log(res.body);
 							body = res.body;
 						})
 						.end(function(err, res) {
