@@ -2,65 +2,39 @@ var express       = require('express');
 var schema        = require('./../schema.js');
 var router        = express.Router();
 var jwtValidation = require('./../jwtValidation.js');
+var api_room      = require('./../queries/api/query_room.js');
 
 // Go to room selection
 router.get('/rooms', jwtValidation, function(req, res) {
-	schema.Room.find({}, function(err, rooms) {
-		if (!err) {
-			// console.log(rooms);
-			res.send({rooms: rooms});
+	api_room.allRooms(function(results) {
+		if (results.error) {
+			res.send(results.error);
 			return;
 		}
-		console.log(err);
-		res.send(err);
-		return;
+		res.send(results);
 	});
 });
 
 // Create a new room
 router.post('/rooms', jwtValidation, function(req, res) {
-	var newRoom = new schema.Room({
-																	name: req.body.name,
-																	queue: [],
-																	chat: [],
-																	users: [],
-																	currentDJ: null,
-																	currentSong: null,
-																	currentTime: null
-																});
-	newRoom.save(function (err) {
-		if (!err) {
-			// console.log('new room saved!');
-			res.send(newRoom);
+	api_room.createRoom(req.body.name, function(results) {
+		if (results.error) {
+			res.send(results.error);
 			return;
 		}
-		if (err.code === 11000) {
-			res.send({ message: "Room already exists. Please choose a different name." });
-			return;
-		}
-		console.log(err);
-		res.send(err);
-		return;
+		res.send(results);
 	});
 });
 
 // Go into an existing room
 // otherwise, redirect to the room selection
 router.get('/rooms/:id', jwtValidation, function(req, res) {
-	var searchRoom  = schema.Room.where({ name: req.params.id });
-	searchRoom.findOne(function (err, room) {
-		if (!err) {
-			if (room === null) {
-				res.send({ message: "Room does not exist" });
-				return;
-			} else {
-				res.send(room);
-				return;
-			}
+	api_room.findRoom(req.params.id, function(results) {
+		if (results.error) {
+			res.send(results.error);
+			return;
 		}
-		console.log(err);
-		res.send(err);
-		return;
+		res.send(results);
 	});
 });
 
