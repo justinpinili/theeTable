@@ -1,5 +1,5 @@
-var query_room = require('./../queries/query_room.js');
-var query_user = require('./../queries/query_user.js');
+var query_room = require('./../queries/socketIO/query_room.js');
+var query_user = require('./../queries/socketIO/query_user.js');
 
 module.exports = function(io) {
 

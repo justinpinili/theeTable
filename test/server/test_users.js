@@ -50,7 +50,7 @@ describe('/user API Endpoint', function() {
 								done();
 							});
 						}
-						console.log(err);
+						// console.log(err);
 						emptyRoom();
 						return;
 					});
