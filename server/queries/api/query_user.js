@@ -3,6 +3,7 @@ var bcrypt = require('bcrypt');
 var jwt    = require('jsonwebtoken');
 var keys   = require('./../../securityKeys.js');
 
+// Create a user
 module.exports.createUser = function(username, password, callback) {
 	var newUser = new schema.User({
 		username: username,
@@ -40,6 +41,7 @@ module.exports.createUser = function(username, password, callback) {
 	});
 };
 
+// Query for an existing user
 module.exports.getUser = function(id, callback) {
 	schema.User.where({ username: id }).findOne(function(err, user) {
 		if (!err) {
@@ -61,6 +63,7 @@ module.exports.getUser = function(id, callback) {
 	});
 };
 
+// Login an existing user
 module.exports.loginUser = function(username, password, callback) {
 	schema.User.where({ username: username }).findOne(function (err, user) {
 		if (!err) {

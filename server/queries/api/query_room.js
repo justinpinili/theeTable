@@ -1,5 +1,6 @@
 var schema = require('./../../schema.js');
 
+// Query for all rooms
 module.exports.allRooms = function(callback) {
 	schema.Room.find({}, function(err, rooms) {
 		if (!err) {
@@ -12,6 +13,7 @@ module.exports.allRooms = function(callback) {
 	});
 };
 
+// Create a room
 module.exports.createRoom = function(name, callback) {
 	var newRoom = new schema.Room({
 		name: name,
@@ -38,6 +40,7 @@ module.exports.createRoom = function(name, callback) {
 	});
 };
 
+// Find an existing room in the database
 module.exports.findRoom = function(id, callback) {
 	var searchRoom  = schema.Room.where({ name: id });
 	searchRoom.findOne(function (err, room) {
