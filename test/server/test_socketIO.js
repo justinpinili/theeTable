@@ -39,7 +39,37 @@ describe('socket.IO', function() {
         room.users = [];
         room.queue = [];
         room.save();
-        done();
+        schema.User.where({ username: "justin"}).findOne(function(err, user) {
+          if (!err) {
+            user.playlist = [];
+            user.save(function(err) {
+              if (!err) {
+                schema.User.where({ username: "jason"}).findOne(function(err, user) {
+                  if (!err) {
+                    user.playlist = [];
+                    user.save(function(err) {
+                      if (!err) {
+                        done();
+                        return;
+                      }
+                      console.log(err);
+                      return;
+                    });
+                    return;
+                  }
+                  console.log(err);
+                  return;
+                });
+                return;
+              }
+              console.log(err);
+              return;
+            });
+            return;
+          }
+          console.log(err);
+          return;
+        });
         return;
       }
       console.log(err);
@@ -190,6 +220,7 @@ describe('socket.IO', function() {
           client1.emit('newPlaylistItem', song5);
         }, 100);
         setTimeout(function() {
+          last = true;
           client1.emit('newPlaylistItem', song6);
         }, 200);
 

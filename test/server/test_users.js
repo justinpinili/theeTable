@@ -35,6 +35,13 @@ describe('/user API Endpoint', function() {
 	});
 
 	after(function(done) {
+		var song1 = { source: 'https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview', votes: 0 };
+		var song2 = { source: 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix', votes: 0 };
+		var song3 = { source: 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide', votes: 0 };
+		var song4 = { source: 'https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record', votes: 0 };
+		var song5 = { source: 'https://soundcloud.com/kunsthandwerk/khw009-sandro-golia-galatone', votes: 0 };
+		var song6 = { source: 'https://soundcloud.com/fatcat-demo/teso-wo-to-step', votes: 0 };
+
 		var emptyRoom = function() {
 			schema.Room.where({ name: "lobby" }).findOne(function (err, room) {
 				if (!err && room !== null) {
@@ -46,15 +53,46 @@ describe('/user API Endpoint', function() {
 					room.currentTime = null;
 					room.save(function(err, room) {
 						if (!err) {
-							mongoose.disconnect(function() {
-								done();
+							schema.User.where({ username: "justin"}).findOne(function(err, user) {
+								if (!err) {
+									user.playlist = [song1, song2, song3];
+									user.save(function(err) {
+										if (!err) {
+											schema.User.where({ username: "jason"}).findOne(function(err, user) {
+												if (!err) {
+													user.playlist = [song4, song5, song6];
+													user.save(function(err) {
+														if (!err) {
+															mongoose.disconnect(function() {
+																done();
+																return;
+															});
+															return;
+														}
+														console.log(err);
+														return;
+													});
+													return;
+												}
+												console.log(err);
+												return;
+											});
+											return;
+										}
+										console.log(err);
+										return;
+									});
+									return;
+								}
+								console.log(err);
+								return;
 							});
+							return;
 						}
 						// console.log(err);
 						emptyRoom();
 						return;
 					});
-
 					return;
 				}
 				console.log(err);
