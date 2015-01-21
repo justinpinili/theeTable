@@ -1,0 +1,15 @@
+<form name="playlistForm" ng-submit='search(soundcloud.query)' novalidate>
+	<div class="form-group form-group-md">
+		<div class="input-group input-group-md">
+			<input type="text" name="source" ng-model="soundcloud.query" class="form-control floating-label" placeholder="Find a song."/>
+			<span class="input-group-btn">
+				<button type="submit" class="btn btn-default">Search</button>
+			</span>
+		</div>
+	</div>
+</form>
+
+<div ng-repeat="track in soundcloud.results">
+	{{ track.title }} by: {{ track.user.username }}
+	<button class="btn btn-default">Add to playlist</button>
+</div>

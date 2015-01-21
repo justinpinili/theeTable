@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', function($scope, localStorageService, theeTableAuth) {
+  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', function($scope, localStorageService, theeTableAuth, $modal) {
     $scope.getUserInfo = function(callback) {
       theeTableAuth.getUserInfo(function(result) {
         if (!result.message) {
@@ -13,22 +13,16 @@ angular.module('theeTable.controllers')
       });
     }
 
-    $scope.soundcloud = {};
-
-    $scope.search = function(query) {
-
-      SC.initialize({
-        client_id: '3fad6addc9d20754f8457461d02465f2'
+    $scope.searchSC = function() {
+      var modalInstance = $modal.open({
+        templateUrl: './../templates/search.html',
+        controller: 'searchController',
+        size: 'lg',
+        // resolve: {
+        //   items: function () {
+        //     return $scope.items;
+        //   }
+        // }
       });
-
-      SC.get('/tracks', { q: query }, function(tracks) {
-        console.log(tracks);
-        $scope.$apply(function() {
-          $scope.soundcloud.results = tracks;
-        });
-      });
-
-      $scope.soundcloud.query = '';
-
     };
   }]);
