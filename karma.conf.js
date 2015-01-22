@@ -19,6 +19,7 @@ module.exports = function(config) {
       'client/library/ui-router/release/angular-ui-router.js',
       'client/library/angular-local-storage/dist/angular-local-storage.js',
       'client/library/angular-mocks/angular-mocks.js',
+      'client/assets/angularUIbootstrap.js',
       'client/js/**/*.js',
       'test/client/**/*.js'
     ],
