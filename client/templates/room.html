@@ -6,10 +6,6 @@
 				<h3>{{ room.name }}</h3>
 				<p>
 					{{ room.users.length }} user(s) in this room.<br />
-					{{ currentUser }}<br />
-					<button ng-click="addToQueue()" class="btn btn-default">Enter Queue</button><br />
-					{{ room }}<br />
-					<button ng-click="searchSC()" class="btn btn-default"> Search Soundcloud </button>
 				</p>
 			</center>
 		</div>
@@ -30,22 +26,15 @@
 						{{ user }} <!-- Votes:  {{ song.votes }} -->
 					</div>
 				</div>
+				<button ng-click="addToQueue()" class="btn btn-default">Enter Queue</button><br />
 				<div class="queue">
 					<div ng-repeat="song in currentUser.playlist">
 						{{ song }} <!-- Votes:  {{ song.votes }} -->
 					</div>
 				</div>
+				<button ng-click="managePlaylist()" class="btn btn-default"> Manage Your Playlist </button>
 				<div>
-					<form name="playlistForm" ng-submit='submitPlaylistItem(newPlaylistItem.url)' novalidate>
-						<div class="form-group form-group-md">
-							<div class="input-group input-group-md">
-								<input type="text" name="source" ng-model="newPlaylistItem.url" class="form-control floating-label" placeholder="Input a url."/>
-								<span class="input-group-btn">
-									<button type="submit" ng-disabled="submitPlaylistItemDisabled()" class="btn btn-default">Send</button>
-								</span>
-							</div>
-						</div>
-					</form>
+
 				</div>
 			</div>
 			<div class="col-md-6">

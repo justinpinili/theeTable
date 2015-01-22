@@ -63,7 +63,6 @@ angular.module('theeTable.controllers')
 		$scope.newURL;
 
 		$scope.$watch('newURL', function(newValue, oldValue) {
-			// console.log(newValue);
 			socket.emit('newPlaylistItem', { source: newValue });
 		});
 
