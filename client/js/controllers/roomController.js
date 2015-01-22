@@ -15,9 +15,13 @@ angular.module('theeTable.controllers')
 			$scope.room.chat = data.chat;
 		});
 
-		socket.on('updatedPlaylist', function(data) {
+		socket.on('rotatedPlaylist', function(data) {
 			$scope.$parent.currentUser.playlist = data.playlist;
 			socket.emit('newQueue', { queue: $scope.room.queue });
+		});
+
+		socket.on('updatedPlaylist', function(data) {
+			$scope.$parent.currentUser.playlist = data.playlist;
 		});
 
 		socket.on('updatedQueue', function(data) {
@@ -56,6 +60,12 @@ angular.module('theeTable.controllers')
 		***************/
 
 		$scope.socket = socket;
+		$scope.newURL;
+
+		$scope.$watch('newURL', function(newValue, oldValue) {
+			// console.log(newValue);
+			socket.emit('newPlaylistItem', { source: newValue });
+		});
 
 		if (theeTableAuth.verifyJwt()) {
 			theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {

@@ -15,17 +15,17 @@ module.exports.updatePlaylist = function(roomName, userName, socket) {
 				user.save(function(err) {
 					if (!err) {
 						user = user;
-						socket.emit('updatedPlaylist', { playlist: user.playlist });
+						socket.emit('rotatedPlaylist', { playlist: user.playlist });
 						return;
 					}
-					console.log("error saving user - updatePlaylist");
+					console.log("error saving user - rotatedPlaylist");
 					console.log(err);
 					return;
 				});
 				return;
 			}
 		}
-		console.log("error finding user - updatePlaylist");
+		console.log("error finding user - rotatedPlaylist");
 		console.log(err);
 		return;
 	});

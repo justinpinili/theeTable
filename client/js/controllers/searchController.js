@@ -18,4 +18,9 @@ angular.module('theeTable.controllers')
 		$scope.soundcloud.query = '';
 
 	};
+
+	$scope.updatePlaylist = function(url) {
+		$scope.$parent.newURL = url;
+	};
+
 }]);

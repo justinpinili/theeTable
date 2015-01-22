@@ -17,12 +17,7 @@ angular.module('theeTable.controllers')
       var modalInstance = $modal.open({
         templateUrl: './../templates/search.html',
         controller: 'searchController',
-        size: 'lg',
-        // resolve: {
-        //   items: function () {
-        //     return $scope.items;
-        //   }
-        // }
+        size: 'lg'
       });
     };
   }]);

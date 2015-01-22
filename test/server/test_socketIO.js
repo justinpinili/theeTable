@@ -353,7 +353,7 @@ describe('socket.IO', function() {
           }
         });
 
-        client2.on('updatedPlaylist', function(data) {
+        client2.on('rotatedPlaylist', function(data) {
           data.playlist[0].source.should.equal("https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix");
           client2.disconnect();
           client1.disconnect();
