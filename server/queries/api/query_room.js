@@ -42,8 +42,7 @@ module.exports.createRoom = function(name, callback) {
 
 // Find an existing room in the database
 module.exports.findRoom = function(id, callback) {
-	var searchRoom  = schema.Room.where({ name: id });
-	searchRoom.findOne(function (err, room) {
+	schema.Room.where({ name: id }).findOne(function (err, room) {
 		if (!err) {
 			if (room === null) {
 				callback({ message: "Room does not exist" });

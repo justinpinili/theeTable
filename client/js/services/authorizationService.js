@@ -17,6 +17,7 @@ angular.module('theeTable.services')
 			$http.get('http://localhost:1337/user?jwt_token='+jwt)
 				.success(function(result) {
 					callback(result);
+					return;
 				})
 				.error(function(error) {
 					console.log(error);

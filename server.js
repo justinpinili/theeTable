@@ -26,7 +26,7 @@ var allowCrossDomain = function(req, res, next) {
 
 app.use(allowCrossDomain);
 
-app.use('/', routes);
+app.use(routes);
 
 server.listen(1337);
 

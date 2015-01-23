@@ -36,7 +36,8 @@ angular.module('theeTable.services')
 		};
 
 		var getRoomInfo = function(roomName, callback) {
-			var jwt = localStorageService.get("jwt");	$http.get('http://localhost:1337/rooms/'+roomName+'?jwt_token='+jwt)
+			var jwt = localStorageService.get("jwt");
+			$http.get('http://localhost:1337/rooms/'+roomName+'?jwt_token='+jwt)
 				.success(function(result) {
 					if (!result.message) {
 						callback(result);

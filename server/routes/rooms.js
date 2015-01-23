@@ -34,6 +34,7 @@ router.get('/rooms/:id', jwtValidation, function(req, res) {
 			return;
 		}
 		res.send(results);
+		return;
 	});
 });
 

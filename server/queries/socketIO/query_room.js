@@ -2,8 +2,7 @@ var schema = require('./../../schema.js');
 
 // Update room with new user that joined.
 module.exports.connectToRoom = function(roomName, userName, socket, io) {
-	var searchRoom  = schema.Room.where({ name: roomName });
-	searchRoom.findOne(function (err, room) {
+	schema.Room.where({ name: roomName }).findOne(function (err, room) {
 		if (!err) {
 			if (room === null) {
 				console.log("room not found");
@@ -35,8 +34,7 @@ module.exports.connectToRoom = function(roomName, userName, socket, io) {
 // and if so, remove accordingly.
 module.exports.disconnectFromRoom = function(roomName, userName, io) {
 	var currentDjLeft = false;
-	var searchRoom  = schema.Room.where({ name: roomName });
-	searchRoom.findOne(function (err, room) {
+	schema.Room.where({ name: roomName }).findOne(function (err, room) {
 		if (!err) {
 			if (room === null) {
 				console.log("room not found");
@@ -76,8 +74,7 @@ module.exports.disconnectFromRoom = function(roomName, userName, io) {
 
 // Updates room with a new chat message.
 module.exports.newChatMessage = function(roomName, userName, chatMessage, io) {
-	var searchRoom  = schema.Room.where({ name: roomName });
-	searchRoom.findOne(function (err, room) {
+	schema.Room.where({ name: roomName }).findOne(function (err, room) {
 		if (!err) {
 			if (room === null) {
 				return;
@@ -104,8 +101,7 @@ module.exports.newChatMessage = function(roomName, userName, chatMessage, io) {
 
 // Updates room with a new current time.
 module.exports.updateCurrentTime = function(roomName, userName, currentTime, io) {
-	var searchRoom = schema.Room.where({ name: roomName });
-	searchRoom.findOne(function (err, room) {
+	schema.Room.where({ name: roomName }).findOne(function (err, room) {
 		if (!err) {
 			if (room === null) {
 				console.log("not found");
@@ -133,8 +129,7 @@ module.exports.updateCurrentTime = function(roomName, userName, currentTime, io)
 // Add user to the room queue. if it's the first user in the queue
 // retrieve song and username for currentDJ.
 module.exports.addToQueue = function(roomName, userName, io) {
-	var searchRoom = schema.Room.where({ name: roomName });
-	searchRoom.findOne(function (err, room) {
+	schema.Room.where({ name: roomName }).findOne(function (err, room) {
 		if (!err) {
 			if (room === null) {
 				console.log("room not found");
@@ -195,16 +190,14 @@ module.exports.newQueue = function(roomName, userName, queue, io) {
 
 	var previousDJ = queue.shift();
 	queue.push( previousDJ );
-	var searchRoom = schema.Room.where({ name: roomName });
-	searchRoom.findOne(function (err, room) {
+	schema.Room.where({ name: roomName }).findOne(function (err, room) {
 		if (!err) {
 			if (room === null) {
 				console.log("not found");
 				return;
 			} else {
 				room.queue = queue;
-				var searchUser = schema.User.where({ username: room.queue[0] });
-				searchUser.findOne(function (err, user) {
+				schema.User.where({ username: room.queue[0] }).findOne(function (err, user) {
 					if (!err) {
 						room.currentDJ = user.username;
 						room.currentSong = user.playlist[0].source;
