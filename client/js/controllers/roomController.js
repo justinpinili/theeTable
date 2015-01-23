@@ -61,9 +61,14 @@ angular.module('theeTable.controllers')
 
 		$scope.socket = socket;
 		$scope.newURL;
+		$scope.newPlaylist;
 
 		$scope.$watch('newURL', function(newValue, oldValue) {
 			socket.emit('newPlaylistItem', { source: newValue });
+		});
+
+		$scope.$watch('newPlaylist', function(newValue, oldValue) {
+			socket.emit('newPlaylist', { playlist: newValue });
 		});
 
 		if (theeTableAuth.verifyJwt()) {

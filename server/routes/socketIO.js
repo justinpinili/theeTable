@@ -70,6 +70,10 @@ module.exports = function(io) {
 			var playlistItem = { source: data.source, votes: 0 };
 			query_user.newPlaylistItem(roomName, userName, playlistItem, socket);
 		});
+
+		socket.on('newPlaylist', function(data) {
+			query_user.newPlaylist(roomName, userName, data.playlist, socket);
+		});
 	});
 	return;
 }

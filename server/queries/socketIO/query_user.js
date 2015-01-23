@@ -59,3 +59,32 @@ module.exports.newPlaylistItem = function(roomName, userName, playlistItem, sock
 		return;
 	});
 };
+
+// Update entireplaylist.
+module.exports.newPlaylist = function(roomName, userName, playlist, socket) {
+	var searchUser  = schema.User.where({ username: userName });
+	searchUser.findOne(function (err, user) {
+		if (!err) {
+			if (user === null) {
+				console.log("user not found");
+				return;
+			} else {
+				// user.playlist = [];
+				user.playlist = playlist;
+				user.save(function(err) {
+					if (!err) {
+						// console.log("user added!");
+						user = user;
+						socket.emit('updatedPlaylist', { playlist: user.playlist });
+						return;
+					}
+					console.log(err);
+					return;
+				});
+				return;
+			}
+		}
+		console.log(err);
+		return;
+	});
+};

@@ -4,7 +4,8 @@ angular.module('theeTable', [
   'LocalStorageModule',
   'theeTable.services',
   'theeTable.directives',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'ui.sortable'
 ])
   .config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
     localStorageServiceProvider
