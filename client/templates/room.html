@@ -3,7 +3,7 @@
 	<div class="container">
 		<div class="row">
 			<center>
-				<h3>{{ room.name }}</h3>
+				<b><h2>{{ room.name }}</h2></b>
 				<p>
 					{{ room.users.length }} user(s) in this room.<br />
 				</p>
@@ -15,32 +15,45 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6">
-				<div class="playing">
-					<h3>{{ title }}</h3>
-					<div class="soundcloud">
-						<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title"></sound-cloud-player>
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h4 ng-if="title">{{ title }}</h4>
+						<h4 ng-if="!title">No Song Playing.</h4>
+					</div>
+					<div class="panel-body">
+						<div class="queue-outer">
+							<div class="queue-table">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Current Queue</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="room.queue.length === 0">
+										<td>None</td>
+									</tr>
+									<tr ng-if="room.queue.length > 0" ng-repeat="user in room.queue">
+										<td>{{ user }}</td>
+									</tr>
+								</tbody>
+							</table>
+							</div>
+						</div><br />
+						<span ng-if="currentUser.playlist[0]"><b>Song on Deck:</b> {{ currentUser.playlist[0].source }}</span>
+						<div class="soundcloud">
+							<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title"></sound-cloud-player>
+						</div>
 					</div>
 				</div>
-				<div class="queue">
-					<div ng-repeat="user in room.queue">
-						{{ user }} <!-- Votes:  {{ song.votes }} -->
-					</div>
-				</div>
-				<button ng-click="addToQueue()" class="btn btn-default">Enter Queue</button><br />
-				<div class="queue">
-					<div ng-repeat="song in currentUser.playlist">
-						{{ song }} <!-- Votes:  {{ song.votes }} -->
-					</div>
-				</div>
-				<button ng-click="managePlaylist()" class="btn btn-default"> Manage Your Playlist </button>
-				<div>
-
-				</div>
+				<button ng-click="addToQueue()" class="btn btn-default">Enter Queue</button>
+				<button ng-click="managePlaylist()" class="btn btn-default"> Manage Your Playlist </button><br />
 			</div>
 			<div class="col-md-6">
-				<div class="chats">
+				<div class="panel panel-primary chats">
+					<h4><b>Messages</b></h4>
 					<div ng-repeat="chat in room.chat">
-						{{ chat.user }}: {{ chat.msg }}
+						<b>{{ chat.user }}</b>: {{ chat.msg }}
 					</div>
 				</div>
 				<div>

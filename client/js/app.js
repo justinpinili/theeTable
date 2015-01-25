@@ -29,8 +29,9 @@ angular.module('theeTable', [
       })
       .state('logout', {
         url: '/logout',
-        controller: function(localStorageService, $location) {
+        controller: function(localStorageService, $location, $scope) {
           localStorageService.remove('jwt');
+          $scope.$parent.currentUser = undefined;
           $location.path("/");
         }
       });
