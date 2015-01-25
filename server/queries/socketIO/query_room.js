@@ -11,11 +11,13 @@ module.exports.connectToRoom = function(roomName, userName, socket, io) {
 				// room.users = [];
 				currentRoom = room;
 				room.users.push(userName);
+				room.chat.push({ user: '', msg: userName + ' has entered the room.' });
 				room.save(function (err) {
 					if (!err) {
 						// console.log("user added!");
 						socket.join(room.name);
 						io.to(room.name).emit('usersInRoom', { users: room.users });
+						io.to(room.name).emit('updatedChat', { chat: room.chat });
 						return;
 					}
 					console.log(err);
@@ -41,6 +43,7 @@ module.exports.disconnectFromRoom = function(roomName, userName, io) {
 				return;
 			} else {
 				room.users.splice(room.users.indexOf(userName),1);
+				room.chat.push({ user: '', msg: userName + ' has left the room.' });
 				if (room.queue.indexOf(userName) === 0) {
 					room.queue.splice(0, 1);
 					room.currentDJ = null;
@@ -55,6 +58,7 @@ module.exports.disconnectFromRoom = function(roomName, userName, io) {
 					if (!err) {
 						// console.log("user removed!");
 						io.to(room.name).emit('usersInRoom', { users: room.users });
+						io.to(room.name).emit('updatedChat', { chat: room.chat });
 						if (currentDjLeft) {
 							io.to(room.name).emit('roomUpdate', {room: room});
 						}

@@ -129,12 +129,19 @@ body {
 	margin: 10px;
 }
 
+.chat-head {
+	padding: 5px;
+	margin: 5px;
+}
+
 .chats {
 	/*height: 300px;*/
 	/*border-color: #0C2032;*/
 	/*border-style: solid;*/
+	height: 85%;
 	padding: 5px;
 	margin: 5px;
+	overflow-y: scroll;
 }
 
 .playing {

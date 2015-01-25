@@ -51,10 +51,12 @@
 				<button ng-click="managePlaylist()" class="btn btn-default"> Manage Your Playlist </button><br />
 			</div>
 			<div class="col-md-6">
-				<div class="panel panel-primary chats">
+				<div class="panel panel-primary chat-head">
 					<h4><b>Messages</b></h4>
-					<div ng-repeat="chat in room.chat">
-						<b>{{ chat.user }}</b>: {{ chat.msg }}
+					<div class="chats">
+						<div ng-repeat="chat in room.chat">
+							<b>{{ chat.user }}</b>: {{ chat.msg }}
+						</div>
 					</div>
 				</div>
 				<div>
