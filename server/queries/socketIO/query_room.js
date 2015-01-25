@@ -214,7 +214,7 @@ module.exports.removeFromQueue = function(roomName, userName, io) {
 							room.currentDJ = user.username;
 							room.save(function(err) {
 								if (!err) {
-									// console.log("user added!");
+									// console.log("user removed!");
 									room = room;
 									io.to(roomName).emit('updatedQueue', { queue: room.queue, currentDJ: room.currentDJ, currentSong: room.currentSong });
 									return;
@@ -232,7 +232,7 @@ module.exports.removeFromQueue = function(roomName, userName, io) {
 
 				room.save(function(err) {
 					if (!err) {
-						// console.log("user added!");
+						// console.log("user removed!");
 						room = room;
 						io.to(roomName).emit('updatedQueue', { queue: room.queue });
 						if (!currentDjLeft) {
