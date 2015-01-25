@@ -182,6 +182,75 @@ module.exports.addToQueue = function(roomName, userName, io) {
 	});
 };
 
+// Remove user from the room queue.
+module.exports.removeFromQueue = function(roomName, userName, io) {
+	var currentDjLeft = true;
+	schema.Room.where({ name: roomName }).findOne(function (err, room) {
+		if (!err) {
+			if (room === null) {
+				console.log("room not found");
+				return;
+			} else {
+				// room.queue = [];
+				var djIndex = room.queue.indexOf(userName);
+				room.queue.splice(djIndex, 1);
+
+				if (djIndex === 0 && room.queue.length === 0) {
+					room.queue.splice(0, 1);
+					room.currentDJ = null;
+					room.currentSong = null;
+					room.currentTime = null;
+					currentDjLeft = false;
+				}
+
+				if (room.queue.length >= 1) {
+					schema.User.where({ username: room.queue[0] }).findOne(function(err, user) {
+						if (!err) {
+							if (user === null) {
+								res.send({ message: "No user found with the given username." });
+								return;
+							}
+							room.currentSong = user.playlist[0].source;
+							room.currentDJ = user.username;
+							room.save(function(err) {
+								if (!err) {
+									// console.log("user added!");
+									room = room;
+									io.to(roomName).emit('updatedQueue', { queue: room.queue, currentDJ: room.currentDJ, currentSong: room.currentSong });
+									return;
+								}
+								console.log(err);
+								return;
+							});
+							return;
+						}
+						console.log(err);
+						res.send(err);
+						return;
+					});
+				}
+
+				room.save(function(err) {
+					if (!err) {
+						// console.log("user added!");
+						room = room;
+						io.to(roomName).emit('updatedQueue', { queue: room.queue });
+						if (!currentDjLeft) {
+							io.to(room.name).emit('roomUpdate', {room: room});
+						}
+						return;
+					}
+					console.log(err);
+					return;
+				});
+				return;
+			}
+		}
+		console.log(err);
+		return;
+	});
+};
+
 // Rotate the queue and find the next DJ, song, and reset currentTime.
 module.exports.newQueue = function(roomName, userName, queue, io) {
 	if (queue.length === 0) {

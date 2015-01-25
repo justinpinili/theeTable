@@ -6,6 +6,7 @@
 				<b><h2>{{ room.name }}</h2></b>
 				<p>
 					{{ room.users.length }} user(s) in this room.<br />
+					{{ room.queue }}
 				</p>
 			</center>
 		</div>
@@ -46,7 +47,8 @@
 						</div>
 					</div>
 				</div>
-				<button ng-click="addToQueue()" class="btn btn-default">Enter Queue</button>
+				<button ng-if="room.queue.indexOf(currentUser.username) === -1" ng-click="addToQueue()" class="btn btn-default">Enter Queue</button>
+				<button ng-if="room.queue.indexOf(currentUser.username) >= 0" ng-click="removeFromQueue()" class="btn btn-default">Leave Queue</button>
 				<button ng-click="managePlaylist()" class="btn btn-default"> Manage Your Playlist </button><br />
 			</div>
 			<div class="col-md-6">
