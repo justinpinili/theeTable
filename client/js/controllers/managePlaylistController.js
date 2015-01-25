@@ -21,7 +21,7 @@ angular.module('theeTable.controllers')
 		stop: function(e, ui) {
 			var playlist = [];
 			for (var index = 0; index < $scope.playlist.length; index++) {
-				playlist.push({ source: $scope.playlist[index].source, votes: $scope.playlist[index].votes });
+				playlist.push({ source: $scope.playlist[index].source, votes: $scope.playlist[index].votes, title: $scope.playlist[index].title });
 			}
 			$scope.$parent.newPlaylist = playlist;
 		}
@@ -31,7 +31,7 @@ angular.module('theeTable.controllers')
 		$scope.playlist.splice(index, 1);
 		var playlist = [];
 		for (var index = 0; index < $scope.playlist.length; index++) {
-			playlist.push({ source: $scope.playlist[index].source, votes: $scope.playlist[index].votes });
+			playlist.push({ source: $scope.playlist[index].source, votes: $scope.playlist[index].votes, title: $scope.playlist[index].title });
 		}
 		$scope.$parent.newPlaylist = playlist;
 	}

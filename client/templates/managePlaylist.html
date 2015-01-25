@@ -1,6 +1,6 @@
 <div style="color:black">
 	<ul ui-sortable="sortableOptions" ng-model="playlist">
-		<li ng-repeat="song in playlist">{{ song.source }} <button ng-click="remove(index)" class="btn btn-default">Remove Song</button></li>
+		<li ng-repeat="song in playlist">{{ song.title }} <button ng-click="remove(index)" class="btn btn-default">Remove Song</button></li>
 	</ul>
 </div>
 

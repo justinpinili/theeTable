@@ -64,11 +64,16 @@ angular.module('theeTable.controllers')
 		$scope.newPlaylist;
 
 		$scope.$watch('newURL', function(newValue, oldValue) {
-			socket.emit('newPlaylistItem', { source: newValue });
+			if (newValue !== undefined) {
+				socket.emit('newPlaylistItem', { source: newValue.source, title: newValue.title });
+			}
 		});
 
 		$scope.$watch('newPlaylist', function(newValue, oldValue) {
-			socket.emit('newPlaylist', { playlist: newValue });
+			if (newValue !== undefined) {
+				console.log(newValue);
+				socket.emit('newPlaylist', { playlist: newValue });
+			}
 		});
 
 		if (theeTableAuth.verifyJwt()) {

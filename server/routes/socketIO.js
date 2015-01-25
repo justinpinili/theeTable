@@ -67,7 +67,7 @@ module.exports = function(io) {
 
 		// Update user playlist with new song.
 		socket.on('newPlaylistItem', function(data) {
-			var playlistItem = { source: data.source, votes: 0 };
+			var playlistItem = { source: data.source, votes: 0, title: data.title };
 			query_user.newPlaylistItem(roomName, userName, playlistItem, socket);
 		});
 

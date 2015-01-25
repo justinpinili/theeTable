@@ -19,17 +19,9 @@ angular.module('theeTable.controllers')
 
 	};
 
-	$scope.searchSC = function() {
-		var modalInstance = $modal.open({
-			templateUrl: './../templates/search.html',
-			controller: 'searchController',
-			size: 'lg'
-		});
-	}
-
 	$scope.updatePlaylist = function(url, title) {
-		$scope.$parent.newURL = url;
-		playlist.push({ source: url, votes: 0 });
+		$scope.$parent.newURL = { source: url, title: title };
+		playlist.push({ source: url, votes: 0, title: title });
 		$modalInstance.close();
 	};
 
