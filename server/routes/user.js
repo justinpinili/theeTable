@@ -24,7 +24,7 @@ router.get('/user', jwtValidation, function(req, res) {
 		}
 		res.send(results);
 		return;
-	})
+	});
 });
 
 // Log in a user

@@ -13,16 +13,11 @@ angular.module('theeTable.controllers')
       });
     }
 
-    $scope.searchSC = function() {
+    $scope.managePlaylist = function() {
       var modalInstance = $modal.open({
-        templateUrl: './../templates/search.html',
-        controller: 'searchController',
-        size: 'lg',
-        // resolve: {
-        //   items: function () {
-        //     return $scope.items;
-        //   }
-        // }
+        templateUrl: './../templates/managePlaylist.html',
+        controller: 'managePlaylistController',
+        size: 'lg'
       });
     };
   }]);

@@ -15,17 +15,17 @@ module.exports.updatePlaylist = function(roomName, userName, socket) {
 				user.save(function(err) {
 					if (!err) {
 						user = user;
-						socket.emit('updatedPlaylist', { playlist: user.playlist });
+						socket.emit('rotatedPlaylist', { playlist: user.playlist });
 						return;
 					}
-					console.log("error saving user - updatePlaylist");
+					console.log("error saving user - rotatedPlaylist");
 					console.log(err);
 					return;
 				});
 				return;
 			}
 		}
-		console.log("error finding user - updatePlaylist");
+		console.log("error finding user - rotatedPlaylist");
 		console.log(err);
 		return;
 	});
@@ -42,6 +42,35 @@ module.exports.newPlaylistItem = function(roomName, userName, playlistItem, sock
 			} else {
 				// user.playlist = [];
 				user.playlist.push(playlistItem);
+				user.save(function(err) {
+					if (!err) {
+						// console.log("user added!");
+						user = user;
+						socket.emit('updatedPlaylist', { playlist: user.playlist });
+						return;
+					}
+					console.log(err);
+					return;
+				});
+				return;
+			}
+		}
+		console.log(err);
+		return;
+	});
+};
+
+// Update entireplaylist.
+module.exports.newPlaylist = function(roomName, userName, playlist, socket) {
+	var searchUser  = schema.User.where({ username: userName });
+	searchUser.findOne(function (err, user) {
+		if (!err) {
+			if (user === null) {
+				console.log("user not found");
+				return;
+			} else {
+				// user.playlist = [];
+				user.playlist = playlist;
 				user.save(function(err) {
 					if (!err) {
 						// console.log("user added!");

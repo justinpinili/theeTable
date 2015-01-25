@@ -109,10 +109,30 @@ body {
 	color: #0C2032;
 }
 
-.chats {
+.panel-primary>.panel-heading {
+	background-color: #2C3E50;
+}
+
+.panel-primary {
+	border-color: #2C3E50;
 	height: 300px;
-	border-color: #0C2032;
-	border-style: solid;
+}
+
+.panel-body {
+	height: 73%;
+	padding: 5px;
+	margin: 5px;
+}
+
+.modal-content {
+	padding: 10px;
+	margin: 10px;
+}
+
+.chats {
+	/*height: 300px;*/
+	/*border-color: #0C2032;*/
+	/*border-style: solid;*/
 	padding: 5px;
 	margin: 5px;
 }
@@ -128,14 +148,20 @@ body {
 }
 
 .soundcloud {
-	/*display: none;*/
+	display: none;
 }
 
-.queue {
-	height: 50px;
-	border-color: #0C2032;
-	border-style: solid;
-	padding: 5px;
-	margin: 5px;
+.queue-outer {
+	height: 81%;
+	width: 25%;
+	/*border-color: #0C2032;*/
+	/*border-style: solid;*/
+	/*padding: 5px;*/
+	/*margin: 5px;*/
+	/*overflow-y: scroll;*/
+}
+
+.queue-table {
+	height: 100%;
 	overflow-y: scroll;
 }

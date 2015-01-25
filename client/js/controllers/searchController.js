@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('searchController', ['$scope', function($scope) {
+.controller('searchController', ['$scope', '$modalInstance', '$modal', 'playlist', function($scope, $modalInstance, $modal, playlist) {
 
 	$scope.soundcloud = {};
 
@@ -9,7 +9,7 @@ angular.module('theeTable.controllers')
 		});
 
 		SC.get('/tracks', { q: query }, function(tracks) {
-			console.log(tracks);
+			// console.log(tracks);
 			$scope.$apply(function() {
 				$scope.soundcloud.results = tracks;
 			});
@@ -18,4 +18,11 @@ angular.module('theeTable.controllers')
 		$scope.soundcloud.query = '';
 
 	};
+
+	$scope.updatePlaylist = function(url, title) {
+		$scope.$parent.newURL = { source: url, title: title };
+		playlist.push({ source: url, votes: 0, title: title });
+		$modalInstance.close();
+	};
+
 }]);

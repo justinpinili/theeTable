@@ -19,12 +19,18 @@ var user2 = { roomName: 'lobby', user: 'jason'  };
 
 var message = { msg: 'oh herro' };
 
-var song1 = { source: 'https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview'};
-var song2 = { source: 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix'};
-var song3 = { source: 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide'};
-var song4 = { source: 'https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record'};
-var song5 = { source: 'https://soundcloud.com/kunsthandwerk/khw009-sandro-golia-galatone'};
-var song6 = { source: 'https://soundcloud.com/fatcat-demo/teso-wo-to-step'};
+var song1 = { source: 'https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview',
+              title: 'Junge Junge - Beautiful Girl (Blondish Remix Preview)' };
+var song2 = { source: 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix',
+              title: 'Harry Wolfman - OnTap Waifs & Strays Remix' };
+var song3 = { source: 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide',
+              title: 'NTEIBINT feat. Birsen - Riptide' };
+var song4 = { source: 'https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record',
+              title: "Premiere: Steve Lawler 'House Record'" };
+var song5 = { source: 'https://soundcloud.com/kunsthandwerk/khw009-sandro-golia-galatone',
+              title: 'KHW009 - Sandro Golia - Galatone (HRRSN Remix) [Cut]' };
+var song6 = { source: 'https://soundcloud.com/fatcat-demo/teso-wo-to-step',
+              title: 'T.e.s.o - Wo To Step' };
 
 var dj1 = { user: 'justin' };
 var dj2 = { user: 'jason' };
@@ -226,7 +232,7 @@ describe('socket.IO', function() {
 
 
         client1.on('updatedPlaylist', function(data) {
-          if (data.playlist[ data.playlist.length-1 ].source === 'https://soundcloud.com/fatcat-demo/teso-wo-to-step') {
+          if (data.playlist[ data.playlist.length-1 ].title === 'T.e.s.o - Wo To Step') {
             data.playlist.length.should.equal(3);
             client2.disconnect();
             client1.disconnect();
@@ -353,7 +359,7 @@ describe('socket.IO', function() {
           }
         });
 
-        client2.on('updatedPlaylist', function(data) {
+        client2.on('rotatedPlaylist', function(data) {
           data.playlist[0].source.should.equal("https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix");
           client2.disconnect();
           client1.disconnect();

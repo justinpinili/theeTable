@@ -13,5 +13,5 @@
 
 <div ng-repeat="track in soundcloud.results">
 	{{ track.title }} by: {{ track.user.username }}
-	<button class="btn btn-default">Add to playlist</button>
+	<button ng-click="updatePlaylist( track.permalink_url, track.title )" class="btn btn-default">Add to playlist</button>
 </div>

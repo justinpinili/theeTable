@@ -4,7 +4,8 @@ angular.module('theeTable', [
   'LocalStorageModule',
   'theeTable.services',
   'theeTable.directives',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'ui.sortable'
 ])
   .config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
     localStorageServiceProvider
@@ -28,8 +29,9 @@ angular.module('theeTable', [
       })
       .state('logout', {
         url: '/logout',
-        controller: function(localStorageService, $location) {
+        controller: function(localStorageService, $location, $scope) {
           localStorageService.remove('jwt');
+          $scope.$parent.currentUser = undefined;
           $location.path("/");
         }
       });

@@ -51,6 +51,11 @@ module.exports = function(io) {
 			query_room.addToQueue(roomName, data.user, io);
 		});
 
+		// Update room with DJ removed from the queue.
+		socket.on('removeFromQueue', function(data) {
+			query_room.removeFromQueue(roomName, data.user, io);
+		});
+
 		// Update room with new queue rotation, current DJ and song.
 		socket.on('newQueue', function(data) {
 			query_room.newQueue(roomName, userName, data.queue, io);
@@ -67,8 +72,12 @@ module.exports = function(io) {
 
 		// Update user playlist with new song.
 		socket.on('newPlaylistItem', function(data) {
-			var playlistItem = { source: data.source, votes: 0 };
+			var playlistItem = { source: data.source, votes: 0, title: data.title };
 			query_user.newPlaylistItem(roomName, userName, playlistItem, socket);
+		});
+
+		socket.on('newPlaylist', function(data) {
+			query_user.newPlaylist(roomName, userName, data.playlist, socket);
 		});
 	});
 	return;

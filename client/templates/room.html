@@ -3,12 +3,10 @@
 	<div class="container">
 		<div class="row">
 			<center>
-				<h3>{{ room.name }}</h3>
+				<b><h2>{{ room.name }}</h2></b>
 				<p>
 					{{ room.users.length }} user(s) in this room.<br />
-					{{ currentUser }}<br />
-					<button ng-click="addToQueue()" class="btn btn-default">Enter Queue</button><br />
-					{{ room }}
+					{{ room.queue }}
 				</p>
 			</center>
 		</div>
@@ -18,39 +16,46 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6">
-				<div class="playing">
-					<h3>{{ title }}</h3>
-					<div class="soundcloud">
-						<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title"></sound-cloud-player>
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h4 ng-if="title">{{ title }}</h4>
+						<h4 ng-if="!title">No Song Playing.</h4>
 					</div>
-				</div>
-				<div class="queue">
-					<div ng-repeat="user in room.queue">
-						{{ user }} <!-- Votes:  {{ song.votes }} -->
-					</div>
-				</div>
-				<div class="queue">
-					<div ng-repeat="song in currentUser.playlist">
-						{{ song }} <!-- Votes:  {{ song.votes }} -->
-					</div>
-				</div>
-				<div>
-					<form name="playlistForm" ng-submit='submitPlaylistItem(newPlaylistItem.url)' novalidate>
-						<div class="form-group form-group-md">
-							<div class="input-group input-group-md">
-								<input type="text" name="source" ng-model="newPlaylistItem.url" class="form-control floating-label" placeholder="Input a url."/>
-								<span class="input-group-btn">
-									<button type="submit" ng-disabled="submitPlaylistItemDisabled()" class="btn btn-default">Send</button>
-								</span>
+					<div class="panel-body">
+						<div class="queue-outer">
+							<div class="queue-table">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Current Queue</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="room.queue.length === 0">
+										<td>None</td>
+									</tr>
+									<tr ng-if="room.queue.length > 0" ng-repeat="user in room.queue">
+										<td>{{ user }}</td>
+									</tr>
+								</tbody>
+							</table>
 							</div>
+						</div><br />
+						<span ng-if="currentUser.playlist[0]"><b>Song on Deck:</b> {{ currentUser.playlist[0].title }}</span>
+						<div class="soundcloud">
+							<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title"></sound-cloud-player>
 						</div>
-					</form>
+					</div>
 				</div>
+				<button ng-if="room.queue.indexOf(currentUser.username) === -1" ng-click="addToQueue()" class="btn btn-default">Enter Queue</button>
+				<button ng-if="room.queue.indexOf(currentUser.username) >= 0" ng-click="removeFromQueue()" class="btn btn-default">Leave Queue</button>
+				<button ng-click="managePlaylist()" class="btn btn-default"> Manage Your Playlist </button><br />
 			</div>
 			<div class="col-md-6">
-				<div class="chats">
+				<div class="panel panel-primary chats">
+					<h4><b>Messages</b></h4>
 					<div ng-repeat="chat in room.chat">
-						{{ chat.user }}: {{ chat.msg }}
+						<b>{{ chat.user }}</b>: {{ chat.msg }}
 					</div>
 				</div>
 				<div>

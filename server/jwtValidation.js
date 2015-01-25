@@ -14,6 +14,7 @@ var jwtValidation = function(req, res, next) {
 				}
 				console.log('error with JWT');
 				res.send({ message:'Error with JWT' });
+				return;
 			}
 			console.log(err);
 			res.send(err);
@@ -21,6 +22,7 @@ var jwtValidation = function(req, res, next) {
     });
   } else {
     res.send({message: 'You are not allowed to access this API'});
+		return;
   }
 };
 
