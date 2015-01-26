@@ -39,7 +39,6 @@ angular.module('theeTable.services')
 			var jwt = localStorageService.get("jwt");
 
 			if (roomName === '') {
-				alert('Room does not exist');
 				$location.path("/rooms");
 				return;
 			}
