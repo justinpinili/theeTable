@@ -13,6 +13,8 @@ angular.module('theeTable.controllers')
 
 		socket.on('updatedChat', function(data) {
 			$scope.room.chat = data.chat;
+			$(".chats").animate({ scrollTop: $(document).height() + 1000 }, "slow");
+			return false;
 		});
 
 		socket.on('rotatedPlaylist', function(data) {

@@ -55,7 +55,8 @@
 					<h4><b>Messages</b></h4>
 					<div class="chats">
 						<div ng-repeat="chat in room.chat">
-							<b>{{ chat.user }}</b>: {{ chat.msg }}
+							<span ng-if="chat.user !== ''"><b>{{ chat.user }}</b>: {{ chat.msg }}</span>
+							<span ng-if="chat.user === ''"><b>{{ chat.msg }}</span>
 						</div>
 					</div>
 				</div>

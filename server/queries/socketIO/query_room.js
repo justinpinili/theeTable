@@ -44,6 +44,11 @@ module.exports.disconnectFromRoom = function(roomName, userName, io) {
 			} else {
 				room.users.splice(room.users.indexOf(userName),1);
 				room.chat.push({ user: '', msg: userName + ' has left the room.' });
+
+				if (room.users.length === 0) {
+					room.chat = [];
+				}
+
 				if (room.queue.indexOf(userName) === 0) {
 					room.queue.splice(0, 1);
 					room.currentDJ = null;
@@ -54,6 +59,7 @@ module.exports.disconnectFromRoom = function(roomName, userName, io) {
 					room.queue.splice(room.queue.indexOf(userName), 1);
 					io.to(roomName).emit('updatedQueue', { queue: room.queue });
 				}
+
 				room.save(function (err) {
 					if (!err) {
 						// console.log("user removed!");
@@ -85,6 +91,10 @@ module.exports.newChatMessage = function(roomName, userName, chatMessage, io) {
 			} else {
 				// room.chat = [];
 				room.chat.push({user: userName, msg: chatMessage});
+				if (room.chat.length > 100) {
+					room.chat.splice(0,1);
+				}
+
 				room.save(function(err) {
 					if (!err) {
 						// console.log("user added!");
