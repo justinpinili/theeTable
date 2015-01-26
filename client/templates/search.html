@@ -1,4 +1,4 @@
-<h1 style="color:black">Search SoundCloud</h1>
+<h1 class="manage" >Search SoundCloud</h1>
 
 <form name="playlistForm" ng-submit='search(soundcloud.query)' novalidate>
 	<div class="form-group form-group-md">
@@ -11,7 +11,20 @@
 	</div>
 </form>
 
-<div ng-repeat="track in soundcloud.results">
-	{{ track.title }} by: {{ track.user.username }}
-	<button ng-click="updatePlaylist( track.permalink_url, track.title )" class="btn btn-default">Add to playlist</button>
-</div>
+<table class="manage table table-striped">
+	<thead>
+		<tr>
+			<th>Song Results</th>
+			<th></th>
+		<tr>
+	<tbody>
+		<tr ng-repeat="track in soundcloud.results">
+			<td>
+				{{ track.title }} by: {{ track.user.username }}
+			</td>
+			<td>
+				<span ng-click="updatePlaylist( track.permalink_url, track.title )" class="glyphicon glyphicon-plus"></span>
+			</td>
+		</tr>
+	</tbody>
+</table>

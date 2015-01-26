@@ -173,9 +173,6 @@ body {
 	overflow-y: scroll;
 }
 
-ul
-{
-	list-style-type: none;
-	padding: 0px;
-	margin: 0px;
+.manage {
+	color: #2C3E50;
 }

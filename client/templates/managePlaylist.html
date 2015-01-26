@@ -1,18 +1,18 @@
 <div style="color:black">
-	<!-- <ul ui-sortable="sortableOptions" ng-model="playlist">
-		<li ng-repeat="song in playlist">{{ song.title }} <button ng-click="remove(index)" class="btn btn-default">Remove Song</button></li>
-	</ul> -->
-
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th>Playlist</th><th></th>
+				<th>Playlist</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody ui-sortable="sortableOptions" ng-model="playlist">
 			<tr ng-repeat="song in playlist">
 				<td>
-					{{ song.title }}</td><td><span ng-click="remove(index)" class="glyphicon glyphicon-remove"></span>
+					{{ song.title }}
+				</td>
+				<td>
+					<span ng-click="remove(index)" class="glyphicon glyphicon-remove"></span>
 				</td>
 			</tr>
 		</tbody>
