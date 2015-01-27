@@ -29,4 +29,6 @@ angular.module('theeTable.controllers')
 			return false;
 		};
 
+		$scope.roomSearch = {};
+
 	}]);

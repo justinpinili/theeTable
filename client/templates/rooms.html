@@ -17,9 +17,11 @@
 	</div>
 </div>
 
+
 <div ng-if="rooms" class="container">
 	<div class="row">
-		<div ng-repeat="room in rooms">
+		<br /><input type="text" class="form-control floating-label" placeholder="Search for an existing room." ng-model="searchRoom.name"></input>
+		<div ng-repeat="room in rooms | filter:searchRoom">
 			<h3>{{ room.name }}</h3>
 			<button ng-click="navigate(room.name)" class="btn btn-danger">Go to this room.</button>
 			<p>
