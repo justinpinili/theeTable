@@ -13,6 +13,8 @@ angular.module('theeTable.controllers')
 
 		socket.on('updatedChat', function(data) {
 			$scope.room.chat = data.chat;
+			$(".chats").animate({ scrollTop: $(document).height() + 1000 }, "slow");
+			return false;
 		});
 
 		socket.on('rotatedPlaylist', function(data) {
@@ -71,7 +73,6 @@ angular.module('theeTable.controllers')
 
 		$scope.$watch('newPlaylist', function(newValue, oldValue) {
 			if (newValue !== undefined) {
-				console.log(newValue);
 				socket.emit('newPlaylist', { playlist: newValue });
 			}
 		});
@@ -111,8 +112,8 @@ angular.module('theeTable.controllers')
 		};
 
 		$scope.submitMessage = function(message) {
-			$scope.newChatMessage.msg = '';
 			socket.emit('newChatMessage', { msg: message });
+			$scope.newChatMessage.msg = '';
 		};
 
 		$scope.newPlaylistItem = {};

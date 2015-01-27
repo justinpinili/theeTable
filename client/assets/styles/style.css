@@ -129,12 +129,19 @@ body {
 	margin: 10px;
 }
 
+.chat-head {
+	padding: 5px;
+	margin: 5px;
+}
+
 .chats {
 	/*height: 300px;*/
 	/*border-color: #0C2032;*/
 	/*border-style: solid;*/
+	height: 85%;
 	padding: 5px;
 	margin: 5px;
+	overflow-y: scroll;
 }
 
 .playing {
@@ -153,7 +160,7 @@ body {
 
 .queue-outer {
 	height: 81%;
-	width: 25%;
+	width: 30%;
 	/*border-color: #0C2032;*/
 	/*border-style: solid;*/
 	/*padding: 5px;*/
@@ -164,4 +171,12 @@ body {
 .queue-table {
 	height: 100%;
 	overflow-y: scroll;
+}
+
+.manage {
+	color: #2C3E50;
+}
+
+.bold {
+	font-weight: bold;
 }

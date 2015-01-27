@@ -1,17 +1,42 @@
-<h1 style="color:black">Search SoundCloud</h1>
+<div class="manage">
+	<h1 >Search SoundCloud</h1>
 
-<form name="playlistForm" ng-submit='search(soundcloud.query)' novalidate>
-	<div class="form-group form-group-md">
-		<div class="input-group input-group-md">
-			<input type="text" name="source" ng-model="soundcloud.query" class="form-control floating-label" placeholder="Find a song."/>
-			<span class="input-group-btn">
-				<button type="submit" class="btn btn-default">Search</button>
-			</span>
+	<form name="searchForm" ng-submit="search(soundcloud.query)" novalidate>
+		<div class="form-group form-group-md">
+			<div class="input-group input-group-md">
+				<input type="text" name="soundcloudQuery" class="form-control floating-label" id="soundcloudSearch" ng-model="soundcloud.query" placeholder="Find a song." />
+				<span class="input-group-btn">
+					<button type="submit" class="btn btn-default">Search</button>
+				</span>
+			</div>
 		</div>
-	</div>
-</form>
+	</form>
 
-<div ng-repeat="track in soundcloud.results">
-	{{ track.title }} by: {{ track.user.username }}
-	<button ng-click="updatePlaylist( track.permalink_url, track.title )" class="btn btn-default">Add to playlist</button>
+	<table ng-if="soundcloud.results" class="table table-striped">
+		<thead>
+			<tr>
+				<th>Song Results</th>
+				<th></th>
+				<th></th>
+			<tr>
+		<tbody>
+			<tr ng-repeat="track in soundcloud.results">
+				<td>
+					{{ $index + 1 }}
+				</td>
+				<td>
+					{{ track.title }} by: {{ track.user.username }}
+				</td>
+				<td>
+					<span ng-click="updatePlaylist( track.permalink_url, track.title )" class="glyphicon glyphicon-plus"></span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
+
+<script>
+	$(document).ready(function() {
+		$.material.init();
+	});
+</script>
