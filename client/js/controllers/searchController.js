@@ -8,6 +8,11 @@ angular.module('theeTable.controllers')
 			client_id: '3fad6addc9d20754f8457461d02465f2'
 		});
 
+		// console.log($scope.soundcloud.query);
+		// console.log(query);
+
+		query = $('#soundcloudSearch').val();
+
 		SC.get('/tracks', { q: query }, function(tracks) {
 			// console.log(tracks);
 			$scope.$apply(function() {
@@ -16,6 +21,7 @@ angular.module('theeTable.controllers')
 		});
 
 		$scope.soundcloud.query = '';
+		$('#soundcloudSearch').val('');
 
 	};
 

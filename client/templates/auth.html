@@ -4,7 +4,7 @@
 			{{ current }}!
 		</h1>
 		<div ng-if="message" class="alert alert-danger" role="alert">
-			 <strong>Sorry!</strong> {{ message }}
+			 <span class="bold">Sorry!</span> {{ message }}
 		</div>
 		<form name="logInForm" ng-submit='auth(login.username, login.password)' novalidate>
 			<div class="form-group form-group-lg">

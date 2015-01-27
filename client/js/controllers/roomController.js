@@ -73,7 +73,6 @@ angular.module('theeTable.controllers')
 
 		$scope.$watch('newPlaylist', function(newValue, oldValue) {
 			if (newValue !== undefined) {
-				console.log(newValue);
 				socket.emit('newPlaylist', { playlist: newValue });
 			}
 		});
@@ -113,8 +112,8 @@ angular.module('theeTable.controllers')
 		};
 
 		$scope.submitMessage = function(message) {
-			$scope.newChatMessage.msg = '';
 			socket.emit('newChatMessage', { msg: message });
+			$scope.newChatMessage.msg = '';
 		};
 
 		$scope.newPlaylistItem = {};

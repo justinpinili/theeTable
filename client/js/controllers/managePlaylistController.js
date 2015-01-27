@@ -1,7 +1,6 @@
 angular.module('theeTable.controllers')
 .controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', function($scope, $modalInstance, $modal, theeTableAuth) {
 
-	$scope.soundcloud = {};
 	$scope.playlist = [];
 
 	$scope.searchSC = function() {

@@ -3,7 +3,7 @@
 	<div class="container">
 		<div class="row">
 			<center>
-				<b><h2>{{ room.name }}</h2></b>
+				<h2 class="bold">{{ room.name }}</h2>
 				<p>
 					{{ room.users.length }} user(s) in this room.<br />
 				</p>
@@ -26,15 +26,26 @@
 							<table class="table table-striped">
 								<thead>
 									<tr>
-										<th></th><th>Current Queue</th>
+										<th></th>
+										<th>
+											Current Queue
+										</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="room.queue.length === 0">
-										<td></td><td>None</td>
+										<td></td>
+										<td>
+											None
+										</td>
 									</tr>
 									<tr ng-if="room.queue.length > 0" ng-repeat="user in room.queue">
-										<td>{{ $index+1 }}</td><td>{{ user }}</td>
+										<td>
+											{{ $index+1 }}
+										</td>
+										<td>
+											{{ user }}
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -48,7 +59,7 @@
 				</div>
 				<button ng-if="room.queue.indexOf(currentUser.username) === -1" ng-click="addToQueue()" class="btn btn-default">Enter Queue</button>
 				<button ng-if="room.queue.indexOf(currentUser.username) >= 0" ng-click="removeFromQueue()" class="btn btn-default">Leave Queue</button>
-				<button ng-click="managePlaylist()" class="btn btn-default"> Manage Your Playlist </button><br />
+				<button ng-click="managePlaylist()" class="btn btn-default"> Manage Your Playlist </button>
 			</div>
 			<div class="col-md-6">
 				<div class="panel panel-primary chat-head">
