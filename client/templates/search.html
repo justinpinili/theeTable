@@ -11,14 +11,18 @@
 	</div>
 </form>
 
-<table class="manage table table-striped">
+<table ng-if="soundcloud.results" class="manage table table-striped">
 	<thead>
 		<tr>
 			<th>Song Results</th>
 			<th></th>
+			<th></th>
 		<tr>
 	<tbody>
 		<tr ng-repeat="track in soundcloud.results">
+			<td>
+				{{ $index + 1 }}
+			</td>
 			<td>
 				{{ track.title }} by: {{ track.user.username }}
 			</td>
@@ -28,3 +32,9 @@
 		</tr>
 	</tbody>
 </table>
+
+<script>
+$(document).ready(function() {
+	$.material.init();
+});
+</script>

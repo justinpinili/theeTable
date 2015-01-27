@@ -4,10 +4,14 @@
 			<tr>
 				<th>Playlist</th>
 				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody ui-sortable="sortableOptions" ng-model="playlist">
 			<tr ng-repeat="song in playlist">
+				<td>
+					{{ $index + 1 }}
+				</td>
 				<td>
 					{{ song.title }}
 				</td>
@@ -20,3 +24,9 @@
 </div>
 
 <button ng-click="searchSC()" class="btn btn-default">Add a song from SoundCloud</button>
+
+<script>
+$(document).ready(function() {
+	$.material.init();
+});
+</script>

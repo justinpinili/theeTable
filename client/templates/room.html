@@ -26,15 +26,15 @@
 							<table class="table table-striped">
 								<thead>
 									<tr>
-										<th>Current Queue</th>
+										<th></th><th>Current Queue</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="room.queue.length === 0">
-										<td>None</td>
+										<td></td><td>None</td>
 									</tr>
 									<tr ng-if="room.queue.length > 0" ng-repeat="user in room.queue">
-										<td>{{ user }}</td>
+										<td>{{ $index+1 }}</td><td>{{ user }}</td>
 									</tr>
 								</tbody>
 							</table>
