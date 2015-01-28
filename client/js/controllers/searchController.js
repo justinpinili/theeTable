@@ -4,6 +4,10 @@ angular.module('theeTable.controllers')
 	$scope.soundcloud = {};
 
 	$scope.search = function(query) {
+
+		$scope.soundcloud.results = [];
+		$scope.searching = true;
+
 		SC.initialize({
 			client_id: '3fad6addc9d20754f8457461d02465f2'
 		});
@@ -15,6 +19,9 @@ angular.module('theeTable.controllers')
 
 		SC.get('/tracks', { q: query }, function(tracks) {
 			// console.log(tracks);
+
+			$scope.searching = false;
+
 			$scope.$apply(function() {
 				$scope.soundcloud.results = tracks;
 			});

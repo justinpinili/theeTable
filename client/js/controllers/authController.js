@@ -1,15 +1,15 @@
 angular.module('theeTable.controllers')
 	.controller('authController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', function($scope, $location, localStorageService, theeTableAuth) {
 
-		$scope.current = 'login';
+		$scope.current = 'Log In';
 		$scope.url = 'http://localhost:1337/user/login';
 
 		$scope.switchForm = function() {
-			if ($scope.current === 'login') {
-				$scope.current = 'signup';
+			if ($scope.current === 'Log In') {
+				$scope.current = 'Sign Up';
 				$scope.url = 'http://localhost:1337/user/new';
 			} else {
-				$scope.current = 'login';
+				$scope.current = 'Log In';
 				$scope.url = 'http://localhost:1337/user/login';
 			}
 			return;

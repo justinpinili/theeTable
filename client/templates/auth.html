@@ -1,32 +1,32 @@
-<div class="container">
-	<div class="row">
-		<h1>
-			{{ current }}!
-		</h1>
-		<div ng-if="message" class="alert alert-danger" role="alert">
-			 <span class="bold">Sorry!</span> {{ message }}
-		</div>
-		<form name="logInForm" ng-submit='auth(login.username, login.password)' novalidate>
-			<div class="form-group form-group-lg">
-				<div class="input-group input-auth">
-					<input type="text" name="logInUsername" ng-model="login.username" class="form-control floating-label" placeholder="username" /><br />
-					<input type="password" name="logInPassword" ng-model="login.password" class="form-control floating-label" placeholder="password" /><br />
-					<button type="submit" ng-disabled='authDisabled()' class="btn btn-default">Submit</button>
-				</div>
+<div class="panel panel-primary auth-panel">
+	<div>
+			<h1>
+				{{ current }}!
+			</h1>
+			<div ng-if="message" class="alert alert-danger" role="alert">
+				 <span class="bold">Sorry!</span> {{ message }}
 			</div>
-		</form>
+			<form name="logInForm" ng-submit='auth(login.username, login.password)' novalidate>
+				<div class="form-group form-group-md">
+					<div class="input-group input-auth">
+						<input type="text" name="logInUsername" ng-model="login.username" class="form-control floating-label" placeholder="username" /><br />
+						<input type="password" name="logInPassword" ng-model="login.password" class="form-control floating-label" placeholder="password" /><br />
+						<button type="submit" ng-disabled='authDisabled()' class="btn btn-default">Submit</button>
+					</div>
+				</div>
+			</form>
 
-		<p ng-if="current === 'login'">
-			New to Thee Table? <a href="" ng-click="switchForm()">Sign Up Here!</a>
-		</p>
-		<p ng-if="current === 'signup'">
-			Already a member of Thee Table? <a href="" ng-click="switchForm()">Log In Here!</a>
-		</p>
+			<p ng-if="current === 'Log In'">
+				New to Thee Table? <a href="" ng-click="switchForm()">Sign Up Here!</a>
+			</p>
+			<p ng-if="current === 'Sign Up'">
+				Already a member of Thee Table? <a href="" ng-click="switchForm()">Log In Here!</a>
+			</p>
 	</div>
 </div>
 
 <script>
-		$(document).ready(function() {
-				$.material.init();
-		});
+	$(document).ready(function() {
+			$.material.init();
+	});
 </script>
