@@ -18,7 +18,7 @@ angular.module('theeTable.controllers')
 		query = $('#soundcloudSearch').val();
 
 		SC.get('/tracks', { q: query }, function(tracks) {
-			// console.log(tracks);
+			console.log(tracks);
 
 			$scope.searching = false;
 
@@ -31,6 +31,21 @@ angular.module('theeTable.controllers')
 		$('#soundcloudSearch').val('');
 
 	};
+
+	$scope.convertTime = function(duration) {
+		var hours = Math.floor(duration / 3600000);
+		var minutes = Math.floor((duration % 3600000) / 60000);
+		var seconds = Math.floor(((duration % 360000) % 60000) / 1000);
+
+		if (hours > 0) {
+			return hours + ":" + minutes + ":" + seconds;
+		}
+
+		if (seconds < 10) {
+			seconds = "0"+seconds;
+		}
+		return minutes + ":" + seconds;
+	}
 
 	$scope.updatePlaylist = function(url, title) {
 		$scope.$parent.newURL = { source: url, title: title };

@@ -192,6 +192,9 @@ body {
 	text-align: center;
 }
 
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+	vertical-align: middle;
+}
 .glyphicon-refresh-animate {
 	font-size: 40px;
 	-animation: spin .7s infinite linear;
