@@ -172,7 +172,9 @@ describe('socket.IO', function() {
 
         client2.on('connect', function(data){
           client2.emit('roomEntered', user2);
-          client2.emit('newChatMessage', message);
+          setInterval(function() {
+            client2.emit('newChatMessage', message);
+          }, 1000);
         });
 
         client2.on('disconnect', function() {
@@ -182,10 +184,12 @@ describe('socket.IO', function() {
         });
 
         client1.on('updatedChat', function(data) {
-          data.chat.length.should.equal(1);
-          data.chat[0].user.should.equal('jason');
-          client2.disconnect();
-          client1.disconnect();
+          if (data.chat.length > 2) {
+            data.chat.length.should.equal(3);
+            data.chat[2].user.should.equal('jason');
+            client2.disconnect();
+            client1.disconnect();
+          }
         });
 
       });
