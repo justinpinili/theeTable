@@ -40,13 +40,18 @@ angular.module('theeTable.controllers')
 		var minutes = Math.floor((duration % 3600000) / 60000);
 		var seconds = Math.floor(((duration % 360000) % 60000) / 1000);
 
+		if (seconds < 10) {
+			seconds = "0"+seconds;
+		}
+
+		if (minutes < 10) {
+			minutes = "0"+minutes;
+		}
+		
 		if (hours > 0) {
 			return hours + ":" + minutes + ":" + seconds;
 		}
 
-		if (seconds < 10) {
-			seconds = "0"+seconds;
-		}
 		return minutes + ":" + seconds;
 	};
 
@@ -61,7 +66,7 @@ angular.module('theeTable.controllers')
 		SC.connect(function() {
 			SC.get('/me', function(me) {
 				// alert('Hello, ' + me.username);
-				console.log("me", me);
+				// console.log("me", me);
 
 				$scope.$apply(function() {
 					$scope.possiblePlaylists = 'start';
@@ -70,10 +75,10 @@ angular.module('theeTable.controllers')
 				var playlists = '/users/' + me.id + '/playlists';
 
 				SC.get(playlists, function(playlistResults) {
-					console.log("playlists", playlistResults);
+					// console.log("playlists", playlistResults);
 
 					SC.get('/users/' + me.id + '/favorites', function(favoriteResults) {
-						console.log("likes", favoriteResults);
+						// console.log("likes", favoriteResults);
 						$scope.likes = favoriteResults;
 
 						$scope.$apply(function() {
@@ -81,7 +86,6 @@ angular.module('theeTable.controllers')
 						});
 
 					});
-
 
 					return;
 				});
@@ -93,7 +97,6 @@ angular.module('theeTable.controllers')
 		var importedPlaylist = [];
 
 		if (likes === 'likes') {
-			console.log("hit");
 			for (var index = 0; index < $scope.likes.length; index++) {
 				importedPlaylist.push({ source: $scope.likes[index].permalink_url, title: $scope.likes[index].title, artist: $scope.likes[index].user.username, length: $scope.likes[index].duration });
 			}
@@ -105,6 +108,7 @@ angular.module('theeTable.controllers')
 
 		$scope.$parent.newPlaylist = importedPlaylist;
 		$scope.playlist = importedPlaylist;
+		delete $scope.possiblePlaylists;
 	}
 
 	theeTableAuth.getUserInfo(function(user) {
