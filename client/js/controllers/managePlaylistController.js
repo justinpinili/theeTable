@@ -20,7 +20,7 @@ angular.module('theeTable.controllers')
 		stop: function(e, ui) {
 			var playlist = [];
 			for (var index = 0; index < $scope.playlist.length; index++) {
-				playlist.push({ source: $scope.playlist[index].source, votes: $scope.playlist[index].votes, title: $scope.playlist[index].title });
+				playlist.push({ source: $scope.playlist[index].source, title: $scope.playlist[index].title, artist: $scope.playlist[index].artist, length: $scope.playlist[index].length });
 			}
 			$scope.$parent.newPlaylist = playlist;
 		}
@@ -30,10 +30,25 @@ angular.module('theeTable.controllers')
 		$scope.playlist.splice(index, 1);
 		var playlist = [];
 		for (var index = 0; index < $scope.playlist.length; index++) {
-			playlist.push({ source: $scope.playlist[index].source, votes: $scope.playlist[index].votes, title: $scope.playlist[index].title });
+			playlist.push({ source: $scope.playlist[index].source, title: $scope.playlist[index].title, artist: $scope.playlist[index].artist, length: $scope.playlist[index].length });
 		}
 		$scope.$parent.newPlaylist = playlist;
 	}
+
+	$scope.convertTime = function(duration) {
+		var hours = Math.floor(duration / 3600000);
+		var minutes = Math.floor((duration % 3600000) / 60000);
+		var seconds = Math.floor(((duration % 360000) % 60000) / 1000);
+
+		if (hours > 0) {
+			return hours + ":" + minutes + ":" + seconds;
+		}
+
+		if (seconds < 10) {
+			seconds = "0"+seconds;
+		}
+		return minutes + ":" + seconds;
+	};
 
 	theeTableAuth.getUserInfo(function(user) {
 		$scope.playlist = user.playlist;

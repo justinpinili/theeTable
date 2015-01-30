@@ -8,7 +8,7 @@ var roomSchema = mongoose.Schema({
         },
 
   // entries in the queue will be an object
-  // ex. { source: 'url', votes: 0, }
+  // ex. { source: 'url', title: 'title', artist: 'artist', length: 0 }
   queue: Array,
 
   // entries in the chat will be an object

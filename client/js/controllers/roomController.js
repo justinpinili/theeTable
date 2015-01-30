@@ -67,7 +67,7 @@ angular.module('theeTable.controllers')
 
 		$scope.$watch('newURL', function(newValue, oldValue) {
 			if (newValue !== undefined) {
-				socket.emit('newPlaylistItem', { source: newValue.source, title: newValue.title });
+				socket.emit('newPlaylistItem', { source: newValue.source, title: newValue.title, artist: newValue.artist, length: newValue.length });
 			}
 		});
 

@@ -36,17 +36,34 @@ describe('/user API Endpoint', function() {
 
 	after(function(done) {
 		var song1 = { source: 'https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview',
-		title: 'Junge Junge - Beautiful Girl (Blondish Remix Preview)', votes: 0 };
+									title: 'Junge Junge - Beautiful Girl (Blondish Remix Preview)',
+									artist: 'Blondish',
+									length: 133080 };
+
 		var song2 = { source: 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix',
-		title: 'Harry Wolfman - OnTap Waifs & Strays Remix', votes: 0 };
+									title: 'Harry Wolfman - OnTap Waifs & Strays Remix',
+									artist: 'Purpsoul',
+									length: 397960 };
+
 		var song3 = { source: 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide',
-		title: 'NTEIBINT feat. Birsen - Riptide', votes: 0 };
+									title: 'NTEIBINT feat. Birsen - Riptide',
+									artist: 'Eskimo Recordings',
+									length: 335678 };
+
 		var song4 = { source: 'https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record',
-		title: "Premiere: Steve Lawler 'House Record'", votes: 0 };
+									title: "Premiere: Steve Lawler 'House Record'",
+									artist: 'Mixmag-1',
+									length: 317233 };
+
 		var song5 = { source: 'https://soundcloud.com/kunsthandwerk/khw009-sandro-golia-galatone',
-		title: 'KHW009 - Sandro Golia - Galatone (HRRSN Remix) [Cut]', votes: 0 };
+									title: 'KHW009 - Sandro Golia - Galatone (HRRSN Remix) [Cut]',
+									artist: "kunsthandwerk",
+									length: 180078 };
+
 		var song6 = { source: 'https://soundcloud.com/fatcat-demo/teso-wo-to-step',
-		title: 'T.e.s.o - Wo To Step', votes: 0 };
+									title: 'T.e.s.o - Wo To Step',
+									artist: 'Fatcat Demo',
+									length: 269478 };
 
 		var emptyRoom = function() {
 			schema.Room.where({ name: "lobby" }).findOne(function (err, room) {

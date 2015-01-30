@@ -45,11 +45,13 @@ angular.module('theeTable.controllers')
 			seconds = "0"+seconds;
 		}
 		return minutes + ":" + seconds;
-	}
+	};
 
-	$scope.updatePlaylist = function(url, title) {
-		$scope.$parent.newURL = { source: url, title: title };
-		playlist.push({ source: url, votes: 0, title: title });
+	$scope.updatePlaylist = function(url, title, artist, length) {
+		console.log(artist);
+		console.log(length);
+		$scope.$parent.newURL = { source: url, title: title, artist: artist, length: length };
+		playlist.push({ source: url, title: title, artist: artist, length: length });
 		$modalInstance.close();
 	};
 

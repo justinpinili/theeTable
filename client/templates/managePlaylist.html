@@ -1,9 +1,12 @@
 <div class="manage">
+	<h2>Playlist</h2>
 	<table class="table table-striped table-hover choice">
 		<thead>
 			<tr>
-				<th>Playlist</th>
-				<th></th>
+				<th>Order</th>
+				<th>Artist</th>
+				<th>Title</th>
+				<th>Length</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -13,7 +16,13 @@
 					{{ $index + 1 }}
 				</td>
 				<td>
+					{{ song.artist }}
+				</td>
+				<td>
 					{{ song.title }}
+				</td>
+				<td>
+					{{ convertTime(song.length) }}
 				</td>
 				<td>
 					<span ng-click="remove($index)" class="glyphicon glyphicon-remove"></span>
