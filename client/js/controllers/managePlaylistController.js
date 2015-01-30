@@ -50,6 +50,21 @@ angular.module('theeTable.controllers')
 		return minutes + ":" + seconds;
 	};
 
+	$scope.connectSC = function() {
+		// initialize client with app credentials
+		SC.initialize({
+			client_id: '3fad6addc9d20754f8457461d02465f2',
+			redirect_uri: 'http://localhost:1337/success'
+		});
+
+		// initiate auth popup
+		SC.connect(function() {
+			SC.get('/me', function(me) {
+				alert('Hello, ' + me.username);
+			});
+		});
+	};
+
 	theeTableAuth.getUserInfo(function(user) {
 		$scope.playlist = user.playlist;
 	});
