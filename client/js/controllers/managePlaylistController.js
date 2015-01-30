@@ -69,12 +69,19 @@ angular.module('theeTable.controllers')
 
 				var playlists = '/users/' + me.id + '/playlists';
 
-				SC.get(playlists, function(results) {
-					console.log("playlists", results);
+				SC.get(playlists, function(playlistResults) {
+					console.log("playlists", playlistResults);
 
-					$scope.$apply(function() {
-						$scope.possiblePlaylists = results;
+					SC.get('/users/' + me.id + '/favorites', function(favoriteResults) {
+						console.log("likes", favoriteResults);
+						$scope.likes = favoriteResults;
+
+						$scope.$apply(function() {
+							$scope.possiblePlaylists = playlistResults;
+						});
+
 					});
+
 
 					return;
 				});
@@ -82,10 +89,18 @@ angular.module('theeTable.controllers')
 		});
 	};
 
-	$scope.importPlaylist = function(playlist) {
+	$scope.importPlaylist = function(playlist, likes) {
 		var importedPlaylist = [];
-		for (var index = 0; index < playlist.tracks.length; index++) {
-			importedPlaylist.push({ source: playlist.tracks[index].permalink_url, title: playlist.tracks[index].title, artist: playlist.tracks[index].user.username, length: playlist.tracks[index].duration });
+
+		if (likes === 'likes') {
+			console.log("hit");
+			for (var index = 0; index < $scope.likes.length; index++) {
+				importedPlaylist.push({ source: $scope.likes[index].permalink_url, title: $scope.likes[index].title, artist: $scope.likes[index].user.username, length: $scope.likes[index].duration });
+			}
+		} else {
+			for (var index = 0; index < playlist.tracks.length; index++) {
+				importedPlaylist.push({ source: playlist.tracks[index].permalink_url, title: playlist.tracks[index].title, artist: playlist.tracks[index].user.username, length: playlist.tracks[index].duration });
+			}
 		}
 
 		$scope.$parent.newPlaylist = importedPlaylist;

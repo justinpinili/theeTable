@@ -40,7 +40,7 @@
 		<div ng-click="importPlaylist(playlist)" ng-repeat="playlist in possiblePlaylists">
 			{{ playlist.title }}
 		</div>
-		<div>
+		<div ng-click="importPlaylist(likes, 'likes')">
 			Import likes
 		</div>
 	</div>
