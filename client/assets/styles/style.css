@@ -115,7 +115,6 @@ body {
 
 .panel-primary {
 	border-color: #2C3E50;
-	height: 300px;
 }
 
 .panel-body {
@@ -130,6 +129,7 @@ body {
 }
 
 .chat-head {
+	height: 300px;
 	padding: 5px;
 	margin: 5px;
 }
@@ -161,16 +161,19 @@ body {
 .queue-outer {
 	height: 81%;
 	width: 30%;
-	/*border-color: #0C2032;*/
-	/*border-style: solid;*/
-	/*padding: 5px;*/
-	/*margin: 5px;*/
-	/*overflow-y: scroll;*/
 }
 
 .queue-table {
 	height: 100%;
 	overflow-y: scroll;
+}
+
+.auth-panel {
+	width: 60%;
+	position: absolute;
+	left: 18%;
+	margin: 10px;
+	padding: 5px;
 }
 
 .manage {
@@ -179,4 +182,31 @@ body {
 
 .bold {
 	font-weight: bold;
+}
+
+.choice {
+	cursor: pointer;
+}
+
+.center {
+	text-align: center;
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+	vertical-align: middle;
+}
+.glyphicon-refresh-animate {
+	font-size: 40px;
+	-animation: spin .7s infinite linear;
+	-webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+	from { -webkit-transform: rotate(0deg);}
+	to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+	from { transform: scale(1) rotate(0deg);}
+	to { transform: scale(1) rotate(360deg);}
 }

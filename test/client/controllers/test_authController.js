@@ -42,10 +42,10 @@ describe('Unit: authController', function() {
 			describe("$scope.switchForm function", function() {
 				it('should change between signup and login information', function() {
 					$scope.switchForm();
-					expect($scope.current).toBe('signup');
+					expect($scope.current).toBe('Sign Up');
 					expect($scope.url).toBe('http://localhost:1337/user/new');
 					$scope.switchForm();
-					expect($scope.current).toBe('login');
+					expect($scope.current).toBe('Log In');
 					expect($scope.url).toBe('http://localhost:1337/user/login');
 				});
 			});

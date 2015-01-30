@@ -12,27 +12,41 @@
 		</div>
 	</form>
 
-	<table ng-if="soundcloud.results" class="table table-striped">
-		<thead>
-			<tr>
-				<th>Song Results</th>
-				<th></th>
-				<th></th>
-			<tr>
-		<tbody>
-			<tr ng-repeat="track in soundcloud.results">
-				<td>
-					{{ $index + 1 }}
-				</td>
-				<td>
-					{{ track.title }} by: {{ track.user.username }}
-				</td>
-				<td>
-					<span ng-click="updatePlaylist( track.permalink_url, track.title )" class="glyphicon glyphicon-plus"></span>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<div ng-if="searching" class="center">
+		<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+	</div>
+	<div ng-if="soundcloud.results">
+		<h4>Song Results</h4>
+		<table class="table table-striped table-hover choice">
+			<thead>
+				<tr>
+					<th></th>
+					<th></th>
+					<th>Artist</th>
+					<th>Song Title</th>
+					<th>Length</th>
+				<tr>
+			<tbody>
+				<tr ng-click="updatePlaylist( track.permalink_url, track.title, track.user.username, track.duration )" ng-repeat="track in soundcloud.results">
+					<td>
+						<span class="glyphicon glyphicon-plus"></span>
+					</td>
+					<td>
+						<img ng-src="{{ track.artwork_url }}" />
+					</td>
+					<td>
+						{{ track.user.username }}
+					</td>
+					<td>
+						{{ track.title }}
+					</td>
+					<td>
+						{{ convertTime(track.duration) }}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <script>

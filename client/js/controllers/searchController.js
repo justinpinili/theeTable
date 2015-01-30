@@ -4,6 +4,10 @@ angular.module('theeTable.controllers')
 	$scope.soundcloud = {};
 
 	$scope.search = function(query) {
+
+		$scope.soundcloud.results = [];
+		$scope.searching = true;
+
 		SC.initialize({
 			client_id: '3fad6addc9d20754f8457461d02465f2'
 		});
@@ -14,7 +18,10 @@ angular.module('theeTable.controllers')
 		query = $('#soundcloudSearch').val();
 
 		SC.get('/tracks', { q: query }, function(tracks) {
-			// console.log(tracks);
+			console.log(tracks);
+
+			$scope.searching = false;
+
 			$scope.$apply(function() {
 				$scope.soundcloud.results = tracks;
 			});
@@ -25,9 +32,26 @@ angular.module('theeTable.controllers')
 
 	};
 
-	$scope.updatePlaylist = function(url, title) {
-		$scope.$parent.newURL = { source: url, title: title };
-		playlist.push({ source: url, votes: 0, title: title });
+	$scope.convertTime = function(duration) {
+		var hours = Math.floor(duration / 3600000);
+		var minutes = Math.floor((duration % 3600000) / 60000);
+		var seconds = Math.floor(((duration % 360000) % 60000) / 1000);
+
+		if (hours > 0) {
+			return hours + ":" + minutes + ":" + seconds;
+		}
+
+		if (seconds < 10) {
+			seconds = "0"+seconds;
+		}
+		return minutes + ":" + seconds;
+	};
+
+	$scope.updatePlaylist = function(url, title, artist, length) {
+		console.log(artist);
+		console.log(length);
+		$scope.$parent.newURL = { source: url, title: title, artist: artist, length: length };
+		playlist.push({ source: url, title: title, artist: artist, length: length });
 		$modalInstance.close();
 	};
 
