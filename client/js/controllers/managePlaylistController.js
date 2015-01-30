@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', function($scope, $modalInstance, $modal, theeTableAuth) {
+.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', '$http', function($scope, $modalInstance, $modal, theeTableAuth, $http) {
 
 	$scope.playlist = [];
 
@@ -60,7 +60,16 @@ angular.module('theeTable.controllers')
 		// initiate auth popup
 		SC.connect(function() {
 			SC.get('/me', function(me) {
-				alert('Hello, ' + me.username);
+				// alert('Hello, ' + me.username);
+				console.log("me", me);
+
+				var playlists = '/users/' + me.id + '/playlists';
+
+				SC.get(playlists, function(results) {
+					console.log("playlists", results);
+					$scope.possiblePlaylists = results;
+					return;
+				});
 			});
 		});
 	};
