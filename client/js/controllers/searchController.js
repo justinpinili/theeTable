@@ -48,8 +48,8 @@ angular.module('theeTable.controllers')
 	};
 
 	$scope.updatePlaylist = function(url, title, artist, length) {
-		console.log(artist);
-		console.log(length);
+		// console.log(artist);
+		// console.log(length);
 		$scope.$parent.newURL = { source: url, title: title, artist: artist, length: length };
 		playlist.push({ source: url, title: title, artist: artist, length: length });
 		$modalInstance.close();

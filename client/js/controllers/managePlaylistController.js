@@ -63,16 +63,34 @@ angular.module('theeTable.controllers')
 				// alert('Hello, ' + me.username);
 				console.log("me", me);
 
+				$scope.$apply(function() {
+					$scope.possiblePlaylists = 'start';
+				});
+
 				var playlists = '/users/' + me.id + '/playlists';
 
 				SC.get(playlists, function(results) {
 					console.log("playlists", results);
-					$scope.possiblePlaylists = results;
+
+					$scope.$apply(function() {
+						$scope.possiblePlaylists = results;
+					});
+
 					return;
 				});
 			});
 		});
 	};
+
+	$scope.importPlaylist = function(playlist) {
+		var importedPlaylist = [];
+		for (var index = 0; index < playlist.tracks.length; index++) {
+			importedPlaylist.push({ source: playlist.tracks[index].permalink_url, title: playlist.tracks[index].title, artist: playlist.tracks[index].user.username, length: playlist.tracks[index].duration });
+		}
+
+		$scope.$parent.newPlaylist = importedPlaylist;
+		$scope.playlist = importedPlaylist;
+	}
 
 	theeTableAuth.getUserInfo(function(user) {
 		$scope.playlist = user.playlist;
