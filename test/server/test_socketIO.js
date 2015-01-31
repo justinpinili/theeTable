@@ -334,7 +334,7 @@ describe('socket.IO', function() {
           data.queue.length.should.equal(2);
           data.queue[0].should.equal('justin');
           data.currentDJ.should.equal('justin');
-          data.currentSong.should.equal('https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record');
+          data.currentSong.source.should.equal('https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record');
           should.equal(data.currentTime, null);
           client2.disconnect();
           client1.disconnect();
