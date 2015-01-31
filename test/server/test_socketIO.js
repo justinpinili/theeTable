@@ -22,29 +22,35 @@ var message = { msg: 'oh herro' };
 var song1 = { source: 'https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview',
               title: 'Junge Junge - Beautiful Girl (Blondish Remix Preview)',
               artist: 'Blondish',
-              length: 133080 };
+              length: 133080,
+              soundcloudID: 1};
 
 var song2 = { source: 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix',
               title: 'Harry Wolfman - OnTap Waifs & Strays Remix',
               artist: 'Purpsoul',
-              length: 397960 };
+              length: 397960,
+              soundcloudID: 2 };
 var song3 = { source: 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide',
               title: 'NTEIBINT feat. Birsen - Riptide',
               artist: 'Eskimo Recordings',
-              length: 335678 };
+              length: 335678,
+              soundcloudID: 3 };
 
 var song4 = { source: 'https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record',
               title: "Premiere: Steve Lawler 'House Record'",
               artist: 'Mixmag-1',
-              length: 317233 };
+              length: 317233,
+              soundcloudID: 4 };
 var song5 = { source: 'https://soundcloud.com/kunsthandwerk/khw009-sandro-golia-galatone',
               title: 'KHW009 - Sandro Golia - Galatone (HRRSN Remix) [Cut]',
               artist: "kunsthandwerk",
-              length: 180078 };
+              length: 180078,
+              soundcloudID: 5 };
 var song6 = { source: 'https://soundcloud.com/fatcat-demo/teso-wo-to-step',
               title: 'T.e.s.o - Wo To Step',
               artist: 'Fatcat Demo',
-              length: 269478 };
+              length: 269478,
+              soundcloudID: 6 };
 
 var dj1 = { user: 'justin' };
 var dj2 = { user: 'jason' };
@@ -221,12 +227,12 @@ describe('socket.IO', function() {
 
       client2.on('connect', function(data) {
         client2.emit('roomEntered', user2);
-        client2.emit('newPlaylistItem', song1);
+        client2.emit('newPlaylistItem', { playlistItem: song1 });
         setTimeout(function() {
-          client2.emit('newPlaylistItem', song2);
+          client2.emit('newPlaylistItem', { playlistItem: song2 });
         }, 100);
         setTimeout(function() {
-          client2.emit('newPlaylistItem', song3);
+          client2.emit('newPlaylistItem', { playlistItem: song3 });
         }, 200);
       });
 
@@ -239,13 +245,13 @@ describe('socket.IO', function() {
       client1.on('connect', function(data){
         client1.emit('roomEntered', user1);
 
-        client1.emit('newPlaylistItem', song4);
+        client1.emit('newPlaylistItem', { playlistItem: song4 });
         setTimeout(function() {
-          client1.emit('newPlaylistItem', song5);
+          client1.emit('newPlaylistItem', { playlistItem: song5 });
         }, 100);
         setTimeout(function() {
           last = true;
-          client1.emit('newPlaylistItem', song6);
+          client1.emit('newPlaylistItem', { playlistItem: song6 });
         }, 200);
 
 

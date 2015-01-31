@@ -36,34 +36,40 @@ describe('/user API Endpoint', function() {
 
 	after(function(done) {
 		var song1 = { source: 'https://soundcloud.com/blondish/junge-junge-beautiful-girl-preview',
-									title: 'Junge Junge - Beautiful Girl (Blondish Remix Preview)',
-									artist: 'Blondish',
-									length: 133080 };
+		title: 'Junge Junge - Beautiful Girl (Blondish Remix Preview)',
+		artist: 'Blondish',
+		length: 133080,
+		soundcloudID: 1};
 
 		var song2 = { source: 'https://soundcloud.com/purpsoul/harry-wolfman-ontap-waifs-strays-remix',
-									title: 'Harry Wolfman - OnTap Waifs & Strays Remix',
-									artist: 'Purpsoul',
-									length: 397960 };
+		title: 'Harry Wolfman - OnTap Waifs & Strays Remix',
+		artist: 'Purpsoul',
+		length: 397960,
+		soundcloudID: 2 };
 
 		var song3 = { source: 'https://soundcloud.com/eskimorecordings/nteibint-feat-birsen-riptide',
-									title: 'NTEIBINT feat. Birsen - Riptide',
-									artist: 'Eskimo Recordings',
-									length: 335678 };
+		title: 'NTEIBINT feat. Birsen - Riptide',
+		artist: 'Eskimo Recordings',
+		length: 335678,
+		soundcloudID: 3 };
 
 		var song4 = { source: 'https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record',
-									title: "Premiere: Steve Lawler 'House Record'",
-									artist: 'Mixmag-1',
-									length: 317233 };
+		title: "Premiere: Steve Lawler 'House Record'",
+		artist: 'Mixmag-1',
+		length: 317233,
+		soundcloudID: 4 };
 
 		var song5 = { source: 'https://soundcloud.com/kunsthandwerk/khw009-sandro-golia-galatone',
-									title: 'KHW009 - Sandro Golia - Galatone (HRRSN Remix) [Cut]',
-									artist: "kunsthandwerk",
-									length: 180078 };
+		title: 'KHW009 - Sandro Golia - Galatone (HRRSN Remix) [Cut]',
+		artist: "kunsthandwerk",
+		length: 180078,
+		soundcloudID: 5 };
 
 		var song6 = { source: 'https://soundcloud.com/fatcat-demo/teso-wo-to-step',
-									title: 'T.e.s.o - Wo To Step',
-									artist: 'Fatcat Demo',
-									length: 269478 };
+		title: 'T.e.s.o - Wo To Step',
+		artist: 'Fatcat Demo',
+		length: 269478,
+		soundcloudID: 6 };
 
 		var emptyRoom = function() {
 			schema.Room.where({ name: "lobby" }).findOne(function (err, room) {

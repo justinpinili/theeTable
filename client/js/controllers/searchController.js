@@ -47,11 +47,11 @@ angular.module('theeTable.controllers')
 		return minutes + ":" + seconds;
 	};
 
-	$scope.updatePlaylist = function(url, title, artist, length) {
+	$scope.updatePlaylist = function(url, title, artist, length, id) {
 		// console.log(artist);
 		// console.log(length);
-		$scope.$parent.newURL = { source: url, title: title, artist: artist, length: length };
-		playlist.push({ source: url, title: title, artist: artist, length: length });
+		$scope.$parent.newURL = { source: url, title: title, artist: artist, length: length, soundcloudID: id };
+		playlist.push({ source: url, title: title, artist: artist, length: length, soundcloudID: id });
 		$modalInstance.close();
 	};
 

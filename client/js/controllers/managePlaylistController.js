@@ -20,7 +20,7 @@ angular.module('theeTable.controllers')
 		stop: function(e, ui) {
 			var playlist = [];
 			for (var index = 0; index < $scope.playlist.length; index++) {
-				playlist.push({ source: $scope.playlist[index].source, title: $scope.playlist[index].title, artist: $scope.playlist[index].artist, length: $scope.playlist[index].length });
+				playlist.push({ source: $scope.playlist[index].source, title: $scope.playlist[index].title, artist: $scope.playlist[index].artist, length: $scope.playlist[index].length, soundcloudID: $scope.playlist[index].soundcloudID });
 			}
 			$scope.$parent.newPlaylist = playlist;
 		}
@@ -30,7 +30,7 @@ angular.module('theeTable.controllers')
 		$scope.playlist.splice(index, 1);
 		var playlist = [];
 		for (var index = 0; index < $scope.playlist.length; index++) {
-			playlist.push({ source: $scope.playlist[index].source, title: $scope.playlist[index].title, artist: $scope.playlist[index].artist, length: $scope.playlist[index].length });
+			playlist.push({ source: $scope.playlist[index].source, title: $scope.playlist[index].title, artist: $scope.playlist[index].artist, length: $scope.playlist[index].length, soundcloudID: $scope.playlist[index].soundcloudID });
 		}
 		$scope.$parent.newPlaylist = playlist;
 	}
@@ -47,7 +47,7 @@ angular.module('theeTable.controllers')
 		if (minutes < 10) {
 			minutes = "0"+minutes;
 		}
-		
+
 		if (hours > 0) {
 			return hours + ":" + minutes + ":" + seconds;
 		}
@@ -98,11 +98,11 @@ angular.module('theeTable.controllers')
 
 		if (likes === 'likes') {
 			for (var index = 0; index < $scope.likes.length; index++) {
-				importedPlaylist.push({ source: $scope.likes[index].permalink_url, title: $scope.likes[index].title, artist: $scope.likes[index].user.username, length: $scope.likes[index].duration });
+				importedPlaylist.push({ source: $scope.likes[index].permalink_url, title: $scope.likes[index].title, artist: $scope.likes[index].user.username, length: $scope.likes[index].duration, soundcloudID: $scope.likes[index].id });
 			}
 		} else {
 			for (var index = 0; index < playlist.tracks.length; index++) {
-				importedPlaylist.push({ source: playlist.tracks[index].permalink_url, title: playlist.tracks[index].title, artist: playlist.tracks[index].user.username, length: playlist.tracks[index].duration });
+				importedPlaylist.push({ source: playlist.tracks[index].permalink_url, title: playlist.tracks[index].title, artist: playlist.tracks[index].user.username, length: playlist.tracks[index].duration, soundcloudID: playlist.tracks[index].id });
 			}
 		}
 
