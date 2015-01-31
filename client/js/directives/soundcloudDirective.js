@@ -82,7 +82,6 @@ angular.module('theeTable.directives')
 						if (newValue !== null) {
 							if (first) {
 								scope.thisSong = scope.sce(newValue.source);
-								var source = scope.thisSong;
 								scope.setUpPlayer();
 								first = false;
 							} else {

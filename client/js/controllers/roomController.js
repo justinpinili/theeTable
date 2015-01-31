@@ -14,7 +14,6 @@ angular.module('theeTable.controllers')
 		socket.on('updatedChat', function(data) {
 			$scope.room.chat = data.chat;
 			$(".chats").animate({ scrollTop: $(document).height() + 1000 }, "slow");
-			return false;
 		});
 
 		socket.on('rotatedPlaylist', function(data) {
@@ -31,7 +30,7 @@ angular.module('theeTable.controllers')
 			if (data.currentDJ) {
 				$scope.room.currentDJ = data.currentDJ;
 				$scope.room.currentSong = data.currentSong;
-				$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + data.currentSong.source);
+				$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + data.currentSong.source).toString();
 			}
 		});
 
@@ -84,7 +83,7 @@ angular.module('theeTable.controllers')
 					socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
 				});
 				if (result.currentDJ !== null) {
-					$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong.source);
+					$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong.source).toString();
 				}
 				return;
 			});
