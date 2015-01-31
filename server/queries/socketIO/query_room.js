@@ -160,7 +160,7 @@ module.exports.addToQueue = function(roomName, userName, io) {
 								res.send({ message: "No user found with the given username." });
 								return;
 							}
-							room.currentSong = user.playlist[0].source;
+							room.currentSong = user.playlist[0];
 							room.currentDJ = user.username;
 							room.save(function(err) {
 								if (!err) {
@@ -225,7 +225,7 @@ module.exports.removeFromQueue = function(roomName, userName, io) {
 								res.send({ message: "No user found with the given username." });
 								return;
 							}
-							room.currentSong = user.playlist[0].source;
+							room.currentSong = user.playlist[0];
 							room.currentDJ = user.username;
 							room.save(function(err) {
 								if (!err) {
@@ -284,7 +284,7 @@ module.exports.newQueue = function(roomName, userName, queue, io) {
 				schema.User.where({ username: room.queue[0] }).findOne(function (err, user) {
 					if (!err) {
 						room.currentDJ = user.username;
-						room.currentSong = user.playlist[0].source;
+						room.currentSong = user.playlist[0];
 						room.currentTime = null;
 
 						room.save(function(err) {

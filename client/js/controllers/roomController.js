@@ -31,7 +31,7 @@ angular.module('theeTable.controllers')
 			if (data.currentDJ) {
 				$scope.room.currentDJ = data.currentDJ;
 				$scope.room.currentSong = data.currentSong;
-				$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + data.currentSong);
+				$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + data.currentSong.source);
 			}
 		});
 
@@ -84,7 +84,7 @@ angular.module('theeTable.controllers')
 					socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
 				});
 				if (result.currentDJ !== null) {
-					$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong);
+					$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong.source);
 				}
 				return;
 			});

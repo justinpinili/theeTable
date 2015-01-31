@@ -15,45 +15,54 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<h4 ng-if="title">{{ title }}</h4>
-						<h4 ng-if="!title">No Song Playing.</h4>
-					</div>
-					<div class="panel-body">
-						<div class="queue-outer">
-							<div class="queue-table">
-							<table class="table table-striped table-hover">
-								<thead>
-									<tr>
-										<th></th>
-										<th>
-											Current Queue
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-if="room.queue.length === 0">
-										<td></td>
-										<td>
-											None
-										</td>
-									</tr>
-									<tr ng-if="room.queue.length > 0" ng-repeat="user in room.queue">
-										<td>
-											{{ $index+1 }}
-										</td>
-										<td>
-											{{ user }}
-										</td>
-									</tr>
-								</tbody>
-							</table>
+				<div class="panel-head">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h4 ng-if="title">{{ title }}</h4>
+							<h4 ng-if="!title">No Song Playing.</h4>
+						</div>
+						<div class="panel-body">
+							<div class="queue-outer">
+								<div class="queue-table">
+								<table class="table table-striped table-hover">
+									<thead>
+										<tr>
+											<th></th>
+											<th>
+												Current Queue
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-if="room.queue.length === 0">
+											<td></td>
+											<td>
+												None
+											</td>
+										</tr>
+										<tr ng-if="room.queue.length > 0" ng-repeat="user in room.queue">
+											<td>
+												{{ $index+1 }}
+											</td>
+											<td>
+												{{ user }}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								</div>
 							</div>
-						</div><br />
-						<span ng-if="currentUser.playlist[0]"><b>Song on Deck:</b> {{ currentUser.playlist[0].title }}</span>
-						<div class="soundcloud">
-							<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title"></sound-cloud-player>
+							<div class="song-info">
+								<div class="song-content" ng-if="title">
+									Artist: {{ room.currentSong.artist }}<br />
+									Duration: {{ room.currentSong.length }}
+								</div>
+							</div>
+							<br />
+							<span ng-if="currentUser.playlist[0]"><b>Song on Deck:</b> {{ currentUser.playlist[0].title }}</span>
+							<div class="soundcloud">
+								<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title"></sound-cloud-player>
+							</div>
 						</div>
 					</div>
 				</div>

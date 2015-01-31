@@ -111,10 +111,11 @@ body {
 
 .panel-primary>.panel-heading {
 	background-color: #2C3E50;
+	border-color: #2C3E50;
 }
 
-.panel-primary {
-	border-color: #2C3E50;
+.panel {
+	height: 100%;
 }
 
 .panel-body {
@@ -134,10 +135,13 @@ body {
 	margin: 5px;
 }
 
+.panel-head {
+	height: 300px;
+	padding: 5px;
+	margin: 5px;
+}
+
 .chats {
-	/*height: 300px;*/
-	/*border-color: #0C2032;*/
-	/*border-style: solid;*/
 	height: 85%;
 	padding: 5px;
 	margin: 5px;
@@ -161,11 +165,22 @@ body {
 .queue-outer {
 	height: 81%;
 	width: 30%;
+	float: left;
 }
 
 .queue-table {
 	height: 100%;
 	overflow-y: scroll;
+}
+
+.song-info {
+	height: 81%;
+	margin-left: 30%;
+}
+
+.song-content {
+	padding: 5px;
+	margin: 5px;
 }
 
 .auth-panel {
