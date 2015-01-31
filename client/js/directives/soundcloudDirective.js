@@ -36,9 +36,11 @@ angular.module('theeTable.directives')
 							}
 						});
 						widget.bind(SC.Widget.Events.PLAY, function(data) {
+
 							if ($scope.room.currentTime !== null) {
 								widget.seekTo($scope.room.currentTime);
 							}
+
 							widget.getCurrentSound(function(currentSound) {
 								$scope.$apply(function(){
 									$scope.title = currentSound.title;
@@ -79,12 +81,12 @@ angular.module('theeTable.directives')
 					if (newValue !== undefined) {
 						if (newValue !== null) {
 							if (first) {
-								scope.thisSong = scope.sce(newValue);
-								var source = scope.thisSong;
+								scope.thisSong = scope.sce(newValue.source);
 								scope.setUpPlayer();
 								first = false;
 							} else {
-								scope.updatePlayer(newValue);
+								delete scope.title;
+								scope.updatePlayer(newValue.source);
 							}
 						}
 					}

@@ -10,6 +10,10 @@ router.get('/', function(req, res) {
   res.render('index');
 });
 
+router.get('/success', function(req, res) {
+  res.render('success');
+});
+
 // API Endpoints
 router.use(rooms);
 router.use(user);

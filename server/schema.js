@@ -22,7 +22,7 @@ var roomSchema = mongoose.Schema({
 
   currentDJ: String,
 
-  currentSong: String,
+  currentSong: {},
 
   currentTime: Number
 

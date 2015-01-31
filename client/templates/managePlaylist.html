@@ -30,12 +30,24 @@
 			</tr>
 		</tbody>
 	</table>
+
+	<button ng-click="searchSC()" class="btn btn-default">Add a song from SoundCloud</button>
+	<button ng-if="!possiblePlaylists" ng-click="connectSC()" class="btn btn-default">Import playlists or likes from SoundCloud</button>
+	<div ng-if="possiblePlaylists && possiblePlaylists === 'start'">
+		<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+	</div>
+	<div ng-if="possiblePlaylists !== 'start' && possiblePlaylists">
+		<div ng-click="importPlaylist(playlist)" ng-repeat="playlist in possiblePlaylists">
+			{{ playlist.title }}
+		</div>
+		<div ng-click="importPlaylist(likes, 'likes')">
+			Import likes
+		</div>
+	</div>
 </div>
 
-<button ng-click="searchSC()" class="btn btn-default">Add a song from SoundCloud</button>
-
 <script>
-$(document).ready(function() {
-	$.material.init();
-});
+	$(document).ready(function() {
+		$.material.init();
+	});
 </script>

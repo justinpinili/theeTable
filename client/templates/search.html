@@ -27,7 +27,7 @@
 					<th>Length</th>
 				<tr>
 			<tbody>
-				<tr ng-click="updatePlaylist( track.permalink_url, track.title, track.user.username, track.duration )" ng-repeat="track in soundcloud.results">
+				<tr ng-click="updatePlaylist( track.permalink_url, track.title, track.user.username, track.duration, track.id )" ng-repeat="track in soundcloud.results">
 					<td>
 						<span class="glyphicon glyphicon-plus"></span>
 					</td>
