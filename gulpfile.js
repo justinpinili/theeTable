@@ -14,7 +14,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('mocha', function() {
-  return gulp.src('./test/server/*.js', {read: false})
+  return gulp.src('./tests/server/*.js', {read: false})
     .pipe(mocha())
     .once('end', function () {
       process.exit();
@@ -22,7 +22,7 @@ gulp.task('mocha', function() {
 });
 
 gulp.task('mocha-test', function() {
-  return gulp.src('./test/server/*.js', {read: false})
+  return gulp.src('./tests/server/*.js', {read: false})
     .pipe(mocha());
 });
 

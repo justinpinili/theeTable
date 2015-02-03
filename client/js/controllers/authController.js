@@ -32,6 +32,35 @@ angular.module('theeTable.controllers')
 			});
 		};
 
+		$scope.authSC = function() {
+			$scope.$parent.loginSC(function() {
+				theeTableAuth.siteAccess('http://localhost:1337/user/login', $scope.$parent.soundcloudID.username, 'abc', function(result) {
+					if (!result.message) {
+						localStorageService.set("jwt", result.jwt);
+						$scope.$parent.getUserInfo();
+						$location.path("/rooms");
+						return;
+					}
+
+					theeTableAuth.siteAccess('http://localhost:1337/user/new', $scope.$parent.soundcloudID.username, 'abc', function(result) {
+						if (!result.message) {
+							localStorageService.set("jwt", result.jwt);
+							$scope.$parent.getUserInfo();
+							$location.path("/rooms");
+							return;
+						}
+
+						$scope.message = result.message;
+						$scope.login.password = '';
+						// console.log(result.message);
+						return;
+					});
+
+				});
+
+			});
+		}
+
 		$scope.login = {};
 
 		$scope.authDisabled = function() {

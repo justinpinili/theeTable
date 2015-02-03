@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', '$http', function($scope, $modalInstance, $modal, theeTableAuth, $http) {
+.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', '$http', 'loginSC', 'getSoundcloudID', 'getSCinstance', function($scope, $modalInstance, $modal, theeTableAuth, $http, loginSC, getSoundcloudID, getSCinstance) {
 
 	$scope.playlist = [];
 
@@ -11,6 +11,9 @@ angular.module('theeTable.controllers')
 			resolve: {
 				playlist: function () {
 					return $scope.playlist;
+				},
+				getSCinstance: function() {
+					return getSCinstance;
 				}
 			}
 		});
@@ -56,29 +59,17 @@ angular.module('theeTable.controllers')
 	};
 
 	$scope.connectSC = function() {
-		// initialize client with app credentials
-		SC.initialize({
-			client_id: '3fad6addc9d20754f8457461d02465f2',
-			redirect_uri: 'http://localhost:1337/success'
-		});
 
-		// initiate auth popup
-		SC.connect(function() {
-			SC.get('/me', function(me) {
-				// alert('Hello, ' + me.username);
-				// console.log("me", me);
+		var getPlaylists = function() {
 
-				$scope.$apply(function() {
-					$scope.possiblePlaylists = 'start';
-				});
+				$scope.possiblePlaylists = 'start';
 
-				var playlists = '/users/' + me.id + '/playlists';
+				var playlists = '/users/' + getSoundcloudID().id + '/playlists';
 
-				SC.get(playlists, function(playlistResults) {
-					// console.log("playlists", playlistResults);
+				getSCinstance().get(playlists, function(playlistResults) {
 
-					SC.get('/users/' + me.id + '/favorites', function(favoriteResults) {
-						// console.log("likes", favoriteResults);
+					getSCinstance().get('/users/' + getSoundcloudID().id + '/favorites', function(favoriteResults) {
+
 						$scope.likes = favoriteResults;
 
 						$scope.$apply(function() {
@@ -89,8 +80,19 @@ angular.module('theeTable.controllers')
 
 					return;
 				});
+
+		};
+
+		if (getSoundcloudID() === undefined) {
+			loginSC(function() {
+				$scope.$apply(function() {
+					getPlaylists();
+				});
 			});
-		});
+		} else {
+			getPlaylists();
+		}
+
 	};
 
 	$scope.importPlaylist = function(playlist, likes) {

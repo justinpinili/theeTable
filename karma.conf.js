@@ -22,7 +22,7 @@ module.exports = function(config) {
       'client/library/angular-ui-bootstrap-bower/ui-bootstrap-tpls.min.js',
       'client/library/angular-ui-sortable/sortable.min.js',
       'client/js/**/*.js',
-      'test/client/**/*.js'
+      'tests/client/**/*.js'
     ],
 
 
