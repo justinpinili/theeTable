@@ -17,7 +17,46 @@ angular.module('theeTable.controllers')
       var modalInstance = $modal.open({
         templateUrl: './../templates/managePlaylist.html',
         controller: 'managePlaylistController',
-        size: 'lg'
+        size: 'lg',
+        resolve: {
+          loginSC: function () {
+            return $scope.loginSC;
+          },
+          getSoundcloudID: function() {
+            return $scope.getSoundcloudID;
+          },
+          getSCinstance: function() {
+            return $scope.getSCinstance;
+          }
+        }
+      });
+    };
+
+    $scope.getSoundcloudID = function() {
+      return $scope.soundcloudID;
+    }
+
+    $scope.getSCinstance = function() {
+      return $scope.sc;
+    }
+
+    $scope.loginSC = function() {
+
+      // initialize client with app credentials
+      SC.initialize({
+        client_id: '3fad6addc9d20754f8457461d02465f2',
+        redirect_uri: 'http://localhost:1337/success'
+      });
+
+      // initiate auth popup
+      SC.connect(function() {
+
+        $scope.sc = SC;
+
+        SC.get('/me', function(me) {
+          $scope.soundcloudID = me.id;
+        });
+
       });
     };
   }]);
