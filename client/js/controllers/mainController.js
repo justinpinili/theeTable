@@ -1,5 +1,6 @@
 angular.module('theeTable.controllers')
   .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', function($scope, localStorageService, theeTableAuth, $modal) {
+    
     $scope.getUserInfo = function(callback) {
       theeTableAuth.getUserInfo(function(result) {
         if (!result.message) {
@@ -42,21 +43,22 @@ angular.module('theeTable.controllers')
 
     $scope.loginSC = function() {
 
-      // initialize client with app credentials
-      SC.initialize({
-        client_id: '3fad6addc9d20754f8457461d02465f2',
-        redirect_uri: 'http://localhost:1337/success'
-      });
-
       // initiate auth popup
-      SC.connect(function() {
+      $scope.sc.connect(function() {
 
-        $scope.sc = SC;
-
-        SC.get('/me', function(me) {
+        $scope.sc.get('/me', function(me) {
           $scope.soundcloudID = me.id;
         });
 
       });
     };
+
+    // initialize client with app credentials
+    SC.initialize({
+      client_id: '3fad6addc9d20754f8457461d02465f2',
+      redirect_uri: 'http://localhost:1337/success'
+    });
+
+    $scope.sc = SC;
+
   }]);

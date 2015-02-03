@@ -11,6 +11,9 @@ angular.module('theeTable.controllers')
 			resolve: {
 				playlist: function () {
 					return $scope.playlist;
+				},
+				getSCinstance: function() {
+					return getSCinstance;
 				}
 			}
 		});
