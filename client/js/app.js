@@ -32,6 +32,7 @@ angular.module('theeTable', [
         controller: function(localStorageService, $location, $scope) {
           localStorageService.remove('jwt');
           $scope.$parent.currentUser = undefined;
+          $scope.$parent.soundcloudID = undefined;
           $location.path("/");
         }
       });

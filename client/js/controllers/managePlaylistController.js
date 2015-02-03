@@ -58,29 +58,41 @@ angular.module('theeTable.controllers')
 		return minutes + ":" + seconds;
 	};
 
-	$scope.loginSC = function() {
-		loginSC();
-	}
-
 	$scope.connectSC = function() {
-		$scope.possiblePlaylists = 'start';
 
-		var playlists = '/users/' + getSoundcloudID() + '/playlists';
+		var getPlaylists = function() {
 
-		getSCinstance().get(playlists, function(playlistResults) {
+				$scope.possiblePlaylists = 'start';
 
-			getSCinstance().get('/users/' + getSoundcloudID() + '/favorites', function(favoriteResults) {
+				var playlists = '/users/' + getSoundcloudID().id + '/playlists';
 
-				$scope.likes = favoriteResults;
+				getSCinstance().get(playlists, function(playlistResults) {
 
-				$scope.$apply(function() {
-					$scope.possiblePlaylists = playlistResults;
+					getSCinstance().get('/users/' + getSoundcloudID().id + '/favorites', function(favoriteResults) {
+
+						$scope.likes = favoriteResults;
+
+						$scope.$apply(function() {
+							$scope.possiblePlaylists = playlistResults;
+						});
+
+					});
+
+					return;
 				});
 
-			});
+		};
 
-			return;
-		});
+		if (getSoundcloudID() === undefined) {
+			loginSC(function() {
+				$scope.$apply(function() {
+					getPlaylists();
+				});
+			});
+		} else {
+			getPlaylists();
+		}
+
 	};
 
 	$scope.importPlaylist = function(playlist, likes) {
