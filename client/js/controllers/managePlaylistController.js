@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', '$http', 'loginSC', 'getSoundcloudID', 'getSCinstance', function($scope, $modalInstance, $modal, theeTableAuth, $http, loginSC, getSoundcloudID, getSCinstance) {
+.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'loginSC', 'getSoundcloudID', 'getSCinstance', function($scope, $modalInstance, $modal, theeTableAuth, loginSC, getSoundcloudID, getSCinstance) {
 
 	$scope.playlist = [];
 

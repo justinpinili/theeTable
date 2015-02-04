@@ -33,6 +33,25 @@ angular.module('theeTable.controllers')
       });
     };
 
+    $scope.viewFavorites = function() {
+      var modalInstance = $modal.open({
+        templateUrl: './../templates/viewFavorites.html',
+        controller: 'viewFavoritesController',
+        size: 'lg',
+        resolve: {
+          loginSC: function () {
+            return $scope.loginSC;
+          },
+          getSoundcloudID: function() {
+            return $scope.getSoundcloudID;
+          },
+          getSCinstance: function() {
+            return $scope.getSCinstance;
+          }
+        }
+      });
+    };
+
     $scope.getSoundcloudID = function() {
       return $scope.soundcloudID;
     }
