@@ -25,6 +25,9 @@
 					{{ convertTime(song.length) }}
 				</td>
 				<td>
+					<span ng-click="addToPlaylist(song)" class="glyphicon glyphicon-plus"></span>
+				</td>
+				<td>
 					<span ng-click="remove($index)" class="glyphicon glyphicon-remove"></span>
 				</td>
 			</tr>
@@ -34,7 +37,7 @@
 </div>
 
 <script>
-$(document).ready(function() {
-	$.material.init();
-});
+	$(document).ready(function() {
+		$.material.init();
+	});
 </script>

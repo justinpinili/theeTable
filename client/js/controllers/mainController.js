@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', function($scope, localStorageService, theeTableAuth, $modal) {
+  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'socket', function($scope, localStorageService, theeTableAuth, $modal, socket) {
 
     $scope.getUserInfo = function(callback) {
       theeTableAuth.getUserInfo(function(result) {
@@ -39,14 +39,8 @@ angular.module('theeTable.controllers')
         controller: 'viewFavoritesController',
         size: 'lg',
         resolve: {
-          loginSC: function () {
-            return $scope.loginSC;
-          },
-          getSoundcloudID: function() {
-            return $scope.getSoundcloudID;
-          },
-          getSCinstance: function() {
-            return $scope.getSCinstance;
+          currentSocket: function () {
+            return $scope.socket;
           }
         }
       });
@@ -90,5 +84,7 @@ angular.module('theeTable.controllers')
     });
 
     $scope.sc = SC;
+
+    $scope.socket = socket;
 
   }]);

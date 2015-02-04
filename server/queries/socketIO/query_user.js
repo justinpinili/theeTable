@@ -33,6 +33,7 @@ module.exports.updatePlaylist = function(roomName, userName, socket) {
 
 // Adding new song to the playlist.
 module.exports.newPlaylistItem = function(roomName, userName, playlistItem, socket) {
+	console.log(playlistItem);
 	var searchUser  = schema.User.where({ username: userName });
 	searchUser.findOne(function (err, user) {
 		if (!err) {
@@ -76,6 +77,35 @@ module.exports.newPlaylist = function(roomName, userName, playlist, socket) {
 						// console.log("user added!");
 						user = user;
 						socket.emit('updatedPlaylist', { playlist: user.playlist });
+						return;
+					}
+					console.log(err);
+					return;
+				});
+				return;
+			}
+		}
+		console.log(err);
+		return;
+	});
+};
+
+// Update entire favorites.
+module.exports.newFavorites = function(roomName, userName, favorites, socket) {
+	var searchUser  = schema.User.where({ username: userName });
+	searchUser.findOne(function (err, user) {
+		if (!err) {
+			if (user === null) {
+				console.log("user not found");
+				return;
+			} else {
+				// user.playlist = [];
+				user.favorites = favorites;
+				user.save(function(err) {
+					if (!err) {
+						// console.log("user added!");
+						user = user;
+						socket.emit('updatedFavorites', { favorites: user.favorites });
 						return;
 					}
 					console.log(err);

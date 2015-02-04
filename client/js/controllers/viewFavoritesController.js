@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('viewFavoritesController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', function($scope, $modalInstance, $modal, theeTableAuth) {
+.controller('viewFavoritesController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'currentSocket', function($scope, $modalInstance, $modal, theeTableAuth, currentSocket) {
 
 	$scope.favorites = [];
 
@@ -10,6 +10,7 @@ angular.module('theeTable.controllers')
 				favorites.push({ source: $scope.favorites[index].source, title: $scope.favorites[index].title, artist: $scope.favorites[index].artist, length: $scope.favorites[index].length, soundcloudID: $scope.favorites[index].soundcloudID });
 			}
 			// $scope.$parent.newFavorites = favorites;
+			currentSocket.emit('newFavorites', { favorites: favorites });
 		}
 	};
 
@@ -20,6 +21,12 @@ angular.module('theeTable.controllers')
 			favorites.push({ source: $scope.favorites[index].source, title: $scope.favorites[index].title, artist: $scope.favorites[index].artist, length: $scope.favorites[index].length, soundcloudID: $scope.favorites[index].soundcloudID });
 		}
 		// $scope.$parent.newFavorites = favorites;
+		currentSocket.emit('newFavorites', { favorites: favorites });
+	}
+
+	$scope.addToPlaylist = function(song) {
+		song = { source: song.source, title: song.title, artist: song.artist, length: song.length, soundcloudID: song.soundcloudID };
+		currentSocket.emit('newPlaylistItem', { song: song });
 	}
 
 	$scope.convertTime = function(duration) {
