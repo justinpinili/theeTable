@@ -60,7 +60,7 @@ module.exports.newPlaylistItem = function(roomName, userName, playlistItem, sock
 	});
 };
 
-// Update entireplaylist.
+// Update entire playlist.
 module.exports.newPlaylist = function(roomName, userName, playlist, socket) {
 	var searchUser  = schema.User.where({ username: userName });
 	searchUser.findOne(function (err, user) {
@@ -76,6 +76,34 @@ module.exports.newPlaylist = function(roomName, userName, playlist, socket) {
 						// console.log("user added!");
 						user = user;
 						socket.emit('updatedPlaylist', { playlist: user.playlist });
+						return;
+					}
+					console.log(err);
+					return;
+				});
+				return;
+			}
+		}
+		console.log(err);
+		return;
+	});
+};
+
+module.exports.addToLikes = function(userName, song, socket) {
+	var searchUser  = schema.User.where({ username: userName });
+	searchUser.findOne(function (err, user) {
+		if (!err) {
+			if (user === null) {
+				console.log("user not found");
+				return;
+			} else {
+				// user.playlist = [];
+				user.favorites.push(song);
+				user.save(function(err) {
+					if (!err) {
+						// console.log("user added!");
+						user = user;
+						socket.emit('updatedFavorites', { favorites: user.favorites });
 						return;
 					}
 					console.log(err);

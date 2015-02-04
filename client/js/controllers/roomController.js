@@ -56,6 +56,10 @@ angular.module('theeTable.controllers')
 			}
 		});
 
+		socket.on('updatedFavorites', function(data) {
+			console.log(data.favorites);
+		});
+
 		/**************
 		* Room Set-up *
 		***************/
@@ -92,6 +96,11 @@ angular.module('theeTable.controllers')
 		/*******************
 		* Room Interaction *
 		********************/
+
+		$scope.like = function(song) {
+			console.log("hit");
+			socket.emit('addToLikes', { song: song });
+		}
 
 		$scope.addToQueue = function() {
 			socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });

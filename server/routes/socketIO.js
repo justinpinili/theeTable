@@ -66,6 +66,10 @@ module.exports = function(io) {
 			query_user.updatePlaylist(roomName, data.username, socket);
 		});
 
+		socket.on('addToLikes', function(data) {
+			query_user.addToLikes(userName, data.song, socket);
+		});
+
 		/************************************
 		 * New Song for User Playlist Logic *
 		 ************************************/
