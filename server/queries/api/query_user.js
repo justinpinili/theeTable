@@ -10,7 +10,8 @@ module.exports.createUser = function(username, password, callback) {
 		password: password,
 		upVotes: 0,
 		playlist: [],
-		favorites: []
+		favorites: [],
+		rooms: []
 	});
 	var bcrypt = require('bcrypt');
 	bcrypt.genSalt(10, function(err, salt) {
@@ -55,7 +56,7 @@ module.exports.getUser = function(id, callback) {
 			userInfo.playlist  = user.playlist;
 			userInfo.favorites = user.favorites;
 			userInfo.rooms     = user.rooms;
-			callback(user);
+			callback(userInfo);
 			return;
 		}
 		console.log(err);

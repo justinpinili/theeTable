@@ -102,8 +102,10 @@ angular.module('theeTable.controllers')
 		********************/
 
 		$scope.like = function(song) {
-			console.log("hit");
 			$scope.$parent.socket.emit('addToLikes', { song: song });
+			if ($scope.$parent.soundcloudID) {
+				$scope.$parent.sc.put('/me/favorites/'+song.soundcloudID);
+			}
 		}
 
 		$scope.addToQueue = function() {
@@ -143,12 +145,9 @@ angular.module('theeTable.controllers')
 		};
 
 		$scope.storedInUser = function() {
-			console.log($scope.$parent.currentUser);
 			if ($scope.$parent.currentUser.rooms.indexOf($scope.room.name) !== -1) {
-				console.log("return true");
 				return true;
 			}
-			console.log("return false");
 			return false;
 		};
 
