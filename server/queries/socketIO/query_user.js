@@ -146,3 +146,31 @@ module.exports.addToLikes = function(userName, song, socket) {
 		return;
 	});
 };
+
+module.exports.addRoom = function(userName, room, socket) {
+	var searchUser  = schema.User.where({ username: userName });
+	searchUser.findOne(function (err, user) {
+		if (!err) {
+			if (user === null) {
+				console.log("user not found");
+				return;
+			} else {
+				// user.playlist = [];
+				user.rooms.push(room);
+				user.save(function(err) {
+					if (!err) {
+						// console.log("user added!");
+						user = user;
+						socket.emit('updatedRooms', { rooms: user.rooms });
+						return;
+					}
+					console.log(err);
+					return;
+				});
+				return;
+			}
+		}
+		console.log(err);
+		return;
+	});
+};

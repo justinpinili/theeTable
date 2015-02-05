@@ -17,8 +17,14 @@ angular.module('theeTable.controllers')
 
 		$scope.create = function(inputRoomName) {
 			theeTableRooms.createRoom(inputRoomName, function(result) {
+				if (!result.message) {
+					$scope.$parent.socket.emit("addRoom", {room: result.name});
+					// console.log(result.name);
+					return;
+				}
 				$scope.message = result.message;
 				$scope.newRoom.room = '';
+				return;
 			});
 		};
 

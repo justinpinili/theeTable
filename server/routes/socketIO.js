@@ -70,6 +70,14 @@ module.exports = function(io) {
 			query_user.addToLikes(userName, data.song, socket);
 		});
 
+		socket.on('addRoom', function(data) {
+			query_user.addRoom(userName, data.room, socket);
+		});
+
+		socket.on('userName', function(data) {
+			userName = data.username;
+		});
+
 		/************************************
 		 * New Song for User Playlist Logic *
 		 ************************************/
