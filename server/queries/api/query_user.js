@@ -54,7 +54,8 @@ module.exports.getUser = function(id, callback) {
 			userInfo.upVotes   = user.upVotes;
 			userInfo.playlist  = user.playlist;
 			userInfo.favorites = user.favorites;
-			callback(userInfo);
+			userInfo.rooms     = user.rooms;
+			callback(user);
 			return;
 		}
 		console.log(err);

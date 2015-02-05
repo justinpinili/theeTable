@@ -16,6 +16,10 @@ angular.module('theeTable.controllers')
 			$(".chats").animate({ scrollTop: $(document).height() + 1000 }, "slow");
 		});
 
+		$scope.$parent.socket.on('updatedRooms', function(data) {
+			$scope.$parent.currentUser.rooms = data.rooms;
+		});
+
 		$scope.$parent.socket.on('rotatedPlaylist', function(data) {
 			$scope.$parent.currentUser.playlist = data.playlist;
 			$scope.$parent.socket.emit('newQueue', { queue: $scope.room.queue });
@@ -137,4 +141,19 @@ angular.module('theeTable.controllers')
 			$scope.newPlaylistItem.url = '';
 			$scope.$parent.socket.emit('newPlaylistItem', { source: url });
 		};
+
+		$scope.storedInUser = function() {
+			console.log($scope.$parent.currentUser);
+			if ($scope.$parent.currentUser.rooms.indexOf($scope.room.name) !== -1) {
+				console.log("return true");
+				return true;
+			}
+			console.log("return false");
+			return false;
+		};
+
+		$scope.addRoom = function() {
+			$scope.$parent.socket.emit("addRoom", {room: $scope.room.name});
+		};
+
 	}]);

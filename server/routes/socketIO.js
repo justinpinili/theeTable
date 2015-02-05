@@ -78,6 +78,10 @@ module.exports = function(io) {
 			userName = data.username;
 		});
 
+		socket.on('newRooms', function(data) {
+			query_user.newRooms(uerName, data.rooms, socket);
+		});
+
 		/************************************
 		 * New Song for User Playlist Logic *
 		 ************************************/

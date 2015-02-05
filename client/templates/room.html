@@ -6,6 +6,7 @@
 				<h2 class="bold">{{ room.name }}</h2>
 				<p>
 					{{ room.users.length }} user(s) in this room.<br />
+					<button ng-click="addRoom()" ng-if="!storedInUser()" class="btn btn-default">Add to Favorite Roooms</button>
 				</p>
 			</center>
 		</div>
@@ -57,7 +58,7 @@
 									Artist: {{ room.currentSong.artist }}<br />
 									Duration: {{ room.currentSong.length }}<br />
 									ID: {{ room.currentSong.soundcloudID }}
-									<button ng-click="like(room.currentSong)" class="btn btn-default">Grab Song.</button>
+									<button ng-click="like(room.currentSong)" class="btn btn-default">Like Song.</button>
 								</div>
 							</div>
 							<br />

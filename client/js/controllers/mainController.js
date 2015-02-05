@@ -46,6 +46,19 @@ angular.module('theeTable.controllers')
       });
     };
 
+    $scope.viewFavoriteRooms = function() {
+      var modalInstance = $modal.open({
+        templateUrl: './../templates/viewFavoriteRooms.html',
+        controller: 'viewFavoriteRoomsController',
+        size: 'lg',
+        resolve: {
+          currentSocket: function () {
+            return $scope.socket;
+          }
+        }
+      });
+    };
+
     $scope.getSoundcloudID = function() {
       return $scope.soundcloudID;
     }
