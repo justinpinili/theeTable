@@ -31,6 +31,7 @@ angular.module('theeTable.controllers')
 
 		$scope.$parent.socket.on('updatedQueue', function(data) {
 			$scope.room.queue = data.queue;
+			console.log("updated queue", data);
 			if (data.currentDJ) {
 				$scope.room.currentDJ = data.currentDJ;
 				$scope.room.currentSong = data.currentSong;
