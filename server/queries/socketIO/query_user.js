@@ -33,7 +33,7 @@ module.exports.updatePlaylist = function(roomName, userName, socket) {
 
 // Adding new song to the playlist.
 module.exports.newPlaylistItem = function(roomName, userName, playlistItem, socket) {
-	console.log(playlistItem);
+	// console.log(playlistItem);
 	var searchUser  = schema.User.where({ username: userName });
 	searchUser.findOne(function (err, user) {
 		if (!err) {
