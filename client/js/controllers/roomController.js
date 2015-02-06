@@ -61,7 +61,8 @@ angular.module('theeTable.controllers')
 		});
 
 		$scope.$parent.socket.on('updatedFavorites', function(data) {
-			// console.log(data.favorites);
+			$scope.$parent.currentUser.favorites = data.favorites;
+			// console.log($scope.$parent.currentUser.favorites);
 		});
 
 		/**************

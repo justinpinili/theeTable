@@ -31,17 +31,52 @@
 		</tbody>
 	</table>
 
-	<button ng-click="searchSC()" class="btn btn-default">Add a song from SoundCloud</button>
-	<button ng-if="!possiblePlaylists" ng-click="connectSC()" class="btn btn-default">Import playlists or likes from SoundCloud</button>
-	<div ng-if="possiblePlaylists && possiblePlaylists === 'start'">
-		<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
-	</div>
-	<div ng-if="possiblePlaylists !== 'start' && possiblePlaylists">
-		<div ng-click="importPlaylist(playlist)" ng-repeat="playlist in possiblePlaylists">
-			{{ playlist.title }}
+	<div class="center">
+		<button ng-click="searchSC()" class="btn btn-default">Search on SoundCloud</button>
+		<button ng-if="!possiblePlaylists" ng-click="connectSC()" class="btn btn-default">Import playlists or likes from SoundCloud</button>
+		<div ng-if="possiblePlaylists && possiblePlaylists === 'start'">
+			<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
 		</div>
-		<div ng-click="importPlaylist(likes, 'likes')">
-			Import likes
+		<div ng-if="possiblePlaylists !== 'start' && possiblePlaylists">
+
+			<table class="table table-striped table-hover choice">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Select one of the following to replace your playlist:</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody ui-sortable="sortableOptions" ng-model="playlist">
+					<tr ng-click="importPlaylist(playlist)" ng-repeat="playlist in possiblePlaylists">
+						<td>
+						</td>
+						<td>
+							{{ playlist.title }}
+						</td>
+						<td>
+							<span class="glyphicon glyphicon-plus"></span>
+						</td>
+					</tr>
+					<tr ng-click="importPlaylist(likes, 'likes')">
+						<td>
+						</td>
+						<td>
+							Import your 50 most recent likes on SoundCloud
+						</td>
+						<td>
+							<span class="glyphicon glyphicon-plus"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- <div ng-click="importPlaylist(playlist)" ng-repeat="playlist in possiblePlaylists">
+				{{ playlist.title }}
+			</div>
+			<div ng-click="importPlaylist(likes, 'likes')">
+				Import likes
+			</div> -->
 		</div>
 	</div>
 </div>
