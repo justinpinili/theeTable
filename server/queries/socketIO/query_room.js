@@ -56,6 +56,26 @@ module.exports.disconnectFromRoom = function(roomName, userName, io) {
 					room.currentSong = null;
 					room.currentTime = null;
 					currentDjLeft = true;
+
+					if (room.queue.length > 0) {
+						schema.User.where({ username: room.queue[0] }).findOne(function(err, user) {
+							if (!err) {
+								if (user === null) {
+									res.send({ message: "No user found with the given username." });
+									return;
+								}
+								room.currentSong = user.playlist[0];
+								room.currentDJ = user.username;
+								return;
+							}
+							console.log(err);
+							return;
+						});
+
+						io.to(roomName).emit('updatedQueue', { queue: room.queue, currentDJ: room.currentDJ, currentSong: room.currentSong });
+
+					}
+
 				} else if (room.queue.indexOf(userName) > 0) {
 					room.queue.splice(room.queue.indexOf(userName), 1);
 					io.to(roomName).emit('updatedQueue', { queue: room.queue });

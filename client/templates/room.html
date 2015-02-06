@@ -56,8 +56,7 @@
 							<div class="song-info">
 								<div class="song-content" ng-if="title">
 									Artist: {{ room.currentSong.artist }}<br />
-									Duration: {{ room.currentSong.length }}<br />
-									ID: {{ room.currentSong.soundcloudID }}
+									Duration: {{ convertTime(room.currentSong.length - room.currentTime) }}<br />
 									<button ng-click="like(room.currentSong)" class="btn btn-default">Like Song.</button>
 								</div>
 							</div>
@@ -71,6 +70,7 @@
 				</div>
 				<button ng-if="room.queue.indexOf(currentUser.username) === -1" ng-click="addToQueue()" class="btn btn-default">Enter Queue</button>
 				<button ng-if="room.queue.indexOf(currentUser.username) >= 0" ng-click="removeFromQueue()" class="btn btn-default">Leave Queue</button>
+				<button ng-if="room.currentDJ === currentUser.username" ng-click="skip()" class="btn btn-default">Skip My Turn</button>
 				<button ng-click="managePlaylist()" class="btn btn-default"> Manage Your Playlist </button>
 			</div>
 			<div class="col-md-6">

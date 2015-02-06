@@ -31,7 +31,6 @@ angular.module('theeTable.controllers')
 
 		$scope.$parent.socket.on('updatedQueue', function(data) {
 			$scope.room.queue = data.queue;
-			console.log("updated queue", data);
 			if (data.currentDJ) {
 				$scope.room.currentDJ = data.currentDJ;
 				$scope.room.currentSong = data.currentSong;
@@ -113,6 +112,10 @@ angular.module('theeTable.controllers')
 			$scope.$parent.socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });
 		};
 
+		$scope.skip = function() {
+			$scope.$parent.socket.emit('updatePlaylist', { username: $scope.$parent.currentUser.username });
+		}
+
 		$scope.removeFromQueue = function() {
 			$scope.$parent.socket.emit('removeFromQueue', { user: $scope.$parent.currentUser.username });
 		};
@@ -154,6 +157,26 @@ angular.module('theeTable.controllers')
 
 		$scope.addRoom = function() {
 			$scope.$parent.socket.emit("addRoom", {room: $scope.room.name});
+		};
+
+		$scope.convertTime = function(duration) {
+			var hours = Math.floor(duration / 3600000);
+			var minutes = Math.floor((duration % 3600000) / 60000);
+			var seconds = Math.floor(((duration % 360000) % 60000) / 1000);
+
+			if (seconds < 10) {
+				seconds = "0"+seconds;
+			}
+
+			if (minutes < 10) {
+				minutes = "0"+minutes;
+			}
+
+			if (hours > 0) {
+				return hours + ":" + minutes + ":" + seconds;
+			}
+
+			return minutes + ":" + seconds;
 		};
 
 	}]);
