@@ -191,6 +191,12 @@ body {
 	padding: 5px;
 }
 
+.rooms {
+	display: inline-block;
+	margin: 5px;
+	padding: 5px;
+}
+
 .manage {
 	color: #2C3E50;
 }
