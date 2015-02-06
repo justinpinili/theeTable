@@ -43,3 +43,12 @@ angular.module('theeTable', [
 angular.module('theeTable.controllers', []);
 angular.module('theeTable.services', []);
 angular.module('theeTable.directives', []);
+
+// $(document).ready(function() {
+//   $.snackbar({content: "This is my awesome snackbar!"});
+//   $.snackbar({content: "This is my awesome snackbar!"});
+//   $.snackbar({content: "This is my awesome snackbar!"});
+//   $.snackbar({content: "This is my awesome snackbar!"});
+//   $.snackbar({content: "This is my awesome snackbar!"});
+//   $.snackbar({content: "This is my awesome snackbar!"});
+// });

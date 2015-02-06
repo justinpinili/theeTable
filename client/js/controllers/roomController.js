@@ -65,6 +65,12 @@ angular.module('theeTable.controllers')
 			// console.log($scope.$parent.currentUser.favorites);
 		});
 
+		$scope.$parent.socket.on('updatedRooms', function(data) {
+			$scope.$parent.currentUser.rooms = data.rooms;
+			$.snackbar({content: "" + data.rooms[data.rooms.length-1] + " has been added to your favorite rooms list." });
+			// console.log($scope.$parent.currentUser.favorites);
+		});
+
 		/**************
 		* Room Set-up *
 		***************/
@@ -73,9 +79,9 @@ angular.module('theeTable.controllers')
 		$scope.newURL;
 		$scope.newPlaylist;
 
-		$scope.$watch('newURL', function(newValue, oldValue) {
+		$scope.$watch('newSong', function(newValue, oldValue) {
 			if (newValue !== undefined) {
-				$scope.$parent.socket.emit('newPlaylistItem', { playlistItem: { source: newValue.source, title: newValue.title, artist: newValue.artist, length: newValue.length, soundcloudID: newValue.soundcloudID } });
+				$scope.$parent.socket.emit('newPlaylistItem', { song: { source: newValue.source, title: newValue.title, artist: newValue.artist, length: newValue.length, soundcloudID: newValue.soundcloudID } });
 			}
 		});
 
@@ -87,6 +93,9 @@ angular.module('theeTable.controllers')
 
 		if (theeTableAuth.verifyJwt()) {
 			theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {
+
+				$.snackbar({content: "Welcome to " + result.name });
+
 				$scope.room = result;
 				$scope.$parent.getUserInfo(function(user) {
 					$scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
@@ -106,7 +115,9 @@ angular.module('theeTable.controllers')
 			$scope.$parent.socket.emit('addToLikes', { song: song });
 			if ($scope.$parent.soundcloudID) {
 				$scope.$parent.sc.put('/me/favorites/'+song.soundcloudID);
+				$.snackbar({content: "" + song.title + " has been added to your soundcloud likes." });
 			}
+			$.snackbar({content: "" + song.title + " has been added to your Liked Songs." });
 		}
 
 		$scope.addToQueue = function() {
@@ -150,8 +161,10 @@ angular.module('theeTable.controllers')
 		};
 
 		$scope.storedInUser = function() {
-			if ($scope.$parent.currentUser.rooms.indexOf($scope.room.name) !== -1) {
-				return true;
+			if ($scope.room) {
+				if ($scope.$parent.currentUser.rooms.indexOf($scope.room.name) !== -1) {
+					return true;
+				}
 			}
 			return false;
 		};

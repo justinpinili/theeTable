@@ -32,7 +32,7 @@ module.exports.updatePlaylist = function(roomName, userName, socket) {
 }
 
 // Adding new song to the playlist.
-module.exports.newPlaylistItem = function(roomName, userName, playlistItem, socket) {
+module.exports.newPlaylistItem = function(roomName, userName, song, socket) {
 	// console.log(playlistItem);
 	var searchUser  = schema.User.where({ username: userName });
 	searchUser.findOne(function (err, user) {
@@ -42,7 +42,7 @@ module.exports.newPlaylistItem = function(roomName, userName, playlistItem, sock
 				return;
 			} else {
 				// user.playlist = [];
-				user.playlist.push(playlistItem);
+				user.playlist.push(song);
 				user.save(function(err) {
 					if (!err) {
 						// console.log("user added!");
