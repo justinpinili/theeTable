@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('roomController', ['$scope', '$state', '$stateParams', '$location', '$sce', 'localStorageService', 'theeTableAuth', 'theeTableRooms', 'socket', function($scope, $state, $stateParams, $location, $sce, localStorageService, theeTableAuth, theeTableRooms, socket) {
+	.controller('roomController', ['$scope', '$state', '$stateParams', '$location', '$sce', 'localStorageService', 'theeTableAuth', 'theeTableRooms', function($scope, $state, $stateParams, $location, $sce, localStorageService, theeTableAuth, theeTableRooms) {
 
 		/*************
 		 * Socket.IO *
@@ -7,25 +7,29 @@ angular.module('theeTable.controllers')
 
 		$scope.room = {};
 
-		socket.on('usersInRoom', function(data) {
+		$scope.$parent.socket.on('usersInRoom', function(data) {
 			$scope.room.users = data.users;
 		});
 
-		socket.on('updatedChat', function(data) {
+		$scope.$parent.socket.on('updatedChat', function(data) {
 			$scope.room.chat = data.chat;
 			$(".chats").animate({ scrollTop: $(document).height() + 1000 }, "slow");
 		});
 
-		socket.on('rotatedPlaylist', function(data) {
-			$scope.$parent.currentUser.playlist = data.playlist;
-			socket.emit('newQueue', { queue: $scope.room.queue });
+		$scope.$parent.socket.on('updatedRooms', function(data) {
+			$scope.$parent.currentUser.rooms = data.rooms;
 		});
 
-		socket.on('updatedPlaylist', function(data) {
+		$scope.$parent.socket.on('rotatedPlaylist', function(data) {
+			$scope.$parent.currentUser.playlist = data.playlist;
+			$scope.$parent.socket.emit('newQueue', { queue: $scope.room.queue });
+		});
+
+		$scope.$parent.socket.on('updatedPlaylist', function(data) {
 			$scope.$parent.currentUser.playlist = data.playlist;
 		});
 
-		socket.on('updatedQueue', function(data) {
+		$scope.$parent.socket.on('updatedQueue', function(data) {
 			$scope.room.queue = data.queue;
 			if (data.currentDJ) {
 				$scope.room.currentDJ = data.currentDJ;
@@ -34,45 +38,50 @@ angular.module('theeTable.controllers')
 			}
 		});
 
-		socket.on('updatedCurrentTime', function(data) {
+		$scope.$parent.socket.on('updatedCurrentTime', function(data) {
 			$scope.room.currentTime = data.time;
 		});
 
-		socket.on('rotatedQueue', function(data) {
+		$scope.$parent.socket.on('rotatedQueue', function(data) {
 			$scope.room.queue = data.queue;
 			$scope.room.currentDJ = data.currentDJ;
 			$scope.room.currentSong = data.currentSong;
 			$scope.room.currentTime = data.currentTime;
 
 			if (data.currentDJ === $scope.$parent.currentUser.username) {
-				$scope.socket = socket;
+				$scope.socket = $scope.$parent.socket;
 			}
 		});
 
-		socket.on('roomUpdate', function(data) {
+		$scope.$parent.socket.on('roomUpdate', function(data) {
 			$scope.room = data.room;
 			if (data.room.currentDJ === null) {
 				$scope.currentSong = null;
 			}
 		});
 
+		$scope.$parent.socket.on('updatedFavorites', function(data) {
+			$scope.$parent.currentUser.favorites = data.favorites;
+			// console.log($scope.$parent.currentUser.favorites);
+		});
+
 		/**************
 		* Room Set-up *
 		***************/
 
-		$scope.socket = socket;
+		$scope.socket = $scope.$parent.socket;
 		$scope.newURL;
 		$scope.newPlaylist;
 
 		$scope.$watch('newURL', function(newValue, oldValue) {
 			if (newValue !== undefined) {
-				socket.emit('newPlaylistItem', { playlistItem: { source: newValue.source, title: newValue.title, artist: newValue.artist, length: newValue.length, soundcloudID: newValue.soundcloudID } });
+				$scope.$parent.socket.emit('newPlaylistItem', { playlistItem: { source: newValue.source, title: newValue.title, artist: newValue.artist, length: newValue.length, soundcloudID: newValue.soundcloudID } });
 			}
 		});
 
 		$scope.$watch('newPlaylist', function(newValue, oldValue) {
 			if (newValue !== undefined) {
-				socket.emit('newPlaylist', { playlist: newValue });
+				$scope.$parent.socket.emit('newPlaylist', { playlist: newValue });
 			}
 		});
 
@@ -80,7 +89,7 @@ angular.module('theeTable.controllers')
 			theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {
 				$scope.room = result;
 				$scope.$parent.getUserInfo(function(user) {
-					socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
+					$scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
 				});
 				if (result.currentDJ !== null) {
 					$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong.source).toString();
@@ -93,12 +102,23 @@ angular.module('theeTable.controllers')
 		* Room Interaction *
 		********************/
 
+		$scope.like = function(song) {
+			$scope.$parent.socket.emit('addToLikes', { song: song });
+			if ($scope.$parent.soundcloudID) {
+				$scope.$parent.sc.put('/me/favorites/'+song.soundcloudID);
+			}
+		}
+
 		$scope.addToQueue = function() {
-			socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });
+			$scope.$parent.socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });
 		};
 
+		$scope.skip = function() {
+			$scope.$parent.socket.emit('updatePlaylist', { username: $scope.$parent.currentUser.username });
+		}
+
 		$scope.removeFromQueue = function() {
-			socket.emit('removeFromQueue', { user: $scope.$parent.currentUser.username });
+			$scope.$parent.socket.emit('removeFromQueue', { user: $scope.$parent.currentUser.username });
 		};
 
 		$scope.newChatMessage = {};
@@ -111,7 +131,7 @@ angular.module('theeTable.controllers')
 		};
 
 		$scope.submitMessage = function(message) {
-			socket.emit('newChatMessage', { msg: message });
+			$scope.$parent.socket.emit('newChatMessage', { msg: message });
 			$scope.newChatMessage.msg = '';
 		};
 
@@ -126,6 +146,38 @@ angular.module('theeTable.controllers')
 
 		$scope.submitPlaylistItem = function(url) {
 			$scope.newPlaylistItem.url = '';
-			socket.emit('newPlaylistItem', { source: url });
+			$scope.$parent.socket.emit('newPlaylistItem', { source: url });
 		};
+
+		$scope.storedInUser = function() {
+			if ($scope.$parent.currentUser.rooms.indexOf($scope.room.name) !== -1) {
+				return true;
+			}
+			return false;
+		};
+
+		$scope.addRoom = function() {
+			$scope.$parent.socket.emit("addRoom", {room: $scope.room.name});
+		};
+
+		$scope.convertTime = function(duration) {
+			var hours = Math.floor(duration / 3600000);
+			var minutes = Math.floor((duration % 3600000) / 60000);
+			var seconds = Math.floor(((duration % 360000) % 60000) / 1000);
+
+			if (seconds < 10) {
+				seconds = "0"+seconds;
+			}
+
+			if (minutes < 10) {
+				minutes = "0"+minutes;
+			}
+
+			if (hours > 0) {
+				return hours + ":" + minutes + ":" + seconds;
+			}
+
+			return minutes + ":" + seconds;
+		};
+
 	}]);

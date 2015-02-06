@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', function($scope, localStorageService, theeTableAuth, $modal) {
+  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'socket', function($scope, localStorageService, theeTableAuth, $modal, socket) {
 
     $scope.getUserInfo = function(callback) {
       theeTableAuth.getUserInfo(function(result) {
@@ -28,6 +28,32 @@ angular.module('theeTable.controllers')
           },
           getSCinstance: function() {
             return $scope.getSCinstance;
+          }
+        }
+      });
+    };
+
+    $scope.viewFavorites = function() {
+      var modalInstance = $modal.open({
+        templateUrl: './../templates/viewFavorites.html',
+        controller: 'viewFavoritesController',
+        size: 'lg',
+        resolve: {
+          currentSocket: function () {
+            return $scope.socket;
+          }
+        }
+      });
+    };
+
+    $scope.viewFavoriteRooms = function() {
+      var modalInstance = $modal.open({
+        templateUrl: './../templates/viewFavoriteRooms.html',
+        controller: 'viewFavoriteRoomsController',
+        size: 'lg',
+        resolve: {
+          currentSocket: function () {
+            return $scope.socket;
           }
         }
       });
@@ -71,5 +97,7 @@ angular.module('theeTable.controllers')
     });
 
     $scope.sc = SC;
+
+    $scope.socket = socket;
 
   }]);

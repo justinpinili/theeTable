@@ -33,9 +33,9 @@ gulp.task('karma-test', function (done) {
   }, done);
 });
 
-gulp.task('develop', ['lint', 'karma-test', 'mocha-test'], function () {
+gulp.task('develop', ['lint', /*'karma-test',*/ 'mocha-test'], function () {
   nodemon({ script: 'server.js', ext: 'html js', /*ignore: ['ignored.js']*/ })
-    .on('change', ['lint', 'karma-test', 'mocha-test'])
+    .on('change', ['lint', /*'karma-test',*/ 'mocha-test'])
     .on('restart', function () {
       console.log('restarted!')
     })

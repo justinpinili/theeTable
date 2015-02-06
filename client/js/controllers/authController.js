@@ -21,8 +21,11 @@ angular.module('theeTable.controllers')
 					// console.log(result);
 					// transfer to rooms lobby
 					localStorageService.set("jwt", result.jwt);
-					$scope.$parent.getUserInfo();
-					$location.path("/rooms");
+					$scope.$parent.getUserInfo(function() {
+						$scope.$parent.socket.emit("userName", {username: $scope.$parent.currentUser.username});
+						$location.path("/rooms");
+						return;
+					});
 					return;
 				}
 				$scope.message = result.message;
@@ -37,16 +40,22 @@ angular.module('theeTable.controllers')
 				theeTableAuth.siteAccess('http://localhost:1337/user/login', $scope.$parent.soundcloudID.username, 'abc', function(result) {
 					if (!result.message) {
 						localStorageService.set("jwt", result.jwt);
-						$scope.$parent.getUserInfo();
-						$location.path("/rooms");
+						$scope.$parent.getUserInfo(function() {
+							$scope.$parent.socket.emit("userName", {username: $scope.$parent.currentUser.username});
+							$location.path("/rooms");
+							return;
+						});
 						return;
 					}
 
 					theeTableAuth.siteAccess('http://localhost:1337/user/new', $scope.$parent.soundcloudID.username, 'abc', function(result) {
 						if (!result.message) {
 							localStorageService.set("jwt", result.jwt);
-							$scope.$parent.getUserInfo();
-							$location.path("/rooms");
+							$scope.$parent.getUserInfo(function() {
+								$scope.$parent.socket.emit("userName", {username: $scope.$parent.currentUser.username});
+								$location.path("/rooms");
+								return;
+							});
 							return;
 						}
 

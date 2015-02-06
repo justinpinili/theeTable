@@ -19,7 +19,7 @@ angular.module('theeTable.services')
 			$http.post('http://localhost:1337/rooms?jwt_token='+jwt, {name: roomName})
 				.success(function(result) {
 					if (!result.message) {
-						console.log(result);
+						callback(result);
 						// transfer to rooms lobby
 						alert(result.name + " created! Taking you there now.")
 						$location.path("/rooms/"+result.name);

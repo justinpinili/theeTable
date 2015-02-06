@@ -230,12 +230,12 @@ describe('socket.IO', function() {
 
       client2.on('connect', function(data) {
         client2.emit('roomEntered', user2);
-        client2.emit('newPlaylistItem', { playlistItem: song1 });
+        client2.emit('newPlaylistItem', { song: song1 });
         setTimeout(function() {
-          client2.emit('newPlaylistItem', { playlistItem: song2 });
+          client2.emit('newPlaylistItem', { song: song2 });
         }, 100);
         setTimeout(function() {
-          client2.emit('newPlaylistItem', { playlistItem: song3 });
+          client2.emit('newPlaylistItem', { song: song3 });
         }, 200);
       });
 
@@ -248,13 +248,13 @@ describe('socket.IO', function() {
       client1.on('connect', function(data){
         client1.emit('roomEntered', user1);
 
-        client1.emit('newPlaylistItem', { playlistItem: song4 });
+        client1.emit('newPlaylistItem', { song: song4 });
         setTimeout(function() {
-          client1.emit('newPlaylistItem', { playlistItem: song5 });
+          client1.emit('newPlaylistItem', { song: song5 });
         }, 100);
         setTimeout(function() {
           last = true;
-          client1.emit('newPlaylistItem', { playlistItem: song6 });
+          client1.emit('newPlaylistItem', { song: song6 });
         }, 200);
 
 

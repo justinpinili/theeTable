@@ -1,0 +1,32 @@
+<div class="manage">
+	<h2>Favorite Rooms</h2>
+	<table class="table table-striped table-hover choice">
+		<thead>
+			<tr>
+				<th>Order</th>
+				<th>Name</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody ui-sortable="sortableOptions" ng-model="rooms">
+			<tr ng-repeat="room in rooms">
+				<td>
+					{{ $index + 1 }}
+				</td>
+				<td ng-click="navigate(room)">
+					{{ room }}
+				</td>
+				<td>
+					<span ng-click="remove($index)" class="glyphicon glyphicon-remove"></span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>
+
+<script>
+$(document).ready(function() {
+	$.material.init();
+});
+</script>

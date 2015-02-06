@@ -45,7 +45,9 @@ var userSchema = mongoose.Schema({
 
   // entries in the playlist will be strings
   // ex. [ 'url', 'url2', 'url3' ]
-  favorites: Array
+  favorites: Array,
+
+  rooms: Array
 
 });
 

@@ -66,6 +66,22 @@ module.exports = function(io) {
 			query_user.updatePlaylist(roomName, data.username, socket);
 		});
 
+		socket.on('addToLikes', function(data) {
+			query_user.addToLikes(userName, data.song, socket);
+		});
+
+		socket.on('addRoom', function(data) {
+			query_user.addRoom(userName, data.room, socket);
+		});
+
+		socket.on('userName', function(data) {
+			userName = data.username;
+		});
+
+		socket.on('newRooms', function(data) {
+			query_user.newRooms(uerName, data.rooms, socket);
+		});
+
 		/************************************
 		 * New Song for User Playlist Logic *
 		 ************************************/
@@ -73,11 +89,15 @@ module.exports = function(io) {
 		// Update user playlist with new song.
 		socket.on('newPlaylistItem', function(data) {
 			// var playlistItem = { source: data.source, title: data.title, artist: data.artist, length: data.length, soundcloudID: data. };
-			query_user.newPlaylistItem(roomName, userName, data.playlistItem, socket);
+			query_user.newPlaylistItem(roomName, userName, data.song, socket);
 		});
 
 		socket.on('newPlaylist', function(data) {
 			query_user.newPlaylist(roomName, userName, data.playlist, socket);
+		});
+
+		socket.on('newFavorites', function(data) {
+			query_user.newFavorites(roomName, userName, data.favorites, socket);
 		});
 	});
 	return;

@@ -17,7 +17,7 @@ a, .dropdown-menu>li>a {
 }
 
 .navbar-default .navbar-nav>li>a {
-	color: #617487;
+	color: #FFF;
 }
 
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover,
@@ -188,6 +188,12 @@ body {
 	position: absolute;
 	left: 18%;
 	margin: 10px;
+	padding: 5px;
+}
+
+.rooms {
+	display: inline-block;
+	margin: 5px;
 	padding: 5px;
 }
 
