@@ -3,10 +3,9 @@
 	<div class="container">
 		<div class="row">
 			<center>
-				<h2 class="bold">{{ room.name }}</h2>
+				<h2 class="bold">{{ room.name }}<i ng-click="addRoom()" ng-if="!storedInUser()" class="mdi-content-add-box"></i></h2>
 				<p>
 					{{ room.users.length }} user(s) in this room.<br />
-					<button ng-click="addRoom()" ng-if="!storedInUser()" class="btn btn-default">Add to Favorite Roooms</button>
 				</p>
 			</center>
 		</div>
@@ -53,11 +52,14 @@
 								</table>
 								</div>
 							</div>
-							<div class="song-info">
+							<div class="song-info center">
+								<button ng-if="room.queue.indexOf(currentUser.username) === -1" ng-click="addToQueue()" class="btn btn-default btn-xs">Enter Queue</button>
+								<button ng-if="room.queue.indexOf(currentUser.username) >= 0" ng-click="removeFromQueue()" class="btn btn-default btn-xs">Leave Queue</button>
+								<button ng-show="room.currentDJ === currentUser.username" ng-click="skip()" class="btn btn-default btn-xs">Skip My Turn</button>
 								<div class="song-content" ng-if="title">
 									Artist: {{ room.currentSong.artist }}<br />
 									Duration: {{ convertTime(room.currentSong.length - room.currentTime) }}<br />
-									<button ng-click="like(room.currentSong)" class="btn btn-default">Like Song.</button>
+									<a href="javascript:void(0)" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a>
 								</div>
 							</div>
 							<br />
@@ -68,9 +70,6 @@
 						</div>
 					</div>
 				</div>
-				<button ng-if="room.queue.indexOf(currentUser.username) === -1" ng-click="addToQueue()" class="btn btn-default">Enter Queue</button>
-				<button ng-if="room.queue.indexOf(currentUser.username) >= 0" ng-click="removeFromQueue()" class="btn btn-default">Leave Queue</button>
-				<button ng-if="room.currentDJ === currentUser.username" ng-click="skip()" class="btn btn-default">Skip My Turn</button>
 				<button ng-click="managePlaylist()" class="btn btn-default"> Manage Your Playlist </button>
 			</div>
 			<div class="col-md-6">

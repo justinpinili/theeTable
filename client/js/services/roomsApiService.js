@@ -21,7 +21,6 @@ angular.module('theeTable.services')
 					if (!result.message) {
 						callback(result);
 						// transfer to rooms lobby
-						alert(result.name + " created! Taking you there now.")
 						$location.path("/rooms/"+result.name);
 						return;
 					}

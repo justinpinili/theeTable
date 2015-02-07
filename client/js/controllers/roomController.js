@@ -26,7 +26,14 @@ angular.module('theeTable.controllers')
 		});
 
 		$scope.$parent.socket.on('updatedPlaylist', function(data) {
-			$scope.$parent.currentUser.playlist = data.playlist;
+			if (!data.error) {
+				$scope.$parent.currentUser.playlist = data.playlist;
+				if (data.title) {
+					$.snackbar({content: "" + song.title + " has been added to your playlist." });
+				}
+				return;
+			}
+			$.snackbar({content: "" + data.error });
 		});
 
 		$scope.$parent.socket.on('updatedQueue', function(data) {
@@ -61,7 +68,20 @@ angular.module('theeTable.controllers')
 		});
 
 		$scope.$parent.socket.on('updatedFavorites', function(data) {
-			$scope.$parent.currentUser.favorites = data.favorites;
+			if (!data.error) {
+				$scope.$parent.currentUser.favorites = data.favorites;
+				if (data.title) {
+					$.snackbar({content: "" + data.title + " has been added to your Liked Songs." });
+				}
+				return;
+			}
+			$.snackbar({content: "" + data.error });
+			// console.log($scope.$parent.currentUser.favorites);
+		});
+
+		$scope.$parent.socket.on('updatedRooms', function(data) {
+			$scope.$parent.currentUser.rooms = data.rooms;
+			$.snackbar({content: "" + data.rooms[data.rooms.length-1] + " has been added to your favorite rooms list." });
 			// console.log($scope.$parent.currentUser.favorites);
 		});
 
@@ -73,9 +93,9 @@ angular.module('theeTable.controllers')
 		$scope.newURL;
 		$scope.newPlaylist;
 
-		$scope.$watch('newURL', function(newValue, oldValue) {
+		$scope.$watch('newSong', function(newValue, oldValue) {
 			if (newValue !== undefined) {
-				$scope.$parent.socket.emit('newPlaylistItem', { playlistItem: { source: newValue.source, title: newValue.title, artist: newValue.artist, length: newValue.length, soundcloudID: newValue.soundcloudID } });
+				$scope.$parent.socket.emit('newPlaylistItem', { song: { source: newValue.source, title: newValue.title, artist: newValue.artist, length: newValue.length, soundcloudID: newValue.soundcloudID } });
 			}
 		});
 
@@ -87,6 +107,9 @@ angular.module('theeTable.controllers')
 
 		if (theeTableAuth.verifyJwt()) {
 			theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {
+
+				$.snackbar({content: "Welcome to " + result.name });
+
 				$scope.room = result;
 				$scope.$parent.getUserInfo(function(user) {
 					$scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
@@ -106,6 +129,7 @@ angular.module('theeTable.controllers')
 			$scope.$parent.socket.emit('addToLikes', { song: song });
 			if ($scope.$parent.soundcloudID) {
 				$scope.$parent.sc.put('/me/favorites/'+song.soundcloudID);
+				$.snackbar({content: "" + song.title + " has been added to your soundcloud likes." });
 			}
 		}
 
@@ -150,8 +174,10 @@ angular.module('theeTable.controllers')
 		};
 
 		$scope.storedInUser = function() {
-			if ($scope.$parent.currentUser.rooms.indexOf($scope.room.name) !== -1) {
-				return true;
+			if ($scope.room) {
+				if ($scope.$parent.currentUser.rooms.indexOf($scope.room.name) !== -1) {
+					return true;
+				}
 			}
 			return false;
 		};

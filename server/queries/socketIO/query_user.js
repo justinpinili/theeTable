@@ -32,7 +32,7 @@ module.exports.updatePlaylist = function(roomName, userName, socket) {
 }
 
 // Adding new song to the playlist.
-module.exports.newPlaylistItem = function(roomName, userName, playlistItem, socket) {
+module.exports.newPlaylistItem = function(roomName, userName, song, socket) {
 	// console.log(playlistItem);
 	var searchUser  = schema.User.where({ username: userName });
 	searchUser.findOne(function (err, user) {
@@ -42,12 +42,27 @@ module.exports.newPlaylistItem = function(roomName, userName, playlistItem, sock
 				return;
 			} else {
 				// user.playlist = [];
-				user.playlist.push(playlistItem);
+
+				var duplicate = false;
+
+				for (var index = 0; index < user.playlist.length; index++) {
+					if (user.playlist[index].soundcloudID === song.soundcloudID) {
+						duplicate = true;
+					}
+				}
+
+				if (!duplicate) {
+					user.playlist.push(song);
+				} else {
+					socket.emit('updatedPlaylist', { error: 'This song is already on your playlist.'})
+					return;
+				}
+
 				user.save(function(err) {
 					if (!err) {
 						// console.log("user added!");
 						user = user;
-						socket.emit('updatedPlaylist', { playlist: user.playlist });
+						socket.emit('updatedPlaylist', { playlist: user.playlist, title: song.title });
 						return;
 					}
 					console.log(err);
@@ -128,12 +143,27 @@ module.exports.addToLikes = function(userName, song, socket) {
 				return;
 			} else {
 				// user.playlist = [];
-				user.favorites.push(song);
+
+				var duplicate = false;
+
+				for (var index = 0; index < user.favorites.length; index++) {
+					if (user.favorites[index].soundcloudID === song.soundcloudID) {
+						duplicate = true;
+					}
+				}
+
+				if (!duplicate) {
+					user.favorites.push(song);
+				} else {
+					socket.emit('updatedPlaylist', { error: 'This song is already on your Liked Songs.'})
+					return;
+				}
+
 				user.save(function(err) {
 					if (!err) {
 						// console.log("user added!");
 						user = user;
-						socket.emit('updatedFavorites', { favorites: user.favorites });
+						socket.emit('updatedFavorites', { favorites: user.favorites, title: song.title });
 						return;
 					}
 					console.log(err);

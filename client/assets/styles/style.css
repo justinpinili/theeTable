@@ -148,16 +148,6 @@ body {
 	overflow-y: scroll;
 }
 
-.playing {
-	height: 250px;
-	border-color: #0C2032;
-	border-style: solid;
-	padding: 5px;
-	margin: 5px;
-	overflow-y: scroll;
-	text-align: center;
-}
-
 .soundcloud {
 	display: none;
 }
@@ -211,6 +201,10 @@ body {
 
 .center {
 	text-align: center;
+}
+
+.big-icon {
+	font-size: 2em;
 }
 
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
