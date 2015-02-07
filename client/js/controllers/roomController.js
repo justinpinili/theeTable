@@ -26,7 +26,14 @@ angular.module('theeTable.controllers')
 		});
 
 		$scope.$parent.socket.on('updatedPlaylist', function(data) {
-			$scope.$parent.currentUser.playlist = data.playlist;
+			if (!data.error) {
+				$scope.$parent.currentUser.playlist = data.playlist;
+				if (data.title) {
+					$.snackbar({content: "" + song.title + " has been added to your playlist." });
+				}
+				return;
+			}
+			$.snackbar({content: "" + data.error });
 		});
 
 		$scope.$parent.socket.on('updatedQueue', function(data) {
@@ -61,7 +68,14 @@ angular.module('theeTable.controllers')
 		});
 
 		$scope.$parent.socket.on('updatedFavorites', function(data) {
-			$scope.$parent.currentUser.favorites = data.favorites;
+			if (!data.error) {
+				$scope.$parent.currentUser.favorites = data.favorites;
+				if (data.title) {
+					$.snackbar({content: "" + data.title + " has been added to your Liked Songs." });
+				}
+				return;
+			}
+			$.snackbar({content: "" + data.error });
 			// console.log($scope.$parent.currentUser.favorites);
 		});
 
@@ -117,7 +131,6 @@ angular.module('theeTable.controllers')
 				$scope.$parent.sc.put('/me/favorites/'+song.soundcloudID);
 				$.snackbar({content: "" + song.title + " has been added to your soundcloud likes." });
 			}
-			$.snackbar({content: "" + song.title + " has been added to your Liked Songs." });
 		}
 
 		$scope.addToQueue = function() {
