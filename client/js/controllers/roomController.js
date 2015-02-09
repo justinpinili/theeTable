@@ -29,7 +29,7 @@ angular.module('theeTable.controllers')
 			if (!data.error) {
 				$scope.$parent.currentUser.playlist = data.playlist;
 				if (data.title) {
-					$.snackbar({content: "" + song.title + " has been added to your playlist." });
+					$.snackbar({content: "" + data.title + " has been added to your playlist." });
 				}
 				return;
 			}
@@ -126,6 +126,7 @@ angular.module('theeTable.controllers')
 		********************/
 
 		$scope.like = function(song) {
+			console.log(song);
 			$scope.$parent.socket.emit('addToLikes', { song: song });
 			if ($scope.$parent.soundcloudID) {
 				$scope.$parent.sc.put('/me/favorites/'+song.soundcloudID);
@@ -176,6 +177,15 @@ angular.module('theeTable.controllers')
 		$scope.storedInUser = function() {
 			if ($scope.room) {
 				if ($scope.$parent.currentUser.rooms.indexOf($scope.room.name) !== -1) {
+					return true;
+				}
+			}
+			return false;
+		};
+
+		$scope.storedInLikes = function() {
+			for (var index = 0; index < $scope.$parent.currentUser.favorites.length; index++) {
+				if ($scope.$parent.currentUser.favorites[index].soundcloudID === $scope.room.currentSong.soundcloudID) {
 					return true;
 				}
 			}

@@ -5,6 +5,7 @@ angular.module('theeTable.controllers')
       theeTableAuth.getUserInfo(function(result) {
         if (!result.message) {
           $scope.currentUser = result;
+          console.log(result);
           if (callback) {
             callback(result);
           }

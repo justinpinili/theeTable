@@ -59,7 +59,7 @@
 								<div class="song-content" ng-if="title">
 									Artist: {{ room.currentSong.artist }}<br />
 									Duration: {{ convertTime(room.currentSong.length - room.currentTime) }}<br />
-									<a href="javascript:void(0)" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a>
+									<a ng-if="!storedInLikes()" href="" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a>
 								</div>
 							</div>
 							<br />

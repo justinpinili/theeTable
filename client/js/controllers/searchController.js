@@ -41,12 +41,8 @@ angular.module('theeTable.controllers')
 	};
 
 	$scope.addSongToPlaylist = function(url, title, artist, length, id) {
-		// console.log(artist);
-		// console.log(length);
 		$scope.$parent.newSong = { source: url, title: title, artist: artist, length: length, soundcloudID: id };
 		playlist.push({ source: url, title: title, artist: artist, length: length, soundcloudID: id });
-
-		$.snackbar({content: "" + title + " has been added to your playlist."});
 
 		$modalInstance.close();
 	};
