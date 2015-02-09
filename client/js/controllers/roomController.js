@@ -21,8 +21,10 @@ angular.module('theeTable.controllers')
 		});
 
 		$scope.$parent.socket.on('rotatedPlaylist', function(data) {
-			$scope.$parent.currentUser.playlist = data.playlist;
-			$scope.$parent.socket.emit('newQueue', { queue: $scope.room.queue });
+			if ($scope.$parent.currentUser) {
+				$scope.$parent.currentUser.playlist = data.playlist;
+				$scope.$parent.socket.emit('newQueue', { queue: $scope.room.queue });
+			}
 		});
 
 		$scope.$parent.socket.on('updatedPlaylist', function(data) {
