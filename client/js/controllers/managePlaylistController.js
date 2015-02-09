@@ -67,7 +67,7 @@ angular.module('theeTable.controllers')
 
 		};
 
-		if (getSoundcloudID() === undefined) {
+		if (getSoundcloudID().id === undefined) {
 			loginSC(function() {
 				$scope.$apply(function() {
 					getPlaylists();

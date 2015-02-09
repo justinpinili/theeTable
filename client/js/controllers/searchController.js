@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('searchController', ['$scope', '$modalInstance', '$modal', 'playlist', 'getSCinstance', function($scope, $modalInstance, $modal, playlist, getSCinstance) {
+.controller('searchController', ['$scope', '$modalInstance', '$modal', 'playlist', 'getSCinstance', 'theeTableSoundcloud', function($scope, $modalInstance, $modal, playlist, getSCinstance, theeTableSoundcloud) {
 
 	$scope.soundcloud = {};
 
@@ -10,9 +10,7 @@ angular.module('theeTable.controllers')
 
 		query = $('#soundcloudSearch').val();
 
-		getSCinstance().get('/tracks', { q: query }, function(tracks) {
-			// console.log(tracks);
-
+		theeTableSoundcloud.searchTracks(query, function(tracks) {
 			$scope.searching = false;
 
 			$scope.$apply(function() {
