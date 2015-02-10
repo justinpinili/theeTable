@@ -3,14 +3,21 @@ angular.module('theeTable.controllers')
 
 		$scope.current = 'Log In';
 		$scope.url = 'http://localhost:1337/user/login';
+		$scope.prompt = {};
+		$scope.prompt.username = 'Enter your username.';
+		$scope.prompt.password = 'Enter your password.';
 
 		$scope.switchForm = function() {
 			if ($scope.current === 'Log In') {
 				$scope.current = 'Sign Up';
 				$scope.url = 'http://localhost:1337/user/new';
+				$scope.prompt.username = 'Choose a new username.';
+				$scope.prompt.password = 'Choose a new password.';
 			} else {
 				$scope.current = 'Log In';
 				$scope.url = 'http://localhost:1337/user/login';
+				$scope.prompt.username = 'Enter your username.';
+				$scope.prompt.password = 'Enter your password.';
 			}
 			return;
 		}

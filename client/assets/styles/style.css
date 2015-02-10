@@ -207,6 +207,12 @@ body {
 	font-size: 2em;
 }
 
+.login {
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
 	vertical-align: middle;
 }

@@ -1,17 +1,14 @@
 <div class="panel panel-primary auth-panel">
-	<div>
-			<h1>
-				{{ current }}!
-			</h1>
+	<div class="login center">
 			<div ng-if="message" class="alert alert-danger" role="alert">
 				 <span class="bold">Sorry!</span> {{ message }}
 			</div>
 			<form name="logInForm" ng-submit='auth(login.username, login.password)' novalidate>
 				<div class="form-group form-group-md">
 					<div class="input-group input-auth">
-						<input type="text" name="logInUsername" ng-model="login.username" class="form-control floating-label" placeholder="username" /><br />
-						<input type="password" name="logInPassword" ng-model="login.password" class="form-control floating-label" placeholder="password" /><br />
-						<button type="submit" ng-disabled='authDisabled()' class="btn btn-default">Submit</button>
+						<input type="text" name="logInUsername" ng-model="login.username" class="form-control floating-label" placeholder="{{ prompt.username }}" /><br />
+						<input type="password" name="logInPassword" ng-model="login.password" class="form-control floating-label" placeholder="{{ prompt.password }}" /><br />
+						<button type="submit" ng-disabled='authDisabled()' class="btn btn-default">{{ current }}</button>
 					</div>
 				</div>
 			</form>
