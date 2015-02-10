@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'socket', 'theeTableSoundcloud', function($scope, localStorageService, theeTableAuth, $modal, socket, theeTableSoundcloud) {
+  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'socket', 'theeTableSoundcloud', 'theeTableUrl', function($scope, localStorageService, theeTableAuth, $modal, socket, theeTableSoundcloud, theeTableUrl) {
 
     $scope.getUserInfo = function(callback) {
       theeTableAuth.getUserInfo(function(result) {
@@ -85,7 +85,7 @@ angular.module('theeTable.controllers')
     // initialize client with app credentials
     var scInit = SC.initialize({
       client_id: '3fad6addc9d20754f8457461d02465f2',
-      redirect_uri: 'http://localhost:1337/success'
+      redirect_uri: '' + theeTableUrl.getUrl() + '/success'
     });
 
     // $scope.sc = SC;

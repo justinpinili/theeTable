@@ -1,24 +1,27 @@
 angular.module('theeTable.controllers')
 	.controller('authController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', 'theeTableUrl', function($scope, $location, localStorageService, theeTableAuth, theeTableUrl) {
 
-		$scope.current = 'Log In';
+		// input directive
+		// authSC -> recursive solution
+		// no need for $scope.current
+
+		$scope.current = 'login';
 		$scope.url = theeTableUrl.getUrl() + '/user/login';
 		$scope.prompt = {};
 		$scope.prompt.username = 'Enter your username.';
 		$scope.prompt.password = 'Enter your password.';
 
 		$scope.switchForm = function() {
-			if ($scope.current === 'Log In') {
-				$scope.current = 'Sign Up';
-				$scope.url = ""+ theeTableUrl.getUrl() + '/user/new';
+			if ($scope.current === 'login') {
+				$scope.current = 'new';
 				$scope.prompt.username = 'Choose a new username.';
 				$scope.prompt.password = 'Choose a new password.';
 			} else {
-				$scope.current = 'Log In';
-				$scope.url = ""+ theeTableUrl.getUrl() + '/user/login';
+				$scope.current = 'login';
 				$scope.prompt.username = 'Enter your username.';
 				$scope.prompt.password = 'Enter your password.';
 			}
+			$scope.url = ""+ theeTableUrl.getUrl() + '/user/' + $scope.current;
 			return;
 		}
 
