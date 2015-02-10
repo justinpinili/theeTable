@@ -1,8 +1,8 @@
 angular.module('theeTable.controllers')
-	.controller('authController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', function($scope, $location, localStorageService, theeTableAuth) {
+	.controller('authController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', 'theeTableUrl', function($scope, $location, localStorageService, theeTableAuth, theeTableUrl) {
 
 		$scope.current = 'Log In';
-		$scope.url = 'http://localhost:1337/user/login';
+		$scope.url = theeTableUrl.getUrl() + '/user/login';
 		$scope.prompt = {};
 		$scope.prompt.username = 'Enter your username.';
 		$scope.prompt.password = 'Enter your password.';
@@ -10,12 +10,12 @@ angular.module('theeTable.controllers')
 		$scope.switchForm = function() {
 			if ($scope.current === 'Log In') {
 				$scope.current = 'Sign Up';
-				$scope.url = 'http://localhost:1337/user/new';
+				$scope.url = ""+ theeTableUrl.getUrl() + '/user/new';
 				$scope.prompt.username = 'Choose a new username.';
 				$scope.prompt.password = 'Choose a new password.';
 			} else {
 				$scope.current = 'Log In';
-				$scope.url = 'http://localhost:1337/user/login';
+				$scope.url = ""+ theeTableUrl.getUrl() + '/user/login';
 				$scope.prompt.username = 'Enter your username.';
 				$scope.prompt.password = 'Enter your password.';
 			}
@@ -44,7 +44,7 @@ angular.module('theeTable.controllers')
 
 		$scope.authSC = function() {
 			$scope.$parent.loginSC(function() {
-				theeTableAuth.siteAccess('http://localhost:1337/user/login', $scope.$parent.soundcloudID.username, 'abc', function(result) {
+				theeTableAuth.siteAccess(""+ theeTableUrl.getUrl() + '/user/login', $scope.$parent.soundcloudID.username, 'abc', function(result) {
 					if (!result.message) {
 						localStorageService.set("jwt", result.jwt);
 						$scope.$parent.getUserInfo(function() {
@@ -55,7 +55,7 @@ angular.module('theeTable.controllers')
 						return;
 					}
 
-					theeTableAuth.siteAccess('http://localhost:1337/user/new', $scope.$parent.soundcloudID.username, 'abc', function(result) {
+					theeTableAuth.siteAccess(""+ theeTableUrl.getUrl() + '/user/new', $scope.$parent.soundcloudID.username, 'abc', function(result) {
 						if (!result.message) {
 							localStorageService.set("jwt", result.jwt);
 							$scope.$parent.getUserInfo(function() {
