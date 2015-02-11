@@ -44,4 +44,9 @@ angular.module('theeTable.controllers')
 		return;
 	};
 
+	// close modal
+	$scope.close = function() {
+		$modalInstance.close();
+	}
+
 }]);

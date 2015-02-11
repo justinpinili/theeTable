@@ -9,7 +9,7 @@ angular.module('theeTable.controllers')
 	 ************************************************************/
 
 	// modal initialiazation logic
-	
+
 	$scope.rooms = [];
 
 	theeTableAuth.getUserInfo(function(user) {
@@ -32,5 +32,8 @@ angular.module('theeTable.controllers')
 		$modalInstance.close();
 	};
 
-
+	// closes modal
+	$scope.close = function() {
+		$modalInstance.close();
+	}
 }]);

@@ -13,6 +13,10 @@ angular.module('theeTable.controllers')
 
 	$scope.playlist = [];
 
+	theeTableAuth.getUserInfo(function(user) {
+		$scope.playlist = user.playlist;
+	});
+
 	// clear the scoped arrays of $$ properties
 	var songsForDB = function(collection) {
 		var songCollection = [];
@@ -107,8 +111,9 @@ angular.module('theeTable.controllers')
 		delete $scope.possiblePlaylists;
 	}
 
-	theeTableAuth.getUserInfo(function(user) {
-		$scope.playlist = user.playlist;
-	});
+	// close modal
+	$scope.close = function() {
+		$modalInstance.close();
+	}
 
 }]);

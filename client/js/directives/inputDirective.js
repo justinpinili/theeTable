@@ -28,7 +28,6 @@ angular.module('theeTable.directives')
 					theeTableRooms.createRoom(newValue, function(result) {
 						if (!result.message) {
 							$scope.socket.emit("addRoom", {room: result.name});
-							// console.log(result.name);
 							$scope.$parent.close = true;
 							return;
 						}

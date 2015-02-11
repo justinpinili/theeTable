@@ -39,6 +39,9 @@ angular.module('theeTable.controllers')
 							$modalInstance.close();
 						}
 					});
+					$scope.closeModal = function() {
+						$modalInstance.close();
+					}
 				}],
 				size: 'lg',
 				resolve: {

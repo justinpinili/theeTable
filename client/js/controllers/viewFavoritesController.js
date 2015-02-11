@@ -49,4 +49,9 @@ angular.module('theeTable.controllers')
 		return theeTableTime.convertTime(duration);
 	};
 
+	// close modal
+	$scope.close = function() {
+		$modalInstance.close();
+	}
+
 }]);
