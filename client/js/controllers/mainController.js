@@ -1,6 +1,17 @@
 angular.module('theeTable.controllers')
   .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'socket', 'theeTableSoundcloud', 'theeTableUrl', function($scope, localStorageService, theeTableAuth, $modal, socket, theeTableSoundcloud, theeTableUrl) {
 
+    /************************************************************
+     * mainController that holds the current user's information *
+     * and allows that information to be passed across the      *
+     * application.                                             *
+     *                                                          *
+     *  - Playlist                                              *
+     *  - Favorites                                             *
+     *  - Favorite Rooms                                        *
+     *  - soundcloud instance for theeTable application         *
+     ************************************************************/
+
     $scope.getUserInfo = function(callback) {
       theeTableAuth.getUserInfo(function(result) {
         if (!result.message) {
@@ -13,6 +24,10 @@ angular.module('theeTable.controllers')
         return;
       });
     }
+
+    // Information is shown in a
+    // modal with it's own controller and
+    // template - manage and view are prefixed
 
     $scope.managePlaylist = function() {
       var modalInstance = $modal.open({
@@ -59,28 +74,33 @@ angular.module('theeTable.controllers')
       });
     };
 
+    // mainController holds the soundcloud instance so it can be used
+    // throughout the app
+
     $scope.getSoundcloudID = function() {
       return theeTableSoundcloud.getSoundcloudID();
-    }
+    };
 
     $scope.getSCinstance = function() {
       return theeTableSoundcloud.getSCinstance();
-    }
+    };
 
     $scope.loginSC = function(callback) {
-
       theeTableSoundcloud.loginSC(function() {
         $scope.soundcloudID = theeTableSoundcloud.getSoundcloudID();
 
         if (callback) {
           callback();
         }
+        return;
       });
+      return;
     };
 
     $scope.likeSongOnSC = function(id) {
       theeTableSoundcloud.like(id);
-    }
+      return;
+    };
 
     // initialize client with app credentials
     var scInit = SC.initialize({

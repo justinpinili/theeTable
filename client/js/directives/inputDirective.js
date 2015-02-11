@@ -2,7 +2,7 @@ angular.module('theeTable.directives')
 .directive('customInputBox', function() {
 	return {
 		restrict: 'E',
-		template: '<div><div ng-if="message" class="alert alert-danger" role="alert"> <strong>Sorry!</strong> {{ message }} </div><form name="inputForm" ng-submit="create(newInput.value)" novalidate><div class="form-group form-group-lg"><input type="text" name="inputName" ng-model="newInput.value" class="form-control floating-label" placeholder="{{ prompt }}"/></div><div class="input-group input-group-lg"><button type="submit" ng-disabled="createDisabled()" class="btn btn-default">Submit</button></div></form></div>',
+		templateUrl: './js/directives/inputDirective.html',
 		scope: {
 			socket: '=',
 			input: '@'

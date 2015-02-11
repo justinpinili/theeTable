@@ -1,56 +1,52 @@
 angular.module('theeTable.controllers')
-.controller('viewFavoritesController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'currentSocket', function($scope, $modalInstance, $modal, theeTableAuth, currentSocket) {
+.controller('viewFavoritesController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'currentSocket', 'theeTableTime', function($scope, $modalInstance, $modal, theeTableAuth, currentSocket, theeTableTime) {
+
+	/************************************************************
+	 * viewFavoritesController allows the user to see what      *
+	 * songs are on the their favorite's list.						    	*
+	 * 																													*
+	 * users can navigate remove the song and add a favorite to *
+	 * their playlist.                                          *
+	 ************************************************************/
+
+	// modal initialization logic
 
 	$scope.favorites = [];
 
+	theeTableAuth.getUserInfo(function(user) {
+		$scope.favorites = user.favorites;
+	});
+
+	// re-order the songs on the favorites list
 	$scope.sortableOptions = {
 		stop: function(e, ui) {
 			var favorites = [];
 			for (var index = 0; index < $scope.favorites.length; index++) {
 				favorites.push({ source: $scope.favorites[index].source, title: $scope.favorites[index].title, artist: $scope.favorites[index].artist, length: $scope.favorites[index].length, soundcloudID: $scope.favorites[index].soundcloudID });
 			}
-			// $scope.$parent.newFavorites = favorites;
 			currentSocket.emit('newFavorites', { favorites: favorites });
 		}
 	};
 
+	// remove a song from the favorites list
 	$scope.remove = function(index) {
 		$scope.favorites.splice(index, 1);
 		var favorites = [];
 		for (var index = 0; index < $scope.favorites.length; index++) {
 			favorites.push({ source: $scope.favorites[index].source, title: $scope.favorites[index].title, artist: $scope.favorites[index].artist, length: $scope.favorites[index].length, soundcloudID: $scope.favorites[index].soundcloudID });
 		}
-		// $scope.$parent.newFavorites = favorites;
 		currentSocket.emit('newFavorites', { favorites: favorites });
 	}
 
+	// adds a favorite to the user's playlist
 	$scope.addToPlaylist = function(song) {
 		song = { source: song.source, title: song.title, artist: song.artist, length: song.length, soundcloudID: song.soundcloudID };
 		currentSocket.emit('newPlaylistItem', { song: song });
 	}
 
+	// converts the time into hours, minutes, seconds
 	$scope.convertTime = function(duration) {
-		var hours = Math.floor(duration / 3600000);
-		var minutes = Math.floor((duration % 3600000) / 60000);
-		var seconds = Math.floor(((duration % 360000) % 60000) / 1000);
-
-		if (seconds < 10) {
-			seconds = "0"+seconds;
-		}
-
-		if (minutes < 10) {
-			minutes = "0"+minutes;
-		}
-
-		if (hours > 0) {
-			return hours + ":" + minutes + ":" + seconds;
-		}
-
-		return minutes + ":" + seconds;
+		return theeTableTime.convertTime(duration);
 	};
-
-	theeTableAuth.getUserInfo(function(user) {
-		$scope.favorites = user.favorites;
-	});
 
 }]);

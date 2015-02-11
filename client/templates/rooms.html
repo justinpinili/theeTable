@@ -15,10 +15,10 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="rooms" ng-repeat="room in rooms | filter:searchRoom">
+		<div class="rooms center" ng-repeat="room in rooms | filter:searchRoom">
 			<h3>{{ room.name }}</h3>
-			<button ng-click="navigate(room.name)" class="btn btn-danger">Go to this room.</button>
 			<p>
+				<a href="" ng-click="navigate(room.name)" class="btn btn-default btn-fab btn-raised mdi-action-exit-to-app"></a><br />
 				{{ room.users.length }} user(s) in the room.
 			</p>
 		</div>
@@ -27,8 +27,6 @@
 
 <script>
 	$(document).ready(function() {
-		setTimeout(function() {
-			$.material.init();
-		},1000);
+		$.material.init();
 	});
 </script>
