@@ -15,7 +15,7 @@ router.get('/rooms', jwtValidation, function(req, res) {
 });
 
 // Create a new room
-router.post('/rooms', function(req, res) {
+router.post('/rooms', jwtValidation, function(req, res) {
 	api_room.createRoom(req.body.name, function(results) {
 		if (results.error) {
 			res.send(results.error);

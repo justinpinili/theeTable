@@ -8,12 +8,11 @@ module.exports.connectToRoom = function(roomName, userName, socket, io) {
 				console.log("room not found");
 				return;
 			} else {
-				room.users = [];
-				room.chat = [];
-				room.queue = [];
-				room.currentSong = null;
-				room.currentDJ = null;
-				currentRoom = room;
+				// room.users = [];
+				// room.chat = [];
+				// room.queue = [];
+				// room.currentSong = null;
+				// room.currentDJ = null;
 				room.users.push(userName);
 				room.chat.push({ user: '', msg: userName + ' has entered the room.' });
 				room.save(function (err) {
