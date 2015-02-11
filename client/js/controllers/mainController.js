@@ -12,6 +12,23 @@ angular.module('theeTable.controllers')
      *  - soundcloud instance for theeTable application         *
      ************************************************************/
 
+    // initialize client with app credentials
+    var scInit = SC.initialize({
+      client_id: theeTableUrl.getID(),
+      redirect_uri: '' + theeTableUrl.getUrl() + '/success'
+    });
+
+    $scope.sc = theeTableSoundcloud.setSCinstance(scInit);
+
+    $scope.socket = socket;
+
+    $scope.inRoom = function() {
+      if ($scope.userInRoom) {
+        return true;
+      }
+      return false;
+    }
+
     $scope.getUserInfo = function(callback) {
       theeTableAuth.getUserInfo(function(result) {
         if (!result.message) {
@@ -101,15 +118,5 @@ angular.module('theeTable.controllers')
       theeTableSoundcloud.like(id);
       return;
     };
-
-    // initialize client with app credentials
-    var scInit = SC.initialize({
-      client_id: theeTableUrl.getID(),
-      redirect_uri: '' + theeTableUrl.getUrl() + '/success'
-    });
-
-    $scope.sc = theeTableSoundcloud.setSCinstance(scInit);
-
-    $scope.socket = socket;
 
   }]);

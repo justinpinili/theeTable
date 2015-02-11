@@ -12,6 +12,7 @@ angular.module('theeTable.controllers')
 		$scope.prompt = {};
 		$scope.prompt.username = 'Enter your username.';
 		$scope.prompt.password = 'Enter your password.';
+		$scope.$parent.userInRoom = false;
 
 
 		// Displays proper prompts for either a new user or an existing user trying to log in

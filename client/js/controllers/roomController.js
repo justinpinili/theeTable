@@ -108,6 +108,7 @@ angular.module('theeTable.controllers')
 		$scope.socket = $scope.$parent.socket;
 		$scope.newURL;
 		$scope.newPlaylist;
+		$scope.$parent.userInRoom = true;
 
 		if (theeTableAuth.verifyJwt()) {
 			theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {

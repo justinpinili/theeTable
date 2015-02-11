@@ -14,6 +14,7 @@ angular.module('theeTable.controllers')
 
 		$scope.rooms = [];
 		$scope.roomSearch = {};
+		$scope.$parent.userInRoom = false;
 
 		if (theeTableAuth.verifyJwt()) {
 			theeTableRooms.getAllRooms(function(result) {
