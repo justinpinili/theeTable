@@ -217,6 +217,13 @@ body {
 	width: 50%;
 }
 
+.pad {
+	margin: 5px;
+	padding: 5px;
+	height: 100%;
+	width: 100%;
+}
+
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
 	vertical-align: middle;
 }

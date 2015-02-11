@@ -13,7 +13,7 @@ angular.module('theeTable.directives')
 			$scope.prompt = "Send a Message";
 
 			if ($scope.input === 'room') {
-				$scope.prompt = "Room Name";
+				$scope.prompt = "Choose a New Room Name";
 			}
 
 			$scope.createDisabled = function() {
@@ -29,6 +29,7 @@ angular.module('theeTable.directives')
 						if (!result.message) {
 							$scope.socket.emit("addRoom", {room: result.name});
 							// console.log(result.name);
+							$scope.$parent.close = true;
 							return;
 						}
 						$scope.message = result.message;

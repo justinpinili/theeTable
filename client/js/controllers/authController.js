@@ -1,10 +1,6 @@
 angular.module('theeTable.controllers')
 	.controller('authController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', 'theeTableUrl', function($scope, $location, localStorageService, theeTableAuth, theeTableUrl) {
 
-		// input directive
-		// authSC -> recursive solution
-		// no need for $scope.current
-
 		$scope.current = 'login';
 		$scope.url = theeTableUrl.getUrl() + '/user/login';
 		$scope.prompt = {};
@@ -40,14 +36,14 @@ angular.module('theeTable.controllers')
 				}
 				$scope.message = result.message;
 				$scope.login.password = '';
-				// console.log(result.message);
 				return;
 			});
 		};
 
 		$scope.authSC = function() {
-			$scope.$parent.loginSC(function() {
-				theeTableAuth.siteAccess(""+ theeTableUrl.getUrl() + '/user/login', $scope.$parent.soundcloudID.username, 'abc', function(result) {
+
+			var theeTableDB = function(endpoint, isNew) {
+				theeTableAuth.siteAccess(""+ theeTableUrl.getUrl() + endpoint, $scope.$parent.soundcloudID.username, 'abc', function(result) {
 					if (!result.message) {
 						localStorageService.set("jwt", result.jwt);
 						$scope.$parent.getUserInfo(function() {
@@ -57,27 +53,21 @@ angular.module('theeTable.controllers')
 						});
 						return;
 					}
+					if (isNew) {
+						theeTableDB('/user/new', true);
+					}
 
-					theeTableAuth.siteAccess(""+ theeTableUrl.getUrl() + '/user/new', $scope.$parent.soundcloudID.username, 'abc', function(result) {
-						if (!result.message) {
-							localStorageService.set("jwt", result.jwt);
-							$scope.$parent.getUserInfo(function() {
-								$scope.$parent.socket.emit("userName", {username: $scope.$parent.currentUser.username});
-								$location.path("/rooms");
-								return;
-							});
-							return;
-						}
-
-						$scope.message = result.message;
-						$scope.login.password = '';
-						// console.log(result.message);
-						return;
-					});
-
+					$scope.message = result.message;
+					$scope.login.password = '';
+					// console.log(result.message);
+					return;
 				});
+			};
 
+			$scope.$parent.loginSC(function() {
+				theeTableDB('/user/login', false)
 			});
+
 		}
 
 		$scope.login = {};
