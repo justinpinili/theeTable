@@ -88,8 +88,6 @@ angular.module('theeTable.controllers')
       redirect_uri: '' + theeTableUrl.getUrl() + '/success'
     });
 
-    // $scope.sc = SC;
-
     $scope.sc = theeTableSoundcloud.setSCinstance(scInit);
 
     $scope.socket = socket;

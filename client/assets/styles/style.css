@@ -38,6 +38,10 @@ body {
 	padding-top: 60px;
 }
 
+.form-control-wrapper .floating-label {
+	opacity: 1;
+}
+
 .form-control {
 	color: #3c3c3c;
 }

@@ -85,7 +85,7 @@
 					</div>
 				</div>
 				<div>
-					<form name="chatForm" ng-submit='submitMessage(newChatMessage.msg)' novalidate>
+					<!-- <form name="chatForm" ng-submit='submitMessage(newChatMessage.msg)' novalidate>
 						<div class="form-group">
 							<div class="form-group form-group-md">
 								<div class="input-group input-group-md">
@@ -96,7 +96,8 @@
 								</div>
 						</div>
 						</div>
-					</form>
+					</form> -->
+					<custom-input-box socket="$parent.socket" input="message"></custom-input-box>
 				</div>
 			</div>
 		</div>

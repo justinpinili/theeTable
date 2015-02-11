@@ -161,20 +161,6 @@ angular.module('theeTable.controllers')
 			$scope.newChatMessage.msg = '';
 		};
 
-		$scope.newPlaylistItem = {};
-
-		$scope.submitPlaylistItemDisabled = function() {
-			if ($scope.newPlaylistItem.url === undefined || $scope.newPlaylistItem.url === '') {
-				return true;
-			}
-			return false;
-		};
-
-		$scope.submitPlaylistItem = function(url) {
-			$scope.newPlaylistItem.url = '';
-			$scope.$parent.socket.emit('newPlaylistItem', { source: url });
-		};
-
 		$scope.storedInUser = function() {
 			if ($scope.room && $scope.$parent.currentUser) {
 				if ($scope.$parent.currentUser.rooms.indexOf($scope.room.name) !== -1) {

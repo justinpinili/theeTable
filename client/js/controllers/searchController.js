@@ -42,7 +42,7 @@ angular.module('theeTable.controllers')
 		$scope.$parent.newSong = { source: url, title: title, artist: artist, length: length, soundcloudID: id };
 		playlist.push({ source: url, title: title, artist: artist, length: length, soundcloudID: id });
 
-		$modalInstance.close();
+		// $modalInstance.close();
 	};
 
 }]);
