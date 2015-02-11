@@ -84,7 +84,7 @@ angular.module('theeTable.controllers')
 
     // initialize client with app credentials
     var scInit = SC.initialize({
-      client_id: '3fad6addc9d20754f8457461d02465f2',
+      client_id: theeTableUrl.getID(),
       redirect_uri: '' + theeTableUrl.getUrl() + '/success'
     });
 
