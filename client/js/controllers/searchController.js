@@ -38,7 +38,8 @@ angular.module('theeTable.controllers')
 		return minutes + ":" + seconds;
 	};
 
-	$scope.addSongToPlaylist = function(url, title, artist, length, id) {
+	$scope.addSongToPlaylist = function(url, title, artist, length, id, index) {
+		$scope.soundcloud.results.splice(index,1);
 		$scope.$parent.newSong = { source: url, title: title, artist: artist, length: length, soundcloudID: id };
 		playlist.push({ source: url, title: title, artist: artist, length: length, soundcloudID: id });
 

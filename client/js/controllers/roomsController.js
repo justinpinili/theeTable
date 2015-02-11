@@ -2,6 +2,7 @@ angular.module('theeTable.controllers')
 	.controller('roomsController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', 'theeTableRooms', '$modal', function($scope, $location, localStorageService, theeTableAuth, theeTableRooms, $modal) {
 
 		$scope.rooms = [];
+		
 		if (theeTableAuth.verifyJwt()) {
 			theeTableRooms.getAllRooms(function(result) {
 				$scope.rooms = result.rooms;
