@@ -1,8 +1,10 @@
 angular.module('theeTable.services')
 	.factory('theeTableRooms', ['$http', 'localStorageService', '$location', 'theeTableUrl', function($http, localStorageService, $location, theeTableUrl) {
+
+		var jwt = localStorageService.get("jwt");
+
 		var getAllRooms = function(callback) {
-			var jwt = localStorageService.get("jwt");
-			$http.get('http://localhost:1337/rooms?jwt_token='+jwt)
+			$http.get("" + theeTableUrl.getUrl() + '/rooms?jwt_token='+jwt)
 				.success(function(result) {
 					// console.log(result);
 					callback(result);
@@ -15,7 +17,6 @@ angular.module('theeTable.services')
 		};
 
 		var createRoom = function(roomName, callback) {
-			var jwt = localStorageService.get("jwt");
 			$http.post("" + theeTableUrl.getUrl() + '/rooms?jwt_token='+jwt, {name: roomName})
 				.success(function(result) {
 					if (!result.message) {
@@ -35,7 +36,6 @@ angular.module('theeTable.services')
 		};
 
 		var getRoomInfo = function(roomName, callback) {
-			var jwt = localStorageService.get("jwt");
 
 			if (roomName === '') {
 				$location.path("/rooms");

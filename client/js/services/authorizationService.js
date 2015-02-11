@@ -1,5 +1,5 @@
 angular.module('theeTable.services')
-	.factory('theeTableAuth', ['$http', 'localStorageService', '$location', function($http, localStorageService, $location) {
+	.factory('theeTableAuth', ['$http', 'localStorageService', '$location', 'theeTableUrl', function($http, localStorageService, $location, theeTableUrl) {
 		var siteAccess = function(url, username, password, callback) {
 			$http.post(url, {username: username, password: password})
 				.success(function(result) {
@@ -14,7 +14,7 @@ angular.module('theeTable.services')
 
 		var getUserInfo = function(callback) {
 			var jwt = localStorageService.get("jwt");
-			$http.get('http://localhost:1337/user?jwt_token='+jwt)
+			$http.get("" + theeTableUrl.getUrl() + '/user?jwt_token='+jwt)
 				.success(function(result) {
 					callback(result);
 					return;
