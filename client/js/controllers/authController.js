@@ -1,17 +1,23 @@
 angular.module('theeTable.controllers')
-	.controller('authController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', function($scope, $location, localStorageService, theeTableAuth) {
+	.controller('authController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', 'theeTableUrl', function($scope, $location, localStorageService, theeTableAuth, theeTableUrl) {
 
-		$scope.current = 'Log In';
-		$scope.url = 'http://localhost:1337/user/login';
+		$scope.current = 'login';
+		$scope.url = theeTableUrl.getUrl() + '/user/login';
+		$scope.prompt = {};
+		$scope.prompt.username = 'Enter your username.';
+		$scope.prompt.password = 'Enter your password.';
 
 		$scope.switchForm = function() {
-			if ($scope.current === 'Log In') {
-				$scope.current = 'Sign Up';
-				$scope.url = 'http://localhost:1337/user/new';
+			if ($scope.current === 'login') {
+				$scope.current = 'new';
+				$scope.prompt.username = 'Choose a new username.';
+				$scope.prompt.password = 'Choose a new password.';
 			} else {
-				$scope.current = 'Log In';
-				$scope.url = 'http://localhost:1337/user/login';
+				$scope.current = 'login';
+				$scope.prompt.username = 'Enter your username.';
+				$scope.prompt.password = 'Enter your password.';
 			}
+			$scope.url = ""+ theeTableUrl.getUrl() + '/user/' + $scope.current;
 			return;
 		}
 
@@ -30,14 +36,14 @@ angular.module('theeTable.controllers')
 				}
 				$scope.message = result.message;
 				$scope.login.password = '';
-				// console.log(result.message);
 				return;
 			});
 		};
 
 		$scope.authSC = function() {
-			$scope.$parent.loginSC(function() {
-				theeTableAuth.siteAccess('http://localhost:1337/user/login', $scope.$parent.soundcloudID.username, 'abc', function(result) {
+
+			var theeTableDB = function(endpoint, isNew) {
+				theeTableAuth.siteAccess(""+ theeTableUrl.getUrl() + endpoint, $scope.$parent.soundcloudID.username, 'abc', function(result) {
 					if (!result.message) {
 						localStorageService.set("jwt", result.jwt);
 						$scope.$parent.getUserInfo(function() {
@@ -47,27 +53,21 @@ angular.module('theeTable.controllers')
 						});
 						return;
 					}
+					if (isNew) {
+						theeTableDB('/user/new', true);
+					}
 
-					theeTableAuth.siteAccess('http://localhost:1337/user/new', $scope.$parent.soundcloudID.username, 'abc', function(result) {
-						if (!result.message) {
-							localStorageService.set("jwt", result.jwt);
-							$scope.$parent.getUserInfo(function() {
-								$scope.$parent.socket.emit("userName", {username: $scope.$parent.currentUser.username});
-								$location.path("/rooms");
-								return;
-							});
-							return;
-						}
-
-						$scope.message = result.message;
-						$scope.login.password = '';
-						// console.log(result.message);
-						return;
-					});
-
+					$scope.message = result.message;
+					$scope.login.password = '';
+					// console.log(result.message);
+					return;
 				});
+			};
 
+			$scope.$parent.loginSC(function() {
+				theeTableDB('/user/login', false)
 			});
+
 		}
 
 		$scope.login = {};

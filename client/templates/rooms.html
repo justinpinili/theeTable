@@ -1,16 +1,6 @@
 <div ng-if="rooms">
 	<div class="container">
 		<div class="row">
-			<h3>Create a Room</h3>
-			<div ng-if="message" class="alert alert-danger" role="alert"> <strong>Sorry!</strong> {{ message }} </div>
-			<form name="roomForm" ng-submit='create(newRoom.room)' novalidate>
-				<div class="form-group form-group-lg">
-					<input type="text" name="roomName" ng-model="newRoom.room" class="form-control floating-label" placeholder="Room Name"/>
-				</div>
-				<div class="input-group input-group-lg">
-					<button type="submit" ng-disabled='createDisabled()' class="btn btn-default">Submit</button>
-				</div>
-			</form>
 		</div>
 	</div>
 </div>
@@ -18,7 +8,13 @@
 
 <div ng-if="rooms" class="container">
 	<div class="row">
-		<input type="text" class="form-control floating-label" placeholder="Search for an existing room." ng-model="searchRoom.name"></input>
+		<div class="col-md-12 center pad">
+			<button ng-click="createRoom()" class="btn btn-danger">Create a New Room</button><br />
+			OR<br />
+			<input type="text" class="form-control floating-label" placeholder="Search for an existing room." ng-model="searchRoom.name"></input>
+		</div>
+	</div>
+	<div class="row">
 		<div class="rooms" ng-repeat="room in rooms | filter:searchRoom">
 			<h3>{{ room.name }}</h3>
 			<button ng-click="navigate(room.name)" class="btn btn-danger">Go to this room.</button>
@@ -30,7 +26,9 @@
 </div>
 
 <script>
-		$(document).ready(function() {
-				$.material.init();
-		});
+	$(document).ready(function() {
+		setTimeout(function() {
+			$.material.init();
+		},1000);
+	});
 </script>

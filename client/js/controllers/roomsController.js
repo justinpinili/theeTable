@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('roomsController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', 'theeTableRooms', function($scope, $location, localStorageService, theeTableAuth, theeTableRooms) {
+	.controller('roomsController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', 'theeTableRooms', '$modal', function($scope, $location, localStorageService, theeTableAuth, theeTableRooms, $modal) {
 
 		$scope.rooms = [];
 		if (theeTableAuth.verifyJwt()) {
@@ -13,26 +13,25 @@ angular.module('theeTable.controllers')
 			$location.path('/rooms/'+roomName);
 		};
 
-		$scope.newRoom = {};
-
-		$scope.create = function(inputRoomName) {
-			theeTableRooms.createRoom(inputRoomName, function(result) {
-				if (!result.message) {
-					$scope.$parent.socket.emit("addRoom", {room: result.name});
-					// console.log(result.name);
-					return;
+		$scope.createRoom = function() {
+			var modalInstance = $modal.open({
+				templateUrl: './../templates/createRoom.html',
+				controller: ['$scope', 'socket','$modalInstance', function($scope, socket, $modalInstance) {
+					$scope.socket = socket;
+					$scope.$watch('close', function(newValue, oldValue) {
+						console.log("newValue", newValue)
+						if (newValue) {
+							$modalInstance.close();
+						}
+					});
+				}],
+				size: 'sm',
+				resolve: {
+					socket: function () {
+						return $scope.$parent.socket;
+					}
 				}
-				$scope.message = result.message;
-				$scope.newRoom.room = '';
-				return;
 			});
-		};
-
-		$scope.createDisabled = function() {
-			if ($scope.newRoom.room === undefined || $scope.newRoom.room === '') {
-				return true;
-			}
-			return false;
 		};
 
 		$scope.roomSearch = {};

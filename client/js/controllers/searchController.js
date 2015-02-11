@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('searchController', ['$scope', '$modalInstance', '$modal', 'playlist', 'getSCinstance', function($scope, $modalInstance, $modal, playlist, getSCinstance) {
+.controller('searchController', ['$scope', '$modalInstance', '$modal', 'playlist', 'getSCinstance', 'theeTableSoundcloud', function($scope, $modalInstance, $modal, playlist, getSCinstance, theeTableSoundcloud) {
 
 	$scope.soundcloud = {};
 
@@ -10,9 +10,7 @@ angular.module('theeTable.controllers')
 
 		query = $('#soundcloudSearch').val();
 
-		getSCinstance().get('/tracks', { q: query }, function(tracks) {
-			// console.log(tracks);
-
+		theeTableSoundcloud.searchTracks(query, function(tracks) {
 			$scope.searching = false;
 
 			$scope.$apply(function() {
@@ -41,14 +39,10 @@ angular.module('theeTable.controllers')
 	};
 
 	$scope.addSongToPlaylist = function(url, title, artist, length, id) {
-		// console.log(artist);
-		// console.log(length);
 		$scope.$parent.newSong = { source: url, title: title, artist: artist, length: length, soundcloudID: id };
 		playlist.push({ source: url, title: title, artist: artist, length: length, soundcloudID: id });
 
-		$.snackbar({content: "" + title + " has been added to your playlist."});
-
-		$modalInstance.close();
+		// $modalInstance.close();
 	};
 
 }]);

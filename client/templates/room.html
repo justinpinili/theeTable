@@ -59,7 +59,7 @@
 								<div class="song-content" ng-if="title">
 									Artist: {{ room.currentSong.artist }}<br />
 									Duration: {{ convertTime(room.currentSong.length - room.currentTime) }}<br />
-									<a href="javascript:void(0)" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a>
+									<a ng-if="!storedInLikes()" href="" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a>
 								</div>
 							</div>
 							<br />
@@ -70,7 +70,9 @@
 						</div>
 					</div>
 				</div>
-				<button ng-click="managePlaylist()" class="btn btn-default"> Manage Your Playlist </button>
+				<div class="center">
+					<button ng-click="managePlaylist()" class="btn btn-default"> Manage Your Playlist </button>
+				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="panel panel-primary chat-head">
@@ -83,7 +85,7 @@
 					</div>
 				</div>
 				<div>
-					<form name="chatForm" ng-submit='submitMessage(newChatMessage.msg)' novalidate>
+					<!-- <form name="chatForm" ng-submit='submitMessage(newChatMessage.msg)' novalidate>
 						<div class="form-group">
 							<div class="form-group form-group-md">
 								<div class="input-group input-group-md">
@@ -94,7 +96,8 @@
 								</div>
 						</div>
 						</div>
-					</form>
+					</form> -->
+					<custom-input-box socket="$parent.socket" input="message"></custom-input-box>
 				</div>
 			</div>
 		</div>

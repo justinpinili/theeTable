@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'socket', function($scope, localStorageService, theeTableAuth, $modal, socket) {
+  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'socket', 'theeTableSoundcloud', 'theeTableUrl', function($scope, localStorageService, theeTableAuth, $modal, socket, theeTableSoundcloud, theeTableUrl) {
 
     $scope.getUserInfo = function(callback) {
       theeTableAuth.getUserInfo(function(result) {
@@ -60,43 +60,35 @@ angular.module('theeTable.controllers')
     };
 
     $scope.getSoundcloudID = function() {
-      return $scope.soundcloudID;
+      return theeTableSoundcloud.getSoundcloudID();
     }
 
     $scope.getSCinstance = function() {
-      return $scope.sc;
+      return theeTableSoundcloud.getSCinstance();
     }
 
     $scope.loginSC = function(callback) {
 
-      // initiate auth popup
-      $scope.sc.connect(function() {
+      theeTableSoundcloud.loginSC(function() {
+        $scope.soundcloudID = theeTableSoundcloud.getSoundcloudID();
 
-        // logic in here after connection and pop up closes
-        $scope.sc.get('/me', function(me) {
-
-          $scope.$apply(function() {
-            $scope.soundcloudID = { id: me.id,
-                                    username: me.permalink };
-          });
-
-          if (callback) {
-            callback();
-          }
-
-        });
-
+        if (callback) {
+          callback();
+        }
       });
-
     };
 
+    $scope.likeSongOnSC = function(id) {
+      theeTableSoundcloud.like(id);
+    }
+
     // initialize client with app credentials
-    SC.initialize({
+    var scInit = SC.initialize({
       client_id: '3fad6addc9d20754f8457461d02465f2',
-      redirect_uri: 'http://localhost:1337/success'
+      redirect_uri: '' + theeTableUrl.getUrl() + '/success'
     });
 
-    $scope.sc = SC;
+    $scope.sc = theeTableSoundcloud.setSCinstance(scInit);
 
     $scope.socket = socket;
 

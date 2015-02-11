@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('viewFavoriteRoomsController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', '$location', function($scope, $modalInstance, $modal, theeTableAuth, $location) {
+.controller('viewFavoriteRoomsController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', '$location', 'currentSocket', function($scope, $modalInstance, $modal, theeTableAuth, $location, currentSocket) {
 
 	$scope.rooms = [];
 

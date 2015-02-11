@@ -79,7 +79,7 @@ module.exports = function(io) {
 		});
 
 		socket.on('newRooms', function(data) {
-			query_user.newRooms(uerName, data.rooms, socket);
+			query_user.newRooms(userName, data.rooms, socket);
 		});
 
 		/************************************

@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('roomController', ['$scope', '$state', '$stateParams', '$location', '$sce', 'localStorageService', 'theeTableAuth', 'theeTableRooms', function($scope, $state, $stateParams, $location, $sce, localStorageService, theeTableAuth, theeTableRooms) {
+	.controller('roomController', ['$scope', '$state', '$stateParams', '$location', '$sce', 'localStorageService', 'theeTableAuth', 'theeTableRooms', 'theeTableTime', function($scope, $state, $stateParams, $location, $sce, localStorageService, theeTableAuth, theeTableRooms, theeTableTime) {
 
 		/*************
 		 * Socket.IO *
@@ -21,15 +21,17 @@ angular.module('theeTable.controllers')
 		});
 
 		$scope.$parent.socket.on('rotatedPlaylist', function(data) {
-			$scope.$parent.currentUser.playlist = data.playlist;
-			$scope.$parent.socket.emit('newQueue', { queue: $scope.room.queue });
+			if ($scope.$parent.currentUser) {
+				$scope.$parent.currentUser.playlist = data.playlist;
+				$scope.$parent.socket.emit('newQueue', { queue: $scope.room.queue });
+			}
 		});
 
 		$scope.$parent.socket.on('updatedPlaylist', function(data) {
 			if (!data.error) {
 				$scope.$parent.currentUser.playlist = data.playlist;
 				if (data.title) {
-					$.snackbar({content: "" + song.title + " has been added to your playlist." });
+					$.snackbar({content: "" + data.title + " has been added to your playlist." });
 				}
 				return;
 			}
@@ -127,8 +129,8 @@ angular.module('theeTable.controllers')
 
 		$scope.like = function(song) {
 			$scope.$parent.socket.emit('addToLikes', { song: song });
-			if ($scope.$parent.soundcloudID) {
-				$scope.$parent.sc.put('/me/favorites/'+song.soundcloudID);
+			if ($scope.$parent.getSoundcloudID()) {
+				$scope.$parent.likeSongOnSC(song.soundcloudID);
 				$.snackbar({content: "" + song.title + " has been added to your soundcloud likes." });
 			}
 		}
@@ -159,23 +161,18 @@ angular.module('theeTable.controllers')
 			$scope.newChatMessage.msg = '';
 		};
 
-		$scope.newPlaylistItem = {};
-
-		$scope.submitPlaylistItemDisabled = function() {
-			if ($scope.newPlaylistItem.url === undefined || $scope.newPlaylistItem.url === '') {
-				return true;
+		$scope.storedInUser = function() {
+			if ($scope.room && $scope.$parent.currentUser) {
+				if ($scope.$parent.currentUser.rooms.indexOf($scope.room.name) !== -1) {
+					return true;
+				}
 			}
 			return false;
 		};
 
-		$scope.submitPlaylistItem = function(url) {
-			$scope.newPlaylistItem.url = '';
-			$scope.$parent.socket.emit('newPlaylistItem', { source: url });
-		};
-
-		$scope.storedInUser = function() {
-			if ($scope.room) {
-				if ($scope.$parent.currentUser.rooms.indexOf($scope.room.name) !== -1) {
+		$scope.storedInLikes = function() {
+			for (var index = 0; index < $scope.$parent.currentUser.favorites.length; index++) {
+				if ($scope.$parent.currentUser.favorites[index].soundcloudID === $scope.room.currentSong.soundcloudID) {
 					return true;
 				}
 			}
@@ -187,23 +184,7 @@ angular.module('theeTable.controllers')
 		};
 
 		$scope.convertTime = function(duration) {
-			var hours = Math.floor(duration / 3600000);
-			var minutes = Math.floor((duration % 3600000) / 60000);
-			var seconds = Math.floor(((duration % 360000) % 60000) / 1000);
-
-			if (seconds < 10) {
-				seconds = "0"+seconds;
-			}
-
-			if (minutes < 10) {
-				minutes = "0"+minutes;
-			}
-
-			if (hours > 0) {
-				return hours + ":" + minutes + ":" + seconds;
-			}
-
-			return minutes + ":" + seconds;
+			return theeTableTime.convertTime(duration);
 		};
 
 	}]);

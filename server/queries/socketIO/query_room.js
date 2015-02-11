@@ -10,7 +10,9 @@ module.exports.connectToRoom = function(roomName, userName, socket, io) {
 			} else {
 				// room.users = [];
 				// room.chat = [];
-				currentRoom = room;
+				// room.queue = [];
+				// room.currentSong = null;
+				// room.currentDJ = null;
 				room.users.push(userName);
 				room.chat.push({ user: '', msg: userName + ' has entered the room.' });
 				room.save(function (err) {

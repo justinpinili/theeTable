@@ -1,7 +1,19 @@
 angular.module('theeTable.controllers')
-.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'loginSC', 'getSoundcloudID', 'getSCinstance', function($scope, $modalInstance, $modal, theeTableAuth, loginSC, getSoundcloudID, getSCinstance) {
+.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'loginSC', 'getSoundcloudID', 'getSCinstance','theeTableTime', 'theeTableSoundcloud', function($scope, $modalInstance, $modal, theeTableAuth, loginSC, getSoundcloudID, getSCinstance, theeTableTime, theeTableSoundcloud) {
 
 	$scope.playlist = [];
+
+	var songsForDB = function(collection) {
+		var songCollection = [];
+		for (var index = 0; index < collection.length; index++) {
+			songCollection.push({ source: collection[index].source || collection[index].permalink_url, title: collection[index].title,
+				artist: collection[index].artist || collection[index].user.username,
+				length: collection[index].length || collection[index].duration,
+				soundcloudID: collection[index].soundcloudID || collection[index].id
+			});
+		}
+		return songCollection;
+	}
 
 	$scope.searchSC = function() {
 		var modalInstance = $modal.open({
@@ -21,69 +33,35 @@ angular.module('theeTable.controllers')
 
 	$scope.sortableOptions = {
 		stop: function(e, ui) {
-			var playlist = [];
-			for (var index = 0; index < $scope.playlist.length; index++) {
-				playlist.push({ source: $scope.playlist[index].source, title: $scope.playlist[index].title, artist: $scope.playlist[index].artist, length: $scope.playlist[index].length, soundcloudID: $scope.playlist[index].soundcloudID });
-			}
-			$scope.$parent.newPlaylist = playlist;
+			$scope.$parent.newPlaylist = songsForDB($scope.playlist);
 		}
 	};
 
 	$scope.remove = function(index) {
 		$scope.playlist.splice(index, 1);
-		var playlist = [];
-		for (var index = 0; index < $scope.playlist.length; index++) {
-			playlist.push({ source: $scope.playlist[index].source, title: $scope.playlist[index].title, artist: $scope.playlist[index].artist, length: $scope.playlist[index].length, soundcloudID: $scope.playlist[index].soundcloudID });
-		}
-		$scope.$parent.newPlaylist = playlist;
+		$scope.$parent.newPlaylist = songsForDB($scope.playlist);
 	}
 
 	$scope.convertTime = function(duration) {
-		var hours = Math.floor(duration / 3600000);
-		var minutes = Math.floor((duration % 3600000) / 60000);
-		var seconds = Math.floor(((duration % 360000) % 60000) / 1000);
-
-		if (seconds < 10) {
-			seconds = "0"+seconds;
-		}
-
-		if (minutes < 10) {
-			minutes = "0"+minutes;
-		}
-
-		if (hours > 0) {
-			return hours + ":" + minutes + ":" + seconds;
-		}
-
-		return minutes + ":" + seconds;
+		return theeTableTime.convertTime(duration);
 	};
 
 	$scope.connectSC = function() {
 
 		var getPlaylists = function() {
 
-				$scope.possiblePlaylists = 'start';
+			$scope.possiblePlaylists = 'start';
 
-				var playlists = '/users/' + getSoundcloudID().id + '/playlists';
-
-				getSCinstance().get(playlists, function(playlistResults) {
-
-					getSCinstance().get('/users/' + getSoundcloudID().id + '/favorites', function(favoriteResults) {
-
-						$scope.likes = favoriteResults;
-
-						$scope.$apply(function() {
-							$scope.possiblePlaylists = playlistResults;
-						});
-
-					});
-
-					return;
+			theeTableSoundcloud.getPlaylists(function(favoriteResults, playlistResults) {
+				$scope.$apply(function() {
+					$scope.likes = favoriteResults;
+					$scope.possiblePlaylists = playlistResults;
 				});
+			});
 
 		};
 
-		if (getSoundcloudID() === undefined) {
+		if (getSoundcloudID().id === undefined) {
 			loginSC(function() {
 				$scope.$apply(function() {
 					getPlaylists();
@@ -99,17 +77,12 @@ angular.module('theeTable.controllers')
 		var importedPlaylist = [];
 
 		if (likes === 'likes') {
-			for (var index = 0; index < $scope.likes.length; index++) {
-				importedPlaylist.push({ source: $scope.likes[index].permalink_url, title: $scope.likes[index].title, artist: $scope.likes[index].user.username, length: $scope.likes[index].duration, soundcloudID: $scope.likes[index].id });
-			}
+			$scope.$parent.newPlaylist = songsForDB($scope.likes);
 		} else {
-			for (var index = 0; index < playlist.tracks.length; index++) {
-				importedPlaylist.push({ source: playlist.tracks[index].permalink_url, title: playlist.tracks[index].title, artist: playlist.tracks[index].user.username, length: playlist.tracks[index].duration, soundcloudID: playlist.tracks[index].id });
-			}
+			$scope.$parent.newPlaylist = songsForDB(playlist.tracks);
 		}
 
-		$scope.$parent.newPlaylist = importedPlaylist;
-		$scope.playlist = importedPlaylist;
+		$scope.playlist = $scope.$parent.newPlaylist;
 		delete $scope.possiblePlaylists;
 	}
 
