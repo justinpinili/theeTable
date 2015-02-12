@@ -32,7 +32,7 @@ angular.module('theeTable.controllers')
 		// in it's own modal
 		$scope.createRoom = function() {
 			var modalInstance = $modal.open({
-				templateUrl: './../templates/createRoom.html',
+				templateUrl: './../templates/modals/createRoom.html',
 				controller: ['$scope', 'socket','$modalInstance', function($scope, socket, $modalInstance) {
 					$scope.socket = socket;
 					$scope.$watch('close', function(newValue, oldValue) {

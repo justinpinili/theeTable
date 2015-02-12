@@ -33,7 +33,7 @@ angular.module('theeTable.controllers')
 	// searching soundcloud lives in its own modal
 	$scope.searchSC = function() {
 		var modalInstance = $modal.open({
-			templateUrl: './../templates/search.html',
+			templateUrl: './../templates/modals/search.html',
 			controller: 'searchController',
 			size: 'lg',
 			resolve: {

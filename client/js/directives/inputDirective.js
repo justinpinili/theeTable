@@ -10,7 +10,7 @@ angular.module('theeTable.directives')
 
 	return {
 		restrict: 'E',
-		templateUrl: './js/directives/inputDirective.html',
+		templateUrl: './../../templates/directives/inputDirective.html',
 		scope: {
 			socket: '=',
 			input: '@'

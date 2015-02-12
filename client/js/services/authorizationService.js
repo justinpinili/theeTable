@@ -38,11 +38,13 @@ angular.module('theeTable.services')
 		};
 
 		// Verify JWT
-		var verifyJwt = function() {
+		var verifyJwt = function(redirect) {
 			var jwt = localStorageService.get("jwt");
 			if (!jwt) {
-				alert("you must be logged in to access Thee Table.");
-				$location.path("/main");
+				if (!redirect) {
+					alert("you must be logged in to access Thee Table.");
+					$location.path("/main");
+				}
 				return false;
 			} else {
 				return true;

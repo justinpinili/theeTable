@@ -15,17 +15,17 @@ angular.module('theeTable', [
       .state('home', {
         url: '/home',
         controller: 'authController',
-        templateUrl: 'templates/auth.html'
+        templateUrl: 'templates/controllers/auth.html'
       })
       .state('rooms', {
         url: '/rooms',
         controller: 'roomsController',
-        templateUrl: 'templates/rooms.html'
+        templateUrl: 'templates/controllers/rooms.html'
       })
       .state('room', {
         url: '/rooms/:roomName',
         controller: 'roomController',
-        templateUrl: 'templates/room.html'
+        templateUrl: 'templates/controllers/room.html'
       })
       .state('backtorooms', {
         url: '/backtorooms',

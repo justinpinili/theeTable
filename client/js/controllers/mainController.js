@@ -48,7 +48,7 @@ angular.module('theeTable.controllers')
 
     $scope.managePlaylist = function() {
       var modalInstance = $modal.open({
-        templateUrl: './../templates/managePlaylist.html',
+        templateUrl: './../templates/modals/managePlaylist.html',
         controller: 'managePlaylistController',
         size: 'lg',
         resolve: {
@@ -67,7 +67,7 @@ angular.module('theeTable.controllers')
 
     $scope.viewFavorites = function() {
       var modalInstance = $modal.open({
-        templateUrl: './../templates/viewFavorites.html',
+        templateUrl: './../templates/modals/viewFavorites.html',
         controller: 'viewFavoritesController',
         size: 'lg',
         resolve: {
@@ -80,7 +80,7 @@ angular.module('theeTable.controllers')
 
     $scope.viewFavoriteRooms = function() {
       var modalInstance = $modal.open({
-        templateUrl: './../templates/viewFavoriteRooms.html',
+        templateUrl: './../templates/modals/viewFavoriteRooms.html',
         controller: 'viewFavoriteRoomsController',
         size: 'lg',
         resolve: {

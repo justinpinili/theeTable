@@ -14,7 +14,7 @@ angular.module('theeTable.controllers')
 		$scope.prompt.password = 'Enter your password.';
 		$scope.$parent.userInRoom = false;
 
-		if (theeTableAuth.verifyJwt()) {
+		if (theeTableAuth.verifyJwt(true)) {
 			$location.path('/rooms');
 		}
 
