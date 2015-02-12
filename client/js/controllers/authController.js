@@ -14,6 +14,10 @@ angular.module('theeTable.controllers')
 		$scope.prompt.password = 'Enter your password.';
 		$scope.$parent.userInRoom = false;
 
+		if (theeTableAuth.verifyJwt()) {
+			$location.path('/rooms');
+		}
+
 
 		// Displays proper prompts for either a new user or an existing user trying to log in
 		$scope.switchForm = function() {
