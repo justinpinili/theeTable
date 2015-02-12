@@ -1,5 +1,18 @@
 angular.module('theeTable.directives')
 	.directive('soundCloudPlayer', function() {
+
+		/************************************************************
+		 * soundCloudPlayer directive renders the soundcloud API    *
+		 * widget and controls all the behavior associated with the	*
+		 * player.                                                	*
+		 *                                                          *
+		 * Current Song                                             *
+		 * Current Time (updated frequently)                        *
+		 * Current DJ                                               *
+		 * Queue Rotation                                           *
+		 * Update Current DJ's playlist                             *
+		 ************************************************************/
+
 		return {
 			restrict: 'E',
 			template: '<iframe id="sc-widget" src="{{ thisSong }}" width="100%" height="98%" scrolling="no" frameborder="no"></iframe>',
@@ -18,16 +31,19 @@ angular.module('theeTable.directives')
 
 				$scope.thisSong = '';
 
+				// makes sure that the url is safe to load into the soundcloud api widget
 				$scope.sce = function(value) {
 					return $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + value);
 				}
 
+				// logic that is set up each time a new song is ready to play
+				// prepares the soundcloud api widget
 				$scope.updatePlayer = function(newSong) {
-					// Bind the events with the SoundCloud widget
 					if (newSong) {
 						widget.load(newSong, { show_artwork: true });
 					}
 
+					// Bind the events with the SoundCloud widget
 					widget.bind(SC.Widget.Events.READY, function() {
 						widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(data) {
 							// should only emit from currentDJ
@@ -37,10 +53,13 @@ angular.module('theeTable.directives')
 						});
 						widget.bind(SC.Widget.Events.PLAY, function(data) {
 
+							// if the client is new and a song is playing, skip to the current time
 							if ($scope.room.currentTime !== null) {
 								widget.seekTo($scope.room.currentTime);
 							}
 
+							// if a song is playing, configure the title, otherwise, unbind the widget
+							// since it's not being used
 							if ($scope.room.currentSong) {
 								widget.getCurrentSound(function(currentSound) {
 									$scope.$apply(function(){
@@ -58,8 +77,12 @@ angular.module('theeTable.directives')
 							}
 
 						});
+
 						widget.setVolume(100);
+
+						//once a song is finished
 						widget.bind(SC.Widget.Events.FINISH, function() {
+
 							// unbind the widget from the listeners that we don't need anymore.
 							widget.unbind(SC.Widget.Events.READY);
 							widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
@@ -70,7 +93,9 @@ angular.module('theeTable.directives')
 								$scope.socket.emit('updatePlaylist', { username: $scope.username });
 							}
 						});
+
 						widget.play();
+
 					});
 				};
 
@@ -87,6 +112,7 @@ angular.module('theeTable.directives')
 			link: function(scope, element, attrs) {
 				var first = true;
 
+				// set up a watcher so that we can update the player once a new song is configured
 				scope.$watch('currentSong', function(newValue, oldValue) {
 					if (!first && newValue === null) {
 						scope.oldValue = oldValue;

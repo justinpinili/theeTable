@@ -1,6 +1,12 @@
 <div class="manage">
+	<div class="exit">
+		<i class="big-icon mdi-navigation-close" ng-click="close()"></i>
+	</div>
 	<h2>Playlist</h2>
-	<table class="table table-striped table-hover choice">
+	<div ng-if="playlist.length === 0">
+		Search soundcloud to add songs individually or Import your soundcloud playlists/likes!
+	</div>
+	<table ng-if="playlist.length > 0" class="table table-striped table-hover choice">
 		<thead>
 			<tr>
 				<th>Order</th>

@@ -1,5 +1,13 @@
 angular.module('theeTable.services')
 .factory('theeTableTime', [function() {
+
+	/*************************************************************
+	 * theeTabletime factory converts time in milliseconds to    *
+	 * hours, minutes, and seconds.                              *
+	 *                                                           *
+	 * convert time                                              *
+	 *************************************************************/
+
 	var convertTime = function(duration) {
 		var hours = Math.floor(duration / 3600000);
 		var minutes = Math.floor((duration % 3600000) / 60000);

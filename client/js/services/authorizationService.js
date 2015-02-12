@@ -1,5 +1,16 @@
 angular.module('theeTable.services')
-	.factory('theeTableAuth', ['$http', 'localStorageService', '$location', function($http, localStorageService, $location) {
+	.factory('theeTableAuth', ['$http', 'localStorageService', '$location', 'theeTableUrl', function($http, localStorageService, $location, theeTableUrl) {
+
+		/************************************************************
+		 * theeTableAuth retrieves information from the DB for a    *
+		 * user.                                                  	*
+		 *                                                          *
+		 * Login / Sign Up                                          *
+		 * Obtain user information                                  *
+		 * verify JWT                                               *
+		 ************************************************************/
+
+		// Login or Signup
 		var siteAccess = function(url, username, password, callback) {
 			$http.post(url, {username: username, password: password})
 				.success(function(result) {
@@ -12,9 +23,10 @@ angular.module('theeTable.services')
 				})
 		};
 
+		// Obtain user information
 		var getUserInfo = function(callback) {
 			var jwt = localStorageService.get("jwt");
-			$http.get('http://localhost:1337/user?jwt_token='+jwt)
+			$http.get("" + theeTableUrl.getUrl() + '/user?jwt_token='+jwt)
 				.success(function(result) {
 					callback(result);
 					return;
@@ -25,11 +37,14 @@ angular.module('theeTable.services')
 				});
 		};
 
-		var verifyJwt = function() {
+		// Verify JWT
+		var verifyJwt = function(redirect) {
 			var jwt = localStorageService.get("jwt");
 			if (!jwt) {
-				alert("you must be logged in to access Thee Table.");
-				$location.path("/main");
+				if (!redirect) {
+					alert("you must be logged in to access Thee Table.");
+					$location.path("/main");
+				}
 				return false;
 			} else {
 				return true;

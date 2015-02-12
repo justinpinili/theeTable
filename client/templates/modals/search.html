@@ -1,4 +1,7 @@
 <div class="manage">
+	<div class="exit">
+		<i class="big-icon mdi-navigation-close" ng-click="close()"></i>
+	</div>
 	<h1 >Search SoundCloud</h1>
 
 	<form name="searchForm" ng-submit="search(soundcloud.query)" novalidate>
@@ -27,7 +30,7 @@
 					<th>Length</th>
 				<tr>
 			<tbody>
-				<tr ng-click="addSongToPlaylist( track.permalink_url, track.title, track.user.username, track.duration, track.id )" ng-repeat="track in soundcloud.results">
+				<tr ng-click="addSongToPlaylist( track.permalink_url, track.title, track.user.username, track.duration, track.id, $index )" ng-repeat="track in soundcloud.results">
 					<td>
 						<span class="glyphicon glyphicon-plus"></span>
 					</td>

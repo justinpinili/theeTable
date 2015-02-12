@@ -1,8 +1,14 @@
 angular.module('theeTable.controllers')
-.controller('searchController', ['$scope', '$modalInstance', '$modal', 'playlist', 'getSCinstance', 'theeTableSoundcloud', function($scope, $modalInstance, $modal, playlist, getSCinstance, theeTableSoundcloud) {
+.controller('searchController', ['$scope', '$modalInstance', '$modal', 'playlist', 'getSCinstance', 'theeTableSoundcloud', 'theeTableTime', function($scope, $modalInstance, $modal, playlist, getSCinstance, theeTableSoundcloud, theeTableTime) {
+
+	/************************************************************
+	 * searchController allows the user to search on soundcloud *
+	 * and can add results to their playlist   					        *
+	 ************************************************************/
 
 	$scope.soundcloud = {};
 
+	// search soundcloud
 	$scope.search = function(query) {
 
 		$scope.soundcloud.results = [];
@@ -21,28 +27,26 @@ angular.module('theeTable.controllers')
 		$scope.soundcloud.query = '';
 		$('#soundcloudSearch').val('');
 
+		return;
 	};
 
+	// display proper time
 	$scope.convertTime = function(duration) {
-		var hours = Math.floor(duration / 3600000);
-		var minutes = Math.floor((duration % 3600000) / 60000);
-		var seconds = Math.floor(((duration % 360000) % 60000) / 1000);
-
-		if (hours > 0) {
-			return hours + ":" + minutes + ":" + seconds;
-		}
-
-		if (seconds < 10) {
-			seconds = "0"+seconds;
-		}
-		return minutes + ":" + seconds;
+		return theeTableTime.convertTime(duration);
 	};
 
-	$scope.addSongToPlaylist = function(url, title, artist, length, id) {
+	// adds chosen song to the playlist
+	// also remove's the from the search results
+	$scope.addSongToPlaylist = function(url, title, artist, length, id, index) {
+		$scope.soundcloud.results.splice(index,1);
 		$scope.$parent.newSong = { source: url, title: title, artist: artist, length: length, soundcloudID: id };
 		playlist.push({ source: url, title: title, artist: artist, length: length, soundcloudID: id });
-
-		// $modalInstance.close();
+		return;
 	};
+
+	// close modal
+	$scope.close = function() {
+		$modalInstance.close();
+	}
 
 }]);

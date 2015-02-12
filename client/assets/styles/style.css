@@ -224,6 +224,12 @@ body {
 	width: 100%;
 }
 
+.exit {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
 	vertical-align: middle;
 }

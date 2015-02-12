@@ -1,13 +1,23 @@
 angular.module('theeTable.directives')
 .directive('customInputBox', function() {
+
+	/************************************************************
+	 * customInputBox directive renders an input box with error *
+	 * div. it controls the logic after a user submits an input	*
+	 * 																													*
+	 * used for chat messages and creating a room               *
+	 ************************************************************/
+
 	return {
 		restrict: 'E',
-		template: '<div><div ng-if="message" class="alert alert-danger" role="alert"> <strong>Sorry!</strong> {{ message }} </div><form name="inputForm" ng-submit="create(newInput.value)" novalidate><div class="form-group form-group-lg"><input type="text" name="inputName" ng-model="newInput.value" class="form-control floating-label" placeholder="{{ prompt }}"/></div><div class="input-group input-group-lg"><button type="submit" ng-disabled="createDisabled()" class="btn btn-default">Submit</button></div></form></div>',
+		templateUrl: './../../templates/directives/inputDirective.html',
 		scope: {
 			socket: '=',
 			input: '@'
 		},
 		controller: ['$scope', 'theeTableRooms', function($scope, theeTableRooms) {
+
+			// initialization logic
 
 			$scope.newInput = {};
 			$scope.prompt = "Send a Message";
@@ -16,6 +26,7 @@ angular.module('theeTable.directives')
 				$scope.prompt = "Choose a New Room Name";
 			}
 
+			// disables submission if it's empty
 			$scope.createDisabled = function() {
 				if ($scope.newInput.value === undefined || $scope.newInput.value === '') {
 					return true;
@@ -23,12 +34,12 @@ angular.module('theeTable.directives')
 				return false;
 			};
 
+			// notify the DB of the user's input
 			$scope.create = function(newValue) {
 				if ($scope.input === 'room') {
 					theeTableRooms.createRoom(newValue, function(result) {
 						if (!result.message) {
 							$scope.socket.emit("addRoom", {room: result.name});
-							// console.log(result.name);
 							$scope.$parent.close = true;
 							return;
 						}

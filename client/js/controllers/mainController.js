@@ -1,6 +1,34 @@
 angular.module('theeTable.controllers')
   .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'socket', 'theeTableSoundcloud', 'theeTableUrl', function($scope, localStorageService, theeTableAuth, $modal, socket, theeTableSoundcloud, theeTableUrl) {
 
+    /************************************************************
+     * mainController that holds the current user's information *
+     * and allows that information to be passed across the      *
+     * application.                                             *
+     *                                                          *
+     *  - Playlist                                              *
+     *  - Favorites                                             *
+     *  - Favorite Rooms                                        *
+     *  - soundcloud instance for theeTable application         *
+     ************************************************************/
+
+    // initialize client with app credentials
+    var scInit = SC.initialize({
+      client_id: theeTableUrl.getID(),
+      redirect_uri: '' + theeTableUrl.getUrl() + '/success'
+    });
+
+    $scope.sc = theeTableSoundcloud.setSCinstance(scInit);
+
+    $scope.socket = socket;
+
+    $scope.inRoom = function() {
+      if ($scope.userInRoom) {
+        return true;
+      }
+      return false;
+    }
+
     $scope.getUserInfo = function(callback) {
       theeTableAuth.getUserInfo(function(result) {
         if (!result.message) {
@@ -14,9 +42,13 @@ angular.module('theeTable.controllers')
       });
     }
 
+    // Information is shown in a
+    // modal with it's own controller and
+    // template - manage and view are prefixed
+
     $scope.managePlaylist = function() {
       var modalInstance = $modal.open({
-        templateUrl: './../templates/managePlaylist.html',
+        templateUrl: './../templates/modals/managePlaylist.html',
         controller: 'managePlaylistController',
         size: 'lg',
         resolve: {
@@ -35,7 +67,7 @@ angular.module('theeTable.controllers')
 
     $scope.viewFavorites = function() {
       var modalInstance = $modal.open({
-        templateUrl: './../templates/viewFavorites.html',
+        templateUrl: './../templates/modals/viewFavorites.html',
         controller: 'viewFavoritesController',
         size: 'lg',
         resolve: {
@@ -48,7 +80,7 @@ angular.module('theeTable.controllers')
 
     $scope.viewFavoriteRooms = function() {
       var modalInstance = $modal.open({
-        templateUrl: './../templates/viewFavoriteRooms.html',
+        templateUrl: './../templates/modals/viewFavoriteRooms.html',
         controller: 'viewFavoriteRoomsController',
         size: 'lg',
         resolve: {
@@ -59,37 +91,32 @@ angular.module('theeTable.controllers')
       });
     };
 
+    // mainController holds the soundcloud instance so it can be used
+    // throughout the app
+
     $scope.getSoundcloudID = function() {
       return theeTableSoundcloud.getSoundcloudID();
-    }
+    };
 
     $scope.getSCinstance = function() {
       return theeTableSoundcloud.getSCinstance();
-    }
+    };
 
     $scope.loginSC = function(callback) {
-
       theeTableSoundcloud.loginSC(function() {
         $scope.soundcloudID = theeTableSoundcloud.getSoundcloudID();
 
         if (callback) {
           callback();
         }
+        return;
       });
+      return;
     };
 
     $scope.likeSongOnSC = function(id) {
       theeTableSoundcloud.like(id);
-    }
-
-    // initialize client with app credentials
-    var scInit = SC.initialize({
-      client_id: '3fad6addc9d20754f8457461d02465f2',
-      redirect_uri: '' + theeTableUrl.getUrl() + '/success'
-    });
-
-    $scope.sc = theeTableSoundcloud.setSCinstance(scInit);
-
-    $scope.socket = socket;
+      return;
+    };
 
   }]);

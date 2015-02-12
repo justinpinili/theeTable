@@ -1,6 +1,15 @@
 <div class="manage">
+	<div class="exit">
+		<i class="big-icon mdi-navigation-close" ng-click="close()"></i>
+	</div>
 	<h2>Favorites</h2>
-	<table class="table table-striped table-hover choice">
+	<div ng-if="favorites.length === 0">
+		When you are in a room, look for the <a href="" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a> to add it to your Liked Songs List.
+	</div>
+	<div ng-if="favorites.length > 0">
+		When you click on a room name, it will take you to that room.
+	</div>
+	<table ng-if="favorites.length > 0" class="table table-striped table-hover choice">
 		<thead>
 			<tr>
 				<th>Order</th>
