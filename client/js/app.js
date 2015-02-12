@@ -27,14 +27,20 @@ angular.module('theeTable', [
         controller: 'roomController',
         templateUrl: 'templates/room.html'
       })
+      .state('backtorooms', {
+        url: '/backtorooms',
+        controller: ['$location', function($location) {
+          $location.path("/rooms");
+        }]
+      })
       .state('logout', {
         url: '/logout',
-        controller: function(localStorageService, $location, $scope) {
+        controller: ['localStorageService', '$location', '$scope', function(localStorageService, $location, $scope) {
           localStorageService.remove('jwt');
           $scope.$parent.currentUser = undefined;
           $scope.$parent.soundcloudID = undefined;
           $location.path("/");
-        }
+        }]
       });
 
       $urlRouterProvider.otherwise('/home');

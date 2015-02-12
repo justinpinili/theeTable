@@ -17,7 +17,7 @@ angular.module('theeTable.controllers')
 		$scope.playlist = user.playlist;
 	});
 
-	// clear the scoped arrays of $$ properties
+	// clear the scoped arrays of un-needed properties
 	var songsForDB = function(collection) {
 		var songCollection = [];
 		for (var index = 0; index < collection.length; index++) {

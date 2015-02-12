@@ -42,6 +42,7 @@ angular.module('theeTable.controllers')
 					});
 					$scope.closeModal = function() {
 						$modalInstance.close();
+						$location.path("/backtorooms");
 					}
 				}],
 				size: 'lg',
