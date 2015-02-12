@@ -1,5 +1,14 @@
 angular.module('theeTable.services')
 .factory('theeTableUrl', [function() {
+
+	/************************************************************
+	* theeTableUrl factory provides server URL and soundcloud   *
+	* client ID                                               	*
+	*                                                           *
+	* server URL                                                *
+	* soundcloud clientID                                       *
+	*************************************************************/
+
 	var getUrl = function() {
 		return 'http://localhost:1337';
 	};
