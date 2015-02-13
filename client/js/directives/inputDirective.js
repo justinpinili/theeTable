@@ -5,7 +5,7 @@ angular.module('theeTable.directives')
 	 * customInputBox directive renders an input box with error *
 	 * div. it controls the logic after a user submits an input	*
 	 * 																													*
-	 * used for chat messages and creating a room               *
+	 * used for chat messages              *
 	 ************************************************************/
 
 	return {
@@ -20,11 +20,6 @@ angular.module('theeTable.directives')
 			// initialization logic
 
 			$scope.newInput = {};
-			$scope.prompt = "Send a Message";
-
-			if ($scope.input === 'room') {
-				$scope.prompt = "Choose a New Room Name";
-			}
 
 			// disables submission if it's empty
 			$scope.createDisabled = function() {
@@ -36,18 +31,7 @@ angular.module('theeTable.directives')
 
 			// notify the DB of the user's input
 			$scope.create = function(newValue) {
-				if ($scope.input === 'room') {
-					theeTableRooms.createRoom(newValue, function(result) {
-						if (!result.message) {
-							$scope.socket.emit("addRoom", {room: result.name});
-							$scope.$parent.close = true;
-							return;
-						}
-						$scope.message = result.message;
-					});
-				} else {
-					$scope.socket.emit('newChatMessage', { msg: newValue })
-				}
+				$scope.socket.emit('newChatMessage', { msg: newValue })
 				$scope.newInput.value = '';
 				return;
 			};

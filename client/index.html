@@ -47,7 +47,7 @@
               </li>
             </ul> -->
             <ul ng-if="currentUser" class="nav navbar-nav navbar-right">
-              <li><a ui-sref="backtorooms" ng-if="inRoom()"><span class="glyphicon glyphicon-open"></span>  Back to Rooms</a></li>
+              <li><a ui-sref="rooms" ng-if="inRoom()"><span class="glyphicon glyphicon-open"></span>  Back to Rooms</a></li>
               <li><a ng-click="viewFavoriteRooms()" href=""><span class="glyphicon glyphicon-star"></span>  Favorite Rooms</a></li>
               <li><a ng-click="viewFavorites()" href=""><span class="glyphicon glyphicon-heart"></span>  Liked Songs</a></li>
               <li><a ui-sref="logout"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>
@@ -85,6 +85,7 @@
     <script type="text/javascript" src="js/controllers/managePlaylistController.js"></script>
     <script type="text/javascript" src="js/controllers/viewFavoritesController.js"></script>
     <script type="text/javascript" src="js/controllers/viewFavoriteRoomsController.js"></script>
+    <script type="text/javascript" src="js/controllers/createRoomController.js"></script>
     <script type="text/javascript" src="js/services/authorizationService.js"></script>
     <script type="text/javascript" src="js/services/roomsApiService.js"></script>
     <script type="text/javascript" src="js/services/socketService.js"></script>

@@ -33,21 +33,10 @@ angular.module('theeTable.controllers')
 		$scope.createRoom = function() {
 			var modalInstance = $modal.open({
 				templateUrl: './../templates/modals/createRoom.html',
-				controller: ['$scope', 'socket','$modalInstance', function($scope, socket, $modalInstance) {
-					$scope.socket = socket;
-					$scope.$watch('close', function(newValue, oldValue) {
-						if (newValue) {
-							$modalInstance.close();
-						}
-					});
-					$scope.closeModal = function() {
-						$modalInstance.close();
-						$location.path("/backtorooms");
-					}
-				}],
+				controller: 'createRoomController',
 				size: 'lg',
 				resolve: {
-					socket: function () {
+					currentSocket: function () {
 						return $scope.$parent.socket;
 					}
 				}
