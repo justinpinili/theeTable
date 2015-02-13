@@ -18,7 +18,6 @@ angular.module('theeTable.controllers')
 			$location.path('/rooms');
 		}
 
-
 		// Displays proper prompts for either a new user or an existing user trying to log in
 		$scope.switchForm = function() {
 			if ($scope.current === 'login') {

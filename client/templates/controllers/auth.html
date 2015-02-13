@@ -8,7 +8,8 @@
 					<div class="input-group input-auth">
 						<input type="text" name="logInUsername" ng-model="login.username" class="form-control floating-label" placeholder="{{ prompt.username }}" /><br />
 						<input type="password" name="logInPassword" ng-model="login.password" class="form-control floating-label" placeholder="{{ prompt.password }}" /><br />
-						<button type="submit" ng-disabled='authDisabled()' class="btn btn-default">{{ current }}</button>
+						<button ng-if="current === 'login'" type="submit" ng-disabled='authDisabled()' class="btn btn-default">Login  <i class="mdi-social-person big-icon"></i></button>
+						<button ng-if="current === 'new'" type="submit" ng-disabled='authDisabled()' class="btn btn-default">Sign Up  <i class="mdi-social-person-add big-icon"></i></button>
 					</div>
 				</div>
 			</form>
@@ -24,7 +25,7 @@
 			<div class="center">
 				<p>
 					<h4>OR</h4>
-					<button ng-click="authSC()" class="btn btn-default">Login with SoundCloud</button>
+					<button ng-click="authSC()" class="btn btn-default">Login with <span><img src="./assets/soundcloud_logo.png"/></span></button>
 				</p>
 			</div>
 	</div>

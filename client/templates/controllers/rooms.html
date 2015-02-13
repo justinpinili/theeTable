@@ -1,17 +1,9 @@
-<div ng-if="rooms">
-	<div class="container">
-		<div class="row">
-		</div>
-	</div>
-</div>
-
-
 <div ng-if="rooms" class="container">
 	<div class="row">
 		<div class="col-md-12 center pad">
-			<button ng-click="createRoom()" class="btn btn-danger">Create a New Room</button><br />
+			<button ng-click="createRoom()" class="btn btn-danger">Create a New Room  <i class="mdi-image-edit big-icon"></i></button><br />
 			OR<br />
-			<input type="text" class="form-control floating-label" placeholder="Search for an existing room." ng-model="searchRoom.name"></input>
+			<input type="text" class="form-control" placeholder="Search for an existing room." ng-model="searchRoom.name"></input>
 		</div>
 	</div>
 	<div class="row">

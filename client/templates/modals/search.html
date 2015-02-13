@@ -9,7 +9,7 @@
 			<div class="input-group input-group-md">
 				<input type="text" name="soundcloudQuery" class="form-control floating-label" id="soundcloudSearch" ng-model="soundcloud.query" placeholder="Find a song." />
 				<span class="input-group-btn">
-					<button type="submit" class="btn btn-default">Search</button>
+					<button type="submit" class="btn btn-default"><i class="mdi-action-search big-icon"></i></button>
 				</span>
 			</div>
 		</div>
@@ -32,7 +32,7 @@
 			<tbody>
 				<tr ng-click="addSongToPlaylist( track.permalink_url, track.title, track.user.username, track.duration, track.id, $index )" ng-repeat="track in soundcloud.results">
 					<td>
-						<span class="glyphicon glyphicon-plus"></span>
+						<i class="mdi-av-playlist-add big-icon"></i>
 					</td>
 					<td>
 						<img ng-src="{{ track.artwork_url }}" />

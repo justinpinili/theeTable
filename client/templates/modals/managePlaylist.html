@@ -38,13 +38,12 @@
 	</table>
 
 	<div class="center">
-		<button ng-click="searchSC()" class="btn btn-default">Search on SoundCloud</button>
-		<button ng-if="!possiblePlaylists" ng-click="connectSC()" class="btn btn-default">Import playlists or likes from SoundCloud</button>
+		<button ng-click="searchSC()" class="btn btn-default"><i class="mdi-action-search big-icon"></i> on <span><img src="./assets/soundcloud_logo.png"/></span></button>
+		<button ng-if="!possiblePlaylists" ng-click="connectSC()" class="btn btn-default">Import <i class="mdi-av-my-library-music big-icon"></i> from <span><img src="./assets/soundcloud_logo.png"/></span></button>
 		<div ng-if="possiblePlaylists && possiblePlaylists === 'start'">
 			<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
 		</div>
 		<div ng-if="possiblePlaylists !== 'start' && possiblePlaylists">
-
 			<table class="table table-striped table-hover choice">
 				<thead>
 					<tr>
@@ -61,7 +60,7 @@
 							{{ playlist.title }}
 						</td>
 						<td>
-							<span class="glyphicon glyphicon-plus"></span>
+							<i class="mdi-av-queue-music big-icon"></i>
 						</td>
 					</tr>
 					<tr ng-click="importPlaylist(likes, 'likes')">
@@ -71,18 +70,11 @@
 							Import your 50 most recent likes on SoundCloud
 						</td>
 						<td>
-							<span class="glyphicon glyphicon-plus"></span>
+							<i class="mdi-av-queue-music big-icon"></i>
 						</td>
 					</tr>
 				</tbody>
 			</table>
-
-			<!-- <div ng-click="importPlaylist(playlist)" ng-repeat="playlist in possiblePlaylists">
-				{{ playlist.title }}
-			</div>
-			<div ng-click="importPlaylist(likes, 'likes')">
-				Import likes
-			</div> -->
 		</div>
 	</div>
 </div>
