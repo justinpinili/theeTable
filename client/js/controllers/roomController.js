@@ -98,7 +98,6 @@ angular.module('theeTable.controllers')
 
 		$scope.$parent.socket.on('updatedRooms', function(data) {
 			$scope.$parent.currentUser.rooms = data.rooms;
-			$.snackbar({content: "" + data.rooms[data.rooms.length-1] + " has been added to your favorite rooms list." });
 			return;
 		});
 
@@ -195,6 +194,7 @@ angular.module('theeTable.controllers')
 
 		// adds the current room to the user's favorite rooms list
 		$scope.addRoom = function() {
+			$.snackbar({content: "" + $scope.room.name + " has been added to your favorite rooms list." });
 			$scope.$parent.socket.emit("addRoom", {room: $scope.room.name});
 		};
 

@@ -3,9 +3,9 @@
 	<div class="container">
 		<div class="row">
 			<center>
-				<h2 class="bold">{{ room.name }}<i ng-click="addRoom()" ng-if="!storedInUser()" class="mdi-content-add-box"></i></h2>
+				<h2 class="bold">{{ room.name }}<span ng-click="addRoom()" ng-if="!storedInUser()" class="glyphicon glyphicon-star"></span></h2>
 				<p>
-					{{ room.users.length }} user(s) in this room.<br />
+					{{ room.users.length }} <i class="mdi-action-account-child big-icon"></i><br />
 				</p>
 			</center>
 		</div>
@@ -53,9 +53,9 @@
 								</div>
 							</div>
 							<div class="song-info center">
-								<button ng-if="room.queue.indexOf(currentUser.username) === -1" ng-click="addToQueue()" class="btn btn-default btn-xs"><i class="mdi-file-file-download"></i>  Enter Queue</button>
-								<button ng-if="room.queue.indexOf(currentUser.username) >= 0" ng-click="removeFromQueue()" class="btn btn-default btn-xs"><i class="mdi-file-file-upload"></i>  Leave Queue</button>
-								<button ng-show="room.currentDJ === currentUser.username" ng-click="skip()" class="btn btn-default btn-xs"><i class="mdi-av-fast-forward"></i>  Skip My Turn</button>
+								<button ng-if="room.queue.indexOf(currentUser.username) === -1" ng-click="addToQueue()" class="btn btn-default btn-xs"><i class="mdi-file-file-download big-icon"></i>  Enter Queue</button>
+								<button ng-if="room.queue.indexOf(currentUser.username) >= 0" ng-click="removeFromQueue()" class="btn btn-default btn-xs"><i class="mdi-file-file-upload big-icon"></i>  Leave Queue</button>
+								<button ng-show="room.currentDJ === currentUser.username" ng-click="skip()" class="btn btn-default btn-xs"><i class="mdi-av-fast-forward big-icon"></i>  Skip My Turn</button>
 								<div class="song-content" ng-if="title">
 									Artist: {{ room.currentSong.artist }}<br />
 									Duration: {{ convertTime(room.currentSong.length - room.currentTime) }}<br />

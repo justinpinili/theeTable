@@ -10,8 +10,8 @@
 		<div class="panel panel-primary rooms center" ng-repeat="room in rooms | filter:searchRoom">
 			<h3>{{ room.name }}</h3>
 			<p>
-				<a href="" ng-click="navigate(room.name)" class="btn btn-default btn-fab btn-raised glyphicon glyphicon-save"></a><br />
-				{{ room.users.length }} user(s) in the room.
+				{{ room.users.length }} <i class="mdi-action-account-child big-icon"></i><br />
+				<button ng-click="navigate(room.name)" class="btn btn-xs btn-default glyphicon glyphicon-save"> join</button>
 			</p>
 		</div>
 	</div>
