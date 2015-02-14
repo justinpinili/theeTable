@@ -1,9 +1,9 @@
 .main-navbar {
-	background-color: #2C3E50;
+	background-color: #01286E;
 }
 
 a, .dropdown-menu>li>a {
-	color: #617487;
+	color: #063DA3;
 }
 
 .navbar-default .navbar-brand {
@@ -13,7 +13,7 @@ a, .dropdown-menu>li>a {
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover,
 .navbar-default .navbar-nav>.active>a:focus {
 	color: #FFF;
-	background-color: #0C2032;
+	background-color: #01286E;
 }
 
 .navbar-default .navbar-nav>li>a {
@@ -23,7 +23,7 @@ a, .dropdown-menu>li>a {
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover,
 .navbar-default .navbar-nav>.open>a:focus {
 	color: #FFF;
-	background-color: #0C2032;
+	background-color: #01286E;
 }
 
 .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
@@ -31,7 +31,7 @@ a, .dropdown-menu>li>a {
 }
 
 .navbar-default .navbar-toggle .icon-bar {
-background-color: #617487;
+	background-color: #063DA3;
 }
 
 body {
@@ -48,45 +48,45 @@ body {
 
 .form-control-wrapper .form-control:focus ~ .material-input:after,
 .form-control-wrapper .form-control.focus ~ .material-input:after {
-	background-color: #2C3E50;
+	background-color: #01286E;
 }
 
 .form-control-wrapper .material-input:before {
-	background-color: #2C3E50;
+	background-color: #01286E;
 }
 
 .form-group .material-input:before, .form-group-default .material-input:before, .form-group-primary .material-input:before {
-	background-color: #2C3E50;
+	background-color: #01286E;
 }
 
 .form-group .material-input:before, .form-group-default .material-input:before, .form-group-primary .material-input:before {
-	background-color: #2C3E50;
+	background-color: #01286E;
 }
 
 .form-group .material-input:before,
 .form-group-default .material-input:before {
-	background-color: #2C3E50;
+	background-color: #01286E;
 }
 
 .form-group-primary .material-input:before {
-	background-color: #2C3E50;
+	background-color: #01286E;
 }
 
 .form-group input.form-control:focus ~ .material-input:after,
 .form-group-default input.form-control:focus ~ .material-input:after {
-	background-color: #2C3E50;
+	background-color: #01286E;
 }
 .form-group-primary input.form-control:focus ~ .material-input:after {
-	background-color: #2C3E50;
+	background-color: #01286E;
 }
 
 .form-group input.form-control:not(.empty)~.floating-label, .form-group-default input.form-control:not(.empty)~.floating-label, .form-group-primary input.form-control:not(.empty)~.floating-label {
-	color: #2C3E50;
+	color: #01286E;
 }
 
 .form-group .material-input:before,
 .form-group-default .material-input:before {
-	background-color: #2C3E50;
+	background-color: #01286E;
 }
 
 .form-group {
@@ -99,23 +99,23 @@ body {
 }
 
 .btn-default:not(.btn-link):not(.btn-flat), .btn:not(.btn-link):not(.btn-flat) {
-	background-color: #2C3E50;
+	background-color: #01286E;
 	color: #FFFFFF;
 }
 
 .dropdown-menu li a:hover {
 	background-color: transparent;
-	color: #0C2032;
+	color: #01286E;
 }
 
 .dropdown-menu li a:hover,
 .dropdown-menu-default li a:hover {
-	color: #0C2032;
+	color: #01286E;
 }
 
 .panel-primary>.panel-heading {
-	background-color: #2C3E50;
-	border-color: #2C3E50;
+	background-color: #01286E;
+	border-color: #01286E;
 }
 
 .queue-music {
@@ -194,7 +194,7 @@ body {
 }
 
 .manage {
-	color: #2C3E50;
+	color: #01286E;
 }
 
 .bold {
@@ -222,8 +222,6 @@ body {
 .pad {
 	margin: 5px;
 	padding: 5px;
-	height: 100%;
-	width: 100%;
 }
 
 .exit {
@@ -235,6 +233,8 @@ body {
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
 	vertical-align: middle;
 }
+
+
 .glyphicon-refresh-animate {
 	font-size: 40px;
 	-animation: spin .7s infinite linear;
@@ -249,4 +249,20 @@ body {
 @keyframes spin {
 	from { transform: scale(1) rotate(0deg);}
 	to { transform: scale(1) rotate(360deg);}
+}
+
+.glyphicon-refresh-animate-flip {
+	font-size: 40px;
+	-animation: spin-flip .7s infinite linear;
+	-webkit-animation: spin-flip2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin-flip2 {
+	from { -webkit-transform: rotate(90deg);}
+	to { -webkit-transform: rotate(450deg);}
+}
+
+@keyframes spin-flip {
+	from { transform: scale(1) rotate(90deg);}
+	to { transform: scale(1) rotate(450deg);}
 }

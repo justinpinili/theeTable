@@ -43,4 +43,21 @@ angular.module('theeTable.controllers')
 			});
 		};
 
+		$scope.favoriteRooms = [];
+
+		theeTableAuth.getUserInfo(function(user) {
+			$scope.favoriteRooms = user.rooms;
+		});
+
+		// removes an entry from the rooms list
+		$scope.remove = function(index) {
+			$.snackbar({content: "" + $scope.favoriteRooms[index] + " has been removed to your favorite rooms list" });
+			$scope.favoriteRooms.splice(index, 1);
+			var rooms = [];
+			for (var index = 0; index < $scope.favoriteRooms.length; index++) {
+				rooms.push($scope.favoriteRooms[index]);
+			}
+			$scope.$parent.socket.emit('newRooms', { rooms: rooms });
+		}
+
 	}]);

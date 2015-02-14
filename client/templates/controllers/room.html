@@ -5,7 +5,7 @@
 			<center>
 				<h2 class="bold">{{ room.name }}<span ng-click="addRoom()" ng-if="!storedInUser()" class="glyphicon glyphicon-star"></span></h2>
 				<p>
-					{{ room.users.length }} <i class="mdi-action-account-child big-icon"></i><br />
+					<span class="glyphicon glyphicon-off glyphicon-refresh-animate-flip"></span> <span class="glyphicon glyphicon-off glyphicon-refresh-animate"></span>
 				</p>
 			</center>
 		</div>
@@ -76,7 +76,8 @@
 			</div>
 			<div class="col-md-6">
 				<div class="panel panel-primary chat-head">
-					<h4><b>Messages</b></h4>
+					<span class="big-icon"><strong>Messages</strong></span>
+					<span class="pull-right">{{ room.users.length }} <i class="mdi-action-account-child big-icon"></i></span>
 					<div class="chats">
 						<div ng-repeat="chat in room.chat">
 							<span ng-if="chat.user !== ''"><b>{{ chat.user }}</b>: {{ chat.msg }}</span>
