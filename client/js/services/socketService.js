@@ -11,6 +11,7 @@ angular.module('theeTable.services')
 
 		// connect to socket.io
 		var socket = io.connect();
+		var disconnected = false;
 
 		// listen for an event, and apply the callback to the rootscope
 		var on = function(eventName, callback) {
@@ -34,8 +35,21 @@ angular.module('theeTable.services')
 			});
 		};
 
+		var connect = function() {
+			if (disconnected) {
+				socket.connect();
+			}
+		}
+
+		var disconnect = function() {
+			socket.disconnect();
+			disconnected = true;
+		}
+
 	  return {
 	    on: on,
-	    emit: emit
+	    emit: emit,
+			connect: connect,
+			disconnect: disconnect
 	  };
 	}]);
