@@ -38,6 +38,7 @@ angular.module('theeTable.services')
 		var connect = function() {
 			if (disconnected) {
 				socket.connect();
+				disconnected = false;
 			}
 		}
 
