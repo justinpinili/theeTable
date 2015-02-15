@@ -25,7 +25,13 @@ angular.module('theeTable', [
       .state('room', {
         url: '/rooms/:roomName',
         controller: 'roomController',
-        templateUrl: 'templates/controllers/room.html'
+        templateUrl: 'templates/controllers/room.html',
+        onEnter: ['socket', function(socket){
+          socket.connect();
+        }],
+        onExit: ['socket', function(socket){
+          socket.disconnect();
+        }]
       })
       .state('backtorooms', {
         url: '/backtorooms',

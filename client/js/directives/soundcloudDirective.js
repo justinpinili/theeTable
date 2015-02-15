@@ -28,6 +28,13 @@ angular.module('theeTable.directives')
 				var widgetIframe;
 				var widget;
 				var currentTime;
+				
+				var unbind = function() {
+					widget.unbind(SC.Widget.Events.READY);
+					widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
+					widget.unbind(SC.Widget.Events.PLAY);
+					widget.unbind(SC.Widget.Events.FINISH);
+				}
 
 				$scope.thisSong = '';
 
@@ -69,10 +76,7 @@ angular.module('theeTable.directives')
 							} else {
 								delete $scope.title;
 								widget.seekTo($scope.oldValue.length);
-								widget.unbind(SC.Widget.Events.READY);
-								widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
-								widget.unbind(SC.Widget.Events.PLAY);
-								widget.unbind(SC.Widget.Events.FINISH);
+								unbind();
 								return;
 							}
 
@@ -84,10 +88,7 @@ angular.module('theeTable.directives')
 						widget.bind(SC.Widget.Events.FINISH, function() {
 
 							// unbind the widget from the listeners that we don't need anymore.
-							widget.unbind(SC.Widget.Events.READY);
-							widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
-							widget.unbind(SC.Widget.Events.PLAY);
-							widget.unbind(SC.Widget.Events.FINISH);
+							unbind();
 
 							if ($scope.room.currentDJ === $scope.username) {
 								$scope.socket.emit('updatePlaylist', { username: $scope.username });
