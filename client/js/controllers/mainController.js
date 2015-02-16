@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'socket', 'theeTableSoundcloud', 'theeTableUrl', function($scope, localStorageService, theeTableAuth, $modal, socket, theeTableSoundcloud, theeTableUrl) {
+  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'socket', 'theeTableSoundcloud', 'theeTableUrl', '$location', function($scope, localStorageService, theeTableAuth, $modal, socket, theeTableSoundcloud, theeTableUrl, $location) {
 
     /************************************************************
      * mainController that holds the current user's information *
@@ -45,6 +45,33 @@ angular.module('theeTable.controllers')
     // Information is shown in a
     // modal with it's own controller and
     // template - manage and view are prefixed
+
+    $scope.auth = function() {
+      if (theeTableAuth.verifyJwt(true)) {
+        $location.path('/rooms');
+        return;
+      }
+      
+      var modalInstance = $modal.open({
+        templateUrl: './../templates/controllers/auth.html',
+        controller: 'authController',
+        size: 'lg',
+        resolve: {
+          userInRoom: function() {
+            return $scope.userInRoom;
+          },
+          getUserInfo: function() {
+            return $scope.getUserInfo;
+          },
+          currentSocket: function() {
+            return $scope.socket;
+          },
+          loginSC: function() {
+            return $scope.loginSC;
+          }
+        }
+      });
+    }
 
     $scope.managePlaylist = function() {
       var modalInstance = $modal.open({
@@ -104,10 +131,12 @@ angular.module('theeTable.controllers')
 
     $scope.loginSC = function(callback) {
       theeTableSoundcloud.loginSC(function() {
-        $scope.soundcloudID = theeTableSoundcloud.getSoundcloudID();
+        $scope.$apply(function() {
+          $scope.soundcloudID = theeTableSoundcloud.getSoundcloudID();
+        });
 
         if (callback) {
-          callback();
+          callback($scope.soundcloudID);
         }
         return;
       });

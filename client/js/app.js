@@ -14,8 +14,7 @@ angular.module('theeTable', [
     $stateProvider
       .state('home', {
         url: '/home',
-        controller: 'authController',
-        templateUrl: 'templates/controllers/auth.html'
+        templateUrl: 'templates/app.html'
       })
       .state('rooms', {
         url: '/rooms',

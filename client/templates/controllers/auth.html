@@ -1,4 +1,4 @@
-<div class="panel panel-primary auth-panel">
+<div class="manage">
 	<div class="login center">
 			<div ng-if="message" class="alert alert-danger" role="alert">
 				 <span class="bold">Sorry!</span> {{ message }}
@@ -6,8 +6,8 @@
 			<form name="logInForm" ng-submit='auth(login.username, login.password)' novalidate>
 				<div class="form-group form-group-md">
 					<div class="input-group input-auth">
-						<input type="text" name="logInUsername" ng-model="login.username" class="form-control floating-label" placeholder="{{ prompt.username }}" /><br />
-						<input type="password" name="logInPassword" ng-model="login.password" class="form-control floating-label" placeholder="{{ prompt.password }}" /><br />
+						<input type="text" name="logInUsername" ng-model="login.username" class="form-control" placeholder="{{ prompt.username }}" /><br />
+						<input type="password" name="logInPassword" ng-model="login.password" class="form-control" placeholder="{{ prompt.password }}" /><br />
 						<button ng-if="current === 'login'" type="submit" ng-disabled='authDisabled()' class="btn btn-default">Login  <i class="mdi-social-person big-icon"></i></button>
 						<button ng-if="current === 'new'" type="submit" ng-disabled='authDisabled()' class="btn btn-default">Sign Up  <i class="mdi-social-person-add big-icon"></i></button>
 					</div>
@@ -33,6 +33,8 @@
 
 <script>
 	$(document).ready(function() {
-		$.material.init();
+		setTimeout(function() {
+			$.material.init();
+		}, 0);
 	});
 </script>
