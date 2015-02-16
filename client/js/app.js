@@ -42,6 +42,7 @@ angular.module('theeTable', [
         url: '/logout',
         controller: ['localStorageService', '$location', '$scope', function(localStorageService, $location, $scope) {
           localStorageService.remove('jwt');
+          $scope.$parent.showApp = false;
           $scope.$parent.currentUser = undefined;
           $scope.$parent.soundcloudID = undefined;
           $location.path("/");

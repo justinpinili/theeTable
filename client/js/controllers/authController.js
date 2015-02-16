@@ -42,6 +42,7 @@ angular.module('theeTable.controllers')
 						// let socket.io know the user's name
 						currentSocket.emit("userName", {username: retrievedUser.username});
 
+						$scope.$parent.showApp = true;
 						$modalInstance.close();
 
 						// transfer to rooms lobby
@@ -68,7 +69,10 @@ angular.module('theeTable.controllers')
 						localStorageService.set("jwt", result.jwt);
 						getUserInfo(function(retrievedUser) {
 							currentSocket.emit("userName", {username: retrievedUser.username});
+
+							$scope.$parent.showApp = true;
 							$modalInstance.close();
+
 							$location.path("/rooms");
 							return;
 						});

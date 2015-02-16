@@ -27,7 +27,7 @@ angular.module('theeTable.controllers')
         return true;
       }
       return false;
-    }
+    };
 
     $scope.getUserInfo = function(callback) {
       theeTableAuth.getUserInfo(function(result) {
@@ -40,7 +40,7 @@ angular.module('theeTable.controllers')
         }
         return;
       });
-    }
+    };
 
     // Information is shown in a
     // modal with it's own controller and
@@ -48,10 +48,11 @@ angular.module('theeTable.controllers')
 
     $scope.auth = function() {
       if (theeTableAuth.verifyJwt(true)) {
+        $scope.showApp = true;
         $location.path('/rooms');
         return;
       }
-      
+
       var modalInstance = $modal.open({
         templateUrl: './../templates/controllers/auth.html',
         controller: 'authController',

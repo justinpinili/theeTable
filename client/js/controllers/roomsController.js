@@ -20,6 +20,7 @@ angular.module('theeTable.controllers')
 			theeTableRooms.getAllRooms(function(result) {
 				$scope.rooms = result.rooms;
 				$scope.$parent.getUserInfo();
+				$scope.$parent.showApp = true;
 			});
 		}
 

@@ -123,6 +123,7 @@ angular.module('theeTable.controllers')
 				}
 				return;
 			});
+			$scope.$parent.showApp = true;
 		}
 
 		// managing playlist is only possible when a user is in a room.
