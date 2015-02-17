@@ -45,6 +45,9 @@ angular.module('theeTable', [
           $scope.$parent.showApp = false;
           $scope.$parent.currentUser = undefined;
           $scope.$parent.soundcloudID = undefined;
+          if ($scope.$parent.loggedout) {
+            $scope.$parent.loggedoutMsg = "You have logged into Thee Table from another source. Good-bye!";
+          }
           $location.path("/");
         }]
       });

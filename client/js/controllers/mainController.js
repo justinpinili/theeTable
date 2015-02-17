@@ -22,6 +22,26 @@ angular.module('theeTable.controllers')
 
     $scope.socket = socket;
 
+    $scope.socket.on("signOn", function(data) {
+      if ($scope.currentUser) {
+        if (data.username === $scope.currentUser.username &&
+            data.loginTime !== $scope.currentUser.loginTime) {
+            $scope.loggedout = true;
+            $location.path('/logout');
+          }
+      }
+    });
+
+    $scope.$watch("loggedoutMsg", function(newValue, oldValue) {
+      if (newValue !== undefined) {
+        setTimeout(function() {
+          $scope.$apply(function() {
+            delete $scope.loggedoutMsg;
+          });
+        }, 10000);
+      }
+    });
+
     $scope.inRoom = function() {
       if ($scope.userInRoom) {
         return true;

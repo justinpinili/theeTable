@@ -58,6 +58,10 @@
         </nav>
       </div>
 
+      <div ng-if="loggedoutMsg !== undefined">
+        {{ loggedoutMsg }} :)
+      </div>
+
       <div ui-view> </div>
 
     </div>
