@@ -57,7 +57,7 @@ angular.module('theeTable.controllers')
 
 	// removes an entry from the playlist
 	$scope.remove = function(index) {
-		$.snackbar({content: "" + $scope.playlist[index].title + " has been removed from your playlist." });
+		$.snackbar({content: "<span class='glyphicon glyphicon-trash big-icon'></span> " + $scope.playlist[index].title + " has been removed from your playlist." });
 		$scope.playlist.splice(index, 1);
 		$scope.$parent.newPlaylist = songsForDB($scope.playlist);
 	}

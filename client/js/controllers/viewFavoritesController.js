@@ -30,6 +30,7 @@ angular.module('theeTable.controllers')
 
 	// remove a song from the favorites list
 	$scope.remove = function(index) {
+		$.snackbar({content: "<span class='glyphicon glyphicon-trash big-icon'></span> " + $scope.favorites[index].title + " has been removed to your liked songs" });
 		$scope.favorites.splice(index, 1);
 		var favorites = [];
 		for (var index = 0; index < $scope.favorites.length; index++) {

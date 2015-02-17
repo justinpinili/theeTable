@@ -41,11 +41,11 @@ angular.module('theeTable.controllers')
 			if (!data.error) {
 				$scope.$parent.currentUser.playlist = data.playlist;
 				if (data.title) {
-					$.snackbar({content: "" + data.title + " has been added to your playlist." });
+					$.snackbar({content: "<i class='mdi-av-playlist-add big-icon'></i> " + data.title + " has been added to your playlist." });
 				}
 				return;
 			}
-			$.snackbar({content: "" + data.error });
+			$.snackbar({content: "<i class='mdi-notification-sms-failed big-icon'></i> " + data.error });
 			return;
 		});
 
@@ -88,11 +88,11 @@ angular.module('theeTable.controllers')
 			if (!data.error) {
 				$scope.$parent.currentUser.favorites = data.favorites;
 				if (data.title) {
-					$.snackbar({content: "" + data.title + " has been added to your Liked Songs." });
+					$.snackbar({content: "<i class='mdi-action-favorite big-icon'></i> " + data.title + " has been added to your liked songs" });
 				}
 				return;
 			}
-			$.snackbar({content: "" + data.error });
+			$.snackbar({content: "<i class='mdi-notification-sms-failed big-icon'></i> " + data.error });
 			return;
 		});
 
@@ -159,7 +159,7 @@ angular.module('theeTable.controllers')
 		};
 
 		theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {
-			$.snackbar({content: "Welcome to " + result.name });
+			$.snackbar({content: "<i class='mdi-file-file-download big-icon'></i> Welcome to " + result.name });
 			$scope.room = result;
 
 			if (theeTableAuth.verifyJwt(true)) {
@@ -209,7 +209,7 @@ angular.module('theeTable.controllers')
 			$scope.$parent.socket.emit('addToLikes', { song: song });
 			if ($scope.$parent.getSoundcloudID()) {
 				$scope.$parent.likeSongOnSC(song.soundcloudID);
-				$.snackbar({content: "" + song.title + " has been added to your soundcloud likes." });
+				$.snackbar({content: "<i class='mdi-file-cloud-queue big-icon'></i> " + song.title + " has been added to your soundcloud likes" });
 			}
 			return;
 		}
@@ -225,7 +225,7 @@ angular.module('theeTable.controllers')
 				$scope.$parent.socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });
 				return;
 			}
-			$.snackbar({content: "Sorry, you must have a song on your playlist to enter the queue" });
+			$.snackbar({content: "<i class='mdi-notification-sms-failed big-icon'></i> Sorry, you must have a song on your playlist to enter the queue" });
 			return;
 		};
 
@@ -253,7 +253,7 @@ angular.module('theeTable.controllers')
 
 		// adds the current room to the user's favorite rooms list
 		$scope.addRoom = function() {
-			$.snackbar({content: "" + $scope.room.name + " has been added to your favorite rooms list." });
+			$.snackbar({content: "<i class='mdi-action-grade big-icon'></i> " + $scope.room.name + " has been added to your favorite rooms" });
 			$scope.$parent.socket.emit("addRoom", {room: $scope.room.name});
 		};
 

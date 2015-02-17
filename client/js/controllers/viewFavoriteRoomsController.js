@@ -18,7 +18,7 @@ angular.module('theeTable.controllers')
 
 	// removes an entry from the rooms list
 	$scope.remove = function(index) {
-		$.snackbar({content: "" + $scope.rooms[index] + " has been removed to your favorite rooms list" });
+		$.snackbar({content: "<span class='glyphicon glyphicon-trash big-icon'></span> " + $scope.rooms[index] + " has been removed to your favorite rooms list" });
 		$scope.rooms.splice(index, 1);
 		var rooms = [];
 		for (var index = 0; index < $scope.rooms.length; index++) {
