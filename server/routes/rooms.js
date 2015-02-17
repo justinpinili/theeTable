@@ -27,7 +27,7 @@ router.post('/rooms', jwtValidation, function(req, res) {
 
 // Go into an existing room
 // otherwise, redirect to the room selection
-router.get('/rooms/:id', jwtValidation, function(req, res) {
+router.get('/rooms/:id', function(req, res) {
 	api_room.findRoom(req.params.id, function(results) {
 		if (results.error) {
 			res.send(results.error);

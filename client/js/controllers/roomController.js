@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('roomController', ['$scope', '$state', '$stateParams', '$location', '$sce', 'localStorageService', 'theeTableAuth', 'theeTableRooms', 'theeTableTime', function($scope, $state, $stateParams, $location, $sce, localStorageService, theeTableAuth, theeTableRooms, theeTableTime) {
+	.controller('roomController', ['$scope', '$state', '$stateParams', '$location', '$sce', 'localStorageService', 'theeTableAuth', 'theeTableRooms', 'theeTableTime', '$modal', function($scope, $state, $stateParams, $location, $sce, localStorageService, theeTableAuth, theeTableRooms, theeTableTime, $modal) {
 
 		/***********************************************************
 		 * managePlaylistController allows the user to see what is *
@@ -108,23 +108,76 @@ angular.module('theeTable.controllers')
 		$scope.newURL;
 		$scope.newPlaylist;
 		$scope.$parent.userInRoom = true;
+		$scope.visitor;
 
-		if (theeTableAuth.verifyJwt()) {
-			theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {
+		var signup = function() {
+			var modalInstance = $modal.open({
+				templateUrl: './../templates/modals/auth.html',
+				controller: 'signupController',
+				size: 'lg',
+				resolve: {
+					userInRoom: function() {
+						return $scope.$parent.userInRoom;
+					},
+					getUserInfo: function() {
+						return $scope.$parent.getUserInfo;
+					},
+					currentSocket: function() {
+						return $scope.$parent.socket;
+					},
+					loginSC: function() {
+						return $scope.$parent.loginSC;
+					},
+					roomName: function() {
+						return $stateParams.roomName;
+					}
+				}
+			});
+		};
 
-				$.snackbar({content: "Welcome to " + result.name });
+		$scope.managePlaylist = function(roomName) {
+			if ($scope.visitor) {
+				signup();
+				return;
+			}
+			var modalInstance = $modal.open({
+				templateUrl: './../templates/modals/managePlaylist.html',
+				controller: 'managePlaylistController',
+				size: 'lg',
+				resolve: {
+					loginSC: function () {
+						return $scope.loginSC;
+					},
+					getSoundcloudID: function() {
+						return $scope.getSoundcloudID;
+					},
+					getSCinstance: function() {
+						return $scope.getSCinstance;
+					}
+				}
+			});
+		};
 
-				$scope.room = result;
+		theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {
+			$.snackbar({content: "Welcome to " + result.name });
+			$scope.room = result;
+
+			if (theeTableAuth.verifyJwt(true)) {
 				$scope.$parent.getUserInfo(function(user) {
 					$scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
 				});
-				if (result.currentDJ !== null) {
-					$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong.source).toString();
-				}
-				return;
-			});
-			$scope.$parent.showApp = true;
-		}
+			} else {
+				$scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: "visitor" });
+				$scope.visitor = true;
+			}
+
+			if (result.currentDJ !== null) {
+				$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong.source).toString();
+			}
+			return;
+		});
+
+		$scope.$parent.showApp = true;
 
 		// managing playlist is only possible when a user is in a room.
 		// this listens for when a new song has been chosen to add to a user's playlist
@@ -163,6 +216,11 @@ angular.module('theeTable.controllers')
 
 		// adds current user to the queue
 		$scope.addToQueue = function() {
+			if ($scope.visitor) {
+				signup();
+				return;
+			}
+
 			if ($scope.$parent.currentUser.playlist.length > 0) {
 				$scope.$parent.socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });
 				return;
@@ -201,9 +259,11 @@ angular.module('theeTable.controllers')
 
 		// checks to see if the current song playing is on the user's list of likes
 		$scope.storedInLikes = function() {
-			for (var index = 0; index < $scope.$parent.currentUser.favorites.length; index++) {
-				if ($scope.$parent.currentUser.favorites[index].soundcloudID === $scope.room.currentSong.soundcloudID) {
-					return true;
+			if ($scope.room && $scope.$parent.currentUser) {
+				for (var index = 0; index < $scope.$parent.currentUser.favorites.length; index++) {
+					if ($scope.$parent.currentUser.favorites[index].soundcloudID === $scope.room.currentSong.soundcloudID) {
+						return true;
+					}
 				}
 			}
 			return false;

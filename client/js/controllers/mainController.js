@@ -94,20 +94,26 @@ angular.module('theeTable.controllers')
       });
     }
 
-    $scope.managePlaylist = function() {
+    var signup = function(roomName) {
       var modalInstance = $modal.open({
-        templateUrl: './../templates/modals/managePlaylist.html',
-        controller: 'managePlaylistController',
+        templateUrl: './../templates/modals/auth.html',
+        controller: 'signupController',
         size: 'lg',
         resolve: {
-          loginSC: function () {
-            return $scope.loginSC;
+          userInRoom: function() {
+            return $scope.$parent.userInRoom;
           },
-          getSoundcloudID: function() {
-            return $scope.getSoundcloudID;
+          getUserInfo: function() {
+            return $scope.$parent.getUserInfo;
           },
-          getSCinstance: function() {
-            return $scope.getSCinstance;
+          currentSocket: function() {
+            return $scope.$parent.socket;
+          },
+          loginSC: function() {
+            return $scope.$parent.loginSC;
+          },
+          roomName: function() {
+            return roomName;
           }
         }
       });
