@@ -50,7 +50,7 @@ angular.module('theeTable.controllers')
 	// allows for re-ordering playlist
 	$scope.sortableOptions = {
 		stop: function(e, ui) {
-			$.snackbar({content: "Your playlist order has beeen updated." });
+			$.snackbar({content: "<i class='mdi-editor-format-list-numbered big-icon'></i> Your playlist order has beeen updated." });
 			$scope.$parent.newPlaylist = songsForDB($scope.playlist);
 		}
 	};

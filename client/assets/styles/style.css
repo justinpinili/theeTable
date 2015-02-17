@@ -143,6 +143,11 @@ a, .dropdown-menu>li>a {
 	margin: 5px;
 }
 
+.panel-heading {
+	height: 27%;
+	overflow-y: scroll;
+}
+
 .modal-content {
 	padding: 10px;
 	margin: 10px;
@@ -158,6 +163,7 @@ a, .dropdown-menu>li>a {
 	height: 300px;
 	padding: 5px;
 	margin: 5px;
+	border-color: #01286E;
 }
 
 .chats {
@@ -185,11 +191,6 @@ a, .dropdown-menu>li>a {
 .song-info {
 	height: 81%;
 	margin-left: 30%;
-}
-
-.song-content {
-	padding: 5px;
-	margin: 5px;
 }
 
 .auth-panel {
@@ -226,6 +227,14 @@ a, .dropdown-menu>li>a {
 
 .big-icon {
 	font-size: 2em;
+}
+
+.biggest-icon {
+	font-size: 2.6em;
+}
+
+.song-title {
+	font-size: 1.7em;
 }
 
 .login {
