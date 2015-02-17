@@ -1,5 +1,5 @@
 angular.module('theeTable.services')
-	.factory('socket', ['$rootScope', function($rootScope) {
+	.factory('theeTableSocket', ['$rootScope', function($rootScope) {
 
 		/************************************************************
 		 * socket factory creates a socket.io connection and have   *

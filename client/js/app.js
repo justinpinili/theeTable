@@ -28,11 +28,11 @@ angular.module('theeTable', [
         url: '/rooms/:roomName',
         controller: 'roomController',
         templateUrl: 'templates/controllers/room.html',
-        onEnter: ['socket', function(socket){
-          socket.connect();
+        onEnter: ['theeTableSocket', function(theeTableSocket){
+          theeTableSocket.connect();
         }],
-        onExit: ['socket', function(socket){
-          socket.disconnect();
+        onExit: ['theeTableSocket', function(theeTableSocket){
+          theeTableSocket.disconnect();
         }]
       })
       .state('backtorooms', {
