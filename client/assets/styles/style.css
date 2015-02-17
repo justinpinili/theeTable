@@ -34,8 +34,23 @@ a, .dropdown-menu>li>a {
 	background-color: #063DA3;
 }
 
-body {
+.thee-table {
 	padding-top: 60px;
+}
+
+.full {
+	height: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
+.container .jumbotron, .container .well, .container-fluid .jumbotron,
+.container-fluid .well, body .jumbotron, body .well {
+	margin-bottom: 0px;
+}
+
+.jumbotron p {
+	font-size: 16px;
 }
 
 .form-control-wrapper .floating-label {
@@ -271,4 +286,17 @@ body {
 	width: 100%;
 	height: 100%;
 	text-align: center;
+}
+
+.info-box {
+	display: inline-block;
+	margin: 5px;
+	padding: 5px;
+	width: 300px;
+	height: 300px;
+	overflow-y: hidden;
+}
+
+.main-color {
+	color: #01286E;
 }

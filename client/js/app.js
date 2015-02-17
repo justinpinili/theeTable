@@ -14,6 +14,9 @@ angular.module('theeTable', [
     $stateProvider
       .state('home', {
         url: '/home',
+        controller: ['$scope', function($scope) {
+          $scope.$parent.showApp = false;
+        }],
         templateUrl: 'templates/app.html'
       })
       .state('rooms', {
