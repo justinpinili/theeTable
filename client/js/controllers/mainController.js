@@ -74,7 +74,7 @@ angular.module('theeTable.controllers')
       }
 
       var modalInstance = $modal.open({
-        templateUrl: './../templates/controllers/auth.html',
+        templateUrl: './../templates/modals/auth.html',
         controller: 'authController',
         size: 'lg',
         resolve: {
