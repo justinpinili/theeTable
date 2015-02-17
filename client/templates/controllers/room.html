@@ -3,7 +3,7 @@
 	<div class="container">
 		<div class="row">
 			<center>
-				<h2 class="bold">{{ room.name }}<span ng-click="addRoom()" ng-if="!storedInUser()" class="glyphicon glyphicon-star"></span></h2>
+				<h2 nclass="bold">{{ room.name }}<span ng-if="!visitor"><span ng-click="addRoom()" ng-if="!storedInUser()" class="glyphicon glyphicon-star"></span></span></h2>
 				<p>
 					<span class="glyphicon glyphicon-off glyphicon-refresh-animate-flip"></span> <span class="glyphicon glyphicon-off glyphicon-refresh-animate"></span>
 				</p>
@@ -59,7 +59,7 @@
 								<div class="song-content" ng-if="title">
 									Artist: {{ room.currentSong.artist }}<br />
 									Duration: {{ convertTime(room.currentSong.length - room.currentTime) }}<br />
-									<a ng-if="!storedInLikes()" href="" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a>
+									<span ng-if="!visitor"><a ng-if="!storedInLikes()" href="" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a></span>
 								</div>
 							</div>
 							<br />
@@ -71,7 +71,7 @@
 					</div>
 				</div>
 				<div class="center">
-					<button ng-click="managePlaylist()" class="btn btn-default">Manage Your Playlist  <i class="mdi-av-queue-music big-icon"></i></button>
+					<button ng-click="managePlaylist(room.name)" class="btn btn-default">Manage Your Playlist  <i class="mdi-av-queue-music big-icon"></i></button>
 				</div>
 			</div>
 			<div class="col-md-6">

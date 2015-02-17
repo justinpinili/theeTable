@@ -14,7 +14,7 @@ angular.module('theeTable.services')
 
 		// Obtain all rooms
 		var getAllRooms = function(callback) {
-			$http.get("" + theeTableUrl.getUrl() + '/rooms?jwt_token='+jwt)
+			$http.get("" + theeTableUrl.getUrl() + '/rooms')
 				.success(function(result) {
 					callback(result);
 					return;
@@ -52,7 +52,7 @@ angular.module('theeTable.services')
 				return;
 			}
 
-			$http.get("" + theeTableUrl.getUrl() + '/rooms/'+roomName+'?jwt_token='+jwt)
+			$http.get("" + theeTableUrl.getUrl() + '/rooms/'+roomName)
 				.success(function(result) {
 					if (!result.message) {
 						callback(result);

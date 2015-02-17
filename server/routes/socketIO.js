@@ -1,5 +1,6 @@
 var query_room = require('./../queries/socketIO/query_room.js');
 var query_user = require('./../queries/socketIO/query_user.js');
+var api = require('./../queries/api/query_user.js');
 
 module.exports = function(io) {
 
@@ -76,6 +77,9 @@ module.exports = function(io) {
 
 		socket.on('userName', function(data) {
 			userName = data.username;
+			api.getUser(data.username, function(user) {
+				io.emit('signOn', { username: data.username, loginTime: user.loginTime });
+			});
 		});
 
 		socket.on('newRooms', function(data) {

@@ -47,7 +47,9 @@ var userSchema = mongoose.Schema({
   // ex. [ 'url', 'url2', 'url3' ]
   favorites: Array,
 
-  rooms: Array
+  rooms: Array,
+
+  loginTime: String
 
 });
 

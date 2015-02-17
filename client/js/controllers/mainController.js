@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'socket', 'theeTableSoundcloud', 'theeTableUrl', function($scope, localStorageService, theeTableAuth, $modal, socket, theeTableSoundcloud, theeTableUrl) {
+  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'socket', 'theeTableSoundcloud', 'theeTableUrl', '$location', function($scope, localStorageService, theeTableAuth, $modal, socket, theeTableSoundcloud, theeTableUrl, $location) {
 
     /************************************************************
      * mainController that holds the current user's information *
@@ -22,12 +22,32 @@ angular.module('theeTable.controllers')
 
     $scope.socket = socket;
 
+    $scope.socket.on("signOn", function(data) {
+      if ($scope.currentUser) {
+        if (data.username === $scope.currentUser.username &&
+            data.loginTime !== $scope.currentUser.loginTime) {
+            $scope.loggedout = true;
+            $location.path('/logout');
+          }
+      }
+    });
+
+    $scope.$watch("loggedoutMsg", function(newValue, oldValue) {
+      if (newValue !== undefined) {
+        setTimeout(function() {
+          $scope.$apply(function() {
+            delete $scope.loggedoutMsg;
+          });
+        }, 10000);
+      }
+    });
+
     $scope.inRoom = function() {
       if ($scope.userInRoom) {
         return true;
       }
       return false;
-    }
+    };
 
     $scope.getUserInfo = function(callback) {
       theeTableAuth.getUserInfo(function(result) {
@@ -40,26 +60,60 @@ angular.module('theeTable.controllers')
         }
         return;
       });
-    }
+    };
 
     // Information is shown in a
     // modal with it's own controller and
     // template - manage and view are prefixed
 
-    $scope.managePlaylist = function() {
+    $scope.auth = function() {
+      if (theeTableAuth.verifyJwt(true)) {
+        $scope.showApp = true;
+        $location.path('/rooms');
+        return;
+      }
+
       var modalInstance = $modal.open({
-        templateUrl: './../templates/modals/managePlaylist.html',
-        controller: 'managePlaylistController',
+        templateUrl: './../templates/modals/auth.html',
+        controller: 'authController',
         size: 'lg',
         resolve: {
-          loginSC: function () {
+          userInRoom: function() {
+            return $scope.userInRoom;
+          },
+          getUserInfo: function() {
+            return $scope.getUserInfo;
+          },
+          currentSocket: function() {
+            return $scope.socket;
+          },
+          loginSC: function() {
             return $scope.loginSC;
+          }
+        }
+      });
+    }
+
+    var signup = function(roomName) {
+      var modalInstance = $modal.open({
+        templateUrl: './../templates/modals/auth.html',
+        controller: 'signupController',
+        size: 'lg',
+        resolve: {
+          userInRoom: function() {
+            return $scope.$parent.userInRoom;
           },
-          getSoundcloudID: function() {
-            return $scope.getSoundcloudID;
+          getUserInfo: function() {
+            return $scope.$parent.getUserInfo;
           },
-          getSCinstance: function() {
-            return $scope.getSCinstance;
+          currentSocket: function() {
+            return $scope.$parent.socket;
+          },
+          loginSC: function() {
+            return $scope.$parent.loginSC;
+          },
+          roomName: function() {
+            return roomName;
           }
         }
       });
@@ -104,10 +158,12 @@ angular.module('theeTable.controllers')
 
     $scope.loginSC = function(callback) {
       theeTableSoundcloud.loginSC(function() {
-        $scope.soundcloudID = theeTableSoundcloud.getSoundcloudID();
+        $scope.$apply(function() {
+          $scope.soundcloudID = theeTableSoundcloud.getSoundcloudID();
+        });
 
         if (callback) {
-          callback();
+          callback($scope.soundcloudID);
         }
         return;
       });

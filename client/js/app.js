@@ -14,8 +14,7 @@ angular.module('theeTable', [
     $stateProvider
       .state('home', {
         url: '/home',
-        controller: 'authController',
-        templateUrl: 'templates/controllers/auth.html'
+        templateUrl: 'templates/app.html'
       })
       .state('rooms', {
         url: '/rooms',
@@ -43,8 +42,12 @@ angular.module('theeTable', [
         url: '/logout',
         controller: ['localStorageService', '$location', '$scope', function(localStorageService, $location, $scope) {
           localStorageService.remove('jwt');
+          $scope.$parent.showApp = false;
           $scope.$parent.currentUser = undefined;
           $scope.$parent.soundcloudID = undefined;
+          if ($scope.$parent.loggedout) {
+            $scope.$parent.loggedoutMsg = "You have logged into Thee Table from another source. Good-bye!";
+          }
           $location.path("/");
         }]
       });

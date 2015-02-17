@@ -3,6 +3,11 @@ var bcrypt = require('bcrypt');
 var jwt    = require('jsonwebtoken');
 var keys   = require('./../../securityKeys.js');
 
+var loginTime = function() {
+	var d = new Date();
+	return d.getTime();
+}
+
 // Create a user
 module.exports.createUser = function(username, password, callback) {
 	var newUser = new schema.User({
@@ -11,7 +16,8 @@ module.exports.createUser = function(username, password, callback) {
 		upVotes: 0,
 		playlist: [],
 		favorites: [],
-		rooms: []
+		rooms: [],
+		loginTime: loginTime()
 	});
 	var bcrypt = require('bcrypt');
 	bcrypt.genSalt(10, function(err, salt) {
@@ -56,6 +62,7 @@ module.exports.getUser = function(id, callback) {
 			userInfo.playlist  = user.playlist;
 			userInfo.favorites = user.favorites;
 			userInfo.rooms     = user.rooms;
+			userInfo.loginTime = user.loginTime;
 			callback(userInfo);
 			return;
 		}
@@ -77,9 +84,18 @@ module.exports.loginUser = function(username, password, callback) {
 				if (!err) {
 					if (result) {
 						// console.log("password matched! logged in!");
-						var jwt_token = jwt.sign({ id: user.username }, keys.jwtSecretKey);
-						callback({jwt: jwt_token});
-						return;
+						user.loginTime = loginTime();
+						user.save(function(err) {
+							if (!err) {
+								var jwt_token = jwt.sign({ id: user.username }, keys.jwtSecretKey);
+								callback({jwt: jwt_token});
+								return;
+							}
+							console.log(err);
+							callback({ error: err });
+							return;
+						});
+						return; 
 					} else {
 						callback({ message: "Invalid login credentials. Please try again." });
 						return;

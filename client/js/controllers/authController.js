@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('authController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', 'theeTableUrl', function($scope, $location, localStorageService, theeTableAuth, theeTableUrl) {
+	.controller('authController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', 'theeTableUrl', 'userInRoom', '$modalInstance', 'getUserInfo', 'currentSocket', 'loginSC', function($scope, $location, localStorageService, theeTableAuth, theeTableUrl, userInRoom, $modalInstance, getUserInfo, currentSocket, loginSC) {
 
 		/**********************************
 		 * main login to access theeTable *
@@ -12,11 +12,8 @@ angular.module('theeTable.controllers')
 		$scope.prompt = {};
 		$scope.prompt.username = 'Enter your username.';
 		$scope.prompt.password = 'Enter your password.';
-		$scope.$parent.userInRoom = false;
 
-		if (theeTableAuth.verifyJwt(true)) {
-			$location.path('/rooms');
-		}
+		userInRoom = false;
 
 		// Displays proper prompts for either a new user or an existing user trying to log in
 		$scope.switchForm = function() {
@@ -40,10 +37,13 @@ angular.module('theeTable.controllers')
 
 					localStorageService.set("jwt", result.jwt);
 
-					$scope.$parent.getUserInfo(function() {
+					getUserInfo(function(retrievedUser) {
 
 						// let socket.io know the user's name
-						$scope.$parent.socket.emit("userName", {username: $scope.$parent.currentUser.username});
+						currentSocket.emit("userName", {username: retrievedUser.username});
+
+						$scope.$parent.showApp = true;
+						$modalInstance.close();
 
 						// transfer to rooms lobby
 						$location.path("/rooms");
@@ -61,14 +61,18 @@ angular.module('theeTable.controllers')
 		// Authorize using soundcloud
 		$scope.authSC = function() {
 
-			var theeTableDB = function(endpoint, isNew) {
+			var theeTableDB = function(endpoint, isNew, username) {
 
 				// Attempt to login to theeTable with soundcloud credentials
-				theeTableAuth.siteAccess(""+ theeTableUrl.getUrl() + endpoint, $scope.$parent.soundcloudID.username, 'abc', function(result) {
+				theeTableAuth.siteAccess(""+ theeTableUrl.getUrl() + endpoint, username, 'abc', function(result) {
 					if (!result.message) {
 						localStorageService.set("jwt", result.jwt);
-						$scope.$parent.getUserInfo(function() {
-							$scope.$parent.socket.emit("userName", {username: $scope.$parent.currentUser.username});
+						getUserInfo(function(retrievedUser) {
+							currentSocket.emit("userName", {username: retrievedUser.username});
+
+							$scope.$parent.showApp = true;
+							$modalInstance.close();
+
 							$location.path("/rooms");
 							return;
 						});
@@ -77,7 +81,8 @@ angular.module('theeTable.controllers')
 
 					if (isNew) {
 						// If the user does not exist, sign the user up with soundcloud credentials
-						theeTableDB('/user/new', true);
+						theeTableDB('/user/new', false, username);
+						return;
 					}
 
 					$scope.message = result.message;
@@ -86,9 +91,9 @@ angular.module('theeTable.controllers')
 				});
 			};
 
-			$scope.$parent.loginSC(function() {
+			loginSC(function(soundcloudID) {
 				// Once the user is verified with soundcloud, pass that information to the DB
-				theeTableDB('/user/login', false)
+				theeTableDB('/user/login', true, soundcloudID.username);
 			});
 
 		};
@@ -104,5 +109,10 @@ angular.module('theeTable.controllers')
 					}
 			return false;
 		};
+
+		$scope.closeModal = function() {
+			$modalInstance.close();
+			return;
+		}
 
 	}]);

@@ -4,7 +4,7 @@ var jwtValidation = require('./../jwtValidation.js');
 var api_room      = require('./../queries/api/query_room.js');
 
 // Go to room selection
-router.get('/rooms', jwtValidation, function(req, res) {
+router.get('/rooms', function(req, res) {
 	api_room.allRooms(function(results) {
 		if (results.error) {
 			res.send(results.error);
@@ -27,7 +27,7 @@ router.post('/rooms', jwtValidation, function(req, res) {
 
 // Go into an existing room
 // otherwise, redirect to the room selection
-router.get('/rooms/:id', jwtValidation, function(req, res) {
+router.get('/rooms/:id', function(req, res) {
 	api_room.findRoom(req.params.id, function(results) {
 		if (results.error) {
 			res.send(results.error);
