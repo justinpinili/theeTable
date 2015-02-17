@@ -1,7 +1,15 @@
 <div class="manage">
+	<div class="exit">
+		<i class="big-icon mdi-navigation-close" ng-click="closeModal()"></i>
+	</div>
+	<br/>
+	<br/>
 	<div class="login center">
 			<div ng-if="message" class="alert alert-danger" role="alert">
 				 <span class="bold">Sorry!</span> {{ message }}
+			</div>
+			<div ng-if="signupController">
+				<h2>In order to use this feature, you'll need to creat an account!</h2>
 			</div>
 			<form name="logInForm" ng-submit='auth(login.username, login.password)' novalidate>
 				<div class="form-group form-group-md">
