@@ -1,7 +1,7 @@
 <div ng-if="rooms" class="container">
 	<div class="row">
 		<div class="col-md-3">
-			<div class="pad">
+			<div ng-if="!visitor" class="pad">
 				<button ng-click="createRoom()" class="btn btn-xs btn-danger">Create Room <i class="mdi-image-edit big-icon"></i></button>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>OR</strong></br>
 
 				<div>

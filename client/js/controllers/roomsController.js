@@ -16,13 +16,24 @@ angular.module('theeTable.controllers')
 		$scope.roomSearch = {};
 		$scope.$parent.userInRoom = false;
 
-		if (theeTableAuth.verifyJwt()) {
-			theeTableRooms.getAllRooms(function(result) {
-				$scope.rooms = result.rooms;
+		$scope.$parent.showApp = true;
+
+		theeTableRooms.getAllRooms(function(result) {
+			$scope.rooms = result.rooms;
+
+			if (theeTableAuth.verifyJwt(true)) {
 				$scope.$parent.getUserInfo();
 				$scope.$parent.showApp = true;
-			});
-		}
+				$scope.favoriteRooms = [];
+
+				theeTableAuth.getUserInfo(function(user) {
+					$scope.favoriteRooms = user.rooms;
+				});
+			} else {
+				$scope.visitor = true;
+			}
+
+		});
 
 		// routes the user to the correct room
 		$scope.navigate = function(roomName) {
@@ -43,12 +54,6 @@ angular.module('theeTable.controllers')
 				}
 			});
 		};
-
-		$scope.favoriteRooms = [];
-
-		theeTableAuth.getUserInfo(function(user) {
-			$scope.favoriteRooms = user.rooms;
-		});
 
 		// removes an entry from the rooms list
 		$scope.remove = function(index) {

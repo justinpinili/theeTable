@@ -14,7 +14,7 @@ angular.module('theeTable.services')
 
 		// Obtain all rooms
 		var getAllRooms = function(callback) {
-			$http.get("" + theeTableUrl.getUrl() + '/rooms?jwt_token='+jwt)
+			$http.get("" + theeTableUrl.getUrl() + '/rooms')
 				.success(function(result) {
 					callback(result);
 					return;
