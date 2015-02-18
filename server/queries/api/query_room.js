@@ -7,7 +7,7 @@ module.exports.allRooms = function(callback) {
 			callback({rooms: rooms});
 			return;
 		}
-		console.log(err);
+		console.log("all rooms: " + err);
 		callback({ error: err });
 		return;
 	});
@@ -34,7 +34,7 @@ module.exports.createRoom = function(name, callback) {
 			callback({ message: "Room already exists. Please choose a different name." });
 			return;
 		}
-		console.log(err);
+		console.log("new room: " + err);
 		callback({ error: err });
 		return;
 	});
@@ -52,7 +52,7 @@ module.exports.findRoom = function(id, callback) {
 				return;
 			}
 		}
-		console.log(err);
+		console.log("find room: " + err);
 		callback({ error: err });
 		return;
 	});

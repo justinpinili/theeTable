@@ -35,12 +35,6 @@ angular.module('theeTable', [
           theeTableSocket.disconnect();
         }]
       })
-      .state('backtorooms', {
-        url: '/backtorooms',
-        controller: ['$location', function($location) {
-          $location.path("/rooms");
-        }]
-      })
       .state('logout', {
         url: '/logout',
         controller: ['localStorageService', '$location', '$scope', function(localStorageService, $location, $scope) {
