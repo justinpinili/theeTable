@@ -2,7 +2,7 @@
 <div ng-if="room">
 	<div class="container">
 		<div class="row center">
-			<h2 nclass="bold">{{ room.name }}<span ng-if="!visitor"><i ng-click="addRoom()" ng-if="!storedInUser()" class="mdi-action-grade big-icon"></i></span></h2>
+			<h2 class="bold">{{ room.name }}<span ng-if="!visitor"><i ng-click="addRoom()" ng-if="!storedInUser()" class="mdi-action-grade"></i></span></h2>
 		</div>
 	</div>
 </div>
@@ -76,7 +76,7 @@
 			</div>
 			<div class="col-md-6">
 				<div class="panel panel-primary chat-head">
-					<span class="big-icon"><strong>Messages</strong></span>
+					<span class="big-icon">Messages</span>
 					<span class="pull-right">{{ room.users.length }} <i class="mdi-action-account-child big-icon"></i></span>
 					<div class="chats">
 						<div ng-repeat="chat in room.chat">
