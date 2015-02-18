@@ -52,6 +52,9 @@ angular.module('theeTable', [
             $.snackbar({ content: "<i class='mdi-alert-error big-icon'></i> You have logged into Thee Table from another source. Good-bye!",
                          timeout: 10000});
             delete $scope.$parent.loggedout;
+          } else {
+            $.snackbar({ content: "<i class='mdi-file-file-upload big-icon'></i> You have successfully logged out of Thee Table. Good-bye!",
+                         timeout: 10000});
           }
           $location.path("/");
         }]
