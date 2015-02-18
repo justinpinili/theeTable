@@ -203,6 +203,7 @@ a, .dropdown-menu>li>a {
 
 .rooms {
 	display: inline-block;
+	position: relative;
 	margin: 5px;
 	padding: 5px;
 	width: 200px;
@@ -289,6 +290,29 @@ a, .dropdown-menu>li>a {
 @keyframes spin-flip {
 	from { transform: scale(1) rotate(90deg);}
 	to { transform: scale(1) rotate(450deg);}
+}
+
+.room-enter {
+	-webkit-transform: rotate(0deg) scale(1);
+	-moz-transform: rotate(180deg) scale(1);
+	-o-transform: rotate(180deg) scale(1);
+	-ms-transform: rotate(180deg) scale(1);
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
+}
+
+.room-enter:hover {
+	z-index: 10;
+	-webkit-transform: rotate(360deg) scale(1.2);
+	-moz-transform: rotate(360deg) scale(1.2);
+	-o-transform: rotate(360deg) scale(1.2);
+	-ms-transform: rotate(360deg) scale(1.2);
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
 }
 
 .homepage {

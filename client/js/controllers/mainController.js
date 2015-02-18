@@ -56,6 +56,18 @@ angular.module('theeTable.controllers')
     // modal with it's own controller and
     // template - manage and view are prefixed
 
+    $scope.credits = function() {
+      var modalInstance = $modal.open({
+        templateUrl: './../templates/modals/credits.html',
+        controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
+          $scope.closeModal = function() {
+            $modalInstance.close();
+          }
+        }],
+        size: 'lg'
+      });
+    }
+
     $scope.auth = function() {
       if (theeTableAuth.verifyJwt(true)) {
         $scope.showApp = true;

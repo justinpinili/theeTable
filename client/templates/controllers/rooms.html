@@ -5,7 +5,7 @@
 				<div class="panel panel-primary pad">
 					A list of all rooms that exist on Thee Table can be found here.<br />
 					Once you sign up, you'll be able to favorite rooms you enjoyed!<br />
-					<button ng-click="auth()"class="btn btn-default">Sign Up / Login  <i class="mdi-social-person-add big-icon"></i></button>
+					<button ng-click="auth()"class="btn btn-default">Login / Sign Up  <i class="mdi-action-account-circle big-icon"></i></button>
 				</div>
 			</div>
 			<div ng-if="!visitor" class="pad">
@@ -42,7 +42,7 @@
 					<br />
 					<input type="text" class="form-control" placeholder="Search for an existing room." ng-model="searchRoom.name"></input><br />
 				</div>
-				<div class="panel panel-primary rooms center" ng-repeat="room in rooms | orderBy: '-users.length' | filter:searchRoom ">
+				<div class="panel panel-primary rooms center room-enter" ng-repeat="room in rooms | orderBy: '-users.length' | filter:searchRoom ">
 					<h3>{{ room.name }}</h3>
 					<p>
 						{{ room.users.length }} <i class="mdi-action-account-child big-icon"></i><br />
