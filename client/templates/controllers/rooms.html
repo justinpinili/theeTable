@@ -42,7 +42,7 @@
 					<br />
 					<input type="text" class="form-control" placeholder="Search for an existing room." ng-model="searchRoom.name"></input><br />
 				</div>
-				<div class="panel panel-primary rooms center" ng-repeat="room in rooms | filter:searchRoom">
+				<div class="panel panel-primary rooms center" ng-repeat="room in rooms | orderBy: '-users.length' | filter:searchRoom ">
 					<h3>{{ room.name }}</h3>
 					<p>
 						{{ room.users.length }} <i class="mdi-action-account-child big-icon"></i><br />

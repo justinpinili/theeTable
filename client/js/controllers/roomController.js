@@ -45,7 +45,7 @@ angular.module('theeTable.controllers')
 				}
 				return;
 			}
-			$.snackbar({content: "<i class='mdi-notification-sms-failed big-icon'></i> " + data.error });
+			$.snackbar({content: "<i class='mdi-alert-error big-icon'></i> " + data.error });
 			return;
 		});
 
@@ -92,7 +92,7 @@ angular.module('theeTable.controllers')
 				}
 				return;
 			}
-			$.snackbar({content: "<i class='mdi-notification-sms-failed big-icon'></i> " + data.error });
+			$.snackbar({content: "<i class='mdi-alert-error big-icon'></i> " + data.error });
 			return;
 		});
 

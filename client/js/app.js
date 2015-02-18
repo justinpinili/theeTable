@@ -49,7 +49,9 @@ angular.module('theeTable', [
           $scope.$parent.currentUser = undefined;
           $scope.$parent.soundcloudID = undefined;
           if ($scope.$parent.loggedout) {
-            $scope.$parent.loggedoutMsg = "You have logged into Thee Table from another source. Good-bye!";
+            $.snackbar({ content: "<i class='mdi-alert-error big-icon'></i> You have logged into Thee Table from another source. Good-bye!",
+                         timeout: 10000});
+            delete $scope.$parent.loggedout;
           }
           $location.path("/");
         }]
