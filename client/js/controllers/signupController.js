@@ -96,7 +96,7 @@ angular.module('theeTable.controllers')
 			}
 			return false;
 		};
-		
+
 	$scope.closeModal = function() {
 		$modalInstance.close();
 		return;

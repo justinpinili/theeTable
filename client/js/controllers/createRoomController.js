@@ -25,6 +25,7 @@ angular.module('theeTable.controllers')
 		theeTableRooms.createRoom(newValue, function(result) {
 			if (!result.message) {
 				currentSocket.emit("addRoom", {room: result.name});
+				$modalInstance.close();
 				return;
 			}
 

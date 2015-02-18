@@ -34,8 +34,23 @@ a, .dropdown-menu>li>a {
 	background-color: #063DA3;
 }
 
-body {
+.thee-table {
 	padding-top: 60px;
+}
+
+.full {
+	height: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
+.container .jumbotron, .container .well, .container-fluid .jumbotron,
+.container-fluid .well, body .jumbotron, body .well {
+	margin-bottom: 0px;
+}
+
+.jumbotron p {
+	font-size: 16px;
 }
 
 .form-control-wrapper .floating-label {
@@ -128,6 +143,11 @@ body {
 	margin: 5px;
 }
 
+.panel-heading {
+	height: 27%;
+	overflow-y: scroll;
+}
+
 .modal-content {
 	padding: 10px;
 	margin: 10px;
@@ -143,6 +163,7 @@ body {
 	height: 300px;
 	padding: 5px;
 	margin: 5px;
+	border-color: #01286E;
 }
 
 .chats {
@@ -170,11 +191,6 @@ body {
 .song-info {
 	height: 81%;
 	margin-left: 30%;
-}
-
-.song-content {
-	padding: 5px;
-	margin: 5px;
 }
 
 .auth-panel {
@@ -211,6 +227,14 @@ body {
 
 .big-icon {
 	font-size: 2em;
+}
+
+.biggest-icon {
+	font-size: 2.6em;
+}
+
+.song-title {
+	font-size: 1.7em;
 }
 
 .login {
@@ -271,4 +295,17 @@ body {
 	width: 100%;
 	height: 100%;
 	text-align: center;
+}
+
+.info-box {
+	display: inline-block;
+	margin: 5px;
+	padding: 5px;
+	width: 300px;
+	height: 300px;
+	overflow-y: hidden;
+}
+
+.main-color {
+	color: #01286E;
 }

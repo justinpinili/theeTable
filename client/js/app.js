@@ -14,6 +14,9 @@ angular.module('theeTable', [
     $stateProvider
       .state('home', {
         url: '/home',
+        controller: ['$scope', function($scope) {
+          $scope.$parent.showApp = false;
+        }],
         templateUrl: 'templates/app.html'
       })
       .state('rooms', {
@@ -25,11 +28,11 @@ angular.module('theeTable', [
         url: '/rooms/:roomName',
         controller: 'roomController',
         templateUrl: 'templates/controllers/room.html',
-        onEnter: ['socket', function(socket){
-          socket.connect();
+        onEnter: ['theeTableSocket', function(theeTableSocket){
+          theeTableSocket.connect();
         }],
-        onExit: ['socket', function(socket){
-          socket.disconnect();
+        onExit: ['theeTableSocket', function(theeTableSocket){
+          theeTableSocket.disconnect();
         }]
       })
       .state('backtorooms', {
@@ -46,7 +49,12 @@ angular.module('theeTable', [
           $scope.$parent.currentUser = undefined;
           $scope.$parent.soundcloudID = undefined;
           if ($scope.$parent.loggedout) {
-            $scope.$parent.loggedoutMsg = "You have logged into Thee Table from another source. Good-bye!";
+            $.snackbar({ content: "<i class='mdi-alert-error big-icon'></i> You have logged into Thee Table from another source. Good-bye!",
+                         timeout: 10000});
+            delete $scope.$parent.loggedout;
+          } else {
+            $.snackbar({ content: "<i class='mdi-file-file-upload big-icon'></i> You have successfully logged out of Thee Table. Good-bye!",
+                         timeout: 10000});
           }
           $location.path("/");
         }]

@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'socket', 'theeTableSoundcloud', 'theeTableUrl', '$location', function($scope, localStorageService, theeTableAuth, $modal, socket, theeTableSoundcloud, theeTableUrl, $location) {
+  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'theeTableSocket', 'theeTableSoundcloud', 'theeTableUrl', '$location', function($scope, localStorageService, theeTableAuth, $modal, theeTableSocket, theeTableSoundcloud, theeTableUrl, $location) {
 
     /************************************************************
      * mainController that holds the current user's information *
@@ -20,7 +20,7 @@ angular.module('theeTable.controllers')
 
     $scope.sc = theeTableSoundcloud.setSCinstance(scInit);
 
-    $scope.socket = socket;
+    $scope.socket = theeTableSocket;
 
     $scope.socket.on("signOn", function(data) {
       if ($scope.currentUser) {
@@ -29,16 +29,6 @@ angular.module('theeTable.controllers')
             $scope.loggedout = true;
             $location.path('/logout');
           }
-      }
-    });
-
-    $scope.$watch("loggedoutMsg", function(newValue, oldValue) {
-      if (newValue !== undefined) {
-        setTimeout(function() {
-          $scope.$apply(function() {
-            delete $scope.loggedoutMsg;
-          });
-        }, 10000);
       }
     });
 
@@ -107,7 +97,7 @@ angular.module('theeTable.controllers')
             return $scope.$parent.getUserInfo;
           },
           currentSocket: function() {
-            return $scope.$parent.socket;
+            return $scope.socket;
           },
           loginSC: function() {
             return $scope.$parent.loginSC;
