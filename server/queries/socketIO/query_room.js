@@ -42,7 +42,7 @@ module.exports.disconnectFromRoom = function(roomName, userName, io) {
 	schema.Room.where({ name: roomName }).findOne(function (err, room) {
 		if (!err) {
 			if (room === null) {
-				console.log("room not found");
+				console.log("room not found | disconnect from room: " + roomName);
 				return;
 			} else {
 				room.users.splice(room.users.indexOf(userName),1);
@@ -97,8 +97,8 @@ module.exports.disconnectFromRoom = function(roomName, userName, io) {
 					// console.log(err);
 					return;
 				});
-				return;
 			}
+			return;
 		}
 		console.log(err);
 		return;

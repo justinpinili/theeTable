@@ -64,7 +64,7 @@ angular.module('theeTable.controllers')
             $modalInstance.close();
           }
         }],
-        size: 'lg'
+        size: 'sm'
       });
     }
 

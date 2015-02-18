@@ -333,3 +333,33 @@ a, .dropdown-menu>li>a {
 .main-color {
 	color: #01286E;
 }
+
+.social-media {
+	height: 32px;
+	padding: 2px;
+	background-color: white;
+	border: 1px solid white;
+	border-radius: 3px;
+}
+
+.shrink {
+	height: 32px;
+	width: 32px;
+}
+
+.sm-ind {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	background-color: white;
+}
+
+.sm-ind:hover {
+	background-color: black;
+	border-radius: 1px;
+}
+
+.sm:hover {
+	-webkit-filter: invert(100%);
+	filter: invert(100%);
+}
