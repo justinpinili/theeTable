@@ -10,6 +10,10 @@ a, .dropdown-menu>li>a {
 	color: #FFF;
 }
 
+.navbar.navbar, .navbar-default.navbar {
+	background-color: #01286E;
+}
+
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover,
 .navbar-default .navbar-nav>.active>a:focus {
 	color: #FFF;
