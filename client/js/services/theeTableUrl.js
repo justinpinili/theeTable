@@ -10,7 +10,7 @@ angular.module('theeTable.services')
 	*************************************************************/
 
 	var getUrl = function() {
-		return 'http://localhost:1337';
+		return 'http://thee-table.herokuapp.com';
 	};
 
 	var getID = function() {
