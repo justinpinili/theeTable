@@ -96,31 +96,6 @@ angular.module('theeTable.controllers')
       });
     }
 
-    var signup = function(roomName) {
-      var modalInstance = $modal.open({
-        templateUrl: './../templates/modals/auth.html',
-        controller: 'signupController',
-        size: 'lg',
-        resolve: {
-          userInRoom: function() {
-            return $scope.$parent.userInRoom;
-          },
-          getUserInfo: function() {
-            return $scope.$parent.getUserInfo;
-          },
-          currentSocket: function() {
-            return $scope.socket;
-          },
-          loginSC: function() {
-            return $scope.$parent.loginSC;
-          },
-          roomName: function() {
-            return roomName;
-          }
-        }
-      });
-    };
-
     $scope.viewFavorites = function() {
       var modalInstance = $modal.open({
         templateUrl: './../templates/modals/viewFavorites.html',

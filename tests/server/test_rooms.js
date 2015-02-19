@@ -79,20 +79,6 @@ describe('/rooms API Endpoint', function() {
 				});
 		});
 
-		it("should not allow access to the API without JWT", function(done) {
-			request(theeTableServer)
-				.get('/rooms/notlobby')
-				.expect(function(res) {
-					// statusCode = res.statusCode;
-					body = res.body;
-				})
-				.end(function(err, res) {
-					// statusCode.should.equal(302);
-					body.message.should.equal("You are not allowed to access this API");
-					done();
-				});
-		});
-
 	});
 
 	describe('POST Request', function() {
