@@ -28,6 +28,6 @@ app.use(allowCrossDomain);
 
 app.use(routes);
 
-server.listen(1337);
+// server.listen(1337);
 
 module.exports = server;
