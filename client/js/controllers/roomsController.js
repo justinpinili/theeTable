@@ -19,6 +19,7 @@ angular.module('theeTable.controllers')
 		$scope.$parent.showApp = true;
 
 		theeTableRooms.getAllRooms(function(result) {
+			console.log("rooms", result);
 			$scope.rooms = result.rooms;
 
 			if (theeTableAuth.verifyJwt(true)) {
