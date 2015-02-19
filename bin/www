@@ -3,7 +3,7 @@ var debug = require('debug')('server');
 
 var app = require('./../server.js');
 
-var port = process.env.PORT || 3000);
+var port = process.env.PORT || 3000;
 
 var server = app.listen(port, function() {
 
