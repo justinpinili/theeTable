@@ -7,7 +7,7 @@ angular.module('theeTable', [
   'ui.bootstrap',
   'ui.sortable'
 ])
-  .config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', 'localStorageServiceProvider', function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
     localStorageServiceProvider
       .setPrefix('theeTable');
 
@@ -55,7 +55,7 @@ angular.module('theeTable', [
       });
 
       $urlRouterProvider.otherwise('/home');
-  });
+  }]);
 
 angular.module('theeTable.controllers', []);
 angular.module('theeTable.services', []);

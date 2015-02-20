@@ -1,5 +1,5 @@
 angular.module('theeTable.directives')
-	.directive('soundCloudPlayer', function() {
+	.directive('soundCloudPlayer', [function() {
 
 		/************************************************************
 		 * soundCloudPlayer directive renders the soundcloud API    *
@@ -28,7 +28,7 @@ angular.module('theeTable.directives')
 				var widgetIframe;
 				var widget;
 				var currentTime;
-				
+
 				var unbind = function() {
 					widget.unbind(SC.Widget.Events.READY);
 					widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
@@ -137,4 +137,4 @@ angular.module('theeTable.directives')
 
 			}
 		}
-	});
+	}]);

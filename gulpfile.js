@@ -3,6 +3,21 @@ var jshint = require('gulp-jshint');
 var nodemon = require('gulp-nodemon');
 var mocha = require('gulp-mocha');
 var karma = require('karma').server;
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
+var uglifycss = require('gulp-uglifycss');
+
+gulp.task('uglify', function() {
+  return gulp.src('dist/all.js')
+  .pipe(uglify())
+  .pipe(gulp.dest('dist'));
+});
+
+gulp.task('concat', function() {
+  return gulp.src(['./client/js/*.js', './client/js/*/*.js','./client/assets/snackbar/*.js'])
+  .pipe(concat('all.js'))
+  .pipe(gulp.dest('./dist/'));
+});
 
 gulp.task('lint', function() {
   return gulp.src(['./*.js',
@@ -11,6 +26,25 @@ gulp.task('lint', function() {
     ])
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
+});
+
+gulp.task('css', function() {
+  return gulp.src(['./client/assets/snackbar/*.css', './client/assets/styles/style.css'])
+  .pipe(concat('all.css'))
+  .pipe(uglifycss({
+    "max-line-len": 80
+  }))
+  .pipe(gulp.dest('dist'));
+});
+
+gulp.task('compress', ['concat','uglify']);
+
+gulp.task('prep', [ 'compress'], function() {
+  nodemon({ script: 'bin/www', ext: 'html js', /*ignore: ['ignored.js']*/ })
+  .on('change', ['compress'])
+  .on('restart', function () {
+    console.log('restarted!')
+  });
 });
 
 gulp.task('mocha', function() {

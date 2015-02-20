@@ -1,0 +1,62 @@
+<div ng-if="rooms" class="container">
+	<div class="row">
+		<div class="col-md-3">
+			<div ng-if="visitor" class="pad">
+				<div class="panel panel-primary pad">
+					A list of all rooms that exist on Thee Table can be found here.<br />
+					Once you sign up, you'll be able to favorite rooms you enjoyed!<br />
+					<button ng-click="auth()"class="btn btn-default">Login / Sign Up  <i class="mdi-action-account-circle big-icon"></i></button>
+				</div>
+			</div>
+			<div ng-if="!visitor" class="pad center">
+				<button ng-click="createRoom()" class="btn btn-xs btn-danger">Create Room <i class="mdi-image-edit big-icon"></i></button>
+				</br>
+
+				<div>
+					<table class="table table-striped table-hover choice">
+						<thead>
+							<tr>
+								<th>Favorite Rooms</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody ui-sortable="sortableOptions" ng-model="favoriteRooms">
+							<tr ng-repeat="room in favoriteRooms">
+								<td>
+									<span ng-click="navigate(room)">{{ room }}</span>
+								</td>
+								<td>
+									<span ng-click="remove($index)" class="glyphicon glyphicon-remove"></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="panel panel-primary pad" ng-if="favoriteRooms.length === 0">
+					After joining a room, look for the <span class="mdi-action-grade"></span> to save it to your favorites!
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9">
+			<div class="center">
+				<div class="panel panel-primary pad">
+					<br />
+					<input type="text" class="form-control" placeholder="Search for an existing room." ng-model="searchRoom.name"></input><br />
+				</div>
+				<div class="panel panel-primary rooms center room-enter" ng-repeat="room in rooms | orderBy: '-users.length' | filter:searchRoom ">
+					<h3>{{ room.name }}</h3>
+					<p>
+						{{ room.users.length }} <i class="mdi-action-account-child big-icon"></i><br />
+						<button ng-click="navigate(room.name)" class="btn btn-xs btn-default glyphicon glyphicon-save"> join</button>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function() {
+		$.material.init();
+	});
+</script>

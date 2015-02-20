@@ -1,5 +1,5 @@
 angular.module('theeTable.directives')
-.directive('customInputBox', function() {
+.directive('customInputBox', [function() {
 
 	/************************************************************
 	 * customInputBox directive renders an input box with error *
@@ -46,4 +46,4 @@ angular.module('theeTable.directives')
 			});
 		}
 	}
-});
+}]);
