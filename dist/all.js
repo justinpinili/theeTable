@@ -1627,11 +1627,11 @@ angular.module('theeTable.services')
 	*************************************************************/
 
 	var getUrl = function() {
-		return 'http://thee-table.herokuapp.com';
+		return ttURL;
 	};
 
 	var getID = function() {
-		return '3fad6addc9d20754f8457461d02465f2';
+		return scID;
 	};
 
 	return {

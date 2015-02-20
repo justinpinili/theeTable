@@ -9,16 +9,24 @@ var io = require('socket.io')(server);
 var routes = require('./server/routes.js');
 var socketIO = require('./server/routes/socketIO.js')(io);
 
-app.engine('html', require('ejs').renderFile);
 
-app.set('view engine', 'html');
-if (! process.env.PORT) {
+
+// app.engine('html', require('ejs').renderFile);
+
+app.set('view engine', 'ejs');
+
+if (!process.env.PORT) {
+  var ttURL = 'http://thee-table.herokuapp.com';
   app.set('views', __dirname + '/dist');
   app.use(express.static(__dirname + '/dist'));
+  var keys = require('./server/exampleSecurityKeys.js');
 } else {
+  var ttURL = 'http://localhost:1337';
   app.set('views', __dirname + '/client');
   app.use(express.static(__dirname + '/client'));
+  var keys = require('./server/securityKeys.js');
 }
+
 app.use(bodyParser.json());
 
 var allowCrossDomain = function(req, res, next) {
@@ -31,5 +39,9 @@ var allowCrossDomain = function(req, res, next) {
 app.use(allowCrossDomain);
 
 app.use(routes);
+
+app.get('/', function(request, response) {
+  response.render('index', { scID: keys.scID, ttURL: ttURL });
+});
 
 module.exports = server;

@@ -6,9 +6,9 @@ var rooms = require('./routes/rooms.js');
 var user  = require('./routes/user.js');
 
 // Front End
-router.get('/', function(req, res) {
-  res.render('index');
-});
+// router.get('/', function(req, res) {
+//   res.render('index');
+// });
 
 router.get('/success', function(req, res) {
   res.render('success');

@@ -1,3 +1,4 @@
 .DS_Store
 client/library
 node_modules
+server/securityKeys.js
