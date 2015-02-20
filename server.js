@@ -11,7 +11,7 @@ var socketIO = require('./server/routes/socketIO.js')(io);
 
 // app.engine('html', require('ejs').renderFile);
 
-app.set('view engine', 'ejs');
+// app.set('view engine', 'ejs');
 app.set('views', __dirname + '/client');
 
 app.use(express.static(__dirname + '/client'));
