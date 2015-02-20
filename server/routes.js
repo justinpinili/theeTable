@@ -7,7 +7,7 @@ var user  = require('./routes/user.js');
 
 // Front End
 router.get('/', function(req, res) {
-  res.render('index');
+  res.render('index', { soundcloudClientID: '3fad6addc9d20754f8457461d02465f2' });
 });
 
 router.get('/success', function(req, res) {
