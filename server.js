@@ -9,9 +9,9 @@ var io = require('socket.io')(server);
 var routes = require('./server/routes.js');
 var socketIO = require('./server/routes/socketIO.js')(io);
 
-app.engine('html', require('ejs').renderFile);
+// app.engine('html', require('ejs').renderFile);
 
-app.set('view engine', 'html');
+app.set('view engine', 'ejs');
 app.set('views', __dirname + '/client');
 
 app.use(express.static(__dirname + '/client'));
