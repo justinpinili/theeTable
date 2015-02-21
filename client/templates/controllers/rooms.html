@@ -1,3 +1,4 @@
+<br />
 <div ng-if="rooms" class="container">
 	<div class="row">
 		<div class="col-md-3">
@@ -43,11 +44,11 @@
 					<br />
 					<input type="text" class="form-control" placeholder="Search for an existing room." ng-model="searchRoom.name"></input><br />
 				</div>
-				<div class="panel panel-primary rooms center room-enter" ng-repeat="room in rooms | orderBy: '-users.length' | filter:searchRoom ">
+				<div class="rooms center room-enter" ng-repeat="room in rooms | orderBy: '-users.length' | filter:searchRoom ">
 					<h3>{{ room.name }}</h3>
-					<p>
+					<p class="rooms-info">
+						<a href="" ng-click="navigate(room.name)" class="btn btn-default btn-fab btn-raised room-btn"><i class="mdi-file-file-download big-icon"></i></a><br />
 						{{ room.users.length }} <i class="mdi-action-account-child big-icon"></i><br />
-						<button ng-click="navigate(room.name)" class="btn btn-xs btn-default glyphicon glyphicon-save"> join</button>
 					</p>
 				</div>
 			</div>

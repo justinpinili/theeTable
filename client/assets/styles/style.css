@@ -212,6 +212,12 @@ a, .dropdown-menu>li>a {
 	padding: 5px;
 	width: 200px;
 	height: 200px;
+	border-color: #01286E;
+	background-color: #FFF;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 2px;
+	box-shadow: 0 1px 6px rgba(0,0,0,.12),0 1px 6px rgba(0,0,0,.12);
 }
 
 .manage {
@@ -228,6 +234,10 @@ a, .dropdown-menu>li>a {
 
 .center {
 	text-align: center;
+}
+
+.md-icon {
+	font-size: 1.5em;
 }
 
 .big-icon {
@@ -325,13 +335,37 @@ a, .dropdown-menu>li>a {
 	text-align: center;
 }
 
-.info-box {
+.info-class {
 	display: inline-block;
+	position: relative;
 	margin: 5px;
 	padding: 5px;
 	width: 300px;
 	height: 300px;
 	overflow-y: hidden;
+}
+
+.info-box {
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+	-o-transform: scale(1);
+	-ms-transform: scale(1);
+	-webkit-transition: all 0.1s ease-in-out;
+	-moz-transition: all 0.1s ease-in-out;
+	-o-transition: all 0.1s ease-in-out;
+	-ms-transition: all 0.1s ease-in-out;
+}
+
+.info-box:hover {
+	z-index: 10;
+	-webkit-transform: scale(1.1);
+	-moz-transform: scale(1.1);
+	-o-transform: scale(1.1);
+	-ms-transform: scale(1.1);
+	-webkit-transition: all 0.1s ease-in-out;
+	-moz-transition: all 0.1s ease-in-out;
+	-o-transition: all 0.1s ease-in-out;
+	-ms-transition: all 0.1s ease-in-out;
 }
 
 .main-color {
@@ -366,4 +400,17 @@ a, .dropdown-menu>li>a {
 .sm:hover {
 	-webkit-filter: invert(100%);
 	filter: invert(100%);
+}
+
+.gear-settings {
+	position: absolute;
+	background-color: #01286E;
+	height: 50px;
+	width: 50px;
+	right: 0px;
+}
+
+.rooms-info .room-btn {
+	width: 90px;
+	height: 90px
 }
