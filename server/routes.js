@@ -10,9 +10,9 @@ var user  = require('./routes/user.js');
 //   res.render('index');
 // });
 
-router.get('/success', function(req, res) {
-  res.render('success');
-});
+// router.get('/success', function(req, res) {
+//   res.render('success');
+// });
 
 // API Endpoints
 router.use(rooms);

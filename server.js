@@ -44,4 +44,8 @@ app.get('/', function(request, response) {
   response.render('index', { scID: keys.scID, ttURL: ttURL });
 });
 
+router.get('/success', allowCrossDomain, function(req, res) {
+  res.render('success');
+});
+
 module.exports = server;
