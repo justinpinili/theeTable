@@ -47,7 +47,7 @@ angular.module('theeTable.directives')
 				// prepares the soundcloud api widget
 				$scope.updatePlayer = function(newSong) {
 					if (newSong) {
-						widget.load(newSong, { show_artwork: true });
+						widget.load(newSong, { show_artwork: false });
 					}
 
 					// Bind the events with the SoundCloud widget
@@ -76,6 +76,7 @@ angular.module('theeTable.directives')
 							} else {
 								delete $scope.title;
 								widget.seekTo($scope.oldValue.length);
+								delete $scope.oldValue;
 								unbind();
 								return;
 							}

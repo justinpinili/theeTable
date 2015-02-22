@@ -56,7 +56,7 @@ module.exports.disconnectFromRoom = function(roomName, userName, io) {
 					room.queue.splice(0, 1);
 					room.currentDJ = null;
 					room.currentSong = null;
-					room.currentTime = null;
+					room.currentTime = 0;
 					currentDjLeft = true;
 
 					if (room.queue.length > 0) {
@@ -236,7 +236,7 @@ module.exports.removeFromQueue = function(roomName, userName, io) {
 					room.queue.splice(0, 1);
 					room.currentDJ = null;
 					room.currentSong = null;
-					room.currentTime = null;
+					room.currentTime = 0;
 					currentDjLeft = false;
 				}
 
@@ -307,7 +307,7 @@ module.exports.newQueue = function(roomName, userName, queue, io) {
 					if (!err) {
 						room.currentDJ = user.username;
 						room.currentSong = user.playlist[0];
-						room.currentTime = null;
+						room.currentTime = 0;
 
 						room.save(function(err) {
 							if (!err) {
