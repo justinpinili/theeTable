@@ -400,3 +400,10 @@ a, .dropdown-menu>li>a {
 	width: 90px;
 	height: 90px
 }
+
+.favorite-rooms {
+	width: 50%;
+}
+.favorite-rooms-holder {
+	margin-left: 25%;
+}
