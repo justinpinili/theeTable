@@ -156,6 +156,12 @@ angular.module('theeTable.controllers')
 					},
 					getSCinstance: function() {
 						return $scope.getSCinstance;
+					},
+					currentDJ: function() {
+						return $scope.room.currentDJ;
+					},
+					username: function() {
+						return $scope.$parent.currentUser.username;
 					}
 				}
 			});

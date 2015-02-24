@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'loginSC', 'getSoundcloudID', 'getSCinstance','theeTableTime', 'theeTableSoundcloud', function($scope, $modalInstance, $modal, theeTableAuth, loginSC, getSoundcloudID, getSCinstance, theeTableTime, theeTableSoundcloud) {
+.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'loginSC', 'getSoundcloudID', 'getSCinstance','theeTableTime', 'theeTableSoundcloud', 'currentDJ', 'username', function($scope, $modalInstance, $modal, theeTableAuth, loginSC, getSoundcloudID, getSCinstance, theeTableTime, theeTableSoundcloud, currentDJ, username) {
 
 	/***********************************************************
 	 * managePlaylistController allows the user to see what is *
@@ -51,7 +51,25 @@ angular.module('theeTable.controllers')
 	$scope.sortableOptions = {
 		stop: function(e, ui) {
 			$.snackbar({content: "<i class='mdi-editor-format-list-numbered big-icon'></i> Your playlist order has beeen updated." });
+
+			// allow the user to change the position except for the current song playing. it will always stay on top.
+			if (currentDJ === username) {
+				if ($scope.oldPlaylist[0].title !== $scope.playlist[0].title) {
+
+					var currentSongIndex;
+					for (var index = 0; index < $scope.playlist.length; index++) {
+						if ($scope.playlist[index].title === $scope.oldPlaylist[0].title) {
+							currentSongIndex = index;
+						}
+					}
+					var currentSong = $scope.playlist.splice(currentSongIndex, 1)[0];
+					$scope.playlist.unshift(currentSong);
+				}
+			}
 			$scope.$parent.newPlaylist = songsForDB($scope.playlist);
+		},
+		activate: function(e, ui) {
+			$scope.oldPlaylist = angular.copy($scope.playlist);
 		}
 	};
 
