@@ -46,6 +46,7 @@ angular.module('theeTable.directives')
 				// logic that is set up each time a new song is ready to play
 				// prepares the soundcloud api widget
 				$scope.updatePlayer = function(newSong) {
+					console.log(newSong);
 					if (newSong) {
 						widget.load(newSong, { show_artwork: true });
 					}
@@ -61,7 +62,7 @@ angular.module('theeTable.directives')
 						widget.bind(SC.Widget.Events.PLAY, function(data) {
 
 							// if the client is new and a song is playing, skip to the current time
-							if ($scope.room.currentTime !== null) {
+							if ($scope.room.currentDJ !== $scope.username) {
 								widget.seekTo($scope.room.currentTime);
 							}
 
@@ -76,6 +77,7 @@ angular.module('theeTable.directives')
 							} else {
 								delete $scope.title;
 								widget.seekTo($scope.oldValue.length);
+								delete $scope.oldValue;
 								unbind();
 								return;
 							}
@@ -116,6 +118,7 @@ angular.module('theeTable.directives')
 				// set up a watcher so that we can update the player once a new song is configured
 				scope.$watch('currentSong', function(newValue, oldValue) {
 					if (!first && newValue === null) {
+						console.log(oldValue);
 						scope.oldValue = oldValue;
 						delete scope.title;
 						scope.updatePlayer('');

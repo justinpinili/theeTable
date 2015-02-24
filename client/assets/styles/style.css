@@ -396,15 +396,14 @@ a, .dropdown-menu>li>a {
 	filter: invert(100%);
 }
 
-.gear-settings {
-	position: absolute;
-	background-color: #01286E;
-	height: 50px;
-	width: 50px;
-	right: 0px;
-}
-
 .rooms-info .room-btn {
 	width: 90px;
 	height: 90px
+}
+
+.favorite-rooms {
+	width: 50%;
+}
+.favorite-rooms-holder {
+	margin-left: 25%;
 }

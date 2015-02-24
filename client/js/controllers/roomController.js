@@ -108,7 +108,7 @@ angular.module('theeTable.controllers')
 		$scope.newURL;
 		$scope.newPlaylist;
 		$scope.$parent.userInRoom = true;
-		$scope.visitor;
+		// $scope.visitor;
 
 		var signup = function() {
 			var modalInstance = $modal.open({
@@ -130,6 +130,9 @@ angular.module('theeTable.controllers')
 					},
 					roomName: function() {
 						return $stateParams.roomName;
+					},
+					visitor: function() {
+						return $scope.$parent.visitor;
 					}
 				}
 			});
@@ -153,6 +156,12 @@ angular.module('theeTable.controllers')
 					},
 					getSCinstance: function() {
 						return $scope.getSCinstance;
+					},
+					currentDJ: function() {
+						return $scope.room.currentDJ;
+					},
+					username: function() {
+						return $scope.$parent.currentUser.username;
 					}
 				}
 			});
@@ -168,7 +177,7 @@ angular.module('theeTable.controllers')
 				});
 			} else {
 				$scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: "visitor" });
-				$scope.visitor = true;
+				$scope.$parent.visitor = true;
 			}
 
 			if (result.currentDJ !== null) {
