@@ -21,7 +21,8 @@ angular.module('theeTable.directives')
 				currentSong: '=',
 				room: '=',
 				username: '=',
-				title: '='
+				title: '=',
+				sound: '='
 			},
 			controller: ['$scope', '$sce', function($scope, $sce) {
 
@@ -46,7 +47,6 @@ angular.module('theeTable.directives')
 				// logic that is set up each time a new song is ready to play
 				// prepares the soundcloud api widget
 				$scope.updatePlayer = function(newSong) {
-					console.log(newSong);
 					if (newSong) {
 						widget.load(newSong, { show_artwork: true });
 					}
@@ -76,7 +76,9 @@ angular.module('theeTable.directives')
 								});
 							} else {
 								delete $scope.title;
-								widget.seekTo($scope.oldValue.length);
+								if ($scope.oldValue){
+									widget.seekTo($scope.oldValue.length);
+								}
 								delete $scope.oldValue;
 								unbind();
 								return;
@@ -84,7 +86,9 @@ angular.module('theeTable.directives')
 
 						});
 
-						widget.setVolume(100);
+						if ($scope.sound) {
+							widget.setVolume(100);
+						}
 
 						//once a song is finished
 						widget.bind(SC.Widget.Events.FINISH, function() {
@@ -111,6 +115,16 @@ angular.module('theeTable.directives')
 					}, 500);
 				};
 
+				$scope.setVolume = function() {
+					if (widget) {
+						if ($scope.sound) {
+							widget.setVolume(100);
+							return;
+						}
+						widget.setVolume(0);
+					}
+				};
+
 			}],
 			link: function(scope, element, attrs) {
 				var first = true;
@@ -118,7 +132,6 @@ angular.module('theeTable.directives')
 				// set up a watcher so that we can update the player once a new song is configured
 				scope.$watch('currentSong', function(newValue, oldValue) {
 					if (!first && newValue === null) {
-						console.log(oldValue);
 						scope.oldValue = oldValue;
 						delete scope.title;
 						scope.updatePlayer('');
@@ -135,6 +148,12 @@ angular.module('theeTable.directives')
 								scope.updatePlayer(newValue.source);
 							}
 						}
+					}
+				});
+
+				scope.$watch('sound', function(newValue, oldValue) {
+					if (newValue !== undefined) {
+						scope.setVolume();
 					}
 				});
 
