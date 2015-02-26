@@ -158,13 +158,13 @@ a, .dropdown-menu>li>a {
 }
 
 .chat-head {
-	height: 300px;
+	height: 350px;
 	padding: 5px;
 	margin: 5px;
 }
 
 .panel-head {
-	height: 300px;
+	height: 350px;
 	padding: 5px;
 	margin: 5px;
 	border-color: #01286E;
@@ -178,7 +178,9 @@ a, .dropdown-menu>li>a {
 }
 
 .soundcloud {
-	display: none;
+	position: relative;
+	top: -140px;
+	z-index: -20;
 }
 
 .queue-outer {
@@ -195,6 +197,16 @@ a, .dropdown-menu>li>a {
 .song-info {
 	height: 81%;
 	margin-left: 30%;
+}
+
+.player {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+}
+
+.player-controls {
+	width: 20%;
 }
 
 .auth-panel {
@@ -244,6 +256,10 @@ a, .dropdown-menu>li>a {
 
 .song-title {
 	font-size: 1.7em;
+}
+
+.room-player {
+	display: block;
 }
 
 .login {
@@ -404,6 +420,41 @@ a, .dropdown-menu>li>a {
 .favorite-rooms {
 	width: 50%;
 }
+
 .favorite-rooms-holder {
 	margin-left: 25%;
+}
+
+.more-info {
+	display: inline;
+	position: relative;
+}
+
+.more-info:hover:after {
+	background: #333;
+	background: rgba(0,0,0,.8);
+	border-radius: 5px;
+	bottom: -40px;
+	color: #fff;
+	content: attr(info);
+	font-size: 14px;
+	left: 20%;
+	padding: 5px 15px;
+	position: absolute;
+	z-index: 98;
+	white-space: pre;
+	display: inline-block;
+	width: 400px;
+	/*word-wrap: break-word;*/
+}
+
+.more-info:hover:before{
+		border: solid;
+		border-color: #333 transparent;
+		border-width: 0 6px 6px 6px;
+		bottom: 10px;
+		content: "";
+		left: 50%;
+		position: absolute;
+		z-index: 99;
 }
