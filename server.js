@@ -11,7 +11,7 @@ var socketIO = require('./server/routes/socketIO.js')(io);
 
 app.set('view engine', 'ejs');
 
-if (!process.env.PORT) {
+if (process.env.PORT) {
   var ttURL = 'http://www.theetable.io';
   app.set('views', __dirname + '/dist');
   app.use(express.static(__dirname + '/dist'));
