@@ -14,6 +14,7 @@
 				<th>Title</th>
 				<th>Length</th>
 				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody ui-sortable="sortableOptions" ng-model="playlist">
@@ -29,6 +30,9 @@
 				</td>
 				<td>
 					{{ convertTime(song.length) }}
+				</td>
+				<td>
+					<i ng-click="bump($index)" class="mdi-editor-publish md-icon"></i>
 				</td>
 				<td>
 					<span ng-click="remove($index)" class="glyphicon glyphicon-remove"></span>

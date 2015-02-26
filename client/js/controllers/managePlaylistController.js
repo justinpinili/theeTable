@@ -73,6 +73,18 @@ angular.module('theeTable.controllers')
 		}
 	};
 
+	$scope.bump = function(index) {
+		var bumpedSong = $scope.playlist.splice(index, 1)[0];
+		if (currentDJ === username) {
+			var currentSong = $scope.playlist.shift();
+			$scope.playlist.unshift(bumpedSong);
+			$scope.playlist.unshift(currentSong);
+		} else {
+			$scope.playlist.unshift(bumpedSong);
+		}
+		$.snackbar({content: "<span class='mdi-editor-publish big-icon'></span>" + bumpedSong.title + " has been moved to the top of your playlist."})
+	}
+
 	// removes an entry from the playlist
 	$scope.remove = function(index) {
 		$.snackbar({content: "<span class='glyphicon glyphicon-trash big-icon'></span> " + $scope.playlist[index].title + " has been removed from your playlist." });

@@ -270,8 +270,10 @@ angular.module('theeTable.controllers')
 		$scope.storedInLikes = function() {
 			if ($scope.room && $scope.$parent.currentUser) {
 				for (var index = 0; index < $scope.$parent.currentUser.favorites.length; index++) {
-					if ($scope.$parent.currentUser.favorites[index].soundcloudID === $scope.room.currentSong.soundcloudID) {
-						return true;
+					if ($scope.room.currentSong) {
+						if ($scope.$parent.currentUser.favorites[index].soundcloudID === $scope.room.currentSong.soundcloudID) {
+							return true;
+						}
 					}
 				}
 			}
