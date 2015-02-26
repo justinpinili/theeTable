@@ -216,7 +216,7 @@ angular.module('theeTable.controllers')
 		// (if logged into soundcloud, it will like it on soundcloud as well)
 		$scope.like = function(song) {
 			$scope.$parent.socket.emit('addToLikes', { song: song });
-			if ($scope.$parent.getSoundcloudID()) {
+			if ($scope.$parent.getSoundcloudID().id) {
 				$scope.$parent.likeSongOnSC(song.soundcloudID);
 				$.snackbar({content: "<i class='mdi-file-cloud-queue big-icon'></i> " + song.title + " has been added to your soundcloud likes" });
 			}
