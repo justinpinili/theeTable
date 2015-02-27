@@ -149,7 +149,7 @@ angular.module('theeTable.controllers')
 				size: 'lg',
 				resolve: {
 					loginSC: function () {
-						return $scope.loginSC;
+						return $scope.$parent.loginSC;
 					},
 					getSoundcloudID: function() {
 						return $scope.getSoundcloudID;

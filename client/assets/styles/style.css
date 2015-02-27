@@ -430,6 +430,11 @@ a, .dropdown-menu>li>a {
 	position: relative;
 }
 
+.playlist-holder {
+	height: 500px;
+	overflow-y: scroll;
+}
+
 .more-info:hover:after {
 	background: #333;
 	background: rgba(0,0,0,.8);

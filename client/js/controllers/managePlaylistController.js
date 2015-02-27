@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'loginSC', 'getSoundcloudID', 'getSCinstance','theeTableTime', 'theeTableSoundcloud', 'currentDJ', 'username', function($scope, $modalInstance, $modal, theeTableAuth, loginSC, getSoundcloudID, getSCinstance, theeTableTime, theeTableSoundcloud, currentDJ, username) {
+.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'loginSC', 'getSoundcloudID', 'getSCinstance','theeTableTime', 'theeTableSoundcloud', 'currentDJ', 'username', '$sce', function($scope, $modalInstance, $modal, theeTableAuth, loginSC, getSoundcloudID, getSCinstance, theeTableTime, theeTableSoundcloud, currentDJ, username, $sce) {
 
 	/***********************************************************
 	 * managePlaylistController allows the user to see what is *
@@ -161,6 +161,38 @@ angular.module('theeTable.controllers')
 
 		$scope.playlist = $scope.$parent.newPlaylist;
 		delete $scope.possiblePlaylists;
+	}
+
+	$scope.showPreview = false;
+	$scope.previewSource = '';
+
+	var sce = function(song) {
+		return $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url='+song);
+	}
+
+	var widget;
+
+	$scope.preview = function(index) {
+		$scope.showPreview = true;
+		$scope.previewSource = sce($scope.playlist[index].source);
+		$scope.previewIndex = index;
+
+		setTimeout(function() {
+			var widgetID = 'sc-widget'+index;
+
+			var widgetIframe = document.getElementById(widgetID);
+
+			if (widget !== undefined) {
+				widget.unbind(SC.Widget.Events.READY);
+			}
+
+			widget = SC.Widget(widgetIframe);
+
+			widget.bind(SC.Widget.Events.READY, function() {
+				widget.play();
+			});
+
+		}, 500);
 	}
 
 	// close modal

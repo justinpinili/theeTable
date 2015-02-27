@@ -48,7 +48,7 @@ angular.module('theeTable.directives')
 				// prepares the soundcloud api widget
 				$scope.updatePlayer = function(newSong) {
 					if (newSong) {
-						widget.load(newSong, { show_artwork: true });
+						widget.load(newSong+'?single_active=false', { show_artwork: true });
 					}
 
 					// Bind the events with the SoundCloud widget
@@ -140,12 +140,12 @@ angular.module('theeTable.directives')
 					if (newValue !== undefined) {
 						if (newValue !== null) {
 							if (first) {
-								scope.thisSong = scope.sce(newValue.source);
+								scope.thisSong = scope.sce(newValue.source+'?single_active=false');
 								scope.setUpPlayer();
 								first = false;
 							} else {
 								delete scope.title;
-								scope.updatePlayer(newValue.source);
+								scope.updatePlayer(newValue.source+'?single_active=false');
 							}
 						}
 					}
