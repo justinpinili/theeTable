@@ -82,7 +82,10 @@ angular.module('theeTable.controllers')
 		} else {
 			$scope.playlist.unshift(bumpedSong);
 		}
-		$.snackbar({content: "<span class='mdi-editor-publish big-icon'></span>" + bumpedSong.title + " has been moved to the top of your playlist."})
+
+		$scope.$parent.newPlaylist = songsForDB($scope.playlist);
+
+		$.snackbar({content: "<span class='mdi-editor-publish big-icon'></span>" + bumpedSong.title + " has been moved to the top of your playlist."});
 	}
 
 	// removes an entry from the playlist
@@ -132,7 +135,26 @@ angular.module('theeTable.controllers')
 		var importedPlaylist = [];
 
 		if (likes === 'likes') {
-			$scope.$parent.newPlaylist = songsForDB($scope.likes);
+
+			for (var likesIndex = 0; likesIndex < $scope.likes.length; likesIndex++) {
+
+				var songExists = false;
+
+				for (var playlistIndex = 0; playlistIndex < $scope.playlist.length; playlistIndex++) {
+					if ($scope.likes[likesIndex].id === $scope.playlist[playlistIndex].soundcloudID) {
+						songExists = true;
+					}
+				}
+
+				if (!songExists) {
+					importedPlaylist.push( $scope.likes[likesIndex] );
+				}
+			}
+
+			$scope.$parent.newPlaylist = songsForDB($scope.playlist.concat(importedPlaylist));
+
+			$.snackbar({ content: "<i class='mdi-av-playlist-add big-icon'></i>" + ' You have added ' + importedPlaylist.length + ' songs to your playlist.' });
+
 		} else {
 			$scope.$parent.newPlaylist = songsForDB(playlist.tracks);
 		}
