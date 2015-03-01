@@ -13,6 +13,9 @@ angular.module('theeTable.controllers')
 
 		// socket.io logic for users that are in a room
 
+		var snd = new Audio("assets/enter.mp3");
+		var snd2 = new Audio("assets/exit.mp3");
+
 		$scope.$parent.socket.on('usersInRoom', function(data) {
 			$scope.room.users = data.users;
 			return;
@@ -21,6 +24,17 @@ angular.module('theeTable.controllers')
 		$scope.$parent.socket.on('updatedChat', function(data) {
 			$scope.room.chat = data.chat;
 			$(".chats").animate({ scrollTop: $(document).height() + 1000 }, "slow");
+
+			if ($scope.room.chat[$scope.room.chat.length -1].user === '') {
+				var lastMessage = $scope.room.chat[$scope.room.chat.length - 1].msg.split(" ");
+				lastMessage = lastMessage[lastMessage.length -3];
+				if (lastMessage === 'entered') {
+					snd.play();
+					return;
+				}
+				snd2.play();
+			}
+
 			return;
 		});
 
