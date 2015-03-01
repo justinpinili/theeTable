@@ -240,7 +240,7 @@ module.exports.removeFromQueue = function(roomName, userName, io) {
 					currentDjLeft = false;
 				}
 
-				if (room.queue.length >= 1) {
+				if (room.queue.length >= 1 && djIndex === 0) {
 					schema.User.where({ username: room.queue[0] }).findOne(function(err, user) {
 						if (!err) {
 							if (user === null) {

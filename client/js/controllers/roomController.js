@@ -138,18 +138,29 @@ angular.module('theeTable.controllers')
 			});
 		};
 
+		$scope.lower = false;
+
+		$scope.setLower = function(value) {
+			if (value) {
+				$scope.lower = false;
+				return;
+			}
+			$scope.lower = true;
+		}
+
 		$scope.managePlaylist = function(roomName) {
 			if ($scope.visitor) {
 				signup();
 				return;
 			}
+
 			var modalInstance = $modal.open({
 				templateUrl: './../templates/modals/managePlaylist.html',
 				controller: 'managePlaylistController',
 				size: 'lg',
 				resolve: {
 					loginSC: function () {
-						return $scope.loginSC;
+						return $scope.$parent.loginSC;
 					},
 					getSoundcloudID: function() {
 						return $scope.getSoundcloudID;
@@ -162,8 +173,15 @@ angular.module('theeTable.controllers')
 					},
 					username: function() {
 						return $scope.$parent.currentUser.username;
+					},
+					lower: function() {
+						return $scope.setLower;
 					}
 				}
+			});
+
+			modalInstance.result.then(function () {}, function () {
+				$scope.lower = false;
 			});
 		};
 
@@ -216,7 +234,7 @@ angular.module('theeTable.controllers')
 		// (if logged into soundcloud, it will like it on soundcloud as well)
 		$scope.like = function(song) {
 			$scope.$parent.socket.emit('addToLikes', { song: song });
-			if ($scope.$parent.getSoundcloudID()) {
+			if ($scope.$parent.getSoundcloudID().id) {
 				$scope.$parent.likeSongOnSC(song.soundcloudID);
 				$.snackbar({content: "<i class='mdi-file-cloud-queue big-icon'></i> " + song.title + " has been added to your soundcloud likes" });
 			}
@@ -270,8 +288,10 @@ angular.module('theeTable.controllers')
 		$scope.storedInLikes = function() {
 			if ($scope.room && $scope.$parent.currentUser) {
 				for (var index = 0; index < $scope.$parent.currentUser.favorites.length; index++) {
-					if ($scope.$parent.currentUser.favorites[index].soundcloudID === $scope.room.currentSong.soundcloudID) {
-						return true;
+					if ($scope.room.currentSong) {
+						if ($scope.$parent.currentUser.favorites[index].soundcloudID === $scope.room.currentSong.soundcloudID) {
+							return true;
+						}
 					}
 				}
 			}

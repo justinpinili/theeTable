@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'loginSC', 'getSoundcloudID', 'getSCinstance','theeTableTime', 'theeTableSoundcloud', 'currentDJ', 'username', function($scope, $modalInstance, $modal, theeTableAuth, loginSC, getSoundcloudID, getSCinstance, theeTableTime, theeTableSoundcloud, currentDJ, username) {
+.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'loginSC', 'getSoundcloudID', 'getSCinstance','theeTableTime', 'theeTableSoundcloud', 'currentDJ', 'username', '$sce', 'lower', function($scope, $modalInstance, $modal, theeTableAuth, loginSC, getSoundcloudID, getSCinstance, theeTableTime, theeTableSoundcloud, currentDJ, username, $sce, lower) {
 
 	/***********************************************************
 	 * managePlaylistController allows the user to see what is *
@@ -42,8 +42,15 @@ angular.module('theeTable.controllers')
 				},
 				getSCinstance: function() {
 					return getSCinstance;
+				},
+				lower: function() {
+					return lower;
 				}
 			}
+		});
+
+		modalInstance.result.then(function () {}, function () {
+			lower(true);
 		});
 	}
 
@@ -72,6 +79,21 @@ angular.module('theeTable.controllers')
 			$scope.oldPlaylist = angular.copy($scope.playlist);
 		}
 	};
+
+	$scope.bump = function(index) {
+		var bumpedSong = $scope.playlist.splice(index, 1)[0];
+		if (currentDJ === username) {
+			var currentSong = $scope.playlist.shift();
+			$scope.playlist.unshift(bumpedSong);
+			$scope.playlist.unshift(currentSong);
+		} else {
+			$scope.playlist.unshift(bumpedSong);
+		}
+
+		$scope.$parent.newPlaylist = songsForDB($scope.playlist);
+
+		$.snackbar({content: "<span class='mdi-editor-publish big-icon'></span>" + bumpedSong.title + " has been moved to the top of your playlist."});
+	}
 
 	// removes an entry from the playlist
 	$scope.remove = function(index) {
@@ -120,13 +142,65 @@ angular.module('theeTable.controllers')
 		var importedPlaylist = [];
 
 		if (likes === 'likes') {
-			$scope.$parent.newPlaylist = songsForDB($scope.likes);
+
+			for (var likesIndex = 0; likesIndex < $scope.likes.length; likesIndex++) {
+
+				var songExists = false;
+
+				for (var playlistIndex = 0; playlistIndex < $scope.playlist.length; playlistIndex++) {
+					if ($scope.likes[likesIndex].id === $scope.playlist[playlistIndex].soundcloudID) {
+						songExists = true;
+					}
+				}
+
+				if (!songExists) {
+					importedPlaylist.push( $scope.likes[likesIndex] );
+				}
+			}
+
+			$scope.$parent.newPlaylist = songsForDB($scope.playlist.concat(importedPlaylist));
+
+			$.snackbar({ content: "<i class='mdi-av-playlist-add big-icon'></i>" + ' You have added ' + importedPlaylist.length + ' songs to your playlist.' });
+
 		} else {
 			$scope.$parent.newPlaylist = songsForDB(playlist.tracks);
 		}
 
 		$scope.playlist = $scope.$parent.newPlaylist;
 		delete $scope.possiblePlaylists;
+	}
+
+	$scope.showPreview = false;
+	$scope.previewSource = '';
+
+	var sce = function(song) {
+		return $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url='+song+'&auto_play=true');
+	}
+
+	var widget;
+
+	$scope.preview = function(index) {
+		lower();
+		$scope.showPreview = true;
+		$scope.previewSource = sce($scope.playlist[index].source);
+		$scope.previewIndex = index;
+
+		setTimeout(function() {
+			var widgetID = 'sc-widget'+index;
+
+			var widgetIframe = document.getElementById(widgetID);
+
+			if (widget !== undefined) {
+				widget.unbind(SC.Widget.Events.READY);
+			}
+
+			widget = SC.Widget(widgetIframe);
+
+			widget.bind(SC.Widget.Events.READY, function() {
+				widget.play();
+			});
+
+		}, 500);
 	}
 
 	// close modal

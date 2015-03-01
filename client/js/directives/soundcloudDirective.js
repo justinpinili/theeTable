@@ -22,7 +22,8 @@ angular.module('theeTable.directives')
 				room: '=',
 				username: '=',
 				title: '=',
-				sound: '='
+				sound: '=',
+				lower: '='
 			},
 			controller: ['$scope', '$sce', function($scope, $sce) {
 
@@ -48,7 +49,7 @@ angular.module('theeTable.directives')
 				// prepares the soundcloud api widget
 				$scope.updatePlayer = function(newSong) {
 					if (newSong) {
-						widget.load(newSong, { show_artwork: true });
+						widget.load(newSong+'?single_active=false', { show_artwork: true });
 					}
 
 					// Bind the events with the SoundCloud widget
@@ -125,6 +126,18 @@ angular.module('theeTable.directives')
 					}
 				};
 
+				$scope.full = function() {
+					if (widget) {
+						widget.setVolume(100);
+					}
+				};
+
+				$scope.empty = function() {
+					if (widget) {
+						widget.setVolume(0);
+					}
+				};
+
 			}],
 			link: function(scope, element, attrs) {
 				var first = true;
@@ -140,12 +153,12 @@ angular.module('theeTable.directives')
 					if (newValue !== undefined) {
 						if (newValue !== null) {
 							if (first) {
-								scope.thisSong = scope.sce(newValue.source);
+								scope.thisSong = scope.sce(newValue.source+'?single_active=false');
 								scope.setUpPlayer();
 								first = false;
 							} else {
 								delete scope.title;
-								scope.updatePlayer(newValue.source);
+								scope.updatePlayer(newValue.source+'?single_active=false');
 							}
 						}
 					}
@@ -155,6 +168,14 @@ angular.module('theeTable.directives')
 					if (newValue !== undefined) {
 						scope.setVolume();
 					}
+				});
+
+				scope.$watch('lower', function(newValue, oldValue) {
+					if (newValue) {
+						scope.empty();
+						return;
+					}
+					scope.full()
 				});
 
 			}
