@@ -22,7 +22,8 @@ angular.module('theeTable.directives')
 				room: '=',
 				username: '=',
 				title: '=',
-				sound: '='
+				sound: '=',
+				lower: '='
 			},
 			controller: ['$scope', '$sce', function($scope, $sce) {
 
@@ -125,6 +126,18 @@ angular.module('theeTable.directives')
 					}
 				};
 
+				$scope.full = function() {
+					if (widget) {
+						widget.setVolume(100);
+					}
+				};
+
+				$scope.empty = function() {
+					if (widget) {
+						widget.setVolume(0);
+					}
+				};
+
 			}],
 			link: function(scope, element, attrs) {
 				var first = true;
@@ -155,6 +168,14 @@ angular.module('theeTable.directives')
 					if (newValue !== undefined) {
 						scope.setVolume();
 					}
+				});
+
+				scope.$watch('lower', function(newValue, oldValue) {
+					if (newValue) {
+						scope.empty();
+						return;
+					}
+					scope.full()
 				});
 
 			}

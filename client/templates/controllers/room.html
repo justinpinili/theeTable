@@ -65,8 +65,10 @@
 								</div>
 							</div>
 							<span ng-if="currentUser.playlist[0] && currentUser.username !== room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[0].title }}</span>
+							<span ng-if="currentUser.playlist.length === 1 && currentUser.username === room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[0].title }}</span>
+							<span ng-if="currentUser.playlist.length > 1 && currentUser.username === room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[1].title }}</span>
 							<div class="soundcloud">
-								<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title" sound="sound"></sound-cloud-player>
+								<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title" sound="sound" lower="lower" ></sound-cloud-player>
 							</div>
 						</div>
 					</div>

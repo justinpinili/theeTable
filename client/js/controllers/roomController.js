@@ -138,11 +138,18 @@ angular.module('theeTable.controllers')
 			});
 		};
 
+		$scope.lower = false;
+
+		$scope.setLower = function() {
+			$scope.lower = true;
+		}
+
 		$scope.managePlaylist = function(roomName) {
 			if ($scope.visitor) {
 				signup();
 				return;
 			}
+
 			var modalInstance = $modal.open({
 				templateUrl: './../templates/modals/managePlaylist.html',
 				controller: 'managePlaylistController',
@@ -162,8 +169,15 @@ angular.module('theeTable.controllers')
 					},
 					username: function() {
 						return $scope.$parent.currentUser.username;
+					},
+					lower: function() {
+						return $scope.setLower;
 					}
 				}
+			});
+
+			modalInstance.result.then(function () {}, function () {
+				$scope.lower = false;
 			});
 		};
 
