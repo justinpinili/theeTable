@@ -42,8 +42,15 @@ angular.module('theeTable.controllers')
 				},
 				getSCinstance: function() {
 					return getSCinstance;
+				},
+				lower: function() {
+					return lower;
 				}
 			}
+		});
+
+		modalInstance.result.then(function () {}, function () {
+			lower(true);
 		});
 	}
 
@@ -167,7 +174,7 @@ angular.module('theeTable.controllers')
 	$scope.previewSource = '';
 
 	var sce = function(song) {
-		return $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url='+song);
+		return $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url='+song+'&auto_play=true');
 	}
 
 	var widget;

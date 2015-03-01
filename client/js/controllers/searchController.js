@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('searchController', ['$scope', '$modalInstance', '$modal', 'playlist', 'getSCinstance', 'theeTableSoundcloud', 'theeTableTime', function($scope, $modalInstance, $modal, playlist, getSCinstance, theeTableSoundcloud, theeTableTime) {
+.controller('searchController', ['$scope', '$modalInstance', '$modal', 'playlist', 'getSCinstance', 'theeTableSoundcloud', 'theeTableTime', 'lower', '$sce', function($scope, $modalInstance, $modal, playlist, getSCinstance, theeTableSoundcloud, theeTableTime, lower, $sce) {
 
 	/************************************************************
 	 * searchController allows the user to search on soundcloud *
@@ -43,6 +43,42 @@ angular.module('theeTable.controllers')
 		playlist.push({ source: url, title: title, artist: artist, length: length, soundcloudID: id });
 		return;
 	};
+
+	$scope.showPreview = false;
+	$scope.previewSource = '';
+
+	var sce = function(song) {
+		return $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url='+song+'&auto_play=true');
+	}
+
+	var widget;
+
+	$scope.preview = function(index) {
+		lower();
+		$scope.showPreview = true;
+		console.log(index);
+		console.log($scope.soundcloud);
+		$scope.previewSource = sce($scope.soundcloud.results[index].permalink_url);
+		console.log($scope.previewSource.toString());
+		$scope.previewIndex = index;
+
+		setTimeout(function() {
+			var widgetID = 'sc-widget'+index;
+
+			var widgetIframe = document.getElementById(widgetID);
+
+			if (widget !== undefined) {
+				widget.unbind(SC.Widget.Events.READY);
+			}
+
+			widget = SC.Widget(widgetIframe);
+
+			widget.bind(SC.Widget.Events.READY, function() {
+				widget.play();
+			});
+
+		}, 500);
+	}
 
 	// close modal
 	$scope.close = function() {

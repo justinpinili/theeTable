@@ -140,7 +140,11 @@ angular.module('theeTable.controllers')
 
 		$scope.lower = false;
 
-		$scope.setLower = function() {
+		$scope.setLower = function(value) {
+			if (value) {
+				$scope.lower = false;
+				return;
+			}
 			$scope.lower = true;
 		}
 

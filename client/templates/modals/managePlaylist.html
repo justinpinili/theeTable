@@ -8,7 +8,6 @@
 	</div>
 	<div ng-if="playlist.length > 0">
 		<div ng-if="showPreview">
-			show preview!
 			<iframe id="sc-widget{{ previewIndex }}" src="{{ previewSource }}" width="100%" height="98%" scrolling="no" frameborder="no"></iframe>
 		</div>
 		<div class="playlist-holder">
@@ -30,7 +29,7 @@
 						{{ $index + 1 }}
 					</td>
 					<td>
-						<button ng-click="preview($index)" class="btn btn-default"> Preview </button>
+						<a href="javascript:void(0)" ng-click="preview($index)" class="btn btn-default btn-fab btn-raised mdi-av-hearing"></a>
 					</td>
 					<td>
 						{{ song.artist }}
