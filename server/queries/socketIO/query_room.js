@@ -114,7 +114,7 @@ module.exports.newChatMessage = function(roomName, userName, chatMessage, io) {
 			} else {
 				// room.chat = [];
 				room.chat.push({user: userName, msg: chatMessage});
-				if (room.chat.length > 100) {
+				if (room.chat.length > 10) {
 					room.chat.splice(0,1);
 				}
 
