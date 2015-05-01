@@ -2,7 +2,7 @@
 <div ng-if="room">
 	<div class="container">
 		<div class="row center">
-			<h2 class="bold">{{ room.name }}<span ng-if="!visitor"><i ng-click="addRoom()" ng-if="!storedInUser()" class="mdi-action-grade"></i></span></h2>
+			<h2 class="bold">{{ room.name }}<i ng-click="addRoom()" ng-if="!storedInUser()" class="mdi-action-grade"></i></h2>
 		</div>
 	</div>
 </div>
@@ -61,7 +61,7 @@
 									<i ng-if="sound" ng-click="mute()" class="mdi-av-volume-up md-icon"></i><i ng-if="!sound" ng-click="mute()" class="mdi-av-volume-off md-icon"></i><br />
 									Artist: {{ room.currentSong.artist }}<br />
 									Duration: {{ convertTime(room.currentSong.length - room.currentTime) }}<br />
-									<span ng-if="!visitor"><a ng-if="!storedInLikes()" href="" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a></span>
+									<a ng-if="!storedInLikes()" href="" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a>
 								</div>
 							</div>
 							<span ng-if="currentUser.playlist[0] && currentUser.username !== room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[0].title }}</span>
