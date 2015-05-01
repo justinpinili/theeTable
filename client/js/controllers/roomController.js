@@ -200,16 +200,18 @@ angular.module('theeTable.controllers')
 		};
 
 		theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {
-			$.snackbar({content: "<i class='mdi-file-file-download big-icon'></i> Welcome to " + result.name });
 			$scope.room = result;
 
 			if (theeTableAuth.verifyJwt(true)) {
+				$.snackbar({content: "<i class='mdi-file-file-download big-icon'></i> Welcome to " + result.name });
 				$scope.$parent.getUserInfo(function(user) {
 					$scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
 				});
 			} else {
-				$scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: "visitor" });
-				$scope.$parent.visitor = true;
+				// $scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: "visitor" });
+				// $scope.$parent.visitor = true;
+				$.snackbar({content: "You must be logged in to access Thee Table." });
+				$location.path('/home');
 			}
 
 			if (result.currentDJ !== null) {

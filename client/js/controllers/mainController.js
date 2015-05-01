@@ -80,11 +80,11 @@ angular.module('theeTable.controllers')
     }
 
     $scope.auth = function() {
-      if (theeTableAuth.verifyJwt(true)) {
-        $scope.showApp = true;
-        $location.path('/rooms');
-        return;
-      }
+      // if (theeTableAuth.verifyJwt(true)) {
+      //   $scope.showApp = true;
+      //   $location.path('/rooms');
+      //   return;
+      // }
 
       var modalInstance = $modal.open({
         templateUrl: './../templates/modals/auth.html',

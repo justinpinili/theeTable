@@ -30,29 +30,31 @@ angular.module('theeTable.controllers')
 					$scope.favoriteRooms = user.rooms;
 				});
 			} else {
-				$scope.$parent.visitor = true;
+				// $scope.$parent.visitor = true;
+				$.snackbar({content: "You must be logged in to access Thee Table." });
+				$location.path('/home');
 			}
 
 		});
 
-		$scope.$parent.$watch('visitor', function(newValue, oldValue) {
-			if (newValue === false && newValue !== oldValue) {
-				theeTableRooms.getAllRooms(function(result) {
-					$scope.rooms = result.rooms;
-
-					if (theeTableAuth.verifyJwt(true)) {
-						$scope.$parent.getUserInfo();
-						$scope.$parent.showApp = true;
-						$scope.favoriteRooms = [];
-
-						theeTableAuth.getUserInfo(function(user) {
-							$scope.$parent.currentUser = user;
-							$scope.favoriteRooms = user.rooms;
-						});
-					}
-				});
-			}
-		});
+		// $scope.$parent.$watch('visitor', function(newValue, oldValue) {
+		// 	if (newValue === false && newValue !== oldValue) {
+		// 		theeTableRooms.getAllRooms(function(result) {
+		// 			$scope.rooms = result.rooms;
+		//
+		// 			if (theeTableAuth.verifyJwt(true)) {
+		// 				$scope.$parent.getUserInfo();
+		// 				$scope.$parent.showApp = true;
+		// 				$scope.favoriteRooms = [];
+		//
+		// 				theeTableAuth.getUserInfo(function(user) {
+		// 					$scope.$parent.currentUser = user;
+		// 					$scope.favoriteRooms = user.rooms;
+		// 				});
+		// 			}
+		// 		});
+		// 	}
+		// });
 
 		// routes the user to the correct room
 		$scope.navigate = function(roomName) {
