@@ -1,14 +1,7 @@
 <div ng-if="rooms" class="container">
 	<div class="row">
 		<div class="col-md-3">
-			<div ng-if="visitor" class="pad">
-				<div class="panel panel-primary pad">
-					A list of all rooms that exist on Thee Table can be found here.<br />
-					Once you sign up, you'll be able to favorite rooms you enjoyed!<br />
-					<button ng-click="auth()"class="btn btn-default">Login / Sign Up  <i class="mdi-action-account-circle big-icon"></i></button>
-				</div>
-			</div>
-			<div ng-if="!visitor" class="pad center">
+			<div class="pad center">
 				<button ng-click="createRoom()" class="btn btn-xs btn-danger">Create Room <i class="mdi-image-edit big-icon"></i></button>
 				</br>
 
