@@ -32,16 +32,11 @@ angular.module('theeTable.controllers')
       }
     });
 
-    $scope.visitor;
     $scope.showApp;
 
     var setShowApp = function(newValue) {
       $scope.showApp = newValue;
     }
-
-    var setVisitor = function(newValue) {
-      $scope.visitor = newValue;
-    };
 
     $scope.inRoom = function() {
       if ($scope.userInRoom) {
@@ -105,9 +100,6 @@ angular.module('theeTable.controllers')
           },
           showApp: function() {
             return setShowApp;
-          },
-          visitor: function() {
-            return setVisitor;
           }
         }
       });

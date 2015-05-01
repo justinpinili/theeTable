@@ -124,34 +124,6 @@ angular.module('theeTable.controllers')
 		$scope.$parent.userInRoom = true;
 		$scope.sound = true;
 
-		var signup = function() {
-			var modalInstance = $modal.open({
-				templateUrl: './../templates/modals/auth.html',
-				controller: 'signupController',
-				size: 'lg',
-				resolve: {
-					userInRoom: function() {
-						return $scope.$parent.userInRoom;
-					},
-					getUserInfo: function() {
-						return $scope.$parent.getUserInfo;
-					},
-					currentSocket: function() {
-						return $scope.$parent.socket;
-					},
-					loginSC: function() {
-						return $scope.$parent.loginSC;
-					},
-					roomName: function() {
-						return $stateParams.roomName;
-					},
-					visitor: function() {
-						return $scope.$parent.visitor;
-					}
-				}
-			});
-		};
-
 		$scope.lower = false;
 
 		$scope.setLower = function(value) {
@@ -163,11 +135,6 @@ angular.module('theeTable.controllers')
 		}
 
 		$scope.managePlaylist = function(roomName) {
-			if ($scope.visitor) {
-				signup();
-				return;
-			}
-
 			var modalInstance = $modal.open({
 				templateUrl: './../templates/modals/managePlaylist.html',
 				controller: 'managePlaylistController',
@@ -208,8 +175,6 @@ angular.module('theeTable.controllers')
 					$scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
 				});
 			} else {
-				// $scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: "visitor" });
-				// $scope.$parent.visitor = true;
 				$.snackbar({content: "You must be logged in to access Thee Table." });
 				$location.path('/home');
 			}
@@ -259,11 +224,6 @@ angular.module('theeTable.controllers')
 
 		// adds current user to the queue
 		$scope.addToQueue = function() {
-			if ($scope.visitor) {
-				signup();
-				return;
-			}
-
 			if ($scope.$parent.currentUser.playlist.length > 0) {
 				$scope.$parent.socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });
 				return;

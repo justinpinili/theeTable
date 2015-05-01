@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('authController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', 'theeTableUrl', 'userInRoom', '$modalInstance', 'getUserInfo', 'currentSocket', 'loginSC', 'showApp', 'visitor', function($scope, $location, localStorageService, theeTableAuth, theeTableUrl, userInRoom, $modalInstance, getUserInfo, currentSocket, loginSC, showApp, visitor) {
+	.controller('authController', ['$scope', '$location', 'localStorageService', 'theeTableAuth', 'theeTableUrl', 'userInRoom', '$modalInstance', 'getUserInfo', 'currentSocket', 'loginSC', 'showApp', function($scope, $location, localStorageService, theeTableAuth, theeTableUrl, userInRoom, $modalInstance, getUserInfo, currentSocket, loginSC, showApp) {
 
 		/**********************************
 		 * main login to access theeTable *
@@ -43,8 +43,6 @@ angular.module('theeTable.controllers')
 						currentSocket.emit("userName", {username: retrievedUser.username});
 
 						showApp(true);
-						visitor(false);
-						// console.log(visitor);
 						$modalInstance.close();
 
 						// transfer to rooms lobby
@@ -73,7 +71,6 @@ angular.module('theeTable.controllers')
 							currentSocket.emit("userName", {username: retrievedUser.username});
 
 							showApp(true);
-							visitor(false);
 							$modalInstance.close();
 
 							$location.path("/rooms");
