@@ -344,7 +344,7 @@ describe('socket.IO', function() {
           data.queue[0].should.equal('justin');
           data.currentDJ.should.equal('justin');
           data.currentSong.source.should.equal('https://soundcloud.com/mixmag-1/premiere-steve-lawler-house-record');
-          should.equal(data.currentTime, null);
+          should.equal(data.currentTime, 0);
           client2.disconnect();
           client1.disconnect();
         });
