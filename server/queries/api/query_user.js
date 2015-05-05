@@ -9,7 +9,7 @@ var loginTime = function() {
 }
 
 // Create a user
-module.exports.createUser = function(username, password, callback) {
+module.exports.createUser = function(username, password, accessToken, callback) {
 	var newUser = new schema.User({
 		username: username,
 		password: password,
@@ -17,7 +17,8 @@ module.exports.createUser = function(username, password, callback) {
 		playlist: [],
 		favorites: [],
 		rooms: [],
-		loginTime: loginTime()
+		loginTime: loginTime(),
+		accessToken: accessToken
 	});
 	var bcrypt = require('bcrypt');
 	bcrypt.genSalt(10, function(err, salt) {
@@ -56,13 +57,14 @@ module.exports.getUser = function(id, callback) {
 				callback({ message: "No user found with the given username." });
 				return;
 			}
-			var userInfo       = {};
-			userInfo.username  = user.username;
-			userInfo.upVotes   = user.upVotes;
-			userInfo.playlist  = user.playlist;
-			userInfo.favorites = user.favorites;
-			userInfo.rooms     = user.rooms;
-			userInfo.loginTime = user.loginTime;
+			var userInfo         = {};
+			userInfo.username    = user.username;
+			userInfo.upVotes     = user.upVotes;
+			userInfo.playlist    = user.playlist;
+			userInfo.favorites   = user.favorites;
+			userInfo.rooms       = user.rooms;
+			userInfo.loginTime   = user.loginTime;
+			userInfo.accessToken = user.accessToken;
 			callback(userInfo);
 			return;
 		}
@@ -73,7 +75,7 @@ module.exports.getUser = function(id, callback) {
 };
 
 // Login an existing user
-module.exports.loginUser = function(username, password, callback) {
+module.exports.loginUser = function(username, password, accessToken, callback) {
 	schema.User.where({ username: username }).findOne(function (err, user) {
 		if (!err) {
 			if (user === null) {
@@ -85,9 +87,11 @@ module.exports.loginUser = function(username, password, callback) {
 					if (result) {
 						// console.log("password matched! logged in!");
 						user.loginTime = loginTime();
+						user.accessToken = accessToken;
+						console.log(user.accessToken);
 						user.save(function(err) {
 							if (!err) {
-								var jwt_token = jwt.sign({ id: user.username }, keys.jwtSecretKey);
+								var jwt_token = jwt.sign({ id: user.username, accessToken: accessToken }, keys.jwtSecretKey);
 								callback({jwt: jwt_token});
 								return;
 							}
@@ -95,7 +99,7 @@ module.exports.loginUser = function(username, password, callback) {
 							callback({ error: err });
 							return;
 						});
-						return; 
+						return;
 					} else {
 						callback({ message: "Invalid login credentials. Please try again." });
 						return;

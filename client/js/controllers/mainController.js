@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'theeTableSocket', 'theeTableSoundcloud', 'theeTableUrl', '$location', function($scope, localStorageService, theeTableAuth, $modal, theeTableSocket, theeTableSoundcloud, theeTableUrl, $location) {
+  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'theeTableSocket', 'theeTableSoundcloud', 'theeTableUrl', '$location', 'theeTableAuth', function($scope, localStorageService, theeTableAuth, $modal, theeTableSocket, theeTableSoundcloud, theeTableUrl, $location, theeTableAuth) {
 
     /************************************************************
      * mainController that holds the current user's information *
@@ -11,14 +11,6 @@ angular.module('theeTable.controllers')
      *  - Favorite Rooms                                        *
      *  - soundcloud instance for theeTable application         *
      ************************************************************/
-
-    // initialize client with app credentials
-    var scInit = SC.initialize({
-      client_id: theeTableUrl.getID(),
-      redirect_uri: '' + theeTableUrl.getUrl() + '/success'
-    });
-
-    $scope.sc = theeTableSoundcloud.setSCinstance(scInit);
 
     $scope.socket = theeTableSocket;
 
@@ -75,34 +67,83 @@ angular.module('theeTable.controllers')
     }
 
     $scope.auth = function() {
-      // if (theeTableAuth.verifyJwt(true)) {
-      //   $scope.showApp = true;
-      //   $location.path('/rooms');
-      //   return;
-      // }
 
-      var modalInstance = $modal.open({
-        templateUrl: './../templates/modals/auth.html',
-        controller: 'authController',
-        size: 'lg',
-        resolve: {
-          userInRoom: function() {
-            return $scope.userInRoom;
-          },
-          getUserInfo: function() {
-            return $scope.getUserInfo;
-          },
-          currentSocket: function() {
-            return $scope.socket;
-          },
-          loginSC: function() {
-            return $scope.loginSC;
-          },
-          showApp: function() {
-            return setShowApp;
+      var theeTableDB = function(endpoint, isNew, username, accessToken) {
+
+        // Attempt to login to theeTable with soundcloud credentials
+        theeTableAuth.siteAccess(""+ theeTableUrl.getUrl() + endpoint, username, 'abc', accessToken,  function(result) {
+          if (!result.message) {
+            localStorageService.set("jwt", result.jwt);
+            $scope.getUserInfo(function(retrievedUser) {
+              $scope.socket.emit("userName", {username: retrievedUser.username});
+              $location.path("/rooms");
+              return;
+            });
+            return;
           }
-        }
-      });
+
+          if (isNew) {
+            // If the user does not exist, sign the user up with soundcloud credentials
+            theeTableDB('/user/new', false, username, accessToken);
+            return;
+          }
+
+          $scope.message = result.message;
+          // NEEDS TO BE UPDATED
+          return;
+        });
+      };
+
+      if (localStorageService.get("jwt") === null) {
+
+        var scInit = SC.initialize({
+          client_id: theeTableUrl.getID(),
+          redirect_uri: '' + theeTableUrl.getUrl() + '/success'
+        });
+
+        $scope.sc = theeTableSoundcloud.setSCinstance(scInit);
+
+        $scope.sc.connect(function() {
+
+    			// logic in here after connection and pop up closes
+    			$scope.sc.get('/me', function(me) {
+
+            theeTableDB('/user/login', true, me.username, $scope.sc.accessToken());
+
+          });
+    		});
+
+      } else {
+
+        theeTableAuth.getUserInfo(function(user) {
+
+          var scInit = SC.initialize({
+            client_id: theeTableUrl.getID(),
+            access_token: user.accessToken,
+            redirect_uri: '' + theeTableUrl.getUrl() + '/success'
+          });
+
+          $scope.sc = theeTableSoundcloud.setSCinstance(scInit);
+
+          if (!$scope.sc.isConnected()) {
+
+            $scope.sc.connect(function() {
+
+        			// logic in here after connection and pop up closes
+        			$scope.sc.get('/me', function(me) {
+
+                theeTableDB('/user/login', true, me.username, $scope.sc.accessToken());
+
+              });
+        		});
+            return;
+          }
+
+          $location.path("/rooms");
+
+        });
+
+      }
     }
 
     $scope.viewFavorites = function() {

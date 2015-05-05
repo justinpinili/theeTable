@@ -33,6 +33,9 @@ angular.module('theeTable.services')
 	var loginSC = function(callback) {
 
 		// initiate auth popup
+		// SC.initialize({ client_id: scID, access_token: "1-100108-22938910-ab1d845558fb3c"})
+
+		// consle.log(SC.isConnected());
 		SC.connect(function() {
 
 			// logic in here after connection and pop up closes
@@ -43,7 +46,7 @@ angular.module('theeTable.services')
 					callback();
 				}
 			});
-
+			
 		});
 	};
 

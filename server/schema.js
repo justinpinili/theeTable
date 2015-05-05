@@ -49,7 +49,9 @@ var userSchema = mongoose.Schema({
 
   rooms: Array,
 
-  loginTime: String
+  loginTime: String,
+
+  accessToken: String
 
 });
 
