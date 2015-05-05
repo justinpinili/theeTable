@@ -68,32 +68,6 @@ angular.module('theeTable.controllers')
 
     $scope.auth = function() {
 
-      var theeTableDB = function(endpoint, isNew, username, accessToken) {
-
-        // Attempt to login to theeTable with soundcloud credentials
-        theeTableAuth.siteAccess(""+ theeTableUrl.getUrl() + endpoint, username, 'abc', accessToken,  function(result) {
-          if (!result.message) {
-            localStorageService.set("jwt", result.jwt);
-            $scope.getUserInfo(function(retrievedUser) {
-              $scope.socket.emit("userName", {username: retrievedUser.username});
-              $location.path("/rooms");
-              return;
-            });
-            return;
-          }
-
-          if (isNew) {
-            // If the user does not exist, sign the user up with soundcloud credentials
-            theeTableDB('/user/new', false, username, accessToken);
-            return;
-          }
-
-          $scope.message = result.message;
-          // NEEDS TO BE UPDATED
-          return;
-        });
-      };
-
       if (localStorageService.get("jwt") === null) {
 
         var scInit = SC.initialize({
@@ -103,15 +77,15 @@ angular.module('theeTable.controllers')
 
         $scope.sc = theeTableSoundcloud.setSCinstance(scInit);
 
-        $scope.sc.connect(function() {
+        theeTableSoundcloud.loginSC(function() {
 
-    			// logic in here after connection and pop up closes
-    			$scope.sc.get('/me', function(me) {
-
-            theeTableDB('/user/login', true, me.username, $scope.sc.accessToken());
-
+          $scope.getUserInfo(function(retrievedUser) {
+            $scope.socket.emit("userName", {username: retrievedUser.username});
+            $location.path("/rooms");
+            return;
           });
-    		});
+
+        });
 
       } else {
 
@@ -127,15 +101,13 @@ angular.module('theeTable.controllers')
 
           if (!$scope.sc.isConnected()) {
 
-            $scope.sc.connect(function() {
-
-        			// logic in here after connection and pop up closes
-        			$scope.sc.get('/me', function(me) {
-
-                theeTableDB('/user/login', true, me.username, $scope.sc.accessToken());
-
+            theeTableSoundcloud.loginSC(function() {
+              $scope.getUserInfo(function(retrievedUser) {
+                $scope.socket.emit("userName", {username: retrievedUser.username});
+                $location.path("/rooms");
+                return;
               });
-        		});
+            });
             return;
           }
 
