@@ -89,6 +89,8 @@ angular.module('theeTable.directives')
 
 						if ($scope.sound) {
 							widget.setVolume(100);
+						} else {
+							widget.setVolume(0);
 						}
 
 						//once a song is finished

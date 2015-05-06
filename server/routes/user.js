@@ -5,7 +5,7 @@ var api_user      = require('./../queries/api/query_user.js');
 
 // Create a user
 router.post('/user/new', function(req, res) {
-	api_user.createUser(req.body.username, req.body.password, function(results) {
+	api_user.createUser(req.body.username, req.body.password, req.body.accessToken, req.body.scID, function(results) {
 		if (results.error) {
 			res.send(results.error);
 			return;
@@ -29,7 +29,7 @@ router.get('/user', jwtValidation, function(req, res) {
 
 // Log in a user
 router.post('/user/login', function(req, res) {
-	api_user.loginUser(req.body.username, req.body.password, function(results) {
+	api_user.loginUser(req.body.username, req.body.password, req.body.accessToken, req.body.scID, function(results) {
 		if (results.error) {
 			res.send(results.error);
 			return;

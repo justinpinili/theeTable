@@ -47,14 +47,8 @@
                   </ul>
                 </li>
               </ul> -->
-              <ul ng-if="!currentUser" class="nav navbar-nav navbar-right">
-                <li><a ui-sref="rooms" ng-if="inRoom()"><span class="mdi-file-file-upload md-icon"></span>  Back to Rooms</a></li>
-                <li><a class="choice" ng-click="auth()"><span class="mdi-action-account-circle md-icon"></span> Login / Sign Up</a></li>
-              </ul>
               <ul ng-if="currentUser" class="nav navbar-nav navbar-right">
                 <li><a ui-sref="rooms" ng-if="inRoom()"><span class="mdi-file-file-upload md-icon"></span>  Back to Rooms</a></li>
-                <li><a ng-click="viewFavorites()" ng-if="inRoom()" href=""><span class="glyphicon glyphicon-heart md-icon"></span>  Liked Songs</a></li>
-                <li><a ng-click="viewFavoriteRooms()" ng-if="inRoom()" href=""><span class="mdi-action-grade md-icon"></span>  Favorite Rooms</a></li>
                 <li><a ui-sref="logout"><span class="glyphicon glyphicon-log-out md-icon"></span>  Logout</a></li>
               </ul>
             </div><!-- /.navbar-collapse -->
@@ -84,7 +78,6 @@
     <script type="text/javascript" src="library/angular-ui-sortable/sortable.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript" src="js/controllers/mainController.js"></script>
-    <script type="text/javascript" src="js/controllers/authController.js"></script>
     <script type="text/javascript" src="js/controllers/roomsController.js"></script>
     <script type="text/javascript" src="js/controllers/roomController.js"></script>
     <script type="text/javascript" src="js/controllers/searchController.js"></script>
@@ -92,7 +85,6 @@
     <script type="text/javascript" src="js/controllers/viewFavoritesController.js"></script>
     <script type="text/javascript" src="js/controllers/viewFavoriteRoomsController.js"></script>
     <script type="text/javascript" src="js/controllers/createRoomController.js"></script>
-    <script type="text/javascript" src="js/controllers/signupController.js"></script>
     <script type="text/javascript" src="js/services/theeTableAuth.js"></script>
     <script type="text/javascript" src="js/services/theeTableRooms.js"></script>
     <script type="text/javascript" src="js/services/theeTableSocket.js"></script>

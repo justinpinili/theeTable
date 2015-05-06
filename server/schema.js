@@ -39,17 +39,15 @@ var userSchema = mongoose.Schema({
 
   upVotes:  Number,
 
+  scID: Number,
+
   // entries in the playlist will be strings
   // ex. [ 'url', 'url2', 'url3' ]
   playlist: Array,
 
-  // entries in the playlist will be strings
-  // ex. [ 'url', 'url2', 'url3' ]
-  favorites: Array,
+  loginTime: String,
 
-  rooms: Array,
-
-  loginTime: String
+  accessToken: String
 
 });
 

@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'theeTableSocket', 'theeTableSoundcloud', 'theeTableUrl', '$location', function($scope, localStorageService, theeTableAuth, $modal, theeTableSocket, theeTableSoundcloud, theeTableUrl, $location) {
+  .controller('mainController', ['$scope', 'localStorageService', 'theeTableAuth', '$modal', 'theeTableSocket', 'theeTableSoundcloud', 'theeTableUrl', '$location', 'theeTableAuth', function($scope, localStorageService, theeTableAuth, $modal, theeTableSocket, theeTableSoundcloud, theeTableUrl, $location, theeTableAuth) {
 
     /************************************************************
      * mainController that holds the current user's information *
@@ -11,14 +11,6 @@ angular.module('theeTable.controllers')
      *  - Favorite Rooms                                        *
      *  - soundcloud instance for theeTable application         *
      ************************************************************/
-
-    // initialize client with app credentials
-    var scInit = SC.initialize({
-      client_id: theeTableUrl.getID(),
-      redirect_uri: '' + theeTableUrl.getUrl() + '/success'
-    });
-
-    $scope.sc = theeTableSoundcloud.setSCinstance(scInit);
 
     $scope.socket = theeTableSocket;
 
@@ -74,62 +66,64 @@ angular.module('theeTable.controllers')
       });
     }
 
-    $scope.auth = function() {
-      // if (theeTableAuth.verifyJwt(true)) {
-      //   $scope.showApp = true;
-      //   $location.path('/rooms');
-      //   return;
-      // }
+    $scope.auth = function(alreadyInRoom) {
 
-      var modalInstance = $modal.open({
-        templateUrl: './../templates/modals/auth.html',
-        controller: 'authController',
-        size: 'lg',
-        resolve: {
-          userInRoom: function() {
-            return $scope.userInRoom;
-          },
-          getUserInfo: function() {
-            return $scope.getUserInfo;
-          },
-          currentSocket: function() {
-            return $scope.socket;
-          },
-          loginSC: function() {
-            return $scope.loginSC;
-          },
-          showApp: function() {
-            return setShowApp;
+      if (localStorageService.get("jwt") === null) {
+
+        var scInit = SC.initialize({
+          client_id: theeTableUrl.getID(),
+          redirect_uri: '' + theeTableUrl.getUrl() + '/success'
+        });
+
+        $scope.sc = theeTableSoundcloud.setSCinstance(scInit);
+
+        theeTableSoundcloud.loginSC(function() {
+
+          $scope.getUserInfo(function(retrievedUser) {
+            $scope.socket.emit("userName", {username: retrievedUser.username});
+            $location.path("/rooms");
+            return;
+          });
+
+        });
+
+      } else {
+
+        theeTableAuth.getUserInfo(function(user) {
+
+          var scInit = SC.initialize({
+            client_id: theeTableUrl.getID(),
+            access_token: user.accessToken,
+            redirect_uri: '' + theeTableUrl.getUrl() + '/success'
+          });
+
+          $scope.sc = theeTableSoundcloud.setSCinstance(scInit, user.username, user.scID);
+
+          if (!$scope.sc.isConnected()) {
+
+            theeTableSoundcloud.loginSC(function() {
+              $scope.getUserInfo(function(retrievedUser) {
+                $scope.socket.emit("userName", {username: retrievedUser.username});
+                if (!alreadyInRoom) {
+                  $location.path("/rooms");
+                }
+                return;
+              });
+            });
+            return;
           }
-        }
-      });
+
+          theeTableSoundcloud.setSoundcloudID(user.scID, user.username);
+
+          if (!alreadyInRoom) {
+            $location.path("/rooms");
+          }
+          return;
+
+        });
+
+      }
     }
-
-    $scope.viewFavorites = function() {
-      var modalInstance = $modal.open({
-        templateUrl: './../templates/modals/viewFavorites.html',
-        controller: 'viewFavoritesController',
-        size: 'lg',
-        resolve: {
-          currentSocket: function () {
-            return $scope.socket;
-          }
-        }
-      });
-    };
-
-    $scope.viewFavoriteRooms = function() {
-      var modalInstance = $modal.open({
-        templateUrl: './../templates/modals/viewFavoriteRooms.html',
-        controller: 'viewFavoriteRoomsController',
-        size: 'lg',
-        resolve: {
-          currentSocket: function () {
-            return $scope.socket;
-          }
-        }
-      });
-    };
 
     // mainController holds the soundcloud instance so it can be used
     // throughout the app

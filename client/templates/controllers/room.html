@@ -2,7 +2,7 @@
 <div ng-if="room">
 	<div class="container">
 		<div class="row center">
-			<h2 class="bold">{{ room.name }}<i ng-click="addRoom()" ng-if="!storedInUser()" class="mdi-action-grade"></i></h2>
+			<h2 class="bold">{{ room.name }}</h2>
 		</div>
 	</div>
 </div>
@@ -61,7 +61,7 @@
 									<i ng-if="sound" ng-click="mute()" class="mdi-av-volume-up md-icon"></i><i ng-if="!sound" ng-click="mute()" class="mdi-av-volume-off md-icon"></i><br />
 									Artist: {{ room.currentSong.artist }}<br />
 									Duration: {{ convertTime(room.currentSong.length - room.currentTime) }}<br />
-									<a ng-if="!storedInLikes()" href="" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a>
+									<a href="" ng-if="!liked" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a>
 								</div>
 							</div>
 							<span ng-if="currentUser.playlist[0] && currentUser.username !== room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[0].title }}</span>
@@ -75,7 +75,6 @@
 				</div>
 				<div class="center">
 					<button ng-click="managePlaylist(room.name)" class="btn btn-default">Manage Your Playlist  <i class="mdi-av-queue-music big-icon"></i></button>
-					<a ng-if="!soundcloudID" ng-click="loginSC()" href="" class="btn btn-default btn-fab btn-raised more-info" title="" info="Log into soundcloud so when you like songs,&#xa; it'll save it on soundcloud"><span class="mdi-file-cloud"></span></a><span>
 				</div>
 			</div>
 			<div class="col-md-6">
