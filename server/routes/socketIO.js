@@ -67,23 +67,11 @@ module.exports = function(io) {
 			query_user.updatePlaylist(roomName, data.username, socket);
 		});
 
-		socket.on('addToLikes', function(data) {
-			query_user.addToLikes(userName, data.song, socket);
-		});
-
-		socket.on('addRoom', function(data) {
-			query_user.addRoom(userName, data.room, socket);
-		});
-
 		socket.on('userName', function(data) {
 			userName = data.username;
 			api.getUser(data.username, function(user) {
 				io.emit('signOn', { username: data.username, loginTime: user.loginTime });
 			});
-		});
-
-		socket.on('newRooms', function(data) {
-			query_user.newRooms(userName, data.rooms, socket);
 		});
 
 		/************************************
@@ -100,9 +88,6 @@ module.exports = function(io) {
 			query_user.newPlaylist(roomName, userName, data.playlist, socket);
 		});
 
-		socket.on('newFavorites', function(data) {
-			query_user.newFavorites(roomName, userName, data.favorites, socket);
-		});
 	});
 	return;
 }

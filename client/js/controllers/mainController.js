@@ -66,7 +66,7 @@ angular.module('theeTable.controllers')
       });
     }
 
-    $scope.auth = function() {
+    $scope.auth = function(alreadyInRoom) {
 
       if (localStorageService.get("jwt") === null) {
 
@@ -97,52 +97,33 @@ angular.module('theeTable.controllers')
             redirect_uri: '' + theeTableUrl.getUrl() + '/success'
           });
 
-          $scope.sc = theeTableSoundcloud.setSCinstance(scInit);
+          $scope.sc = theeTableSoundcloud.setSCinstance(scInit, user.username, user.scID);
 
           if (!$scope.sc.isConnected()) {
 
             theeTableSoundcloud.loginSC(function() {
               $scope.getUserInfo(function(retrievedUser) {
                 $scope.socket.emit("userName", {username: retrievedUser.username});
-                $location.path("/rooms");
+                if (!alreadyInRoom) {
+                  $location.path("/rooms");
+                }
                 return;
               });
             });
             return;
           }
 
-          $location.path("/rooms");
+          theeTableSoundcloud.setSoundcloudID(user.scID, user.username);
+
+          if (!alreadyInRoom) {
+            $location.path("/rooms");
+          }
+          return;
 
         });
 
       }
     }
-
-    $scope.viewFavorites = function() {
-      var modalInstance = $modal.open({
-        templateUrl: './../templates/modals/viewFavorites.html',
-        controller: 'viewFavoritesController',
-        size: 'lg',
-        resolve: {
-          currentSocket: function () {
-            return $scope.socket;
-          }
-        }
-      });
-    };
-
-    $scope.viewFavoriteRooms = function() {
-      var modalInstance = $modal.open({
-        templateUrl: './../templates/modals/viewFavoriteRooms.html',
-        controller: 'viewFavoriteRoomsController',
-        size: 'lg',
-        resolve: {
-          currentSocket: function () {
-            return $scope.socket;
-          }
-        }
-      });
-    };
 
     // mainController holds the soundcloud instance so it can be used
     // throughout the app

@@ -56,15 +56,4 @@ angular.module('theeTable.controllers')
 			});
 		};
 
-		// removes an entry from the rooms list
-		$scope.remove = function(index) {
-			$.snackbar({content: "<span class='glyphicon glyphicon-trash big-icon'></span> " + $scope.favoriteRooms[index] + " has been removed to your favorite rooms list" });
-			$scope.favoriteRooms.splice(index, 1);
-			var rooms = [];
-			for (var index = 0; index < $scope.favoriteRooms.length; index++) {
-				rooms.push($scope.favoriteRooms[index]);
-			}
-			$scope.$parent.socket.emit('newRooms', { rooms: rooms });
-		}
-
 	}]);

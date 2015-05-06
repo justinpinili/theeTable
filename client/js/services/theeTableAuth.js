@@ -11,8 +11,8 @@ angular.module('theeTable.services')
 		 ************************************************************/
 
 		// Login or Signup
-		var siteAccess = function(url, username, password, accessToken, callback) {
-			$http.post(url, { username: username, password: password, accessToken: accessToken })
+		var siteAccess = function(url, username, password, accessToken, scID, callback) {
+			$http.post(url, { username: username, password: password, accessToken: accessToken, scID: scID })
 				.success(function(result) {
 					callback(result);
 					return;

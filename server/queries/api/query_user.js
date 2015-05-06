@@ -9,16 +9,15 @@ var loginTime = function() {
 }
 
 // Create a user
-module.exports.createUser = function(username, password, accessToken, callback) {
+module.exports.createUser = function(username, password, accessToken, scID, callback) {
 	var newUser = new schema.User({
 		username: username,
 		password: password,
 		upVotes: 0,
 		playlist: [],
-		favorites: [],
-		rooms: [],
 		loginTime: loginTime(),
-		accessToken: accessToken
+		accessToken: accessToken,
+		scID: scID
 	});
 	var bcrypt = require('bcrypt');
 	bcrypt.genSalt(10, function(err, salt) {
@@ -61,10 +60,9 @@ module.exports.getUser = function(id, callback) {
 			userInfo.username    = user.username;
 			userInfo.upVotes     = user.upVotes;
 			userInfo.playlist    = user.playlist;
-			userInfo.favorites   = user.favorites;
-			userInfo.rooms       = user.rooms;
 			userInfo.loginTime   = user.loginTime;
 			userInfo.accessToken = user.accessToken;
+			userInfo.scID        = user.scID;
 			callback(userInfo);
 			return;
 		}
@@ -75,7 +73,7 @@ module.exports.getUser = function(id, callback) {
 };
 
 // Login an existing user
-module.exports.loginUser = function(username, password, accessToken, callback) {
+module.exports.loginUser = function(username, password, accessToken, scID, callback) {
 	schema.User.where({ username: username }).findOne(function (err, user) {
 		if (!err) {
 			if (user === null) {

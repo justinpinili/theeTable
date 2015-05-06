@@ -83,6 +83,7 @@ angular.module('theeTable.controllers')
 			$scope.room.currentDJ = data.currentDJ;
 			$scope.room.currentSong = data.currentSong;
 			$scope.room.currentTime = data.currentTime;
+			$scope.liked = false;
 
 			if (data.currentDJ === $scope.$parent.currentUser.username) {
 				$scope.socket = $scope.$parent.socket;
@@ -95,18 +96,6 @@ angular.module('theeTable.controllers')
 			if (data.room.currentDJ === null) {
 				$scope.currentSong = null;
 			}
-			return;
-		});
-
-		$scope.$parent.socket.on('updatedFavorites', function(data) {
-			if (!data.error) {
-				$scope.$parent.currentUser.favorites = data.favorites;
-				if (data.title) {
-					$.snackbar({content: "<i class='mdi-action-favorite big-icon'></i> " + data.title + " has been added to your liked songs" });
-				}
-				return;
-			}
-			$.snackbar({content: "<i class='mdi-alert-error big-icon'></i> " + data.error });
 			return;
 		});
 
@@ -171,6 +160,7 @@ angular.module('theeTable.controllers')
 
 			if (theeTableAuth.verifyJwt(true)) {
 				$.snackbar({content: "<i class='mdi-file-file-download big-icon'></i> Welcome to " + result.name });
+				$scope.$parent.auth(true);
 				$scope.$parent.getUserInfo(function(user) {
 					$scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
 				});
@@ -213,12 +203,11 @@ angular.module('theeTable.controllers')
 
 		// allows a user to save the current song playing to their  likes
 		// (if logged into soundcloud, it will like it on soundcloud as well)
+		$scope.liked = false;
 		$scope.like = function(song) {
-			$scope.$parent.socket.emit('addToLikes', { song: song });
-			if ($scope.$parent.getSoundcloudID().id) {
-				$scope.$parent.likeSongOnSC(song.soundcloudID);
-				$.snackbar({content: "<i class='mdi-file-cloud-queue big-icon'></i> " + song.title + " has been added to your soundcloud likes" });
-			}
+			$scope.liked = true;
+			$scope.$parent.likeSongOnSC(song.soundcloudID);
+			$.snackbar({content: "<i class='mdi-file-cloud-queue big-icon'></i> " + song.title + " has been added to your soundcloud likes" });
 			return;
 		}
 
@@ -249,26 +238,6 @@ angular.module('theeTable.controllers')
 			if ($scope.room && $scope.$parent.currentUser) {
 				if ($scope.$parent.currentUser.rooms.indexOf($scope.room.name) !== -1) {
 					return true;
-				}
-			}
-			return false;
-		};
-
-		// adds the current room to the user's favorite rooms list
-		$scope.addRoom = function() {
-			$.snackbar({content: "<i class='mdi-action-grade big-icon'></i> " + $scope.room.name + " has been added to your favorite rooms" });
-			$scope.$parent.socket.emit("addRoom", {room: $scope.room.name});
-		};
-
-		// checks to see if the current song playing is on the user's list of likes
-		$scope.storedInLikes = function() {
-			if ($scope.room && $scope.$parent.currentUser) {
-				for (var index = 0; index < $scope.$parent.currentUser.favorites.length; index++) {
-					if ($scope.room.currentSong) {
-						if ($scope.$parent.currentUser.favorites[index].soundcloudID === $scope.room.currentSong.soundcloudID) {
-							return true;
-						}
-					}
 				}
 			}
 			return false;

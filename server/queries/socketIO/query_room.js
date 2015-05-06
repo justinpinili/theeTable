@@ -13,8 +13,10 @@ module.exports.connectToRoom = function(roomName, userName, socket, io) {
 				// room.queue = [];
 				// room.currentSong = null;
 				// room.currentDJ = null;
-				room.users.push(userName);
-				room.chat.push({ user: '', msg: userName + ' has entered the room.' });
+				if (room.users.indexOf(userName) === -1) {
+					room.users.push(userName);
+					room.chat.push({ user: '', msg: userName + ' has entered the room.' });
+				}
 				room.save(function (err) {
 					if (!err) {
 						// console.log("user added!");
@@ -113,8 +115,13 @@ module.exports.newChatMessage = function(roomName, userName, chatMessage, io) {
 				return;
 			} else {
 				// room.chat = [];
+
+				if (chatMessage === 'clear_meh') {
+					room.chat = [];
+				}
+
 				room.chat.push({user: userName, msg: chatMessage});
-				if (room.chat.length > 10) {
+				if (room.chat.length > 15) {
 					room.chat.splice(0,1);
 				}
 
