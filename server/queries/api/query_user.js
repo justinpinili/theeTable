@@ -88,7 +88,6 @@ module.exports.loginUser = function(username, password, accessToken, callback) {
 						// console.log("password matched! logged in!");
 						user.loginTime = loginTime();
 						user.accessToken = accessToken;
-						console.log(user.accessToken);
 						user.save(function(err) {
 							if (!err) {
 								var jwt_token = jwt.sign({ id: user.username, accessToken: accessToken }, keys.jwtSecretKey);
