@@ -83,7 +83,7 @@
 					<span class="pull-right">{{ room.users.length }} <i class="mdi-action-account-child big-icon"></i></span>
 					<div class="chats">
 						<div ng-repeat="chat in room.chat">
-							<span ng-if="chat.user !== ''"><b>{{ chat.user }}</b>: {{ chat.msg }}</span>
+							<span ng-if="chat.user !== ''"><b>{{ chat.user }}</b>: <span ng-bind-html="chat.msg | emoji">{{ chat.msg }}</span> </span>
 							<span ng-if="chat.user === ''"><b>{{ chat.msg }}</span>
 						</div>
 					</div>
