@@ -150,10 +150,8 @@ angular.module('theeTable.controllers')
 				}
 			});
 
-			modalInstance.result.then(function () {
-				$scope.lower = false;
-			}, function () {
-				$scope.lower = false;
+			modalInstance.result.then(function () {}, function () {
+				$scope.setLower(true);
 			});
 		};
 
