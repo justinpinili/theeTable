@@ -5,7 +5,9 @@ angular.module('theeTable', [
   'theeTable.services',
   'theeTable.directives',
   'ui.bootstrap',
-  'ui.sortable'
+  'ui.sortable',
+  'dbaq.emoji',
+  'ngSanitize'
 ])
   .config(['$stateProvider', '$urlRouterProvider', 'localStorageServiceProvider', function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
     localStorageServiceProvider
