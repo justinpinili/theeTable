@@ -113,6 +113,8 @@ angular.module('theeTable.controllers')
 		$scope.$parent.userInRoom = true;
 		$scope.sound = 100;
 
+		// NOTE: HAVE TO FIX LOWER DEPENDANCY.
+
 		$scope.managePlaylist = function(roomName) {
 			var modalInstance = $modal.open({
 				templateUrl: './../templates/modals/managePlaylist.html',
