@@ -111,17 +111,7 @@ angular.module('theeTable.controllers')
 		$scope.newURL;
 		$scope.newPlaylist;
 		$scope.$parent.userInRoom = true;
-		$scope.sound = true;
-
-		$scope.lower = false;
-
-		$scope.setLower = function(value) {
-			if (value) {
-				$scope.lower = false;
-				return;
-			}
-			$scope.lower = true;
-		}
+		$scope.sound = 100;
 
 		$scope.managePlaylist = function(roomName) {
 			var modalInstance = $modal.open({
@@ -248,9 +238,5 @@ angular.module('theeTable.controllers')
 		$scope.convertTime = function(duration) {
 			return theeTableTime.convertTime(duration);
 		};
-
-		$scope.mute = function() {
-			$scope.sound = !$scope.sound;
-		}
 
 	}]);

@@ -57,8 +57,8 @@
 								<button ng-if="room.queue.indexOf(currentUser.username) === -1" ng-click="addToQueue()" class="btn btn-default btn-xs"><i class="mdi-file-file-download big-icon"></i>  Enter Queue</button>
 								<button ng-if="room.queue.indexOf(currentUser.username) >= 0" ng-click="removeFromQueue()" class="btn btn-default btn-xs"><i class="mdi-file-file-upload big-icon"></i>  Leave Queue</button>
 								<button ng-show="room.currentDJ === currentUser.username" ng-click="skip()" class="btn btn-default btn-xs"><i class="mdi-av-fast-forward big-icon"></i>  Skip My Turn</button>
-								<div class="song-content center" ng-if="title">
-									<volume-for-player></volume-for-player><i ng-if="sound" ng-click="mute()" class="mdi-av-volume-up md-icon"></i><i ng-if="!sound" ng-click="mute()" class="mdi-av-volume-off md-icon"></i><br />
+								<div class="song-content center" ng-show="title">
+									<volume-for-player sound="sound"></volume-for-player>
 									Artist: {{ room.currentSong.artist }}<br />
 									Duration: {{ convertTime(room.currentSong.length - room.currentTime) }}<br />
 									<a href="" ng-if="!liked" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a>
@@ -68,7 +68,7 @@
 							<span ng-if="currentUser.playlist.length === 1 && currentUser.username === room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[0].title }}</span>
 							<span ng-if="currentUser.playlist.length > 1 && currentUser.username === room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[1].title }}</span>
 							<div class="soundcloud">
-								<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title" sound="sound" lower="lower" ></sound-cloud-player>
+								<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title" sound="sound" ></sound-cloud-player>
 							</div>
 						</div>
 					</div>
