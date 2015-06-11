@@ -111,16 +111,23 @@ angular.module('theeTable.controllers')
 		$scope.newURL;
 		$scope.newPlaylist;
 		$scope.$parent.userInRoom = true;
-		$scope.sound = true;
+		$scope.sound = 100;
 
-		$scope.lower = false;
+		var oldSound;
+		var lowered = false;
 
-		$scope.setLower = function(value) {
-			if (value) {
-				$scope.lower = false;
+		$scope.setLower = function(closed) {
+			if (!lowered) {
+				oldSound = $scope.sound;
+				$scope.sound = 0;
+				lowered = true;
 				return;
 			}
-			$scope.lower = true;
+
+			if (closed) {
+				$scope.sound = oldSound;
+				lowered = false;
+			}
 		}
 
 		$scope.managePlaylist = function(roomName) {
@@ -248,9 +255,5 @@ angular.module('theeTable.controllers')
 		$scope.convertTime = function(duration) {
 			return theeTableTime.convertTime(duration);
 		};
-
-		$scope.mute = function() {
-			$scope.sound = !$scope.sound;
-		}
 
 	}]);

@@ -22,8 +22,7 @@ angular.module('theeTable.directives')
 				room: '=',
 				username: '=',
 				title: '=',
-				sound: '=',
-				lower: '='
+				sound: '='
 			},
 			controller: ['$scope', '$sce', function($scope, $sce) {
 
@@ -87,11 +86,7 @@ angular.module('theeTable.directives')
 
 						});
 
-						if ($scope.sound) {
-							widget.setVolume(100);
-						} else {
-							widget.setVolume(0);
-						}
+						widget.setVolume($scope.sound);
 
 						//once a song is finished
 						widget.bind(SC.Widget.Events.FINISH, function() {
@@ -118,25 +113,9 @@ angular.module('theeTable.directives')
 					}, 500);
 				};
 
-				$scope.setVolume = function() {
+				$scope.setVolume = function(volumeValue) {
 					if (widget) {
-						if ($scope.sound) {
-							widget.setVolume(100);
-							return;
-						}
-						widget.setVolume(0);
-					}
-				};
-
-				$scope.full = function() {
-					if (widget) {
-						widget.setVolume(100);
-					}
-				};
-
-				$scope.empty = function() {
-					if (widget) {
-						widget.setVolume(0);
+						widget.setVolume(volumeValue);
 					}
 				};
 
@@ -168,16 +147,8 @@ angular.module('theeTable.directives')
 
 				scope.$watch('sound', function(newValue, oldValue) {
 					if (newValue !== undefined) {
-						scope.setVolume();
+						scope.setVolume(newValue);
 					}
-				});
-
-				scope.$watch('lower', function(newValue, oldValue) {
-					if (newValue) {
-						scope.empty();
-						return;
-					}
-					scope.full()
 				});
 
 			}
