@@ -113,7 +113,22 @@ angular.module('theeTable.controllers')
 		$scope.$parent.userInRoom = true;
 		$scope.sound = 100;
 
-		// NOTE: HAVE TO FIX LOWER DEPENDANCY.
+		var oldSound;
+		var lowered = false;
+
+		$scope.setLower = function(closed) {
+			if (!lowered) {
+				oldSound = $scope.sound;
+				$scope.sound = 0;
+				lowered = true;
+				return;
+			}
+
+			if (closed) {
+				$scope.sound = oldSound;
+				lowered = false;
+			}
+		}
 
 		$scope.managePlaylist = function(roomName) {
 			var modalInstance = $modal.open({
