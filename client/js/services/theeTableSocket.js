@@ -1,5 +1,5 @@
 angular.module('theeTable.services')
-	.factory('theeTableSocket', ['$rootScope', function($rootScope) {
+	.factory('theeTableSocket', ['$rootScope', 'theeTableUrl', function($rootScope, theeTableUrl) {
 
 		/************************************************************
 		 * socket factory creates a socket.io connection and have   *
@@ -10,7 +10,7 @@ angular.module('theeTable.services')
 		 ************************************************************/
 
 		// connect to socket.io
-		var socket = io.connect();
+		var socket = io.connect(theeTableUrl.getUrl(), {transports:['websocket']});
 		var disconnected = false;
 
 		// listen for an event, and apply the callback to the rootscope

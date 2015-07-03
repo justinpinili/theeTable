@@ -112,6 +112,7 @@ angular.module('theeTable.controllers')
 		$scope.newPlaylist;
 		$scope.$parent.userInRoom = true;
 		$scope.sound = 1;
+		$scope.refresh = false;
 
 		var oldSound;
 		var lowered = false;
@@ -248,6 +249,13 @@ angular.module('theeTable.controllers')
 				}
 			}
 			return false;
+		};
+
+		$scope.refreshPlayer = function() {
+			$scope.refresh = true;
+			setTimeout(function() {
+				$scope.refresh = false;
+			},1000);
 		};
 
 		// displays the correct time when a song is playing
