@@ -118,14 +118,12 @@ angular.module('theeTable.controllers')
 		var lowered = false;
 
 		$scope.setLower = function(closed) {
-			if (!lowered) {
+			if (!closed) {
 				oldSound = $scope.sound;
 				$scope.sound = 0;
 				lowered = true;
 				return;
-			}
-
-			if (closed) {
+			} else {
 				$scope.sound = oldSound;
 				lowered = false;
 			}
