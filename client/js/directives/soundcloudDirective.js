@@ -22,7 +22,8 @@ angular.module('theeTable.directives')
 				room: '=',
 				username: '=',
 				title: '=',
-				sound: '='
+				sound: '=',
+				refresh: '='
 			},
 			controller: ['$scope', '$sce', function($scope, $sce) {
 
@@ -46,7 +47,7 @@ angular.module('theeTable.directives')
 
 				// logic that is set up each time a new song is ready to play
 				// prepares the soundcloud api widget
-				$scope.updatePlayer = function(newSong) {
+				$scope.updatePlayer = function(newSong, reload) {
 					if (newSong) {
 						widget.load(newSong+'?single_active=false', { show_artwork: true });
 					}
@@ -62,7 +63,7 @@ angular.module('theeTable.directives')
 						widget.bind(SC.Widget.Events.PLAY, function(data) {
 
 							// if the client is new and a song is playing, skip to the current time
-							if ($scope.room.currentDJ !== $scope.username) {
+							if ($scope.room.currentDJ !== $scope.username || reload === true) {
 								widget.seekTo($scope.room.currentTime);
 							}
 
@@ -119,6 +120,12 @@ angular.module('theeTable.directives')
 					}
 				};
 
+				$scope.reloadWidget = function() {
+					unbind();
+					var reloadedSong = $scope.currentSong.source+'?single_active=false';
+					$scope.updatePlayer(reloadedSong, true);
+				}
+
 			}],
 			link: function(scope, element, attrs) {
 				var first = true;
@@ -148,6 +155,12 @@ angular.module('theeTable.directives')
 				scope.$watch('sound', function(newValue, oldValue) {
 					if (newValue !== undefined) {
 						scope.setVolume(newValue);
+					}
+				});
+
+				scope.$watch('refresh', function(newValue, oldValue) {
+					if (newValue) {
+						scope.reloadWidget();
 					}
 				});
 

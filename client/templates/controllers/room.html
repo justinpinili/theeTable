@@ -68,13 +68,14 @@
 							<span ng-if="currentUser.playlist.length === 1 && currentUser.username === room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[0].title }}</span>
 							<span ng-if="currentUser.playlist.length > 1 && currentUser.username === room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[1].title }}</span>
 							<div class="soundcloud">
-								<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title" sound="sound" ></sound-cloud-player>
+								<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title" sound="sound" refresh="refresh" ></sound-cloud-player>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="center">
-					<button ng-click="managePlaylist(room.name)" class="btn btn-default">Manage Your Playlist  <i class="mdi-av-queue-music big-icon"></i></button>
+					<button ng-click="managePlaylist(room.name)" class="btn btn-default">Manage Your Playlist  <i class="mdi-av-queue-music big-icon"></i></button><br />
+					<button ng-if='title && !refresh' ng-click="refreshPlayer()" class="btn btn-default">Refresh Player</button>
 				</div>
 			</div>
 			<div class="col-md-6">
