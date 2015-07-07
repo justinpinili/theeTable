@@ -4,10 +4,7 @@ var app = express();
 var db = require('./server/database.js');
 
 var server = require('http').Server(app);
-var io = require('socket.io')(server, {
-  serveClient: true,
-  path: '/socket.io'
-});
+var io = require('socket.io')(server);
 
 var routes = require('./server/routes.js');
 var socketIO = require('./server/routes/socketIO.js')(io);
