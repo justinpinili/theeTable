@@ -18,8 +18,8 @@ if (process.env.PORT) {
   var keys = require('./server/exampleSecurityKeys.js');
 } else {
   var ttURL = 'http://localhost:1337';
-  app.set('views', __dirname + '/dist');
-  app.use(express.static(__dirname + '/dist'));
+  app.set('views', __dirname + '/client');
+  app.use(express.static(__dirname + '/client'));
   var keys = require('./server/securityKeys.js');
 }
 
