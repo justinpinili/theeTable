@@ -29,7 +29,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('css', function() {
-  return gulp.src(['./client/assets/snackbar/*.css', './client/assets/styles/style.css'])
+  return gulp.src(['./client/assets/snackbar/*.css', './client/assets/styles/*.css'])
   .pipe(concat('all.css'))
   .pipe(uglifycss({
     "max-line-len": 80
