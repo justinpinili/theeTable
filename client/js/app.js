@@ -7,7 +7,8 @@ angular.module('theeTable', [
   'ui.bootstrap',
   'ui.sortable',
   'dbaq.emoji',
-  'ngSanitize'
+  'ngSanitize',
+  'rzModule'
 ])
   .config(['$stateProvider', '$urlRouterProvider', 'localStorageServiceProvider', function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
     localStorageServiceProvider

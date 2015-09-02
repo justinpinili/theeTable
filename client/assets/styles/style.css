@@ -481,3 +481,35 @@ a, .dropdown-menu>li>a {
 	-o-transform: rotate(90deg);
 	-ms-transform: rotate(90deg);
 }
+
+
+#soundcloud-directive-beta {
+	width: 626px;
+	height: 626px;
+	background-image: url("http://oi60.tinypic.com/2my2o8k.jpg")
+}
+
+#sc-widget-beta {
+	display: none;
+}
+
+#soundcloud-directive-beta-volume-time-left {
+	position: relative;
+	top: 205px;
+	left: 0px;
+	font-size: 3.7em;
+}
+
+#soundcloud-directive-beta-volume-number {
+	position: relative;
+	top: 305px;
+	left: 222px;
+	font-size: 2em;
+}
+
+#soundcloud-directive-beta-volume {
+	width: 100px;
+	position: relative;
+	top:280px;
+	left: 485px;
+}

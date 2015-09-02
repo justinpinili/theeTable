@@ -87,7 +87,9 @@ angular.module('theeTable.directives')
 
 						});
 
-						widget.setVolume($scope.sound);
+						setTimeout(function() {
+							widget.setVolume($scope.sound/100);
+						}, 500);
 
 						//once a song is finished
 						widget.bind(SC.Widget.Events.FINISH, function() {
@@ -154,7 +156,7 @@ angular.module('theeTable.directives')
 
 				scope.$watch('sound', function(newValue, oldValue) {
 					if (newValue !== undefined) {
-						scope.setVolume(newValue);
+						scope.setVolume(newValue/100);
 					}
 				});
 

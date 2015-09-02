@@ -58,7 +58,7 @@
 								<button ng-if="room.queue.indexOf(currentUser.username) >= 0" ng-click="removeFromQueue()" class="btn btn-default btn-xs"><i class="mdi-file-file-upload big-icon"></i>  Leave Queue</button>
 								<button ng-show="room.currentDJ === currentUser.username" ng-click="skip()" class="btn btn-default btn-xs"><i class="mdi-av-fast-forward big-icon"></i>  Skip My Turn</button>
 								<div class="song-content center" ng-show="title">
-									<volume-for-player sound="sound"></volume-for-player>
+									<rzslider rz-slider-floor="0" rz-slider-ceil="100" rz-slider-model="sound" rz-slider-translate="translate"></rzslider>
 									Artist: {{ room.currentSong.artist }}<br />
 									Duration: {{ convertTime(room.currentSong.length - room.currentTime) }}<br />
 									<a href="" ng-if="!liked" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a>

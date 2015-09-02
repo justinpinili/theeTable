@@ -111,7 +111,7 @@ angular.module('theeTable.controllers')
 		$scope.newURL;
 		$scope.newPlaylist;
 		$scope.$parent.userInRoom = true;
-		$scope.sound = 1;
+		$scope.sound = 100;
 		$scope.refresh = false;
 
 		var oldSound = 1;
