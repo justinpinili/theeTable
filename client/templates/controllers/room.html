@@ -79,6 +79,9 @@
 				</div>
 			</div>
 			<div class="col-md-6">
+				<messages-tab socket="$parent.socket" room-length="room.users.length" room-chat="room.chat"></messages-tab>
+			</div>
+			<!-- <div class="col-md-6">
 				<div class="panel panel-primary chat-head">
 					<span class="big-icon">Messages</span>
 					<span class="pull-right">{{ room.users.length }} <i class="mdi-action-account-child big-icon"></i></span>
@@ -92,7 +95,7 @@
 				<div>
 					<custom-input-box socket="$parent.socket" input="message"></custom-input-box>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>

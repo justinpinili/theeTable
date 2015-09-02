@@ -149,7 +149,7 @@ a, .dropdown-menu>li>a {
 
 .panel-heading {
 	height: 27%;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .modal-content {
@@ -158,9 +158,28 @@ a, .dropdown-menu>li>a {
 }
 
 .chat-head {
+	position: relative;
+	top: 20px;
 	height: 350px;
 	padding: 5px;
 	margin: 5px;
+}
+
+.chats {
+	height: 85%;
+	padding: 5px;
+	margin: 5px;
+	overflow-y: auto;
+	width: inherit;
+}
+
+.chat-info {
+	height: 80%;
+	width: 100%;
+}
+
+.chat-box {
+	height: 20%;
 }
 
 .panel-head {
@@ -170,12 +189,6 @@ a, .dropdown-menu>li>a {
 	border-color: #01286E;
 }
 
-.chats {
-	height: 85%;
-	padding: 5px;
-	margin: 5px;
-	overflow-y: scroll;
-}
 
 .soundcloud {
 	position: relative;
@@ -191,7 +204,7 @@ a, .dropdown-menu>li>a {
 
 .queue-table {
 	height: 100%;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .song-info {
@@ -432,7 +445,13 @@ a, .dropdown-menu>li>a {
 
 .playlist-holder {
 	height: 500px;
-	overflow-y: scroll;
+	overflow-y: auto;
+}
+
+.message-close {
+	float: right;
+	margin: 5px;
+	position: relative;
 }
 
 .more-info:hover:after {
