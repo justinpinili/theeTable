@@ -78,9 +78,9 @@
 					<button ng-if='title && !refresh' ng-click="refreshPlayer()" class="btn btn-default">Refresh Player</button>
 				</div>
 			</div>
-			<div class="col-md-6">
+			<!-- <div class="col-md-6">
 				<messages-tab socket="$parent.socket" room-length="room.users.length" room-chat="room.chat"></messages-tab>
-			</div>
+			</div> -->
 			<!-- <div class="col-md-6">
 				<div class="panel panel-primary chat-head">
 					<span class="big-icon">Messages</span>
@@ -99,6 +99,7 @@
 		</div>
 	</div>
 </div>
+<messages-tab id="messages-bar" socket="$parent.socket" room-length="room.users.length" room-chat="room.chat"></messages-tab>
 
 <script>
 	$(document).ready(function() {

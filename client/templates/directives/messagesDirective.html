@@ -1,18 +1,21 @@
-<div class="message-close">
-	CLOSE
-</div>
-<div class="panel panel-primary chat-head">
-	<div class="chat-info">
-		<span class="big-icon">Messages</span>
-		<span class="pull-right">{{ roomLength }} <i class="mdi-action-account-child big-icon"></i></span>
-		<div class="chats">
-			<div ng-repeat="chat in roomChat">
-				<span ng-if="chat.user !== ''"><b>{{ chat.user }}</b>: <span ng-bind-html="chat.msg | emoji">{{ chat.msg }}</span> </span>
-				<span ng-if="chat.user === ''"><b>{{ chat.msg }}</span>
+<div>
+	<div class="message-close" ng-click="tab()">
+		<span ng-if="showing == true">Open</span>
+		<span ng-if="showing == false">Close</span>
+	</div>
+	<div class="panel panel-primary chat-head">
+		<div class="chat-info">
+			<span class="big-icon">Messages</span>
+			<span class="pull-right">{{ roomLength }} <i class="mdi-action-account-child big-icon"></i></span>
+			<div class="chats">
+				<div ng-repeat="chat in roomChat">
+					<span ng-if="chat.user !== ''"><b>{{ chat.user }}</b>: <span ng-bind-html="chat.msg | emoji">{{ chat.msg }}</span> </span>
+					<span ng-if="chat.user === ''"><b>{{ chat.msg }}</span>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="chat-box">
-		<custom-input-box socket="socket" input="message"></custom-input-box>
+		<div class="chat-box">
+			<custom-input-box socket="socket" input="message"></custom-input-box>
+		</div>
 	</div>
 </div>

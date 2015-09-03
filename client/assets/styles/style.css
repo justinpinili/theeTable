@@ -1,3 +1,7 @@
+html, body {
+ height: 100%;
+}
+
 .main-navbar {
 	background-color: #01286E;
 }
@@ -501,6 +505,29 @@ a, .dropdown-menu>li>a {
 	-ms-transform: rotate(90deg);
 }
 
+#messages-bar {
+	width: 545px;
+	position: fixed;
+	right: 100px;
+}
+
+.messages-hide {
+	bottom: -325px;
+	position: fixed;
+
+	transition-property: all;
+	transition-duration: 4s;
+	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
+.messages-show {
+	top: 110px;
+	position: fixed;
+
+	transition-property: all;
+	transition-duration: 4s;
+	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
 
 #soundcloud-directive-beta {
 	width: 626px;

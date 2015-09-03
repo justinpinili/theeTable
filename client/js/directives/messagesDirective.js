@@ -38,6 +38,13 @@ angular.module('theeTable.directives')
 				return;
 			};
 
+			$scope.tab = function() {
+				$scope.showing = !$scope.showing;
+				console.log("showing", $scope.showing);
+			}
+
+			$scope.showing = false;
+
 		}],
 		link: function(scope, element, attrs) {
 
@@ -46,6 +53,19 @@ angular.module('theeTable.directives')
 					$.material.init();
 				}, 0);
 			});
+
+			scope.$watch('showing', function(value) {
+				console.log(value);
+				if (value) {
+					element.removeClass('messages-hide');
+					element.addClass('messages-show');
+					return;
+				}
+				console.log(element);
+				element.addClass('messages-hide');
+				element.removeClass('messages-show');
+			});
+
 		}
 	}
 }]);
