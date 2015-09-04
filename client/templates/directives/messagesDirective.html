@@ -1,8 +1,9 @@
 <div>
 	<div class="message-close" ng-click="tab()">
-		<span ng-if="showing == true">Open</span>
-		<span ng-if="showing == false">Close</span>
+		<span class="big-icon" ng-if="showing == true">X</span>
+		<span class="big-icon" ng-if="showing == false">/\</span>
 	</div>
+	<br />
 	<div class="panel panel-primary chat-head">
 		<div class="chat-info">
 			<span class="big-icon">Messages</span>

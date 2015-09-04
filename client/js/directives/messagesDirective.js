@@ -40,7 +40,6 @@ angular.module('theeTable.directives')
 
 			$scope.tab = function() {
 				$scope.showing = !$scope.showing;
-				console.log("showing", $scope.showing);
 			}
 
 			$scope.showing = false;
@@ -55,13 +54,11 @@ angular.module('theeTable.directives')
 			});
 
 			scope.$watch('showing', function(value) {
-				console.log(value);
 				if (value) {
 					element.removeClass('messages-hide');
 					element.addClass('messages-show');
 					return;
 				}
-				console.log(element);
 				element.addClass('messages-hide');
 				element.removeClass('messages-show');
 			});
