@@ -515,18 +515,22 @@ a, .dropdown-menu>li>a {
 	bottom: -325px;
 	position: fixed;
 
-	transition-property: all;
-	transition-duration: 4s;
-	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+	-webkit-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -o-transition: 1s ease-in-out;
+  -ms-transition: 1s ease-in-out;
+  transition: 1s ease-in-out;
 }
 
 .messages-show {
-	top: 110px;
 	position: fixed;
 
-	transition-property: all;
-	transition-duration: 4s;
-	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+	transform: translateY(-425px);
+  -webkit-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -o-transition: 1s ease-in-out;
+  -ms-transition: 1s ease-in-out;
+  transition: 1s ease-in-out;
 }
 
 #soundcloud-directive-beta {
