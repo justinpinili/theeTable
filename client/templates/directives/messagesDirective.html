@@ -1,12 +1,11 @@
 <div>
-	<div class="message-close" ng-click="tab()">
-		<span class="big-icon" ng-if="showing == true">X</span>
-		<span class="big-icon" ng-if="showing == false">/\</span>
+	<div class="message-tab" ng-click="tab()">
+		<button class="btn btn-default">Chat <i class="mdi-communication-message big-icon"></i></button>
 	</div>
+	<br />
 	<br />
 	<div class="panel panel-primary chat-head">
 		<div class="chat-info">
-			<span class="big-icon">Messages</span>
 			<span class="pull-right">{{ roomLength }} <i class="mdi-action-account-child big-icon"></i></span>
 			<div class="chats">
 				<div ng-repeat="chat in roomChat">

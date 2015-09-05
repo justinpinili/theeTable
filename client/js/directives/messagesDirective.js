@@ -63,6 +63,7 @@ angular.module('theeTable.directives')
 				element.removeClass('messages-show');
 			});
 
+			console.log(element);
 		}
 	}
 }]);

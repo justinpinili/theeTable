@@ -452,8 +452,8 @@ a, .dropdown-menu>li>a {
 	overflow-y: auto;
 }
 
-.message-close {
-	float: right;
+.message-tab {
+	float: left;
 	margin: 5px;
 	position: relative;
 }
@@ -508,11 +508,11 @@ a, .dropdown-menu>li>a {
 #messages-bar {
 	width: 545px;
 	position: fixed;
-	right: 100px;
+	left: 50%;
 }
 
 .messages-hide {
-	bottom: -325px;
+	bottom: -335px;
 	position: fixed;
 
 	-webkit-transition: 1s ease-in-out;
@@ -524,7 +524,8 @@ a, .dropdown-menu>li>a {
 
 .messages-show {
 	position: fixed;
-
+  z-index: 100;
+  opacity: 1;
 	transform: translateY(-425px);
   -webkit-transition: 1s ease-in-out;
   -moz-transition: 1s ease-in-out;
