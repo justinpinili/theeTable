@@ -511,6 +511,12 @@ a, .dropdown-menu>li>a {
 	left: 50%;
 }
 
+#playlist {
+  position: fixed;
+  left: 29%;
+  bottom: -7px;
+}
+
 .messages-hide {
 	bottom: -335px;
 	position: fixed;
@@ -526,7 +532,7 @@ a, .dropdown-menu>li>a {
 	position: fixed;
   z-index: 100;
   opacity: 1;
-	transform: translateY(-425px);
+	transform: translateY(-340px);
   -webkit-transition: 1s ease-in-out;
   -moz-transition: 1s ease-in-out;
   -o-transition: 1s ease-in-out;
