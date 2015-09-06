@@ -513,7 +513,7 @@ a, .dropdown-menu>li>a {
 
 #playlist {
   position: fixed;
-  left: 29%;
+  left: 44.8%;
   bottom: -7px;
 }
 
@@ -532,7 +532,7 @@ a, .dropdown-menu>li>a {
 	position: fixed;
   z-index: 100;
   opacity: 1;
-	transform: translateY(-340px);
+	transform: translateY(-365px);
   -webkit-transition: 1s ease-in-out;
   -moz-transition: 1s ease-in-out;
   -o-transition: 1s ease-in-out;
