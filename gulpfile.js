@@ -7,12 +7,6 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var uglifycss = require('gulp-uglifycss');
 
-gulp.task('uglify', function() {
-  return gulp.src('dist/all.js')
-  .pipe(uglify())
-  .pipe(gulp.dest('dist'));
-});
-
 gulp.task('js', function() {
   return gulp.src(['./client/js/*.js', './client/js/*/*.js','./client/assets/snackbar/*.js'])
   .pipe(concat('all.js'))
@@ -23,7 +17,7 @@ gulp.task('js', function() {
 gulp.task('lint', function() {
   return gulp.src(['./*.js',
     './server/*.js',
-    './client/**/*.js'
+    './client/js/*.js'
     ])
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
