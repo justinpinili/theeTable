@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-	.controller('roomController', ['$scope', '$state', '$stateParams', '$location', '$sce', 'localStorageService', 'theeTableAuth', 'theeTableRooms', 'theeTableTime', '$modal', function($scope, $state, $stateParams, $location, $sce, localStorageService, theeTableAuth, theeTableRooms, theeTableTime, $modal) {
+	.controller('roomController', ['$scope', '$state', '$stateParams', '$location', '$sce', 'localStorageService', 'theeTableAuth', 'theeTableRooms', 'theeTableTime', '$modal', 'theeTableSoundcloud', '$rootScope', function($scope, $state, $stateParams, $location, $sce, localStorageService, theeTableAuth, theeTableRooms, theeTableTime, $modal, theeTableSoundcloud, $rootScope) {
 
 		/***********************************************************
 		 * managePlaylistController allows the user to see what is *
@@ -117,6 +117,8 @@ angular.module('theeTable.controllers')
 
 		var oldSound = 1;
 		var lowered = false;
+		var userLikes = null;
+		var userSoundcloudPlaylists = null;
 
 		$scope.setLower = function(closed) {
 			if (!closed) {
@@ -139,12 +141,6 @@ angular.module('theeTable.controllers')
 					loginSC: function () {
 						return $scope.$parent.loginSC;
 					},
-					getSoundcloudID: function() {
-						return $scope.getSoundcloudID;
-					},
-					getSCinstance: function() {
-						return $scope.getSCinstance;
-					},
 					currentDJ: function() {
 						return $scope.room.currentDJ;
 					},
@@ -156,6 +152,16 @@ angular.module('theeTable.controllers')
 					},
 					inQueue: function() {
 						return $scope.room.queue.indexOf($scope.$parent.currentUser.username) > -1;
+					},
+					userSoundcloudPlaylists: function() {
+						return function() {
+							return userSoundcloudPlaylists;
+						};
+					},
+					userLikes: function() {
+						return function() {
+							return userLikes;
+						};
 					}
 				}
 			});
@@ -174,6 +180,17 @@ angular.module('theeTable.controllers')
 				$scope.$parent.getUserInfo(function(user) {
 					$scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
 				});
+
+				setTimeout(function() {
+					theeTableSoundcloud.getPlaylists(function(favoriteResults, playlistResults) {
+						userLikes = favoriteResults;
+						userSoundcloudPlaylists = playlistResults;
+						$scope.$apply(function() {
+							$rootScope.$broadcast('userLikes', userLikes);
+							$rootScope.$broadcast('possiblePlaylists', userSoundcloudPlaylists);
+						});
+					});
+				}, 10);
 			} else {
 				$.snackbar({content: "You must be logged in to access Thee Table." });
 				$location.path('/home');

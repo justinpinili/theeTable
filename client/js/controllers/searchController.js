@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('searchController', ['$scope', '$modalInstance', '$modal', 'playlist', 'getSCinstance', 'theeTableSoundcloud', 'theeTableTime', 'lower', '$sce', function($scope, $modalInstance, $modal, playlist, getSCinstance, theeTableSoundcloud, theeTableTime, lower, $sce) {
+.controller('searchController', ['$scope', '$modalInstance', '$modal', 'playlist', 'theeTableSoundcloud', 'theeTableTime', 'lower', '$sce', function($scope, $modalInstance, $modal, playlist, theeTableSoundcloud, theeTableTime, lower, $sce) {
 
 	/************************************************************
 	 * searchController allows the user to search on soundcloud *
@@ -56,10 +56,7 @@ angular.module('theeTable.controllers')
 	$scope.preview = function(index) {
 		lower();
 		$scope.showPreview = true;
-		console.log(index);
-		console.log($scope.soundcloud);
 		$scope.previewSource = sce($scope.soundcloud.results[index].permalink_url);
-		console.log($scope.previewSource.toString());
 		$scope.previewIndex = index;
 
 		setTimeout(function() {

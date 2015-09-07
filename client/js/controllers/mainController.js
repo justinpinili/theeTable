@@ -127,15 +127,6 @@ angular.module('theeTable.controllers')
 
     // mainController holds the soundcloud instance so it can be used
     // throughout the app
-
-    $scope.getSoundcloudID = function() {
-      return theeTableSoundcloud.getSoundcloudID();
-    };
-
-    $scope.getSCinstance = function() {
-      return theeTableSoundcloud.getSCinstance();
-    };
-
     $scope.loginSC = function(callback) {
       theeTableSoundcloud.loginSC(function() {
         $scope.$apply(function() {
