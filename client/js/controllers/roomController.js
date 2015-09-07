@@ -12,10 +12,6 @@ angular.module('theeTable.controllers')
 		 ***********************************************************/
 
 		// socket.io logic for users that are in a room
-
-		var snd = new Audio("assets/enter.mp3");
-		var snd2 = new Audio("assets/exit.mp3");
-
 		$scope.$parent.socket.on('usersInRoom', function(data) {
 			$scope.room.users = data.users;
 			return;
@@ -115,10 +111,45 @@ angular.module('theeTable.controllers')
 		$scope.refresh = false;
 		$scope.showing = false;
 
+		var snd = new Audio("assets/enter.mp3");
+		var snd2 = new Audio("assets/exit.mp3");
 		var oldSound = 1;
 		var lowered = false;
 		var userLikes = null;
 		var userSoundcloudPlaylists = null;
+
+		$scope.$parent.showApp = true;
+
+		theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {
+			$scope.room = result;
+
+			if (theeTableAuth.verifyJwt(true)) {
+				$.snackbar({content: "<i class='mdi-file-file-download big-icon'></i> Welcome to " + result.name });
+				$scope.$parent.auth(true);
+				$scope.$parent.getUserInfo(function(user) {
+					$scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
+				});
+
+				setTimeout(function() {
+					theeTableSoundcloud.getPlaylists(function(favoriteResults, playlistResults) {
+						userLikes = favoriteResults;
+						userSoundcloudPlaylists = playlistResults;
+						$scope.$apply(function() {
+							$rootScope.$broadcast('userLikes', userLikes);
+							$rootScope.$broadcast('possiblePlaylists', userSoundcloudPlaylists);
+						});
+					});
+				}, 10);
+			} else {
+				$.snackbar({content: "You must be logged in to access Thee Table." });
+				$location.path('/home');
+			}
+
+			if (result.currentDJ !== null) {
+				$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong.source).toString();
+			}
+			return;
+		});
 
 		$scope.setLower = function(closed) {
 			if (!closed) {
@@ -170,39 +201,6 @@ angular.module('theeTable.controllers')
 				$scope.setLower(true);
 			});
 		};
-
-		theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {
-			$scope.room = result;
-
-			if (theeTableAuth.verifyJwt(true)) {
-				$.snackbar({content: "<i class='mdi-file-file-download big-icon'></i> Welcome to " + result.name });
-				$scope.$parent.auth(true);
-				$scope.$parent.getUserInfo(function(user) {
-					$scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
-				});
-
-				setTimeout(function() {
-					theeTableSoundcloud.getPlaylists(function(favoriteResults, playlistResults) {
-						userLikes = favoriteResults;
-						userSoundcloudPlaylists = playlistResults;
-						$scope.$apply(function() {
-							$rootScope.$broadcast('userLikes', userLikes);
-							$rootScope.$broadcast('possiblePlaylists', userSoundcloudPlaylists);
-						});
-					});
-				}, 10);
-			} else {
-				$.snackbar({content: "You must be logged in to access Thee Table." });
-				$location.path('/home');
-			}
-
-			if (result.currentDJ !== null) {
-				$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong.source).toString();
-			}
-			return;
-		});
-
-		$scope.$parent.showApp = true;
 
 		// managing playlist is only possible when a user is in a room.
 		// this listens for when a new song has been chosen to add to a user's playlist

@@ -141,9 +141,4 @@ angular.module('theeTable.controllers')
       return;
     };
 
-    $scope.likeSongOnSC = function(id) {
-      theeTableSoundcloud.like(id);
-      return;
-    };
-
   }]);
