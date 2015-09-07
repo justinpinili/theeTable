@@ -153,6 +153,9 @@ angular.module('theeTable.controllers')
 					},
 					lower: function() {
 						return $scope.setLower;
+					},
+					inQueue: function() {
+						return $scope.room.queue.indexOf($scope.$parent.currentUser.username) > -1;
 					}
 				}
 			});

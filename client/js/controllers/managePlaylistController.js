@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'loginSC', 'getSoundcloudID', 'getSCinstance','theeTableTime', 'theeTableSoundcloud', 'currentDJ', 'username', '$sce', 'lower', function($scope, $modalInstance, $modal, theeTableAuth, loginSC, getSoundcloudID, getSCinstance, theeTableTime, theeTableSoundcloud, currentDJ, username, $sce, lower) {
+.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'loginSC', 'getSoundcloudID', 'getSCinstance','theeTableTime', 'theeTableSoundcloud', 'currentDJ', 'username', '$sce', 'lower', 'inQueue', function($scope, $modalInstance, $modal, theeTableAuth, loginSC, getSoundcloudID, getSCinstance, theeTableTime, theeTableSoundcloud, currentDJ, username, $sce, lower, inQueue) {
 
 	/***********************************************************
 	 * managePlaylistController allows the user to see what is *
@@ -97,6 +97,11 @@ angular.module('theeTable.controllers')
 
 	// removes an entry from the playlist
 	$scope.remove = function(index) {
+		if ($scope.playlist.length === 1 && inQueue) {
+			$.snackbar({content: "<i class='mdi-notification-sms-failed big-icon'></i> Sorry, if you are playing music, you cannot remove your only song." });
+			return;
+		}
+
 		$.snackbar({content: "<span class='glyphicon glyphicon-trash big-icon'></span> " + $scope.playlist[index].title + " has been removed from your playlist." });
 		$scope.playlist.splice(index, 1);
 		$scope.$parent.newPlaylist = songsForDB($scope.playlist);
