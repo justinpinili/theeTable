@@ -36,7 +36,7 @@ gulp.task('compress', ['js','css', 'copy-files']);
 gulp.task('prep', [ 'compress'], function() {
   nodemon({ script: 'bin/www', ext: 'html js', /*ignore: ['ignored.js']*/ })
   .on('change', ['compress'])
-  .on('restart', function () {
+  .on('restart', function() {
     console.log('restarted!')
   });
 });
@@ -53,7 +53,7 @@ gulp.task('lint', function() {
 gulp.task('mocha', function() {
   return gulp.src('./tests/server/*.js', {read: false})
     .pipe(mocha())
-    .once('end', function () {
+    .once('end', function() {
       process.exit();
     });
 });
@@ -63,17 +63,17 @@ gulp.task('mocha-test', function() {
     .pipe(mocha());
 });
 
-gulp.task('karma-test', function (done) {
+gulp.task('karma-test', function(done) {
   karma.start({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done);
 });
 
-gulp.task('develop', ['lint', 'karma-test', 'mocha-test'], function () {
+gulp.task('develop', ['lint', 'karma-test', 'mocha-test'], function() {
   nodemon({ script: 'server.js', ext: 'html js', /*ignore: ['ignored.js']*/ })
     .on('change', ['lint', 'karma-test', 'mocha-test'])
-    .on('restart', function () {
+    .on('restart', function() {
       console.log('restarted!')
     })
 });
