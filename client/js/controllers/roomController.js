@@ -111,8 +111,9 @@ angular.module('theeTable.controllers')
 		$scope.newURL;
 		$scope.newPlaylist;
 		$scope.$parent.userInRoom = true;
-		$scope.sound = 0;
+		$scope.sound = 100;
 		$scope.refresh = false;
+		$scope.showing = false;
 
 		var oldSound = 1;
 		var lowered = false;
@@ -204,62 +205,5 @@ angular.module('theeTable.controllers')
 			}
 			return;
 		});
-
-		// room interaction
-
-		// allows a user to save the current song playing to their  likes
-		// (if logged into soundcloud, it will like it on soundcloud as well)
-		$scope.liked = false;
-		$scope.like = function(song) {
-			$scope.liked = true;
-			$scope.$parent.likeSongOnSC(song.soundcloudID);
-			$.snackbar({content: "<i class='mdi-file-cloud-queue big-icon'></i> " + song.title + " has been added to your soundcloud likes" });
-			return;
-		}
-
-		// adds current user to the queue
-		$scope.addToQueue = function() {
-			if ($scope.$parent.currentUser.playlist.length > 0) {
-				$scope.$parent.socket.emit('addToQueue', { user: $scope.$parent.currentUser.username });
-				return;
-			}
-			$.snackbar({content: "<i class='mdi-notification-sms-failed big-icon'></i> Sorry, you must have a song on your playlist to enter the queue" });
-			return;
-		};
-
-		// allows the current DJ to skip their song if they want to
-		$scope.skip = function() {
-			$scope.$parent.socket.emit('updatePlaylist', { username: $scope.$parent.currentUser.username });
-			return;
-		}
-
-		// removes current user from the queue
-		$scope.removeFromQueue = function() {
-			$scope.$parent.socket.emit('removeFromQueue', { user: $scope.$parent.currentUser.username });
-			return;
-		};
-
-		// checks to see if the current room is on the user's list of favorite rooms
-		$scope.storedInUser = function() {
-			if ($scope.room && $scope.$parent.currentUser) {
-				if ($scope.$parent.currentUser.rooms.indexOf($scope.room.name) !== -1) {
-					return true;
-				}
-			}
-			return false;
-		};
-
-		$scope.refreshPlayer = function() {
-			$scope.refresh = true;
-			setTimeout(function() {
-				$scope.refresh = false;
-			},1000);
-		};
-
-		// displays the correct time when a song is playing
-		// (counting down)
-		$scope.convertTime = function(duration) {
-			return theeTableTime.convertTime(duration);
-		};
 
 	}]);

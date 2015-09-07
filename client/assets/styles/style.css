@@ -196,6 +196,22 @@ a, .dropdown-menu>li>a {
   left: 27%
 }
 
+.over-left {
+  transform: translateX(-295px);
+  -webkit-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -o-transition: 1s ease-in-out;
+  -ms-transition: 1s ease-in-out;
+  transition: 1s ease-in-out;
+}
+
+.not-over-left {
+  -webkit-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -o-transition: 1s ease-in-out;
+  -ms-transition: 1s ease-in-out;
+  transition: 1s ease-in-out;
+}
 
 .soundcloud {
 	position: relative;
@@ -244,6 +260,10 @@ a, .dropdown-menu>li>a {
 	padding: 5px;
 	width: 200px;
 	height: 200px;
+}
+
+.song-content {
+  padding-left: 10px;
 }
 
 .manage {
@@ -341,10 +361,10 @@ a, .dropdown-menu>li>a {
 	-moz-transform: rotate(0deg) scale(1);
 	-o-transform: rotate(0deg) scale(1);
 	-ms-transform: rotate(0deg) scale(1);
-	-webkit-transition: all 1s ease-in-out;
-	-moz-transition: all 1s ease-in-out;
-	-o-transition: all 1s ease-in-out;
-	-ms-transition: all 1s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
 }
 
 .room-enter:hover {
@@ -353,10 +373,10 @@ a, .dropdown-menu>li>a {
 	-moz-transform: rotate(360deg) scale(1.2);
 	-o-transform: rotate(360deg) scale(1.2);
 	-ms-transform: rotate(360deg) scale(1.2);
-	-webkit-transition: all 1s ease-in-out;
-	-moz-transition: all 1s ease-in-out;
-	-o-transition: all 1s ease-in-out;
-	-ms-transition: all 1s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
 }
 
 .homepage {
@@ -516,7 +536,7 @@ a, .dropdown-menu>li>a {
 
 #playlist {
   position: fixed;
-  left: 44.8%;
+  left: 44.4%;
   bottom: -7px;
 }
 

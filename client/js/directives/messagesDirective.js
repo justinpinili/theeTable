@@ -1,3 +1,4 @@
+
 angular.module('theeTable.directives')
 .directive('messagesTab', [function() {
 
@@ -16,6 +17,7 @@ angular.module('theeTable.directives')
 			input: '@',
 			roomLength: '=',
 			roomChat: '=',
+			showing: '='
 		},
 		controller: ['$scope', 'theeTableRooms', function($scope, theeTableRooms) {
 
@@ -63,7 +65,6 @@ angular.module('theeTable.directives')
 				element.removeClass('messages-show');
 			});
 
-			console.log(element);
 		}
 	}
 }]);
