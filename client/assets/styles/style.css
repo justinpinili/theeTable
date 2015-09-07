@@ -1,3 +1,7 @@
+html, body {
+ height: 100%;
+}
+
 .main-navbar {
 	background-color: #01286E;
 }
@@ -149,7 +153,7 @@ a, .dropdown-menu>li>a {
 
 .panel-heading {
 	height: 27%;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .modal-content {
@@ -158,9 +162,28 @@ a, .dropdown-menu>li>a {
 }
 
 .chat-head {
+	position: relative;
+	top: 20px;
 	height: 350px;
 	padding: 5px;
 	margin: 5px;
+}
+
+.chats {
+	height: 85%;
+	padding: 5px;
+	margin: 5px;
+	overflow-y: auto;
+	width: inherit;
+}
+
+.chat-info {
+	height: 80%;
+	width: 100%;
+}
+
+.chat-box {
+	height: 20%;
 }
 
 .panel-head {
@@ -168,13 +191,26 @@ a, .dropdown-menu>li>a {
 	padding: 5px;
 	margin: 5px;
 	border-color: #01286E;
+  width: 545px;
+  position: relative;
+  left: 27%
 }
 
-.chats {
-	height: 85%;
-	padding: 5px;
-	margin: 5px;
-	overflow-y: scroll;
+.over-left {
+  transform: translateX(-295px);
+  -webkit-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -o-transition: 1s ease-in-out;
+  -ms-transition: 1s ease-in-out;
+  transition: 1s ease-in-out;
+}
+
+.not-over-left {
+  -webkit-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -o-transition: 1s ease-in-out;
+  -ms-transition: 1s ease-in-out;
+  transition: 1s ease-in-out;
 }
 
 .soundcloud {
@@ -191,7 +227,7 @@ a, .dropdown-menu>li>a {
 
 .queue-table {
 	height: 100%;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .song-info {
@@ -224,6 +260,10 @@ a, .dropdown-menu>li>a {
 	padding: 5px;
 	width: 200px;
 	height: 200px;
+}
+
+.song-content {
+  padding-left: 10px;
 }
 
 .manage {
@@ -432,7 +472,13 @@ a, .dropdown-menu>li>a {
 
 .playlist-holder {
 	height: 500px;
-	overflow-y: scroll;
+	overflow-y: auto;
+}
+
+.message-tab {
+	float: left;
+	margin: 5px;
+	position: relative;
 }
 
 .more-info:hover:after {
@@ -482,6 +528,44 @@ a, .dropdown-menu>li>a {
 	-ms-transform: rotate(90deg);
 }
 
+#messages-bar {
+	width: 545px;
+	position: fixed;
+	left: 50%;
+}
+
+#playlist {
+  position: fixed;
+  left: 44.4%;
+  bottom: -7px;
+}
+
+.main-size {
+  width: 545px;
+}
+
+.messages-hide {
+	bottom: -335px;
+	position: fixed;
+
+	-webkit-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -o-transition: 1s ease-in-out;
+  -ms-transition: 1s ease-in-out;
+  transition: 1s ease-in-out;
+}
+
+.messages-show {
+	position: fixed;
+  z-index: 100;
+  opacity: 1;
+	transform: translateY(-365px);
+  -webkit-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -o-transition: 1s ease-in-out;
+  -ms-transition: 1s ease-in-out;
+  transition: 1s ease-in-out;
+}
 
 #soundcloud-directive-beta {
 	width: 626px;

@@ -9,92 +9,15 @@
 <div ng-if="room">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-6">
-				<div class="panel-head">
-					<div class="panel panel-primary queue-music">
-						<div class="panel-heading">
-							<div ng-if="title">
-								<span class="glyphicon glyphicon-off glyphicon-refresh-animate-flip"></span> <span class="glyphicon glyphicon-off glyphicon-refresh-animate"></span>&nbsp;&nbsp;
-								<span class="song-title">{{ title }}</span>
-							</div>
-							<div ng-if="!title">
-								<span class="glyphicon glyphicon-off biggest-icon"></span> <span class="glyphicon glyphicon-off biggest-icon"></span>&nbsp;&nbsp;
-								<span class="song-title">No Song Playing.</span class="song-title">
-							</div>
-						</div>
-						<div class="panel-body">
-							<div class="queue-outer">
-								<div class="queue-table">
-								<table class="table table-striped table-hover">
-									<thead>
-										<tr>
-											<th></th>
-											<th>
-												Current Queue
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr ng-if="room.queue.length === 0">
-											<td></td>
-											<td>
-												None
-											</td>
-										</tr>
-										<tr ng-if="room.queue.length > 0" ng-repeat="user in room.queue">
-											<td>
-												{{ $index+1 }}
-											</td>
-											<td>
-												{{ user }}
-											</td>
-										</tr>
-									</tbody>
-								</table>
-								</div>
-							</div>
-							<div class="song-info center">
-								<button ng-if="room.queue.indexOf(currentUser.username) === -1" ng-click="addToQueue()" class="btn btn-default btn-xs"><i class="mdi-file-file-download big-icon"></i>  Enter Queue</button>
-								<button ng-if="room.queue.indexOf(currentUser.username) >= 0" ng-click="removeFromQueue()" class="btn btn-default btn-xs"><i class="mdi-file-file-upload big-icon"></i>  Leave Queue</button>
-								<button ng-show="room.currentDJ === currentUser.username" ng-click="skip()" class="btn btn-default btn-xs"><i class="mdi-av-fast-forward big-icon"></i>  Skip My Turn</button>
-								<div class="song-content center" ng-show="title">
-									<rzslider rz-slider-floor="0" rz-slider-ceil="100" rz-slider-model="sound" rz-slider-translate="translate"></rzslider>
-									Artist: {{ room.currentSong.artist }}<br />
-									Duration: {{ convertTime(room.currentSong.length - room.currentTime) }}<br />
-									<a href="" ng-if="!liked" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a>
-								</div>
-							</div>
-							<span ng-if="currentUser.playlist[0] && currentUser.username !== room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[0].title }}</span>
-							<span ng-if="currentUser.playlist.length === 1 && currentUser.username === room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[0].title }}</span>
-							<span ng-if="currentUser.playlist.length > 1 && currentUser.username === room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[1].title }}</span>
-							<div class="soundcloud">
-								<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title" sound="sound" refresh="refresh" ></sound-cloud-player>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="center">
-					<button ng-click="managePlaylist(room.name)" class="btn btn-default">Manage Your Playlist  <i class="mdi-av-queue-music big-icon"></i></button><br />
-					<button ng-if='title && !refresh' ng-click="refreshPlayer()" class="btn btn-default">Refresh Player</button>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="panel panel-primary chat-head">
-					<span class="big-icon">Messages</span>
-					<span class="pull-right">{{ room.users.length }} <i class="mdi-action-account-child big-icon"></i></span>
-					<div class="chats">
-						<div ng-repeat="chat in room.chat">
-							<span ng-if="chat.user !== ''"><b>{{ chat.user }}</b>: <span ng-bind-html="chat.msg | emoji">{{ chat.msg }}</span> </span>
-							<span ng-if="chat.user === ''"><b>{{ chat.msg }}</span>
-						</div>
-					</div>
-				</div>
-				<div>
-					<custom-input-box socket="$parent.socket" input="message"></custom-input-box>
+			<div class="col-md-12">
+				<room-interface title="title" room="room" current-user="currentUser" liked="liked" socket="$parent.socket" sound="sound" showing="showing"></room-interface>
+				<div id="playlist">
+					<button ng-click="managePlaylist(room.name)" class="btn btn-default"><i class="mdi-av-queue-music big-icon"></i></button>
 				</div>
 			</div>
 		</div>
 	</div>
+	<messages-tab id="messages-bar" socket="$parent.socket" room-length="room.users.length" room-chat="room.chat" showing="showing"></messages-tab>
 </div>
 
 <script>
