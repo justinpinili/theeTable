@@ -53,8 +53,8 @@
 	</div>
 
 	<div class="center">
-		<button ng-click="searchSC()" class="btn btn-default"><i class="mdi-action-search big-icon"></i> on <span><img src="./assets/soundcloud_logo.png"/></span></button>
-		<button ng-if="!possiblePlaylists" ng-click="connectSC()" class="btn btn-default">Import <i class="mdi-av-my-library-music big-icon"></i> from <span><img src="./assets/soundcloud_logo.png"/></span></button>
+		<button ng-click="searchSC()" class="btn btn-default"><i class="mdi-action-search big-icon"></i><span><img src="./assets/soundcloud_logo.png"/></span></button>
+		<button ng-if="!possiblePlaylists" ng-click="connectSC()" class="btn btn-default">Import <span><img src="./assets/soundcloud_logo.png"/></span></button>
 		<div ng-if="possiblePlaylists && possiblePlaylists === 'start'">
 			<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
 		</div>

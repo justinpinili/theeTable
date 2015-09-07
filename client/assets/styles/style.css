@@ -191,6 +191,9 @@ a, .dropdown-menu>li>a {
 	padding: 5px;
 	margin: 5px;
 	border-color: #01286E;
+  width: 545px;
+  position: relative;
+  left: 27%
 }
 
 
@@ -338,10 +341,10 @@ a, .dropdown-menu>li>a {
 	-moz-transform: rotate(0deg) scale(1);
 	-o-transform: rotate(0deg) scale(1);
 	-ms-transform: rotate(0deg) scale(1);
-	-webkit-transition: all 0.5s ease-in-out;
-	-moz-transition: all 0.5s ease-in-out;
-	-o-transition: all 0.5s ease-in-out;
-	-ms-transition: all 0.5s ease-in-out;
+	-webkit-transition: all 1s ease-in-out;
+	-moz-transition: all 1s ease-in-out;
+	-o-transition: all 1s ease-in-out;
+	-ms-transition: all 1s ease-in-out;
 }
 
 .room-enter:hover {
@@ -350,10 +353,10 @@ a, .dropdown-menu>li>a {
 	-moz-transform: rotate(360deg) scale(1.2);
 	-o-transform: rotate(360deg) scale(1.2);
 	-ms-transform: rotate(360deg) scale(1.2);
-	-webkit-transition: all 0.5s ease-in-out;
-	-moz-transition: all 0.5s ease-in-out;
-	-o-transition: all 0.5s ease-in-out;
-	-ms-transition: all 0.5s ease-in-out;
+	-webkit-transition: all 1s ease-in-out;
+	-moz-transition: all 1s ease-in-out;
+	-o-transition: all 1s ease-in-out;
+	-ms-transition: all 1s ease-in-out;
 }
 
 .homepage {
@@ -515,6 +518,10 @@ a, .dropdown-menu>li>a {
   position: fixed;
   left: 44.8%;
   bottom: -7px;
+}
+
+.main-size {
+  width: 545px;
 }
 
 .messages-hide {

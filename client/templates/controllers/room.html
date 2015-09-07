@@ -9,17 +9,16 @@
 <div ng-if="room">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-12">
 				<div class="panel-head">
 					<div class="panel panel-primary queue-music">
 						<div class="panel-heading">
+							<div ng-if="!title" class="center">
+								<span class="song-title">Jump in & play some music!</span>
+							</div>
 							<div ng-if="title">
 								<span class="glyphicon glyphicon-off glyphicon-refresh-animate-flip"></span> <span class="glyphicon glyphicon-off glyphicon-refresh-animate"></span>&nbsp;&nbsp;
 								<span class="song-title">{{ title }}</span>
-							</div>
-							<div ng-if="!title">
-								<span class="glyphicon glyphicon-off biggest-icon"></span> <span class="glyphicon glyphicon-off biggest-icon"></span>&nbsp;&nbsp;
-								<span class="song-title">Jump In</span class="song-title">
 							</div>
 						</div>
 						<div class="panel-body">
@@ -56,7 +55,8 @@
 							<div class="song-info center">
 								<button ng-if="room.queue.indexOf(currentUser.username) === -1" ng-click="addToQueue()" class="btn btn-default btn-xs"><i class="mdi-file-file-download big-icon"></i></button>
 								<button ng-if="room.queue.indexOf(currentUser.username) >= 0" ng-click="removeFromQueue()" class="btn btn-default btn-xs"><i class="mdi-file-file-upload big-icon"></i></button>
-								<button ng-show="room.currentDJ === currentUser.username" ng-click="skip()" class="btn btn-default btn-xs"><i class="mdi-av-fast-forward big-icon"></i>  Skip My Turn</button>
+								<button ng-if='title && !refresh' ng-click="refreshPlayer()" class="btn btn-xs btn-default"><i class="big-icon mdi-av-loop"></i></button>
+								<button ng-show="room.currentDJ === currentUser.username && title" ng-click="skip()" class="btn btn-default btn-xs"><i class="mdi-av-fast-forward big-icon"></i></button>
 								<div class="song-content center" ng-show="title">
 									<rzslider rz-slider-floor="0" rz-slider-ceil="100" rz-slider-model="sound" rz-slider-translate="translate"></rzslider>
 									Artist: {{ room.currentSong.artist }}<br />
@@ -64,9 +64,9 @@
 									<a href="" ng-if="!liked" ng-click="like(room.currentSong)" class="btn btn-default btn-fab btn-raised mdi-action-favorite"></a>
 								</div>
 							</div>
-							<span ng-if="currentUser.playlist[0] && currentUser.username !== room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[0].title }}</span>
-							<span ng-if="currentUser.playlist.length === 1 && currentUser.username === room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[0].title }}</span>
-							<span ng-if="currentUser.playlist.length > 1 && currentUser.username === room.currentDJ"><b>Song on Deck:</b> {{ currentUser.playlist[1].title }}</span>
+							<span ng-if="currentUser.playlist[0] && currentUser.username !== room.currentDJ"><b>Next:</b> {{ currentUser.playlist[0].title }}</span>
+							<span ng-if="currentUser.playlist.length === 1 && currentUser.username === room.currentDJ"><b>Next:</b> {{ currentUser.playlist[0].title }}</span>
+							<span ng-if="currentUser.playlist.length > 1 && currentUser.username === room.currentDJ"><b>Next:</b> {{ currentUser.playlist[1].title }}</span>
 							<div class="soundcloud">
 								<sound-cloud-player socket="socket" current-song='room.currentSong' room="room" username="$parent.currentUser.username" title="title" sound="sound" refresh="refresh" ></sound-cloud-player>
 							</div>
@@ -74,8 +74,7 @@
 					</div>
 				</div>
 				<div id="playlist">
-					<button ng-click="managePlaylist(room.name)" class="btn btn-default"><i class="mdi-av-queue-music big-icon"></i></button><br />
-					<button ng-if='title && !refresh' ng-click="refreshPlayer()" class="btn btn-default">Refresh Player</button>
+					<button ng-click="managePlaylist(room.name)" class="btn btn-default"><i class="mdi-av-queue-music big-icon"></i></button>
 				</div>
 			</div>
 			<!-- <div class="col-md-6">
