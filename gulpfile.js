@@ -13,9 +13,10 @@ gulp.task('uglify', function() {
   .pipe(gulp.dest('dist'));
 });
 
-gulp.task('concat', function() {
+gulp.task('js', function() {
   return gulp.src(['./client/js/*.js', './client/js/*/*.js','./client/assets/snackbar/*.js'])
   .pipe(concat('all.js'))
+  .pipe(uglify())
   .pipe(gulp.dest('./dist/'));
 });
 
@@ -37,7 +38,7 @@ gulp.task('css', function() {
   .pipe(gulp.dest('dist'));
 });
 
-gulp.task('compress', ['concat','uglify']);
+gulp.task('compress', ['js','css']);
 
 gulp.task('prep', [ 'compress'], function() {
   nodemon({ script: 'bin/www', ext: 'html js', /*ignore: ['ignored.js']*/ })
