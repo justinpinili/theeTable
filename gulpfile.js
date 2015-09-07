@@ -14,15 +14,6 @@ gulp.task('js', function() {
   .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('lint', function() {
-  return gulp.src(['./*.js',
-    './server/*.js',
-    './client/js/*.js'
-    ])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'));
-});
-
 gulp.task('css', function() {
   return gulp.src(['./client/assets/snackbar/*.css', './client/assets/styles/*.css'])
   .pipe(concat('all.css'))
@@ -40,6 +31,15 @@ gulp.task('prep', [ 'compress'], function() {
   .on('restart', function () {
     console.log('restarted!')
   });
+});
+
+gulp.task('lint', function() {
+  return gulp.src(['./*.js',
+    './server/*.js',
+    './client/js/*.js'
+    ])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
 });
 
 gulp.task('mocha', function() {
