@@ -7,6 +7,7 @@ angular.module('theeTable.controllers')
 		var lowered = false;
 		var userLikes = null;
 		var userSoundcloudPlaylists = null;
+		$scope.room = null;
 
 		init();
 
@@ -121,7 +122,9 @@ angular.module('theeTable.controllers')
 
 					$scope.room = room;
 
-					if (theeTableAuth.verifyJwt(true)) {
+					var previousSession = theeTableAuth.verifyJwt(true);
+
+					if (previousSession) {
 
 						$.snackbar({content:
 							"<i class='mdi-file-file-download big-icon'></i> Welcome to "
@@ -149,11 +152,6 @@ angular.module('theeTable.controllers')
 							});
 						}, 10);
 
-					} else {
-
-						$.snackbar({content: "You must be logged in to access Thee Table." });
-						$location.path('/home');
-						
 					}
 
 					if ($scope.room.currentDJ !== null) {

@@ -1,5 +1,5 @@
 angular.module('theeTable.services')
-	.factory('theeTableRooms', ['$http', 'localStorageService', '$location', 'theeTableUrl', function($http, localStorageService, $location, theeTableUrl) {
+	.factory('theeTableRooms', ['$http', 'localStorageService', '$location', 'theeTableUrl', '$q', function($http, localStorageService, $location, theeTableUrl, $q) {
 
 		/************************************************************
 		 * theeTableRooms obtains all room information used in the  *
@@ -52,20 +52,22 @@ angular.module('theeTable.services')
 				return;
 			}
 
-			return $http.get("" + theeTableUrl.getUrl() + '/rooms/'+roomName)
+			var deferred = $q.defer();
+
+			$http.get("" + theeTableUrl.getUrl() + '/rooms/'+roomName)
 				.success(function(result) {
 					if (!result.message) {
-						console.log("here");
-						return result;
+						deferred.resolve(result);
+						return;
 					}
 					alert(result.message);
 					$location.path("/rooms");
-					return;
 				})
 				.error(function(error) {
 					console.log(error);
-					return;
 				});
+
+			return deferred.promise;
 		};
 
 		return {
