@@ -45,18 +45,18 @@ angular.module('theeTable.services')
 		};
 
 		// Get a specific room's information
-		var getRoomInfo = function(roomName, callback) {
+		var getRoomInfo = function(roomName) {
 
 			if (roomName === '') {
 				$location.path("/rooms");
 				return;
 			}
 
-			$http.get("" + theeTableUrl.getUrl() + '/rooms/'+roomName)
+			return $http.get("" + theeTableUrl.getUrl() + '/rooms/'+roomName)
 				.success(function(result) {
 					if (!result.message) {
-						callback(result);
-						return;
+						console.log("here");
+						return result;
 					}
 					alert(result.message);
 					$location.path("/rooms");
