@@ -157,8 +157,7 @@ angular.module('theeTable.controllers')
 					if ($scope.room.currentDJ !== null) {
 						$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + $scope.room.currentSong.source).toString();
 					}
-					return;
-			});
+				});
 
 			// managing playlist is only possible when a user is in a room.
 			// this listens for when a new song has been chosen to add to a user's playlist

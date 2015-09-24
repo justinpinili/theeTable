@@ -52,22 +52,15 @@ angular.module('theeTable.services')
 				return;
 			}
 
-			var deferred = $q.defer();
-
-			$http.get("" + theeTableUrl.getUrl() + '/rooms/'+roomName)
-				.success(function(result) {
+			return $http.get("" + theeTableUrl.getUrl() + '/rooms/'+roomName)
+				.then(function(result) {
 					if (!result.message) {
-						deferred.resolve(result);
-						return;
+						return result.data;
 					}
 					alert(result.message);
 					$location.path("/rooms");
-				})
-				.error(function(error) {
-					console.log(error);
 				});
 
-			return deferred.promise;
 		};
 
 		return {
