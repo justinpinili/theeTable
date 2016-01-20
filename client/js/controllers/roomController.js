@@ -150,7 +150,7 @@ angular.module('theeTable.controllers')
 									$rootScope.$broadcast('possiblePlaylists', userSoundcloudPlaylists);
 								});
 							});
-						}, 10);
+						}, 100);
 
 					}
 
