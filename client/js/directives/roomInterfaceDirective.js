@@ -1,12 +1,5 @@
 angular.module('theeTable.directives')
-.directive('roomInterface', [function() {
-
-	/************************************************************
-	 * customInputBox directive renders an input box with error *
-	 * div. it controls the logic after a user submits an input	*
-	 * 																													*
-	 * used for chat messages              *
-	 ************************************************************/
+.directive('roomInterface', ['theeTableSoundcloud', function(theeTableSoundcloud) {
 
 	return {
 		restrict: 'E',
@@ -31,7 +24,7 @@ angular.module('theeTable.directives')
 			// allows a user to save the current song playing to their  likes
 			// (if logged into soundcloud, it will like it on soundcloud as well)
 			$scope.like = function(song) {
-				$scope.$parent.likeSongOnSC(song.soundcloudID);
+				theeTableSoundcloud.like(id);
 				$.snackbar({content: "<i class='mdi-file-cloud-queue big-icon'></i> " + song.title + " has been added to your soundcloud likes" });
 				return;
 			}

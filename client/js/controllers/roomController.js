@@ -1,21 +1,19 @@
 angular.module('theeTable.controllers')
-	.controller('roomController', ['$scope', '$state', '$stateParams', '$location', '$sce', 'localStorageService', 'theeTableAuth', 'theeTableRooms', 'theeTableTime', '$modal', function($scope, $state, $stateParams, $location, $sce, localStorageService, theeTableAuth, theeTableRooms, theeTableTime, $modal) {
-
-		/***********************************************************
-		 * managePlaylistController allows the user to see what is *
-		 * currently on the their playlist.												 *
-		 *  																										   *
-		 * Allows for: 																						 *
-		 *  - Searching on soundcloud for a track									 *
-		 *  - Importing playlists/likes from soundcloud						 *
-		 *  - Re-ordering, deleting, adding songs on the playlist. *
-		 ***********************************************************/
-
-		// socket.io logic for users that are in a room
+	.controller('roomController', ['$scope', '$state', '$stateParams', '$location', '$sce', 'localStorageService', 'theeTableAuth', 'theeTableRooms', 'theeTableTime', '$modal', 'theeTableSoundcloud', '$rootScope', function($scope, $state, $stateParams, $location, $sce, localStorageService, theeTableAuth, theeTableRooms, theeTableTime, $modal, theeTableSoundcloud, $rootScope) {
 
 		var snd = new Audio("assets/enter.mp3");
 		var snd2 = new Audio("assets/exit.mp3");
+		var oldSound = 1;
+		var lowered = false;
+		var userLikes = null;
+		var userSoundcloudPlaylists = null;
+		$scope.room = null;
 
+		init();
+
+		///////////////////////////////////////////////////////////////////////////
+
+		// socket.io logic for users that are in a room
 		$scope.$parent.socket.on('usersInRoom', function(data) {
 			$scope.room.users = data.users;
 			return;
@@ -106,17 +104,84 @@ angular.module('theeTable.controllers')
 
 		// room initializaton logic
 
-		$scope.room = {};
-		$scope.socket = $scope.$parent.socket;
-		$scope.newURL;
-		$scope.newPlaylist;
-		$scope.$parent.userInRoom = true;
-		$scope.sound = 100;
-		$scope.refresh = false;
-		$scope.showing = false;
+		function init() {
 
-		var oldSound = 1;
-		var lowered = false;
+			$scope.room = {};
+			$scope.socket = $scope.$parent.socket;
+			$scope.newURL;
+			$scope.newPlaylist;
+			$scope.sound = 100;
+			$scope.refresh = false;
+			$scope.showing = false;
+
+			$scope.$parent.userInRoom = true;
+			$scope.$parent.showApp = true;
+
+			theeTableRooms.getRoomInfo($stateParams.roomName)
+				.then(function(room) {
+
+					$scope.room = room;
+
+					var previousSession = theeTableAuth.verifyJwt(true);
+
+					if (previousSession) {
+
+						$.snackbar({content:
+							"<i class='mdi-file-file-download big-icon'></i> Welcome to "
+							+ $scope.room.name });
+
+						$scope.$parent.auth(true);
+
+						$scope.$parent.getUserInfo(function(user) {
+							$scope.$parent.socket.emit('roomEntered', {
+								roomName: $stateParams.roomName,
+								user: user.username });
+						});
+
+						setTimeout(function() {
+							theeTableSoundcloud.getPlaylists(function(favoriteResults,
+								playlistResults) {
+
+								userLikes = favoriteResults;
+								userSoundcloudPlaylists = playlistResults;
+
+								$scope.$apply(function() {
+									$rootScope.$broadcast('userLikes', userLikes);
+									$rootScope.$broadcast('possiblePlaylists', userSoundcloudPlaylists);
+								});
+							});
+						}, 10);
+
+					}
+
+					if ($scope.room.currentDJ !== null) {
+						$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + $scope.room.currentSong.source).toString();
+					}
+				});
+
+			// managing playlist is only possible when a user is in a room.
+			// this listens for when a new song has been chosen to add to a user's playlist
+			// and uses socket.io to update the db with the new entry
+			$scope.$watch('newSong', function(newValue, oldValue) {
+				if (newValue !== undefined) {
+					$scope.$parent.socket.emit('newPlaylistItem', { song: { source: newValue.source, title: newValue.title, artist: newValue.artist, length: newValue.length, soundcloudID: newValue.soundcloudID } });
+				}
+				return;
+			});
+
+			// similar to watching newSong, except checking when an entire playlist
+			// is to be overridden.
+			// - choosing playlist/likes to replace the user's playlist
+			// - removing a song from the user's playlist
+			// - re-ordering songs on the user's playlist
+			$scope.$watch('newPlaylist', function(newValue, oldValue) {
+				if (newValue !== undefined) {
+					$scope.$parent.socket.emit('newPlaylist', { playlist: newValue });
+				}
+				return;
+			});
+
+		}
 
 		$scope.setLower = function(closed) {
 			if (!closed) {
@@ -139,12 +204,6 @@ angular.module('theeTable.controllers')
 					loginSC: function () {
 						return $scope.$parent.loginSC;
 					},
-					getSoundcloudID: function() {
-						return $scope.getSoundcloudID;
-					},
-					getSCinstance: function() {
-						return $scope.getSCinstance;
-					},
 					currentDJ: function() {
 						return $scope.room.currentDJ;
 					},
@@ -156,6 +215,16 @@ angular.module('theeTable.controllers')
 					},
 					inQueue: function() {
 						return $scope.room.queue.indexOf($scope.$parent.currentUser.username) > -1;
+					},
+					userSoundcloudPlaylists: function() {
+						return function() {
+							return userSoundcloudPlaylists;
+						};
+					},
+					userLikes: function() {
+						return function() {
+							return userLikes;
+						};
 					}
 				}
 			});
@@ -164,49 +233,5 @@ angular.module('theeTable.controllers')
 				$scope.setLower(true);
 			});
 		};
-
-		theeTableRooms.getRoomInfo($stateParams.roomName, function(result) {
-			$scope.room = result;
-
-			if (theeTableAuth.verifyJwt(true)) {
-				$.snackbar({content: "<i class='mdi-file-file-download big-icon'></i> Welcome to " + result.name });
-				$scope.$parent.auth(true);
-				$scope.$parent.getUserInfo(function(user) {
-					$scope.$parent.socket.emit('roomEntered', { roomName: $stateParams.roomName, user: user.username });
-				});
-			} else {
-				$.snackbar({content: "You must be logged in to access Thee Table." });
-				$location.path('/home');
-			}
-
-			if (result.currentDJ !== null) {
-				$scope.currentSong = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=' + result.currentSong.source).toString();
-			}
-			return;
-		});
-
-		$scope.$parent.showApp = true;
-
-		// managing playlist is only possible when a user is in a room.
-		// this listens for when a new song has been chosen to add to a user's playlist
-		// and uses socket.io to update the db with the new entry
-		$scope.$watch('newSong', function(newValue, oldValue) {
-			if (newValue !== undefined) {
-				$scope.$parent.socket.emit('newPlaylistItem', { song: { source: newValue.source, title: newValue.title, artist: newValue.artist, length: newValue.length, soundcloudID: newValue.soundcloudID } });
-			}
-			return;
-		});
-
-		// similar to watching newSong, except checking when an entire playlist
-		// is to be overridden.
-		// - choosing playlist/likes to replace the user's playlist
-		// - removing a song from the user's playlist
-		// - re-ordering songs on the user's playlist
-		$scope.$watch('newPlaylist', function(newValue, oldValue) {
-			if (newValue !== undefined) {
-				$scope.$parent.socket.emit('newPlaylist', { playlist: newValue });
-			}
-			return;
-		});
 
 	}]);

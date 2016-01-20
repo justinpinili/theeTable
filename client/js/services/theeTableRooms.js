@@ -1,5 +1,5 @@
 angular.module('theeTable.services')
-	.factory('theeTableRooms', ['$http', 'localStorageService', '$location', 'theeTableUrl', function($http, localStorageService, $location, theeTableUrl) {
+	.factory('theeTableRooms', ['$http', 'localStorageService', '$location', 'theeTableUrl', '$q', function($http, localStorageService, $location, theeTableUrl, $q) {
 
 		/************************************************************
 		 * theeTableRooms obtains all room information used in the  *
@@ -45,27 +45,22 @@ angular.module('theeTable.services')
 		};
 
 		// Get a specific room's information
-		var getRoomInfo = function(roomName, callback) {
+		var getRoomInfo = function(roomName) {
 
 			if (roomName === '') {
 				$location.path("/rooms");
 				return;
 			}
 
-			$http.get("" + theeTableUrl.getUrl() + '/rooms/'+roomName)
-				.success(function(result) {
+			return $http.get("" + theeTableUrl.getUrl() + '/rooms/'+roomName)
+				.then(function(result) {
 					if (!result.message) {
-						callback(result);
-						return;
+						return result.data;
 					}
 					alert(result.message);
 					$location.path("/rooms");
-					return;
-				})
-				.error(function(error) {
-					console.log(error);
-					return;
 				});
+
 		};
 
 		return {

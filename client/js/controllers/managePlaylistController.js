@@ -1,5 +1,5 @@
 angular.module('theeTable.controllers')
-.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'loginSC', 'getSoundcloudID', 'getSCinstance','theeTableTime', 'theeTableSoundcloud', 'currentDJ', 'username', '$sce', 'lower', 'inQueue', function($scope, $modalInstance, $modal, theeTableAuth, loginSC, getSoundcloudID, getSCinstance, theeTableTime, theeTableSoundcloud, currentDJ, username, $sce, lower, inQueue) {
+.controller('managePlaylistController', ['$scope', '$modalInstance', '$modal', 'theeTableAuth', 'loginSC','theeTableTime', 'theeTableSoundcloud', 'currentDJ', 'username', '$sce', 'lower', 'inQueue', 'userLikes', 'userSoundcloudPlaylists', function($scope, $modalInstance, $modal, theeTableAuth, loginSC, theeTableTime, theeTableSoundcloud, currentDJ, username, $sce, lower, inQueue, userLikes, userSoundcloudPlaylists) {
 
 	/***********************************************************
 	 * managePlaylistController allows the user to see what is *
@@ -39,9 +39,6 @@ angular.module('theeTable.controllers')
 			resolve: {
 				playlist: function () {
 					return $scope.playlist;
-				},
-				getSCinstance: function() {
-					return getSCinstance;
 				},
 				lower: function() {
 					return lower;
@@ -116,28 +113,21 @@ angular.module('theeTable.controllers')
 	// playlists and likes so that the user can import those songs
 	$scope.connectSC = function() {
 
-		var getPlaylists = function() {
-
-			$scope.possiblePlaylists = 'start';
-
-			theeTableSoundcloud.getPlaylists(function(favoriteResults, playlistResults) {
-				$scope.$apply(function() {
-					$scope.likes = favoriteResults;
-					$scope.possiblePlaylists = playlistResults;
-				});
-			});
-
-		};
-
-		if (getSoundcloudID().id === undefined) {
-			loginSC(function() {
-				$scope.$apply(function() {
-					getPlaylists();
-				});
-			});
-		} else {
-			getPlaylists();
+		if (userLikes() && userSoundcloudPlaylists()) {
+			$scope.likes = userLikes();
+			$scope.possiblePlaylists = userSoundcloudPlaylists();
+			return;
 		}
+
+		$scope.$on('userLikes', function(event, userLikes) {
+			$scope.likes = userLikes;
+		});
+
+		$scope.$on('possiblePlaylists', function(event, possiblePlaylists) {
+			$scope.possiblePlaylists = possiblePlaylists;
+		});
+
+		$scope.possiblePlaylists = 'start';
 
 	};
 
