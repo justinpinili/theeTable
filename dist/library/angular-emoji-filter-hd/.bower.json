@@ -1,0 +1,40 @@
+{
+  "name": "angular-emoji-filter-hd",
+  "version": "0.0.4",
+  "homepage": "https://github.com/dbaq/angular-emoji-filter-hd",
+  "authors": [
+    "Didier BAQUIER <didier.baquier@gmail.com>"
+  ],
+  "description": "An AngularJS filter for replacing emoji codes with high-definition emoticons (Retina friendly).",
+  "main": [
+    "dist/emoji.min.js",
+    "dist/emoji.min.css"
+  ],
+  "keywords": [
+    "emoji",
+    "angular.js"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "dist/*.zip",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular": "~1.x",
+    "angular-mocks": "~1.x"
+  },
+  "_release": "0.0.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.4",
+    "commit": "127697527a9a5527ec63f10ebdda3d05748640e1"
+  },
+  "_source": "git://github.com/dbaq/angular-emoji-filter-hd.git",
+  "_target": "~0.0.4",
+  "_originalSource": "git://github.com/dbaq/angular-emoji-filter-hd.git",
+  "_direct": true
+}

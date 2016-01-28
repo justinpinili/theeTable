@@ -1,5 +1,2 @@
 .DS_Store
-client/library
-dist/library
-node_modules
 server/securityKeys.js
