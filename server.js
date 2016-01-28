@@ -10,17 +10,15 @@ var routes = require('./server/routes.js');
 var socketIO = require('./server/routes/socketIO.js')(io);
 
 app.set('view engine', 'ejs');
+app.set('views', __dirname + '/dist');
+app.use(express.static(__dirname + '/dist'));
+
+var ttURL = 'http://localhost:1337';
+var keys = require('./server/securityKeys.js');
 
 if (process.env.PORT) {
-  var ttURL = 'http://www.theetable.io';
-  app.set('views', __dirname + '/dist');
-  app.use(express.static(__dirname + '/dist'));
-  var keys = require('./server/exampleSecurityKeys.js');
-} else {
-  var ttURL = 'http://localhost:1337';
-  app.set('views', __dirname + '/client');
-  app.use(express.static(__dirname + '/client'));
-  var keys = require('./server/securityKeys.js');
+  ttURL = 'http://www.theetable.io';
+  keys = require('./server/exampleSecurityKeys.js');
 }
 
 app.use(bodyParser.json());

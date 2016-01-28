@@ -70,14 +70,14 @@ gulp.task('karma-test', function(done) {
   }, done);
 });
 
-gulp.task('develop', ['lint', 'karma-test', 'mocha-test'], function() {
-  nodemon({ script: 'server.js', ext: 'html js', /*ignore: ['ignored.js']*/ })
-    .on('change', ['lint', 'karma-test', 'mocha-test'])
+gulp.task('develop', ['lint', 'compress'], function() {
+  nodemon({ script: 'bin/www', ext: 'html js', /*ignore: ['ignored.js']*/ })
+    .on('change', ['lint', 'compress'])
     .on('restart', function() {
       console.log('restarted!')
     })
 });
 
-gulp.task('default', ['develop'], function() {
+gulp.task('default', ['compress'], function() {
   // place code for your default task here
 });
