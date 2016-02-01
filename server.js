@@ -9,7 +9,7 @@ var io = require('socket.io')(server);
 var routes = require('./server/routes.js');
 var socketIO = require('./server/routes/socketIO.js')(io);
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'jade');
 app.set('views', __dirname + '/dist');
 app.use(express.static(__dirname + '/dist'));
 

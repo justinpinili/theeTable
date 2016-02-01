@@ -24,10 +24,17 @@ gulp.task('css', function() {
 });
 
 gulp.task('copy-files', function() {
-  gulp.src(['./client/templates/*/*'])
+
+  gulp.src(['./client/*'])
+  .pipe(gulp.dest('./dist'));
+
+  gulp.src(['./client/templates/**/*'])
   .pipe(gulp.dest('./dist/templates'));
 
-  return gulp.src(['./client/assets/*'])
+  gulp.src(['./client/library/**/*'])
+  .pipe(gulp.dest('./dist/library'));
+
+  return gulp.src(['./client/assets/**/*'])
   .pipe(gulp.dest('./dist/assets'));
 });
 
