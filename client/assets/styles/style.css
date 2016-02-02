@@ -47,7 +47,6 @@ a, .dropdown-menu>li>a {
 }
 
 .full {
-	height: 100%;
 	padding: 0px;
 	margin: 0px;
 }
@@ -477,7 +476,7 @@ a, .dropdown-menu>li>a {
 
 .message-tab {
 	float: left;
-	margin: 5px;
+	margin-top: 8px;
 	position: relative;
 }
 
