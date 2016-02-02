@@ -56,7 +56,7 @@ angular.module('theeTable.controllers')
 
     $scope.credits = function() {
       var modalInstance = $modal.open({
-        templateUrl: './credits.html',
+        templateUrl: './js/credits.html',
         controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
           $scope.closeModal = function() {
             $modalInstance.close();
