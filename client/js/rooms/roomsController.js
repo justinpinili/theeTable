@@ -45,7 +45,7 @@ angular.module('theeTable.controllers')
 		// in it's own modal
 		$scope.createRoom = function() {
 			var modalInstance = $modal.open({
-				templateUrl: './../templates/modals/createRoom.html',
+				templateUrl: './js/rooms/createRoom.html',
 				controller: 'createRoomController',
 				size: 'lg',
 				resolve: {

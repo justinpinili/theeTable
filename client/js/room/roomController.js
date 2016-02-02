@@ -197,7 +197,7 @@ angular.module('theeTable.controllers')
 
 		$scope.managePlaylist = function(roomName) {
 			var modalInstance = $modal.open({
-				templateUrl: './../templates/modals/managePlaylist.html',
+				templateUrl: './js/room/managePlaylist.html',
 				controller: 'managePlaylistController',
 				size: 'lg',
 				resolve: {

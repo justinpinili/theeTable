@@ -10,17 +10,17 @@ angular
 				controller: ['$scope', function($scope) {
 					$scope.$parent.showApp = false;
 				}],
-				templateUrl: 'templates/app.html'
+				templateUrl: './app.html'
 			})
 			.state('rooms', {
 				url: '/rooms',
 				controller: 'roomsController',
-				templateUrl: 'templates/controllers/rooms.html'
+				templateUrl: './js/rooms/rooms.html'
 			})
 			.state('room', {
 				url: '/rooms/:roomName',
 				controller: 'roomController',
-				templateUrl: 'templates/controllers/room.html',
+				templateUrl: './js/room/room.html',
 				onEnter: ['theeTableSocket', function(theeTableSocket){
 					theeTableSocket.connect();
 				}],

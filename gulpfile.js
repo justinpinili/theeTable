@@ -28,8 +28,8 @@ gulp.task('copy-files', function() {
   gulp.src(['./client/*'])
   .pipe(gulp.dest('./dist'));
 
-  gulp.src(['./client/templates/**/*'])
-  .pipe(gulp.dest('./dist/templates'));
+  gulp.src(['./client/js/**/*.html'])
+  .pipe(gulp.dest('./dist/js'));
 
   gulp.src(['./client/library/**/*'])
   .pipe(gulp.dest('./dist/library'));

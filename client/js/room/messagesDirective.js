@@ -1,5 +1,6 @@
+
 angular.module('theeTable.directives')
-.directive('customInputBox', [function() {
+.directive('messagesTab', [function() {
 
 	/************************************************************
 	 * customInputBox directive renders an input box with error *
@@ -10,10 +11,13 @@ angular.module('theeTable.directives')
 
 	return {
 		restrict: 'E',
-		templateUrl: './../../templates/directives/inputDirective.html',
+		templateUrl: './js/room/messagesDirective.html',
 		scope: {
 			socket: '=',
-			input: '@'
+			input: '@',
+			roomLength: '=',
+			roomChat: '=',
+			showing: '='
 		},
 		controller: ['$scope', 'theeTableRooms', function($scope, theeTableRooms) {
 
@@ -36,6 +40,12 @@ angular.module('theeTable.directives')
 				return;
 			};
 
+			$scope.tab = function() {
+				$scope.showing = !$scope.showing;
+			}
+
+			$scope.showing = false;
+
 		}],
 		link: function(scope, element, attrs) {
 
@@ -44,6 +54,17 @@ angular.module('theeTable.directives')
 					$.material.init();
 				}, 0);
 			});
+
+			scope.$watch('showing', function(value) {
+				if (value) {
+					element.removeClass('messages-hide');
+					element.addClass('messages-show');
+					return;
+				}
+				element.addClass('messages-hide');
+				element.removeClass('messages-show');
+			});
+
 		}
 	}
 }]);

@@ -3,7 +3,7 @@ angular.module('theeTable.directives')
 
 	return {
 		restrict: 'E',
-		templateUrl: './../../templates/directives/roomInterfaceDirective.html',
+		templateUrl: './js/room/roomInterfaceDirective.html',
 		scope: {
 			title: '=',
 			room: '=',
