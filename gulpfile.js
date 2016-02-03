@@ -11,7 +11,7 @@ gulp.task('js', function() {
   return gulp.src(['./client/js/*.js', './client/js/*/*.js','./client/assets/snackbar/*.js'])
   .pipe(concat('all.js'))
   .pipe(uglify())
-  .pipe(gulp.dest('./dist'));
+  .pipe(gulp.dest('./ttDist'));
 });
 
 gulp.task('css', function() {
@@ -20,22 +20,22 @@ gulp.task('css', function() {
   .pipe(uglifycss({
     "max-line-len": 80
   }))
-  .pipe(gulp.dest('./dist'));
+  .pipe(gulp.dest('./ttDist'));
 });
 
 gulp.task('copy-files', function() {
 
   gulp.src(['./client/*'])
-  .pipe(gulp.dest('./dist'));
+  .pipe(gulp.dest('./ttDist'));
 
   gulp.src(['./client/js/**/*.html'])
-  .pipe(gulp.dest('./dist/js'));
+  .pipe(gulp.dest('./ttDist/js'));
 
   gulp.src(['./client/library/**/*'])
-  .pipe(gulp.dest('./dist/library'));
+  .pipe(gulp.dest('./ttDist/library'));
 
   return gulp.src(['./client/assets/**/*'])
-  .pipe(gulp.dest('./dist/assets'));
+  .pipe(gulp.dest('./ttDist/assets'));
 });
 
 gulp.task('compress', ['js','css', 'copy-files']);

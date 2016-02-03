@@ -10,8 +10,8 @@ var routes = require('./server/routes.js');
 var socketIO = require('./server/routes/socketIO.js')(io);
 
 app.set('view engine', 'jade');
-app.set('views', __dirname + '/dist');
-app.use(express.static(__dirname + '/dist'));
+app.set('views', __dirname + '/ttDist');
+app.use(express.static(__dirname + '/ttDist'));
 
 var ttURL = 'http://localhost:1337';
 var keys = require('./server/securityKeys.js');
