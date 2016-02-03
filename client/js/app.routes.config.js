@@ -10,7 +10,7 @@ angular
 				controller: ['$scope', function($scope) {
 					$scope.$parent.showApp = false;
 				}],
-				templateUrl: './app.html'
+				templateUrl: './js/app.html'
 			})
 			.state('rooms', {
 				url: '/rooms',
