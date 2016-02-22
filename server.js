@@ -17,7 +17,7 @@ var ttURL = 'http://localhost:1337';
 var keys = require('./server/securityKeys.js');
 
 if (process.env.PORT) {
-  ttURL = 'http://www.theetable.io';
+  ttURL = 'http://www.theetable.herokuapp.com';
   keys = require('./server/exampleSecurityKeys.js');
 }
 
