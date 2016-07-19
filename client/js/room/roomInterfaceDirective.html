@@ -26,7 +26,7 @@
 								None
 							</td>
 						</tr>
-						<tr ng-if="room.queue.length > 0" ng-repeat="user in room.queue">
+						<tr ng-if="room.queue.length > 0" ng-repeat="user in room.queue track by $index">
 							<td class="center">
 								{{ user }}
 							</td>

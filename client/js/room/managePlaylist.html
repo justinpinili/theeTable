@@ -24,7 +24,7 @@
 				</tr>
 			</thead>
 			<tbody ui-sortable="sortableOptions" ng-model="playlist">
-				<tr ng-class="{ info: 0 === $index }" ng-repeat="song in playlist">
+				<tr ng-class="{ info: 0 === $index }" ng-repeat="song in playlist track by $index">
 					<td>
 						{{ $index + 1 }}
 					</td>
