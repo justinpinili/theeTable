@@ -88,7 +88,7 @@ angular.module('theeTable.directives')
 						});
 
 						setTimeout(function() {
-							widget.setVolume($scope.sound/100);
+							widget.setVolume($scope.sound);
 						}, 500);
 
 						//once a song is finished
