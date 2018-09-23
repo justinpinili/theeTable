@@ -7,7 +7,7 @@
     "postinstall": "./node_modules/gulp/bin/gulp.js compress"
   },
   "engines": {
-    "node": "10.11",
+    "node": "4.2.3",
     "npm": "2.1.x"
   },
   "dependencies": {
