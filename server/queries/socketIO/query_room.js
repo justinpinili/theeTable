@@ -207,8 +207,8 @@ module.exports.addToQueue = function(roomName, userName, io) {
 						res.send(err);
 						return;
 					});
+					return;
 				}
-				console.log('saving room');
 				room.save(function(err) {
 					if (!err) {
 						// console.log("user added!");
