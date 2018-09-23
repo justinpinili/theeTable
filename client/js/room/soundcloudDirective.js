@@ -156,7 +156,7 @@ angular.module('theeTable.directives')
 
 				scope.$watch('sound', function(newValue, oldValue) {
 					if (newValue !== undefined) {
-						scope.setVolume(newValue/100);
+						scope.setVolume(newValue);
 					}
 				});
 

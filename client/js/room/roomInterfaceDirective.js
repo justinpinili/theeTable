@@ -24,7 +24,7 @@ angular.module('theeTable.directives')
 			// allows a user to save the current song playing to their  likes
 			// (if logged into soundcloud, it will like it on soundcloud as well)
 			$scope.like = function(song) {
-				theeTableSoundcloud.like(id);
+				theeTableSoundcloud.like(song.soundcloudID);
 				$.snackbar({content: "<i class='mdi-file-cloud-queue big-icon'></i> " + song.title + " has been added to your soundcloud likes" });
 				return;
 			}
