@@ -1,45 +1,47 @@
 // import async to make control flow simplier
-var async = require('async');
+'use strict';
+
+const async = require('async');
 
 // import the rest of the normal stuff
-var mongoose = require('../../lib');
+const mongoose = require('../../lib');
 
 require('./person.js')();
 
-var Person = mongoose.model('Person');
+const Person = mongoose.model('Person');
 
 // define some dummy data
-var data = [
-    {
-      name: 'bill',
-      age: 25,
-      birthday: new Date().setFullYear((new Date().getFullYear() - 25)),
-      gender : "Male"
-    },
-    {
-      name: 'mary',
-      age: 30,
-      birthday: new Date().setFullYear((new Date().getFullYear() - 30)),
-      gender: "Female"
-    },
-    {
-      name: 'bob',
-      age: 21,
-      birthday : new Date().setFullYear((new Date().getFullYear() - 21)),
-      gender: "Male"
-    },
-    {
-      name: 'lilly',
-      age: 26,
-      birthday: new Date().setFullYear((new Date().getFullYear() - 26)),
-      gender: "Female"
-    },
-    {
-      name: 'alucard',
-      age: 1000,
-      birthday: new Date().setFullYear((new Date().getFullYear() - 1000)),
-      gender : "Male"
-    }
+const data = [
+  {
+    name: 'bill',
+    age: 25,
+    birthday: new Date().setFullYear((new Date().getFullYear() - 25)),
+    gender: 'Male'
+  },
+  {
+    name: 'mary',
+    age: 30,
+    birthday: new Date().setFullYear((new Date().getFullYear() - 30)),
+    gender: 'Female'
+  },
+  {
+    name: 'bob',
+    age: 21,
+    birthday: new Date().setFullYear((new Date().getFullYear() - 21)),
+    gender: 'Male'
+  },
+  {
+    name: 'lilly',
+    age: 26,
+    birthday: new Date().setFullYear((new Date().getFullYear() - 26)),
+    gender: 'Female'
+  },
+  {
+    name: 'alucard',
+    age: 1000,
+    birthday: new Date().setFullYear((new Date().getFullYear() - 1000)),
+    gender: 'Male'
+  }
 ];
 
 
@@ -58,7 +60,7 @@ mongoose.connect('mongodb://localhost/persons', function(err) {
     // gender
 
     // create the options object
-    var o = {};
+    const o = {};
 
     o.map = function() {
       // in this function, 'this' refers to the current document being
@@ -83,10 +85,10 @@ mongoose.connect('mongodb://localhost/persons', function(err) {
     // o.jsMode = true; // default is false, force execution to stay in JS
     o.verbose = true; // default is false, provide stats on the job
     // o.out = {}; // objects to specify where output goes, by default is
-                   // returned, but can also be stored in a new collection
-                   // see: http://mongoosejs.com/docs/api.html#model_Model.mapReduce
+    // returned, but can also be stored in a new collection
+    // see: http://mongoosejs.com/docs/api.html#model_Model.mapReduce
     Person.mapReduce(o, function(err, results, stats) {
-      console.log("map reduce took %d ms", stats.processtime);
+      console.log('map reduce took %d ms', stats.processtime);
       console.log(results);
       cleanup();
     });
