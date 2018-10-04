@@ -1,5 +1,6 @@
-# Thee Table - http://thee-table.herokuapp.com/ 
-## Sharing music irl, but not really.
+# Thee Table
+## http://thee-table.herokuapp.com/ 
+### Sharing music irl, but not really.
 
 ### Technologies Used
 * MEAN Stack + Socket.io
