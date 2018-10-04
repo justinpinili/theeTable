@@ -1,4 +1,4 @@
-# Thee Table - http://thee-table.herokuapp.com/
+# Thee Table - http://thee-table.herokuapp.com/ 
 ## Sharing music irl, but not really.
 
 ### Technologies Used
